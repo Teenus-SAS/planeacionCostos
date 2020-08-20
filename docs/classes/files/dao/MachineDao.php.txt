@@ -1,0 +1,133 @@
+<?php
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
+require_once DB_PATH . "DBOperator.php";
+require_once DB_PATH . "env.php";
+require_once MODEL_PATH . "Machine.php";
+/**
+ * Esta clase Es el DAO(Data Access Object) para máquinas
+ * 
+ * @author Alexis Holguin <wholguinmor@uniminuto.edu.co>
+ * @version 1.0
+ * @uses DBOperator, Machine
+ * @package Dao
+ * 
+ */
+class MachineDao
+{
+
+  /**
+   * Objeto de comuniacion con la base de datos
+   *
+   * @access private
+   * @var DBOperator
+   */
+  private $db;
+
+  public function __construct()
+  {
+    $this->db = new DBOperator($_ENV["db_host"], $_ENV["db_user"], $_ENV["db_name"], $_ENV["db_pass"]);
+  }
+
+  /**
+   * Encuentra la máquina por id
+   *
+   * @param integer $id El id de la máquina que se quiere consultar
+   * @return Machine|null
+   */
+  public function findById($id)
+  {
+    $this->db->connect();
+    $query = "SELECT * FROM `maquinas` WHERE `id_maquinas` = $id";
+    $machineDB = $this->db->consult($query, "yes");
+    if (count($machineDB) > 0) {
+      $machineDB = $machineDB[0];
+      $machine = new Machine();
+      $machine->setId($machineDB["id_maquinas"]);
+      $machine->setIdCompany($machineDB["empresas_id_empresa"]);
+      $machine->setName($machineDB["nombre"]);
+      $machine->setPrice($machineDB["precio"]);
+      $machine->setDepreciation($machineDB["depreciacion_minuto"]);
+      $machine->setYearsDepreciation($machineDB["years_depreciation"]);
+      $machine->setResidualValue($machineDB["residual_value"]);
+      $this->db->close();
+      return $machine;
+    } else {
+      $this->db->close();
+      return null;
+    }
+  }
+
+  /**
+   * Encuentra todas las máquinas de una empresa
+   *
+   * @param integer $idCompany Id de la empresa
+   * @return Machine[]|null
+   */
+  public function findByCompany($idCompany)
+  {
+    $this->db->connect();
+    $query = "SELECT `id_maquinas` FROM `maquinas` WHERE `empresas_id_empresa` = '$idCompany'";
+    $machinesDB = $this->db->consult($query, "yes");
+    $machines = [];
+    if ($machinesDB !== false) {
+      foreach ($machinesDB as $machineDB) {
+        array_push($machines, $this->findById($machineDB["id_maquinas"]));
+      }
+      return $machines;
+    } else {
+      return null;
+    }
+  }
+
+  /**
+   * Crear o guardar una maquina en la base de datos
+   *
+   * @param Machine $machine Máquina que se quiere guardar
+   * @return integer número de tuplas afectadas 
+   */
+  public function save($machine)
+  {
+    $this->db->connect();
+    $query = "INSERT INTO `maquinas` (`id_maquinas`, `empresas_id_empresa`, `nombre`,
+    `precio`, `depreciacion_minuto`, `years_depreciation`,`residual_value`) VALUES (NULL, '" . $machine->getIdCompany() . "', '" . $machine->getName() . "',
+    '" . $machine->getPrice() . "', '" . $machine->getDepreciation() . "','" . $machine->getYearsDepreciation() . "','" . $machine->getResidualValue() . "') 
+    ON DUPLICATE KEY UPDATE `precio` = '" . $machine->getPrice() . "',
+    `depreciacion_minuto` = '" . $machine->getDepreciation() . "' ,
+    `years_depreciation` = '" . $machine->getYearsDepreciation() . "',
+    `residual_value` ='" . $machine->getResidualValue() . "'";
+    return  $this->db->consult($query);
+  }
+
+  /**
+   * Actualiza la información de una máquina
+   *
+   * @param Machine $machine Maquina  que se desea actualizar
+   * @return Integer Número de tuplas que se afectaron
+   */
+  public function update($machine)
+  {
+    $this->db->connect();
+    $query = "UPDATE `maquinas` SET `nombre` = '" . $machine->getName() . "', 
+    `precio` = '" . $machine->getPrice() . "', 
+    `depreciacion_minuto` = '" . $machine->getDepreciation() . "' , 
+    `years_depreciation` = '" . $machine->getYearsDepreciation() . "', 
+    `residual_value` = '" . $machine->getResidualValue() . "'
+    WHERE `maquinas`.`id_maquinas` = " . $machine->getId() . "
+    AND `maquinas`.`empresas_id_empresa` = " . $machine->getIdCompany();
+    return  $this->db->consult($query);
+  }
+
+  /**
+   * Borra una máquina de la base de datos
+   *
+   * @param integer $id Id de la máquina que se desea eliminar
+   * @return integer Número de tuplas afectadas
+   */
+  public function delete($id)
+  {
+    $this->db->connect();
+    $query = "DELETE FROM `maquinas` WHERE `maquinas`.`id_maquinas` = $id";
+    return  $this->db->consult($query);
+  }
+}
+

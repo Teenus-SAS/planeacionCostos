@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>EQUOTE</title>
+    <link rel="stylesheet" href="/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/spinner.css">
+    <link rel="stylesheet" href="/css/loading.css">
+</head>
+
+<body>
+
+    <div class="container mx-auto container-loading">
+        <h1 class="text-uppercase title-loading">bienvenidos</h1>
+        <img class="img-responsive mx-auto d-flex justify-content-center" src="/img/loading.png" alt="imagen Cotizador" id="img-cotizador">
+        <br>
+        <div class="logo-teenus">
+            <img src="/img/logo-teenus.png" alt="logo Teenus" width="200">
+            <br>
+            <a class="link-company" href="https://teenus.com.co">www.teenus.com.co</a>
+        </div>
+    </div>
+    <div class="spinner">
+        <div class="sk-folding-cube">
+            <div class="sk-cube1 sk-cube"></div>
+            <div class="sk-cube2 sk-cube"></div>
+            <div class="sk-cube4 sk-cube"></div>
+            <div class="sk-cube3 sk-cube"></div>
+        </div>
+    </div>
+
+    <script src="/vendor/jquery/jquery-3.2.1.min.js"></script>
+    <script src="/vendor/bootstrap/js/tooltip.js"></script>
+    <script src="/vendor/bootstrap/js/popper.min.js"></script>
+    <script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    <script>
+      let params = new URLSearchParams(location.search);
+      var redirect = params.get('redirect');
+      setTimeout(()=>{
+        if(redirect == undefined || redirect == ''){
+          location.href = '/login'  
+        }else{
+          location.href = redirect
+        }
+        
+      },6000)
+    </script>
+</body>
+
+</html>

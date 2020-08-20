@@ -1,0 +1,67 @@
+<?php
+
+/**
+ * @author Alexis Holguin <wholguinmor@uniminuto.edu.co>
+ * @github MoraHol
+ * Este Script obtener todos los materiales de la empresa 
+ * Se llama por metodo 
+ * @method GET
+ * 
+ * @responsesCodes
+ *  200: en caso de que el calculo sea exitoso
+ *  500: en caso de error en el servidor
+ *  401: en caso de que no exista una sesion iniciada
+ * 
+ * @structureRepsonse 
+ *  [
+ *    {
+ *      "id": number,
+ *      "IdCompany": number,
+ *      "description": string,
+ *      "cost": number,
+ *      "unit": number
+ *    },
+ *    {
+ *      "id": number,
+ *      "IdCompany": number,
+ *      "description": string,
+ *      "cost": number,
+ *      "unit": number
+ *    },
+ *    {
+ *      "id": number,
+ *      "IdCompany": number,
+ *      "description": string,
+ *      "cost": number,
+ *      "unit": number
+ *    }
+ *    ]
+ */
+
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
+require_once DB_PATH . "DBOperator.php";
+require_once DB_PATH . "env.php";
+require_once DAO_PATH . "UserDao.php";
+require_once DAO_PATH . "MaterialDao.php";
+
+// revisar si existe session
+session_start();
+header("Content-Type: application/json");
+
+if (isset($_SESSION["user"])) {
+  $user = unserialize($_SESSION["user"]);
+  $materialDao = new MaterialDao();
+  $materials = $materialDao->findByCompany($user->getCompany()->getId());
+  if (isset($_GET["dataTable"])) {
+    $response = new  stdClass();
+    $response->data = $materials;
+    echo json_encode($response);
+    exit;
+  } else {
+    echo json_encode($materials);
+    exit;
+  }
+} else {
+  http_response_code(401);
+  exit;
+}

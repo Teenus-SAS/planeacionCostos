@@ -1,0 +1,28 @@
+<?php
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
+require_once DAO_PATH . "AdminDao.php";
+$response = new stdClass();
+header("Content-Type: application/json");
+
+if (isset($_POST["email"]) && isset($_POST["password"])) {
+  $adminDao = new AdminDao();
+  $admin = $adminDao->findByEmail($_POST["email"]);
+  if ($admin != null) {
+    if ($admin->getPassword() == hash("sha256", $_POST["password"])) {
+      session_start();
+      $response->status = true;
+      $_SESSION["admin"] = serialize($admin);
+    } else {
+      $response->status = false;
+      $response->typeError = "password";
+      $response->message = "La contraseña es Incorrecta";
+    }
+  } else {
+    $response->status = false;
+    $response->typeError = "email";
+    $response->message = "El Email no existe";
+  }
+} else {
+  http_response_code(400);
+}
+echo json_encode($response);

@@ -1,0 +1,24 @@
+<?php
+
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
+require_once DAO_PATH . "CompanyDao.php";
+
+header("Content-Type: application/json");
+
+$response = new stdClass();
+
+if (isset($_POST["idCompany"]) && isset($_POST["license"]) && isset($_POST["products"]) && isset($_POST["startLicense"])) {
+  $companyDao = new CompanyDao();
+  $company = $companyDao->findById($_POST["idCompany"]);
+  $company->setLicenseExpiration($_POST["license"]);
+  $company->setLicensedProducts($_POST["products"]);
+  $company->setStartLicense($_POST["startLicense"]);
+  if ($companyDao->update($company) > 0) {
+    $response->status = true;
+  } else {
+    $response->status = false;
+  }
+  echo json_encode($response);
+} else {
+  http_response_code(400);
+}

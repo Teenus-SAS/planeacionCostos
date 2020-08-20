@@ -1,0 +1,101 @@
+<footer class="footer footer-black footer-white">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="credits ml-auto">
+        <span class="copyright">
+          ©
+          <script>
+                  document.write(new Date().getFullYear())
+                </script>,
+          Hecho con <i class="fa fa-heart heart"></i> por Teenus S.A.S
+        </span>
+      </div>
+    </div>
+  </div>
+</footer>
+<script src="/app/assets/js/core/jquery.min.js"></script>
+<script src="/vendor/froala-editor/froala_editor.pkgd.min.js"></script>
+<script src="/vendor/froala-editor/es.js"></script>
+
+<!-- Large modal -->
+
+<div class="modal fade" id="modal-support" tabindex="-1" role="dialog"
+  aria-hidden="true" data-focus="true" aria-labelledby="label-modal-support">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="label-modal-support">Contactar a Soporte</h5>
+        <button type="button" class="close" data-dismiss="modal"
+          aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="subject-message">Asunto</label>
+          <input id="subject-message" class="form-control" type="text">
+        </div>
+        <div id="content"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-primary" id="sendMessage">Enviar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  var editor = new FroalaEditor('#content', {
+      language: 'es',
+      height: 300,
+      imageUploadParam: 'photo',
+      imageUploadURL: '/app/my-profile/api/upload_image.php',
+      imageUploadMethod: 'POST',
+      videoUploadParam: 'video',
+      videoUploadURL: '/app/my-profile/api/upload_video.php',
+      imageUploadMethod: 'POST',
+      fileUploadParam: 'file',
+      fileUploadURL: '/app/my-profile/api/upload_file.php',
+      fileUploadMethod: 'POST',
+      placeholderText: 'Aquí puedes escribir tu solicitud',
+      events: {
+        'keyup': function(keyupEvent) {
+          if (document.domain != 'localhost') {
+            $('.fr-wrapper>div:first-child').css('visibility', 'hidden')
+          }
+        }
+      }
+    }, () => {
+      if (document.domain != 'localhost') {
+        $('.fr-wrapper>div:first-child').css('visibility', 'hidden')
+      }
+    })
+
+
+    $('#sendMessage').click(()=>{
+      let subject = $('#subject-message').val()
+      let content = editor.html.get()
+      if(subject.trim() != '' && content.trim() != ''){
+        $.post('/app/my-profile/api/send_message_support.php',{
+          subject,content
+        },(data,status)=>{
+            if(data.status){
+              $('#modal-support').modal('hide')
+              $.notify({
+            icon: "nc-icon nc-bell-55",
+            message: `Correo Enviado`
+          }, {
+            type: 'primary',
+            timer: 8000
+          })
+            }
+        })
+      }
+    })
+
+    $('#modalSupportLink').click(function () {
+      $('#sidebarhidebtn').trigger('click')
+      $('#modal-support').modal()
+    })
+</script>

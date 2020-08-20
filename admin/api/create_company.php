@@ -1,0 +1,77 @@
+<?php
+
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
+require_once DAO_PATH . "CompanyDao.php";
+require_once DAO_PATH . "UserDao.php";
+$response = new stdClass();
+header("Content-Type: application/json");
+
+$companyDao = new CompanyDao();
+
+$company = new Company();
+$user = new User();
+
+$company->setNit($_POST["nit"]);
+$company->setPhone($_POST["phone"]);
+$company->setTradename($_POST["tradename"]);
+$company->setBussinesReason($_POST["bussinesName"]);
+$company->setAddress($_POST["address"]);
+$company->setCity($_POST["city"]);
+$company->setCountry($_POST["country"]);
+$company->setDepartment($_POST["department"]);
+$company->setCreator($_POST["creator"]);
+if (isset($_POST["license"])) {
+  $company->setLicenseExpiration($_POST["license"]);
+} else {
+  $company->setLicenseExpiration(date("Y-m-d", time() + 604800));
+}
+$company->setStartLicense(date("Y-m-d", time()));
+$user->setEmail($_POST["email"]);
+$user->setUsername($_POST["username"]);
+$password = generar_password_complejo(10);
+$user->setPassword(hash("sha256", $password));
+$user->setActive(true);
+$query = $companyDao->save($company, $user);
+if ($query->status > 0) {
+  $response->status = true;
+
+  // abrimos la sesión cURL
+  $ch = curl_init();
+
+  // definimos la URL a la que hacemos la petición
+  curl_setopt($ch, CURLOPT_URL, "http://" . $_SERVER["HTTP_HOST"] . "/admin/api/email_creation.php");
+  // indicamos el tipo de petición: POST
+  curl_setopt($ch, CURLOPT_POST, TRUE);
+  // definimos cada uno de los parámetros
+  curl_setopt($ch, CURLOPT_POSTFIELDS, "username=" . $user->getUsername() . "&password=" . $password);
+
+  // recibimos la respuesta y la guardamos en una variable
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+  $remote_server_output = curl_exec($ch);
+
+  // cerramos la sesión cURL
+  curl_close($ch);
+} else {
+  $response->status = false;
+  $response->error = $query->error;
+  $response->errorList = $query->errorList;
+  $response->errorno = $query->errorno;
+}
+echo json_encode($response);
+
+
+
+function generar_password_complejo($largo)
+{
+  $cadena_base =  'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+  $cadena_base .= '0123456789';
+  $cadena_base .= '!@#%&*().<>?';
+
+  $password = '';
+  $limite = strlen($cadena_base) - 1;
+
+  for ($i = 0; $i < $largo; $i++)
+    $password .= $cadena_base[rand(0, $limite)];
+
+  return $password;
+}

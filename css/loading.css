@@ -1,0 +1,114 @@
+@media screen and (min-width: 1024px) {
+    .link-company {
+        position: relative;
+        left: 37px;
+        font-size: 17px;
+        font-weight: 600;
+        color: #185175;
+    }
+    .title-loading {
+        position: relative;
+        left: 600px;
+        color: #185175;
+        width: 300px;
+        top: 80px;
+    }
+    .logo-teenus {
+        position: relative;
+        bottom: 82px;
+        left: 102px;
+    }
+    .container-loading {
+        margin-top: 80px;
+    }
+    .spinner {
+        position: fixed;
+        bottom: 70px;
+        left: 900px;
+        width: 200px;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .link-company {
+        position: relative;
+        left: 37px;
+        font-size: 14px;
+        font-weight: 600;
+        color: #185175;
+    }
+    .title-loading {
+        position: relative;
+        left: 170px;
+        color: #185175;
+        width: 170px;
+        top: 40px;
+        font-size: 32px;
+    }
+    .logo-teenus {
+        position: relative;
+        bottom: 50px;
+        left: 5px;
+    }
+    .logo-teenus img {
+        width: 100px;
+    }
+    .container-loading {
+        margin-top: 170px;
+    }
+    .spinner {
+        position: fixed;
+        top: 400px;
+        left: 255px;
+        width: 200px;
+    }
+    #img-cotizador {
+        width: 390px;
+    }
+}
+
+@media screen and (max-width: 390px) {
+    .link-company {
+        position: relative;
+        left: 37px;
+        font-size: 14px;
+        font-weight: 600;
+        color: #185175;
+    }
+    .title-loading {
+        position: relative;
+        left: 124px;
+        color: #185175;
+        width: 101px;
+        top: 35px;
+        font-size: 25px;
+    }
+    .logo-teenus {
+        position: relative;
+        bottom: 50px;
+        left: 5px;
+    }
+    .logo-teenus img {
+        width: 100px;
+    }
+    .container-loading {
+        margin-top: 170px;
+    }
+    .spinner {
+        position: fixed;
+        top: 400px;
+        left: 255px;
+        width: 60px;
+    }
+    #img-cotizador {
+        width: 290px;
+    }
+    .spinner .sk-folding-cube {
+        margin: 20px auto;
+        width: 30px;
+        height: 30px;
+        position: relative;
+        -webkit-transform: rotateZ(45deg);
+        transform: rotateZ(45deg);
+    }
+}

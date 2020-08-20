@@ -1,0 +1,24 @@
+<?php
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
+require_once DAO_PATH . "CompanyDao.php";
+
+// revisar si existe session
+session_start();
+header("Content-Type: application/json");
+
+if (isset($_SESSION["admin"])) {
+  $companyDao = new CompanyDao();
+  $companies = $companyDao->findAll();
+  if (isset($_GET["dataTable"])) {
+    $response = new  stdClass();
+    $response->data = $companies;
+    echo json_encode($response);
+    exit;
+  } else {
+    echo json_encode($companies);
+    exit;
+  }
+} else {
+  http_response_code(401);
+  exit;
+}

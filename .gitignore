@@ -1,0 +1,13 @@
+/db/env.php
+db/env.php
+/upload/
+upload/
+/upload/img/
+upload/img/
+/app/config-general/api/salary_min.json
+app/config-general/api/salary_min.json
+phpDocumentor.phar
+resources/youtube_tutorials.json
+/resources/youtube_tutorials.json
+.idea/
+/.idea/
