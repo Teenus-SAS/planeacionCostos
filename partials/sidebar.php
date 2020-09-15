@@ -44,6 +44,13 @@
           <p>Cotizar</p>
         </a>
       </li>
+      <li id="sidebar-analisis-item">
+        <a href="/app/Analisis/">
+          <i class="nc-icon nc-money-coins"></i>
+          <p>Analisis</p>
+        </a>
+      </li>
+     
       <hr class="my-0">
       <li><a data-toggle="collapse" href="#collapse-herramientas" role="button" aria-expanded="false" aria-controls="collapse-herramientas"><b>Herramientas</b></a></li>
       <hr class="my-0">

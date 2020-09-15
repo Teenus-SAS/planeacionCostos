@@ -28,7 +28,7 @@ if (isset($_POST["username"]) && $_POST["password"]) {
     $protocol = isset($_SERVER["HTTPS"]) ? 'https' : 'http';
     $mail->Body = "<html>
     <body>
-    <img src='$protocol://" . $_SERVER["HTTP_HOST"] . "/img/logo_nombre_EQUOTE.png' width='150'>
+    <img src='$protocol://" . $_SERVER["HTTP_HOST"] . "../upload/img/logo_nombre_EQUOTE.png' width='150'>
     <p>Hola " . $user->getUsername() . ",</p>
     <p>Es un gusto saludarte y esperamos que estés de maravilla. Recientemente solicitaste crear una nueva cuenta en EQUOTE por lo que generamos el siguiente usuario y contraseña para tu ingreso:</p>
     <p>Usuario: <b>" . $user->getUsername() . "</b></p>

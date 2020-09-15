@@ -16,7 +16,7 @@ if(isset($_POST["email"]) && isset($_POST["username"]) && isset($_POST["rol"])){
     $newUser->setUsername($_POST["username"]);
     $password = generar_password_complejo(10);
     $newUser->setPassword(hash("sha256", $password));
-    $newUser->setActive(false);
+    $newUser->setActive(true);
     $newUser->setCompany($user->getCompany());
     $newUser->setRolId($_POST["rol"]);
     if ($userDao->save($newUser) > 0) {

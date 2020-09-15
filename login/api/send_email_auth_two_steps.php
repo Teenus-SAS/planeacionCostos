@@ -13,13 +13,6 @@ header("Content-Type: application/json");
 if (isset($_POST["code"]) && isset($_SESSION["user_aux_auth"])) {
   $user = unserialize($_SESSION["user_aux_auth"]);
   $mail = new PHPMailer();
-  $mail->smtpConnect([
-      'ssl' => [
-           'verify_peer' => false,
-           'verify_peer_name' => false,
-           'allow_self_signed' => true
-       ]
-       ]);
   $mail->isSMTP();  
   $mail->SMTPAuth = true;
   $mail->Port = $_ENV["smtpPort"];
@@ -49,7 +42,7 @@ if (isset($_POST["code"]) && isset($_SESSION["user_aux_auth"])) {
     </body>
     </html>
     ";
-  $mail->SMTPSecure = 'ssl';
+  $mail->SMTPSecure = 'tls';
   if (!$mail->send()) {
     http_response_code(500);
     $response->message = "No se ha podido enviar el Mensaje Por Favor intentalo de nuevo";

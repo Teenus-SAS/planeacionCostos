@@ -337,7 +337,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
   <script src="/vendor/numberFormat/jquery.number.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/6.2.1/math.min.js"></script>
-  <script src="https://unpkg.com/jspdf@latest/dist/jspdf.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js"></script>
   <script src="https://unpkg.com/jspdf-autotable@3.2.8/dist/jspdf.plugin.autotable.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
   <script src="/vendor/base64/base64.js"></script>

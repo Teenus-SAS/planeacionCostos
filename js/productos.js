@@ -25,6 +25,8 @@ $('input[name=optionProductos]').change(function () {
     $('#input-cantidad').parent().parent().fadeIn()
     $('#input-unidad').parent().parent().fadeIn()
     $('#delete-producto').fadeOut(400, () => {
+
+      
       $('#delete-materia-prima').fadeIn();
     });
     loadingSpinner()

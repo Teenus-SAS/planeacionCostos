@@ -133,6 +133,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
   <script>
     $('#sidebar-parametrizar-item').removeClass('active')
+    $('#sidebar-analisis-item').removeClass('active')
     $('#sidebar-costear-item').addClass('active')
   </script>
   <script src="/js/costeo_productos.js"></script>
