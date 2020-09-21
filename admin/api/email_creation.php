@@ -13,6 +13,13 @@ if (isset($_POST["username"]) && $_POST["password"]) {
     $user = $userDao->findByUserName($_POST["username"]);
     $mail = new PHPMailer();
     $mail->isSMTP();
+    $mail->smtpConnect([
+        'ssl' => [
+             'verify_peer' => false,
+             'verify_peer_name' => false,
+             'allow_self_signed' => true
+         ]
+         ]);
     $mail->SMTPAuth = true;
     $mail->Port = $_ENV["smtpPort"];
     $mail->IsHTML(true);
@@ -51,7 +58,7 @@ if (isset($_POST["username"]) && $_POST["password"]) {
     </body>
     </html>
     ";
-    $mail->SMTPSecure = 'tls';
+    $mail->SMTPSecure = 'ssl';
     if (!$mail->send()) {
         http_response_code(500);
         $response->message = "No se ha podido enviar el Mensaje Por Favor intentalo de nuevo";

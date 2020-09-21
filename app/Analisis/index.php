@@ -20,6 +20,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
   <!-- CSS Just for demo purpose, don't include it in your project -->
   <link href="/app/assets/demo/demo.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
   <link rel="stylesheet" href="/vendor/froala-editor/froala_editor.pkgd.min.css">
 
   <style>
@@ -58,9 +59,9 @@ include(PARTIALS_PATH . "verify_session.php") ?>
 </head>
 
 <body class="">
-<div class="wrapper ">
+<div class="wrapper"id="estorbo">
     <?php include(PARTIALS_PATH . "sidebar.php") ?>
-    <div class="main-panel">
+    <div class="main-panel" >
       <!-- Navbar -->
       <?php include(PARTIALS_PATH . "navbar.html") ?>
       <!-- End Navbar -->
@@ -76,7 +77,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                     <a class="nav-link active" href="#home" data-toggle="tab">OrdenP</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="#updates" data-toggle="tab">Materias</a>
+                    <a class="nav-link" href="#updates" data-toggle="tab">Procesos</a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" href="#uMes" data-toggle="tab">Unidades Mes</a>
@@ -231,6 +232,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                             <tr>
                             </tr>
                             <tbody>
+                           
                             </tbody>
                             <tfoot> 
                                 <tr> 
@@ -242,6 +244,68 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                             </tfoot> 
 
                           </table>
+              </div>
+              <div class="tab-pane" id="updates">
+                <div class="col-md-5 col-sm-12 col-12 col-xs-12 mb-5">
+                  <div class="card py-2">
+                    <div class="form-group row my-2">
+                      <label class="col-sm-5 col-md-4 col-12 text-left col-form-label pl-4">Procesos</label>
+                      <div class="col-md-7 col-sm-6 px-0 col-10"><select class="custom-select" id="input-procesosA" name="materia"></select></div>
+                    </div>
+                  </div>
+                </div>
+                <div id="cargaTabla">
+                 
+                </div>
+                <div id="modal" class="mt-10"style="display:none">
+                <p>El producto no cuenta con datos para el analisis<br> digitelos</p>
+                <hr>
+                  <form id="form-data-process">
+                  <div class="form-group row my-2">
+                    <label class="col-sm-4 col-md-4 col-12 text-left col-form-label pl-4">tiempo de aislamiento</label>
+                    <div class="col-md-5 col-3 text-left px-0 "><input type="number" id="tiempo_aislamiento" class="form-control" name="tiempo_aislamiento"  ></div>  
+                  </div>
+                  <div class="form-group row my-2">
+                    <label class="col-sm-4 col-md-4 col-12 text-left col-form-label pl-4">tiempo de operacion</label>
+                    <div class="col-md-5 col-3 text-left px-0 "><input type="number" id="tiempo_operacion" class="form-control" name="tiempo_operacion"  ></div>  
+                  </div>
+                  <div class="form-group row my-2">
+                    <label class="col-sm-4 col-md-4 col-12 text-left col-form-label pl-4">numero de maquinas</label>
+                    <div class="col-md-5 col-3 text-left px-0 "><input type="number" id="numero_maquinas" class="form-control" name="numero_maquinas"  ></div>  
+                  </div>
+                  <div class="form-group row my-2">
+                    <label class="col-sm-4 col-md-4 col-12 text-left col-form-label pl-4">Porcentaje de rechazo</label>
+                    <div class="col-md-5 col-3 text-left px-0 "><input type="number" id="porcentaje_rechazo" class="form-control" name="porcentaje_rechazo"  ></div>  
+                  </div>
+                  <div class="form-group row my-2">
+                    <label class="col-sm-4 col-md-4 col-12 text-left col-form-label pl-4">numero de turnos</label>
+                    <div class="col-md-5 col-3 text-left px-0 "><input type="number" id="numero_turnos" class="form-control" name="numero_turnos"  ></div>  
+                  </div>
+                  <div class="form-group row my-2">
+                    <label class="col-sm-4 col-md-4 col-12 text-left col-form-label pl-4">distancia</label>
+                    <div class="col-md-5 col-3 text-left px-0 "><input type="number" id="distancia" class="form-control" name="distancia"  ></div>  
+                  </div>
+                  <div class="form-group row my-2">
+                    <label class="col-sm-4 col-md-4 col-12 text-left col-form-label pl-4">disponibilidad</label>
+                    <div class="col-md-5 col-3 text-left px-0 "><input type="number" id="disponibilidad" class="form-control" name="disponibilidad"  ></div>  
+                  </div>
+                  <div class="form-group row my-2">
+                    <label class="col-sm-4 col-md-4 col-12 text-left col-form-label pl-4">mantenimiento correctivo</label>
+                    <div class="col-md-5 col-3 text-left px-0 "><input type="number" id="mantenimiento_correctivo" class="form-control" name="mantenimiento_correctivo"  ></div>  
+                  </div>
+                  <div class="form-group row my-2">
+                    <label class="col-sm-4 col-md-4 col-12 text-left col-form-label pl-4">paradas menores</label>
+                    <div class="col-md-5 col-3 text-left px-0 "><input type="number" id="paradas_menores" class="form-control" name="paradas_menores"  ></div>  
+                  </div>
+                  <div class="row mb-4">
+                        <div class="col"></div>
+                          <div class="col">
+                            <button class="btn btn-primary" id="btnGuardarDatosP">Guardar</button>
+                          </div>
+                        <div class="col"></div>
+                      </div>
+                      </form>
+                </div>
               </div>
             </div>
           </div>
@@ -277,6 +341,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
   <script src="/vendor/file-saver/FileSaver.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
   <script src="/vendor/froala-editor/froala_editor.pkgd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
   <script>
     if($(window).width() < 768){
       $('#home .card .row').addClass('justify-content-center')
@@ -289,6 +354,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
 
   </script>
   <script src="/js/analisisMateriasPrimas.js"></script>
+  <script src="/js/analisisProcesos.js"></script>
   <!--<script src="/js/AnalisisXMaterial.js"></script>
   <script src="/js/analisisMPrimaMes.js"></script>-->
 </body>

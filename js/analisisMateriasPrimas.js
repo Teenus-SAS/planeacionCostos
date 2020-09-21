@@ -65,6 +65,7 @@ $(document).ready(function(){
             $.get('api/get_materialesA.php?id='+idInputProducto, (_material, status, xhr) => {
                 materialsJSON = _material
                 // Se captura el id del material seleccionado
+                console.log(_material)
                 let materialSelected = _material.filter(material => material.id == $(this).val())[0]
                 //Se asigna la cantidad del material a un input 
                 $('#input-cantidadM').val(parseFloat(materialSelected.quantity))
@@ -147,9 +148,9 @@ $(document).ready(function(){
             }
             else{
               $('#cargaAhorro').empty();
-              $('#cargaAhorro').append('<div class="card py-2" id="MaterialesAhorro"><h5>Ahorro Mensual</h5></div>')
-              $('#MaterialesAhorro').append('<div class="form-group row my-2"> <label class="col-md-3 col-3 col-form-label px-0  ml-5">'+_material[i].material.description+': </label><label class="col-md-3 col-3 col-form-label px-0  ml-5">'+formatCurrency("es-CO","COP",2,(ahorroMaterial)*(unidadesLote))+'</label></div>')
-              
+              $('#cargaAhorro').append('<div class="card py-2" id="MaterialesAhorro"><h5>Ahorro:</h5></div>')
+              $('#MaterialesAhorro').append('<div class="form-group row my-2"> <label class="col-md-3 col-3 col-form-label px-0  ml-5">Ahorro mensual: </label><label class="col-md-3 col-3 col-form-label px-0  ml-5">'+formatCurrency("es-CO","COP",2,(ahorroMaterial)*(unidadesLote))+'</label></div><div class="form-group row my-2"> <label class="col-md-3 col-3 col-form-label px-0  ml-5"> Ahorro anual: </label><label class="col-md-3 col-3 col-form-label px-0  ml-5">'+formatCurrency("es-CO","COP",2,((ahorroMaterial)*(unidadesLote))*12)+'</label></div>')
+
               console.log((ahorroMaterial)*unidadesLote)
             }
             
