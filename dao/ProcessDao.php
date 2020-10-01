@@ -264,9 +264,18 @@ class ProcessDao
    * 
    */
   public function saveDataProcess($idProceso,$tAislamiento,$tOperacion,$nMaquinas,$pRechazo,$nTurnos,$distancia,$disponibilidad,$mCorrectivo,$pMenores){
+    $dataProcess = $this->findDataProcess($idProceso);
+    if($dataProcess == null){
     $this->db->connect();
     $query = "INSERT INTO `datos_proceso`(`fk_id_proceso`,`tiempo_aislamiento`,`tiempo_operacion`,`numero_maquinas`,`porcentaje_rechazo`,`numero_turnos`,`distancia`,`disponibilidad`,`mantenimiento_correctivo`,`paradas_menores`,`eficiencia_proceso`) 
     VALUES ('".$idProceso."','".$tAislamiento."','".$tOperacion."','".$nMaquinas."','".$pRechazo."','".$nTurnos."','".$distancia."','".$disponibilidad."','".$mCorrectivo."','".$pMenores."','".$pMenores."')";
     return $this->db->consult($query);
+    }
+    else{
+      $query="UPDATE `datos_proceso` SET `tiempo_aislamiento`='$tAislamiento',`tiempo_operacion`='$tOperacion',
+      `numero_maquinas`='$nMaquinas',`porcentaje_rechazo`='$pRechazo',`numero_turnos`='$nTurnos',`distancia`='$distancia',
+      `disponibilidad`='$disponibilidad',`mantenimiento_correctivo`='$mCorrectivo',`paradas_menores`='$pMenores',`eficiencia_proceso`='$pMenores' WHERE `fk_id_proceso` = '$idProceso' ";
+    return $this->db->consult($query);
+    }
   }
 }

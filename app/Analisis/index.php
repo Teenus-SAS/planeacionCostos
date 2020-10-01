@@ -112,8 +112,6 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                           
                         </div>
                         <div class="col-md-5 col-sm-12 col-12 col-xs-12 mb-5" id="cargaValor">
-                        
-                        
                         </div>
                   </div>
                   <table class="table" id="tableAnalisisMateriaPrima">
@@ -250,16 +248,40 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                   <div class="card py-2">
                     <div class="form-group row my-2">
                       <label class="col-sm-5 col-md-4 col-12 text-left col-form-label pl-4">Procesos</label>
-                      <div class="col-md-7 col-sm-6 px-0 col-10"><select class="custom-select" id="input-procesosA" name="materia"></select></div>
+                      <div class="col-md-7 col-sm-6 px-0 col-10" id="pppp"><select class="custom-select" id="input-procesosA" name="materia"></select></div>
                     </div>
                   </div>
                 </div>
                 <div id="cargaTabla">
-                 
+                </div>
+                <div id="modal2" class="mt-10"style="display:none">
+                  <div id="title2"></div>
+                  <div class="form-group row my-2">
+                      <label class="col-sm-4 col-md-4 col-12 text-left col-form-label pl-4">Veces al dia</label>
+                      <div class="col-md-5 col-3 text-left px-0 "><input type="number" id="veces_dia" class="form-control" name="tiempo_aislamiento"  ></div>  
+                  </div>
+                  <div class="form-group row my-2">
+                      <label class="col-sm-4 col-md-4 col-12 text-left col-form-label pl-4">Tiempo de espera</label>
+                      <div class="col-md-5 col-3 text-left px-0 "><input type="number" id="tiempo_espera" class="form-control" name="tiempo_aislamiento"  ></div>  
+                  </div>
+                  <div class="form-group row my-2">
+                      <label class="col-sm-4 col-md-4 col-12 text-left col-form-label pl-4">Turnos al dia</label>
+                      <div class="col-md-5 col-3 text-left px-0 "><input type="number" id="turnos_dia" class="form-control" name="tiempo_aislamiento"  ></div>  
+                  </div>
+                  <div class="form-group row my-2">
+                      <label class="col-sm-4 col-md-4 col-12 text-left col-form-label pl-4">Costo minuto operario</label>
+                      <div class="col-md-5 col-3 text-left px-0 "><input type="number" id="costo_minuto" class="form-control" name="tiempo_aislamiento"  ></div>  
+                  </div>
+                  <div class="row mb-4">
+                    <div class="col"></div>
+                      <div class="col">
+                        <button class="btn btn-primary" id="btnValidarDatos">Validar</button>
+                      </div>
+                    <div class="col"></div>
+                  </div>
                 </div>
                 <div id="modal" class="mt-10"style="display:none">
-                <p>El producto no cuenta con datos para el analisis<br> digitelos</p>
-                <hr>
+                  <div id="title"></div>
                   <form id="form-data-process">
                   <div class="form-group row my-2">
                     <label class="col-sm-4 col-md-4 col-12 text-left col-form-label pl-4">tiempo de aislamiento</label>

@@ -161,7 +161,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                 <strong>COP</strong>
               </div>
               <div class="col-md-3 col-sm-3 col-3 text-primary text-center">
-                <strong>USD</strong>
+                <strong>%Participacion</strong>
               </div>
             </div>
 
@@ -265,8 +265,8 @@ include(PARTIALS_PATH . "verify_session.php") ?>
               </div>
             </div>
             <div class="row my-2 align-items-center">
-              <div class="col-md-5 col-5 pl-5">
-                Rentabilidad
+              <div class="col-md-5 col-5 text-primary">
+                <strong>Rentabilidad</strong>
               </div>
               <div class="col-md-4 col-4">
                 <input type="text" class="form-control number" readonly id="rentabilidadCOP">
@@ -275,42 +275,10 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                 <input type="text" class="form-control number" readonly id="rentabilidadUSD">
               </div>
             </div>
-            <div class="form-group row my-4 align-items-center justify-content-center">
-              <label for="input-dollar" class="col-form-label col-md-4 col-sm-12 text-center">Dolar hoy</label>
-              <div class="col-md-4 col-sm-12">
-                <div class="input-group">
-                  <div class="input-group-prepend">
-                    <div class="input-group-text">USD &nbsp;</div>
-                  </div>
-                  <input type="text" id="input-dollar" class="form-control" readonly>
-                </div>
-                <div id="dollar" style="display:none"></div>
-              </div>
+            <div style="text-align:center; margin-top:10%">
+              <button class="btn btn-primary" id="downloaad-pdf">Generar Reporte</button>
             </div>
-            <div class="form-group row my-4 align-items-center justify-content-center">
-              <label for="input-dollar" class="col-form-label col-md-4 col-sm-12 text-center">Valor de dolar para exportar</label>
-              <div class="col-md-4 col-sm-12">
-                <div class="input-group">
-                  <div class="input-group-prepend">
-                    <div class="input-group-text">USD &nbsp;</div>
-                  </div>
-                  <input type="text" id="input-dollar-export" class="form-control" readonly>
-                </div>
-              </div>
-            </div>
-            <div class="form-group row my-4 align-items-center justify-content-center">
-              <label for="input-dollar" class="col-form-label col-md-4 col-sm-12 text-center">Cobertura
-              </label>
-              <div class="col-md-4 col-sm-12">
-                <div class="input-group">
-                  <div class="input-group-prepend">
-                    <div class="input-group-text">USD &nbsp;</div>
-                  </div>
-                  <input type="text" id="input-cover-export" class="form-control" readonly>
-                </div>
-              </div>
-            </div>
-            <button class="btn btn-primary" id="downloaad-pdf">Generar Reporte</button>
+
           </div>
         </div>
       </div>

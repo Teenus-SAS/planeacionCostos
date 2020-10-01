@@ -49,34 +49,34 @@ function fillFields(data, flag = false) {
   }
   // total de costos
   $('#totalCostosCOP').val(data.totalCost)
-  $('#totalCostosUSD').val(data.totalCost / limInf)
+  $('#totalCostosUSD').val(data.totalCost*100/data.salePrice)
   // precio de venta
   $('#precioVentaCOP').val(data.salePrice)
-  $('#precioVentaUSD').val(data.salePrice / limInf)
+  $('#precioVentaUSD').val("100 %")
   //costos
   $('#CostoCOP').val(data.cost)
-  $('#CostoUSD').val(data.cost / limInf)
+  $('#CostoUSD').val((data.cost*100)/data.totalCost)
   // materia prima
   $('#materiaPrimaCOP').val(data.rawMaterialExpenses)
-  $('#materiaPrimaUSD').val(data.rawMaterialExpenses / limInf)
+  $('#materiaPrimaUSD').val(data.rawMaterialExpenses*100 /data.cost)
   //mano de obra
   $('#manoObraCOP').val(data.laborCost)
-  $('#manoObraUSD').val(data.laborCost / limInf)
+  $('#manoObraUSD').val(data.laborCost*100 / data.cost)
   //costos indirectos
   $('#costosIndirectosCOP').val(data.indirectExpenses)
-  $('#costosIndirectosUSD').val(data.indirectExpenses / limInf)
+  $('#costosIndirectosUSD').val(data.indirectExpenses*100 / data.cost)
   // gastos
   $('#gastosCOP').val(data.generalExpenses)
-  $('#gastosUSD').val(data.generalExpenses / limInf)
+  $('#gastosUSD').val(data.generalExpenses*100 / data.totalCost)
   // gastos generales
   $('#gastosGeneralesCOP').val(data.generalExpenses)
-  $('#gastosGeneralesUSD').val(data.generalExpenses / limInf)
+  $('#gastosGeneralesUSD').val(data.generalExpenses*100 / data.generalExpenses )
   // comision 
   $('#comisionCOP').val(data.salesCommission)
   $('#comisionUSD').val(data.salesCommission / limInf)
   // rentabilidad
   $('#rentabilidadCOP').val(data.profitability)
-  $('#rentabilidadUSD').val(data.profitability / limInf)
+  $('#rentabilidadUSD').val(data.profitability*100 / data.salePrice)
 }
 
 // cargar informacion del producto cotizado

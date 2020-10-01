@@ -18,8 +18,5 @@ if (isset($_SESSION["user"])) {
     isset($_POST["disponibilidad"]);
     isset($_POST["mantenimiento_correctivo"]);
     isset($_POST["paradas_menores"]);
-    echo $_POST["tiempo_aislamiento"];
-    echo $_POST["tiempo_operacion"];
-    echo $_POST["numero_maquinas"];
     $resquest = $processDao->saveDataProcess($_POST['id_proceso'],$_POST['tiempo_aislamiento'],$_POST["tiempo_operacion"], $_POST["numero_maquinas"],$_POST["porcentaje_rechazo"],$_POST["numero_turnos"],$_POST["distancia"],$_POST["disponibilidad"],$_POST["mantenimiento_correctivo"],$_POST["paradas_menores"]); 
 }

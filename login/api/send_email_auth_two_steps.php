@@ -14,13 +14,13 @@ if (isset($_POST["code"]) && isset($_SESSION["user_aux_auth"])) {
   $user = unserialize($_SESSION["user_aux_auth"]);
   $mail = new PHPMailer();
   $mail->isSMTP();  
-  $mail->smtpConnect([
-    'ssl' => [
-         'verify_peer' => false,
-         'verify_peer_name' => false,
-         'allow_self_signed' => true
-     ]
-     ]);
+   $mail->smtpConnect([
+      'ssl' => [
+           'verify_peer' => false,
+           'verify_peer_name' => false,
+           'allow_self_signed' => true
+       ]
+       ]);
   $mail->SMTPAuth = true;
   $mail->Port = $_ENV["smtpPort"];
   $mail->IsHTML(true);
