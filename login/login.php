@@ -42,7 +42,8 @@ if (!isset($_SESSION)) {
     }
 
     .bg-image {
-        background-image: url('https://res.cloudinary.com/mhmd/image/upload/v1555917661/art-colorful-contemporary-2047905_dxtao7.jpg');
+        /**background-image: url('https://res.cloudinary.com/mhmd/image/upload/v1555917661/art-colorful-contemporary-2047905_dxtao7.jpg');**/
+        background-image: url('../upload/img/consulting_teenus.jpg');
         background-size: cover;
         background-position: center center;
     }
@@ -86,9 +87,13 @@ if (!isset($_SESSION)) {
                                         <div class="text-center d-flex justify-content-between mt-4"> <a href="remember_pass.php" id="text-recover-pass" class="txt1 pull-right">
                                           ¿Olvidaste tu usuario o contraseña?
                                         </a> </div>
+                                        
                                         <div id="alert">
 
                                         </div>
+                                        <div class="mt-5">
+                                        <p style="text-align: center;">Un producto de <strong>Teenus SAS</strong></p>    
+                                    </div>
                                     </form>
                                 </div>
                             </div>
