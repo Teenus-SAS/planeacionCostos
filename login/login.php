@@ -86,6 +86,9 @@ if (!isset($_SESSION)) {
                                         <div class="text-center d-flex justify-content-between mt-4"> <a href="remember_pass.php" id="text-recover-pass" class="txt1 pull-right">
                                           ¿Olvidaste tu usuario o contraseña?
                                         </a> </div>
+                                        <div id="alert">
+
+                                        </div>
                                     </form>
                                 </div>
                             </div>

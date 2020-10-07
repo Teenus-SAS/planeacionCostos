@@ -49,34 +49,34 @@ function fillFields(data, flag = false) {
   }
   // total de costos
   $('#totalCostosCOP').val(data.totalCost)
-  $('#totalCostosUSD').val(data.totalCost*100/data.salePrice)
+  $('#totalCostosUSD').val((data.totalCost*100/data.salePrice).toFixed(2) + " %")
   // precio de venta
   $('#precioVentaCOP').val(data.salePrice)
-  $('#precioVentaUSD').val("100 %")
+  $('#precioVentaUSD').val(100.00 + " %")
   //costos
   $('#CostoCOP').val(data.cost)
-  $('#CostoUSD').val((data.cost*100)/data.totalCost)
+  $('#CostoUSD').val(((data.cost*100)/data.totalCost).toFixed(2)+ " %")
   // materia prima
   $('#materiaPrimaCOP').val(data.rawMaterialExpenses)
-  $('#materiaPrimaUSD').val(data.rawMaterialExpenses*100 /data.cost)
+  $('#materiaPrimaUSD').val((data.rawMaterialExpenses*100 /data.cost).toFixed(2)+ " %")
   //mano de obra
   $('#manoObraCOP').val(data.laborCost)
-  $('#manoObraUSD').val(data.laborCost*100 / data.cost)
+  $('#manoObraUSD').val((data.laborCost*100 / data.cost).toFixed(2) + " %")
   //costos indirectos
   $('#costosIndirectosCOP').val(data.indirectExpenses)
-  $('#costosIndirectosUSD').val(data.indirectExpenses*100 / data.cost)
+  $('#costosIndirectosUSD').val((data.indirectExpenses*100 / data.cost).toFixed(2) + " %")
   // gastos
   $('#gastosCOP').val(data.generalExpenses)
-  $('#gastosUSD').val(data.generalExpenses*100 / data.totalCost)
+  $('#gastosUSD').val((data.generalExpenses*100 / data.totalCost).toFixed(2) + " %")
   // gastos generales
   $('#gastosGeneralesCOP').val(data.generalExpenses)
-  $('#gastosGeneralesUSD').val(data.generalExpenses*100 / data.generalExpenses )
+  $('#gastosGeneralesUSD').val((data.generalExpenses*100 / data.generalExpenses).toFixed(2) + " %" )
   // comision 
   $('#comisionCOP').val(data.salesCommission)
-  $('#comisionUSD').val(data.salesCommission / limInf)
+  $('#comisionUSD').val((data.salesCommission / limInf).toFixed(2) + " %")
   // rentabilidad
   $('#rentabilidadCOP').val(data.profitability)
-  $('#rentabilidadUSD').val(data.profitability*100 / data.salePrice)
+  $('#rentabilidadUSD').val((data.profitability*100 / data.salePrice).toFixed(2) + " %")
 }
 
 // cargar informacion del producto cotizado

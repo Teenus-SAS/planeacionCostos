@@ -24,13 +24,13 @@ if (isset($_POST["username"])) {
     $user->setTokenPass($token);
     $userDao->update($user);
     $mail = new PHPMailer();
-    $mail->smtpConnect([
+    /*$mail->smtpConnect([
       'ssl' => [
            'verify_peer' => false,
            'verify_peer_name' => false,
            'allow_self_signed' => true
        ]
-       ]);
+       ]);*/
     $mail->isSMTP();
     $mail->SMTPAuth = true;
     $mail->Port = $_ENV["smtpPort"];
@@ -69,7 +69,7 @@ if (isset($_POST["username"])) {
     </body>
     </html>
     ";
-    $mail->SMTPSecure = 'ssl';
+    $mail->SMTPSecure = 'tls';
 
     if (!$mail->send()) {
       http_response_code(500);

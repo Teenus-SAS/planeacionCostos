@@ -19,10 +19,15 @@ $(document).ready(function(){
         }
         //se activa al selecionar un producto
         $('#input-productoA').change(function () {
+            
             //se reinicia la variable que guardara el valor total
             valorTotalMateriales=0;
             //Se captura el id del producto seleccionado
+            let productSelected = data.filter(product => product.id == $(this).val())[0]
             let idInputProducto = $('#input-productoA').val();
+            //cambia el titulo de la tabla
+            $('#Titulo').empty();
+            $('#Titulo').append(productSelected.name);
             //Se vacia el input de los materiales
             $('#input-materiaAM').empty();
             $('#input-materiaAM').append('<option selected disabled>Selecione un Material</option>')
@@ -36,6 +41,7 @@ $(document).ready(function(){
                 }
                 let inputCantidadOP = $('#input-cantidadOP').val();
                 total = valorTotalMateriales * inputCantidadOP;
+                $("#Costo_total").val(formatCurrency("es-CO","COP",2,total))
                 //Si el llamado es exitoso carga los datos en el input de los materiales
                 if (status == 'success') {
                     _material.forEach((materials) => {
@@ -50,10 +56,6 @@ $(document).ready(function(){
                     $tableProductoMateriaAM.api().ajax.reload()
                     $tableProductoMateriaA.api().ajax.url(`api/get_materialesA.php?dataTable=true&id=${productSelected.id}`)
                     $tableProductoMateriaA.api().ajax.reload()
-                    $tableProductoMateriaMes.api().ajax.url(`api/get_materialesA.php?dataTable=true&id=${productSelected.id}`)
-                    $tableProductoMateriaMes.api().ajax.reload()
-                    
-
                 }
             })
         })
@@ -95,6 +97,7 @@ $(document).ready(function(){
             var inputCantidadOP = $('#input-cantidadOP').val()
             //multiplica  el valor de los materiales por el numero de ordenes de produccion
             total = valorTotalMateriales * inputCantidadOP;
+            $("#Costo_total").val(formatCurrency("es-CO","COP",2,total))
             //Arreglo que guarda los datos de costo y descripcion de los materiales para ordenarlos
             let arregloMateriales = new Array();
             for (var i=0; i<_material.length;i++){
@@ -122,7 +125,7 @@ $(document).ready(function(){
     
     })
     $( "#btnValidarA" ).click(function() {
-        let idInputProducto = $('#input-productoA').val();
+        /**let idInputProducto = $('#input-productoA').val();
         ahorroMateria=0;
         //Se consultan los productos de la base de datos
         $.get('api/get_materialesA.php?id='+idInputProducto, (_material, status, xhr) => {
@@ -160,9 +163,10 @@ $(document).ready(function(){
             valorTotalMateriales += _material[i].quantity*_material[i].material.cost
           }
         }
-        })
+        })**/
         
         $tableProductoMateriaAM.api().ajax.reload()
+        console.log($("#input-83").val())
         
  
       }); 
@@ -175,6 +179,9 @@ $(document).ready(function(){
 var cant
 //inicializacion de la tabla de materias primas por orden de produccion
 var $tableProductoMateriaA = $('#tableAnalisisMateriaPrima').dataTable({
+  bFilter: false, bInfo: false,"bPaginate": false,
+
+  
     language: {
       url: "/vendor/dataTables/Spanish.json",
       "emptyTable":"My Custom Message On Empty Table"
@@ -299,49 +306,45 @@ var $tableProductoMateriaAM = $('#tableAnalisisMateriaPrimaAM').dataTable({
   
     },
     {
-      data: 'quantity',
+      data: 'material.cost',
       "defaultContent": '<p >Sin registro </p>',
       render: (data, type, row) => {
-        if(data!=null){
-        if(row.material.description ===materialSeleccionado){
-          cant =$('#input-cantidadM').val();
-          return cant; 
-        }
-        else{
-        cant = data;
-        if(data!=null){
-        if(parseFloat(data) < 1){
-          let sum = 0
-          for (let index = 0; index < data.toString().length; index++) {
-            sum += data.toString().charAt(index) == '0' ? 1 : 0
-          }
-          sum += 1
-          return $.number(data, sum, ',', '.')
-        }else{
-          return $.number(data, 2, ',', '.')
-        }
+        return formatCurrency("es-CO","COP",2, data)
       }
-      else return data
-      }
-    }
-    }
+    
     }, {
-      data: 'material.unit',
-      "defaultContent": '<p >Sin registro </p>'
-      
+      data: 'material.cost',
+      "defaultContent": '<p >Sin registro </p>',
+      render: (data, type, row) => {
+        if(data!=null)
+        return '<input type="text" class="form-control col-md-8"  style="margin-left:20%" value="10" id="input-'+row.id+'">'
+        
+      }
     },
     {
       data: 'material.cost' ,
       "defaultContent": '<p >Sin registro </p>',
       render: (data, type, row) => {
         if(data!=null){
-          if(row.material.description ===materialSeleccionado){
-            let valor =$('#input-Valor').val();
-            return formatCurrency("es-CO","COP",2,$.number(valor)*cant)
-          }
-          else{
-          return formatCurrency("es-CO","COP",2,$.number(data)*cant)
-          }
+        return   formatCurrency("es-CO","COP",2,data*row.quantity)
+      }
+      }
+    },
+    {
+      data: 'material.cost' ,
+      "defaultContent": '<p >Sin registro </p>',
+      render: (data, type, row) => {
+        if(data!=null){
+        return   formatCurrency("es-CO","COP",2,data*row.quantity*$("#input-UnidadesFMes").val())
+      }
+      }
+    },
+    {
+      data: 'material.cost' ,
+      "defaultContent": '<p >Sin registro </p>',
+      render: (data, type, row) => {
+        if(data!=null){
+        
       }
       }
     },
@@ -362,103 +365,6 @@ var $tableProductoMateriaAM = $('#tableAnalisisMateriaPrimaAM').dataTable({
   $tableProductoMateriaAM.on('click', 'tr', function () {
         $(this).toggleClass('selected');
     })
-  var unidadesCompletas=0;
-  var $tableProductoMateriaMes= $('#tableAnalisisMateriaPrimaMes').dataTable({
-        language: {
-          url: "/vendor/dataTables/Spanish.json",
-          "emptyTable":"My Custom Message On Empty Table"
-        },
-        responsive: true,
-        ajax: {
-          url: 'api/get_materialesA.php?dataTable=true',
-          dataSrc: 'data',
-          
-        },
-        columns: [{
-          data: 'material.description',
-          "defaultContent": '<p >Sin registro </p>'
-        },
-        {
-          data: 'quantity',
-          visible: false,
-          "defaultContent": '<p >Sin registro </p>',
-          render: (data, type, row) => {
-            cant = data;
-            if(data!=null){
-            if(parseFloat(data) < 1){
-              let sum = 0
-              for (let index = 0; index < data.toString().length; index++) {
-                sum += data.toString().charAt(index) == '0' ? 1 : 0
-              }
-              sum += 1
-              return $.number(data, sum, ',', '.')
-            }else{
-              return $.number(data, 2, ',', '.')
-            }
-          }
-          else return data
-          }
-        }, {
-          data: 'material.cost' ,
-          "defaultContent": '<p >Sin registro </p>',
-          render: (data, type, row) => {
-            //data:data*10;
-            if(data!=null)
-            return formatCurrency("es-CO","COP",2,$.number(data)*cant)
-          }
-          
-        },
-        
-        {
-          data: 'material.cost',
-          "defaultContent": '<p >Sin registro </p>',
-          render: (data, type, row) => {
-          if(data!=null){
-          let pesoLote=$("#input-pesoLote").val();
-          let unidadesLote=$("#input-valorLote").val()
-          if(pesoLote!=0){
-          let unidadesTotales=pesoLote/unidadesLote;
-          unidadesCompletas=unidadesTotales;
-          return formatCurrency("es-CO","COP",2,$.number((data*cant)*unidadesTotales));
-          }
-          else{
-            unidadesCompletas=unidadesLote
-            return formatCurrency("es-CO","COP",2,$.number((data*cant)*unidadesLote));
-          }
-        }
-          else return data
-          }
-        },
-        {
-          data:'material.cost',
-          "defaultContent": '<p >Sin registro </p>',
-          render: (data, type, row) => {
-          if(data!=null){  
-          let mul=(((parseFloat(data)*cant))*100)/valorTotalMateriales;
-          return mul.toFixed(5)+" %"
-          }
-          }
-        }, 
-        ],
-        "drawCallback":function(){
-          let pesoLote=$("#input-pesoLote").val();
-          let unidadesLote=$("#input-valorLote").val()
-          let unidadesTotales=0;
-          unidadesTotales=pesoLote/unidadesLote;
-          var api = this.api();
-          let OP=$("#input-cantidadOP").val();
-          $(api.column(3).footer()).html(
-            formatCurrency("es-CO","COP",2,valorTotalMateriales*unidadesCompletas)
-      
-          )
-        }
-        
-      })
-      
-      $tableProductoMateriaMes.width('100%')
-      $tableProductoMateriaMes.on('click', 'tr', function () {
-        $(this).toggleClass('selected');
-      })
 
 //Funcion para convertir un numero a formato de moneda
 function formatCurrency (locales, currency, fractionDigits, number) {

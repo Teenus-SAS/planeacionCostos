@@ -173,7 +173,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                 <input type="text" class="form-control number" readonly id="precioVentaCOP">
               </div>
               <div class="col-md-3 col-3">
-                <input type="text" class="form-control number" readonly id="precioVentaUSD">
+                <input type="text" class="form-control" readonly id="precioVentaUSD">
               </div>
             </div>
             <div class="row my-2 align-items-center">
@@ -184,7 +184,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                 <input type="text" class="form-control number" readonly id="totalCostosCOP">
               </div>
               <div class="col-md-3 col-3">
-                <input type="text" class="form-control number" readonly id="totalCostosUSD">
+                <input type="text" class="form-control" readonly id="totalCostosUSD">
               </div>
             </div>
             <div class="row my-2 align-items-center">
@@ -195,7 +195,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                 <input type="text" class="form-control number" readonly id="CostoCOP">
               </div>
               <div class="col-md-3 col-3">
-                <input type="text" class="form-control number" readonly id="CostoUSD">
+                <input type="text" class="form-control" readonly id="CostoUSD">
               </div>
             </div>
             <div class="row my-2 align-items-center">
@@ -206,7 +206,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                 <input type="text" class="form-control number" readonly id="materiaPrimaCOP">
               </div>
               <div class="col-md-3 col-3">
-                <input type="text" class="form-control number" readonly id="materiaPrimaUSD">
+                <input type="text" class="form-control" readonly id="materiaPrimaUSD">
               </div>
             </div>
             <div class="row my-2 align-items-center">
@@ -217,7 +217,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                 <input type="text" class="form-control number" readonly id="manoObraCOP">
               </div>
               <div class="col-md-3 col-3">
-                <input type="text" class="form-control number" readonly id="manoObraUSD">
+                <input type="text" class="form-control" readonly id="manoObraUSD">
               </div>
             </div>
             <div class="row my-2 align-items-center">
@@ -228,7 +228,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                 <input type="text" class="form-control number" readonly id="costosIndirectosCOP">
               </div>
               <div class="col-md-3 col-3">
-                <input type="text" class="form-control number" readonly id="costosIndirectosUSD">
+                <input type="text" class="form-control" readonly id="costosIndirectosUSD">
               </div>
             </div>
             <div class="row my-2 align-items-center">
@@ -239,7 +239,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                 <input type="text" class="form-control number" readonly id="gastosCOP">
               </div>
               <div class="col-md-3 col-3">
-                <input type="text" class="form-control number" readonly id="gastosUSD">
+                <input type="text" class="form-control" readonly id="gastosUSD">
               </div>
             </div>
             <div class="row my-2 align-items-center">
@@ -250,7 +250,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                 <input type="text" class="form-control number" readonly id="gastosGeneralesCOP">
               </div>
               <div class="col-md-3 col-3">
-                <input type="text" class="form-control number" readonly id="gastosGeneralesUSD">
+                <input type="text" class="form-control" readonly id="gastosGeneralesUSD">
               </div>
             </div>
             <div class="row my-2 align-items-center">
@@ -261,7 +261,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                 <input type="text" class="form-control number" readonly id="comisionCOP">
               </div>
               <div class="col-md-3 col-3">
-                <input type="text" class="form-control number" readonly id="comisionUSD">
+                <input type="text" class="form-control" readonly id="comisionUSD">
               </div>
             </div>
             <div class="row my-2 align-items-center">
@@ -272,7 +272,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                 <input type="text" class="form-control number" readonly id="rentabilidadCOP">
               </div>
               <div class="col-md-3 col-3">
-                <input type="text" class="form-control number" readonly id="rentabilidadUSD">
+                <input type="text" class="form-control" readonly id="rentabilidadUSD">
               </div>
             </div>
             <div style="text-align:center; margin-top:10%">

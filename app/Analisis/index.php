@@ -22,6 +22,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
   <link rel="stylesheet" href="/vendor/froala-editor/froala_editor.pkgd.min.css">
+  
 
   <style>
     .v-center {
@@ -74,7 +75,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
               <div class="nav-tabs-wrapper">
                 <ul class="nav nav-tabs" data-tabs="tabs">
                   <li class="nav-item">
-                    <a class="nav-link active" href="#home" data-toggle="tab">OrdenP</a>
+                    <a class="nav-link active" href="#home" data-toggle="tab">Materia prima</a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" href="#updates" data-toggle="tab">Procesos</a>
@@ -91,16 +92,14 @@ include(PARTIALS_PATH . "verify_session.php") ?>
             <div class="tab-content text-center">
               <div class="tab-pane active" id="home">
               <div class = "row">
-                <div class="col-md-5 col-sm-12 col-12 col-xs-12 mb-5">
+                <div class="col-md-10 col-sm-12 col-12 col-xs-12 mb-5">
                   <div class="card py-2">
                       <div class="form-group row my-2">
-                      <label class="col-sm-5 col-md-4 col-12 text-left col-form-label pl-4">Producto</label>
-                      <div class="col-md-7 col-sm-6 px-0 col-10"><select class="custom-select" id="input-productoA" name="materia"></select></div>
+                      <label class="col-sm-5 col-md-2 col-12 text-left col-form-label pl-4">Producto</label>
+                      <div class="col-md-3 col-sm-6 px-0 col-10"><select class="custom-select" id="input-productoA" name="materia"></select></div>
+                      <label class="col-md-2 col-3 col-form-label px-0  ml-2">Cantidad OP</label>
+                      <div class="col-md-3 col-3 text-left px-0 ml-4"><input type="number" id="input-cantidadOP" class="form-control" name="cantidad" step=".01" value="10"></div>
                       </div>
-                        <div class="form-group row my-2">
-                        <label class="col-md-3 col-3 col-form-label px-0  ml-2">Cantidad OP</label>
-                          <div class="col-md-3 col-3 text-left px-0 ml-4"><input type="number" id="input-cantidadOP" class="form-control" name="cantidad" step=".01" value="10"></div>
-                        </div>
                         <div class="row mb-4">
                           <div class="col"></div>
                             <div class="col">
@@ -111,15 +110,18 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                        </div>
                           
                         </div>
-                        <div class="col-md-5 col-sm-12 col-12 col-xs-12 mb-5" id="cargaValor">
-                        </div>
+                        <!--<div class="col-md-5 col-sm-12 col-12 col-xs-12 mb-5" id="cargaValor">
+                        </div>-->
                   </div>
+                  <div class="col-md-10 col-sm-12 col-12 col-xs-12 mb-5">
+                  <div class="card py-2">
+                  <h3 class="card-title bg-primary text-white text-left" style="padding:2% " id="Titulo">Carga</h5>
                   <table class="table" id="tableAnalisisMateriaPrima">
                             <thead class="text-primary">
                               <th>Materia</th>
-                              <th>Unidad</th>
-                              <th> Vlr Unidad</th>
                               <th>Cantidad</th>
+                              <th> Vlr Unidad</th>
+                              <th>Consumo Op</th>
                               <th>Vlr Total</th>
                               <th>% participacion</th>
                               </br>
@@ -139,11 +141,16 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                             </tfoot> 
 
                           </table>
-              
-                
+                          <div class="form-group row my-2">
+                            <label class="col-sm-4 col-md-7 col-12 text-left col-form-label pl-4"><Strong><h6>Costos Totales materias primas para la orden de produccion</h6></Strong></label>
+                            <div class="col-md-3 col-3 text-left px-0 "><input type="text" readonly id="Costo_total" class="form-control"></div>  
+                          </div>
+                  </div>
+
+                </div>
                 <hr>
                 
-                <div class="col-md-5 col-sm-12 col-12 col-xs-12 mb-5">
+                <!--<div class="col-md-5 col-sm-12 col-12 col-xs-12 mb-5">
                 <h3 >Unidades fabricadas al mes</h3>
                   <div class="card py-2">
                     <div class="form-group row my-2">
@@ -187,24 +194,14 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                             </tfoot> 
 
                           </table>
-                          <hr>
+                          <hr>-->
               <div class = "row">           
-                <div class="col-md-5 col-sm-12 col-12 col-xs-12 mb-5">
+              <div class="col-md-10 col-sm-12 col-12 col-xs-12 mb-5">
                 <h3 >Escenario de ahorro</h3>
                   <div class="card py-2">
                     <div class="form-group row my-2">
-                      <label class="col-sm-4 col-md-4 col-12 text-left col-form-label pl-4">Materia</label>
-                      <div class="col-md-7 px-0 col-10">
-                        <select class="custom-select" id="input-materiaAM" name="materiales"></select>
-                      </div>
-                    </div>
-                    <div class="form-group row my-2">
-                      <label class="col-sm-4 col-md-4 col-12 text-left col-form-label pl-4">CXU</label>
-                      <div class="col-md-5 col-3 text-left px-0 "><input type="number" id="input-cantidadM" class="form-control" name="cantidad"  ></div>  
-                    </div>
-                    <div class="form-group row my-2">
-                      <label class="col-sm-4 col-md-4 col-12 text-left col-form-label pl-4">ValorXUnidad</label>
-                      <div class="col-md-5 col-3 text-left px-0 "><input type="number" id="input-Valor" class="form-control" name="cantidad"  ></div>  
+                      <label class="col-sm-4 col-md-4 col-12 text-left col-form-label pl-4">Unidades fabricadas al mes</label>
+                      <div class="col-md-5 col-3 text-left px-0 "><input type="number" id="input-UnidadesFMes" class="form-control" name="cantidad" value="100" ></div>  
                     </div>
                     <div class="row mb-4">
                         <div class="col"></div>
@@ -216,14 +213,16 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                  </div>
                  
                 </div>
-                <div class="col-md-5 col-sm-12 col-12 col-xs-12 mb-5" id="cargaAhorro"></div>
+                <!--<div class="col-md-5 col-sm-12 col-12 col-xs-12 mb-5" id="cargaAhorro"></div>-->
               </div>
                  <table class="table" id="tableAnalisisMateriaPrimaAM">
                             <thead class="text-primary">
                               <th>Materia</th>
-                              <th>Unidad</th>
-                              <th>Medida</th>
-                              <th>Valor</th>
+                              <th>Precio Actual</th>
+                              <th>Precio Negociar</th>
+                              <th>Costo total</th>
+                              <th>Costo mes </th>
+                              <th>Costo proyectado </th>
 
                               </br>
                             </thead>
@@ -276,6 +275,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                     <div class="col"></div>
                       <div class="col">
                         <button class="btn btn-primary" id="btnValidarDatos">Validar</button>
+                        <button class="btn btn-danger" id="btnCancelar">Cancelar</button>
                       </div>
                     <div class="col"></div>
                   </div>
@@ -364,6 +364,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
   <script src="/vendor/froala-editor/froala_editor.pkgd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery-tabledit@1.0.0/jquery.tabledit.min.js"></script>
   <script>
     if($(window).width() < 768){
       $('#home .card .row').addClass('justify-content-center')

@@ -27,12 +27,18 @@ $(document).ready(function(){
                     $('#encabezado_tabla').append("<th>nombre</th><th>valor</th>")
                     //boton
                     $( "#btnAnalisisDatos" ).click(function() {
+                        $("#input-procesosA").attr('disabled','disabled');
                         $('#modal').hide()
-                        $('#cargaTabla').empty()
-                        $('#title2').empty()
+                        $('#cargaTabla').hide()
+                        $('#title2').hide()
                         //$('#modal').modal({backdrop:'static', keyboard:false})
                         $('#title2').append('<p>Por favor digite estos datos</p><hr>')
                         $('#modal2').show()
+                    })
+                    $( "#btnCancelar" ).click(function() {
+                        $("#input-procesosA").removeAttr('disabled');
+                        $('#modal2').hide()
+                        $('#cargaTabla').show()
                     })
                     $( "#btnModificarDatos" ).click(function() {
                         $("#input-procesosA").attr('disabled','disabled');
@@ -111,10 +117,24 @@ $('#form-data-process').submit(function (e) {
     $('#modal').hide()
     setTimeout(2000);  
     $('#cargaTabla').append('<table class="table" id="tableAnalisisProcesos"><thead class=text-primary id="encabezado_tabla">'+
-                    '</thead><tbody id=cuerpo_tabla></tbody></table><div class="row mb-4"><div class="col"></div><div class="col"><button class="btn btn-primary" id="btnModificarDatos">Modificar</button></div><div class="col"></div></div>')
+                    '</thead><tbody id=cuerpo_tabla></tbody></table><div class="row mb-4"><div class="col"></div><div class="col"><button class="btn btn-primary" id="btnModificarDatos">Modificar</button><button class="btn btn-primary" id="btnAnalisisDatos">Analisis</button></div><div class="col"></div></div>')
                     $('#encabezado_tabla').empty()
                     $('#encabezado_tabla').append("<th>nombre</th><th>valor</th>")
     $('#cargaTabla').show()
+    $( "#btnAnalisisDatos" ).click(function() {
+        $("#input-procesosA").attr('disabled','disabled');
+        $('#modal').hide()
+        $('#cargaTabla').hide()
+        $('#title2').hide()
+        //$('#modal').modal({backdrop:'static', keyboard:false})
+        $('#title2').append('<p>Por favor digite estos datos</p><hr>')
+        $('#modal2').show()
+    })
+    $( "#btnCancelar" ).click(function() {
+        $("#input-procesosA").removeAttr('disabled');
+        $('#modal2').hide()
+        $('#cargaTabla').show()
+    })
 
     datos[0]={nombre:"Tiempo de alistamiento",valor:$('#tiempo_aislamiento').val()}
     datos[1]={nombre:"Tiempo de operacion",valor:$('#tiempo_operacion').val()}
@@ -177,7 +197,9 @@ $( "#btnValidarDatos" ).click(function() {
         $('#modal2').hide()
         $('#cargaTabla').empty()
         $('#cargaTabla').append('<h1>Analisis</h1> <div class ="row"><div class="col-md-5 col-sm-12 col-12 col-xs-12 mb-5"><table class="table" id="tableAnalisisProcesos"><thead class=text-primary id="encabezado_tabla">'+
-        '</thead><tbody id=cuerpo_tabla></tbody></table></div><div class="col-md-7 col-sm-15 col-15 col-xs-15 " id="cargaxd">'+
+        '</thead><tbody id=cuerpo_tabla></tbody></table><div class="row mb-4"><div class="col"></div><div class="col">'+
+        '<button class="btn btn-danger" id="btnCancelar">Cancelar</button></div><div class="col"></div>'+
+        '</div></div><div class="col-md-7 col-sm-15 col-15 col-xs-15 " id="cargaxd">'+
         '<div class="form-group row my-2"><label class="col-sm-4 col-md-4 col-12 text-left col-form-label pl-4">Veces al dia</label>'+
         '<div class="col-md-5 col-3 text-left px-0  mt-16"><input type="number" id="veces_dia2" class="form-control"></div>'+  
         '</div><div class="form-group row my-2"><label class="col-sm-4 col-md-4 col-12 text-left col-form-label pl-4">Tiempo de espera</label>'+
@@ -206,7 +228,8 @@ $( "#btnValidarDatos" ).click(function() {
             datosAnalisis[7]={nombre:"Costo tiempo espera",valor:cTiempoEspera}
            $("#cargaxd").empty()
            $("#cargaxd").append('<table class="table" id="tableAnalisisProcesos2"><thead class=text-primary id="encabezado_tabla2">'+
-           '</thead><tbody id=cuerpo_tabla></tbody></table>')
+           '</thead><tbody id=cuerpo_tabla></tbody></table><div class="row mb-4"><div class="col"></div><div class="col"><button class="btn btn-primary" id="btnValidarDatos">Validar</button>'+
+            '</div><div class="col"></div></div>')
            $('#encabezado_tabla2').append("<th>nombre</th><th>valor</th>")
            var tabla2=$('#tableAnalisisProcesos2').DataTable({
             responsive: true,
