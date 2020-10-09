@@ -203,18 +203,15 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                       <label class="col-sm-4 col-md-4 col-12 text-left col-form-label pl-4">Unidades fabricadas al mes</label>
                       <div class="col-md-5 col-3 text-left px-0 "><input type="number" id="input-UnidadesFMes" class="form-control" name="cantidad" value="100" ></div>  
                     </div>
-                    <div class="row mb-4">
-                        <div class="col"></div>
-                          <div class="col">
-                            <button class="btn btn-primary" id="btnValidarA">Validar</button>
-                          </div>
-                        <div class="col"></div>
-                      </div>
+                   
                  </div>
                  
                 </div>
                 <!--<div class="col-md-5 col-sm-12 col-12 col-xs-12 mb-5" id="cargaAhorro"></div>-->
               </div>
+                  <div class="col-md-10 col-sm-12 col-12 col-xs-12 mb-5">
+                  <div class="card py-2">
+                  <h3 class="card-title bg-primary text-white text-left" style="padding:2% " >Ahorro</h5>
                  <table class="table" id="tableAnalisisMateriaPrimaAM">
                             <thead class="text-primary">
                               <th>Materia</th>
@@ -241,6 +238,23 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                             </tfoot> 
 
                           </table>
+                          <button class="btn btn-primary" id="btnValidarNuevoPrecio">Validar</button>
+                  </div>
+                  </div>
+                  <div class="col-md-10 col-sm-12 col-12 col-xs-12 mb-5">
+                  <div class="card py-2">
+                    <div class="form-group row my-2">
+                      <label class="col-sm-4 col-md-4 col-12 text-left col-form-label pl-4">Ahorro mes</label>
+                      <div class="col-md-5 col-3 text-left px-0 "><input type="text" id="input-AhorroMes" class="form-control" readonly></div>  
+                    </div>
+                    <div class="form-group row my-2">
+                      <label class="col-sm-4 col-md-4 col-12 text-left col-form-label pl-4">Ahorro Año</label>
+                      <div class="col-md-5 col-3 text-left px-0 "><input type="text" id="input-AhorroAño" class="form-control" readonly></div>  
+                    </div>
+                 </div>
+                </div>
+
+            
               </div>
               <div class="tab-pane" id="updates">
                 <div class="col-md-5 col-sm-12 col-12 col-xs-12 mb-5">

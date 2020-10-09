@@ -1,3 +1,4 @@
+var fsima ;
 //variable donde se guarda la suma del valor de todos los materiales de un producto
 var valorTotalMateriales=0;
 //Variable que guarda el valor total multiplicado por la cantidad de ordenes de producto
@@ -5,6 +6,8 @@ var total = 0;
 var materialSeleccionado=""
 //Se ejecuta al cargar el dom
 var ahorroMaterial
+var creada=false
+var arrPorcentaje = new Array();
 $(document).ready(function(){
     //Agrega al select de los productos
     $('#input-productoA').append('<option selected disabled>Seleccione un producto</option>')
@@ -19,7 +22,16 @@ $(document).ready(function(){
         }
         //se activa al selecionar un producto
         $('#input-productoA').change(function () {
-            
+          arrPorcentaje= new Array()
+          if(creada ==true){
+          $("#tableAnalisisMateriaPrimaAM").dataTable().fnDestroy();
+          $("#tableAnalisisMateriaPrimaAM").empty()
+          $("#tableAnalisisMateriaPrimaAM").append('<thead class="text-primary"><th>Materia</th><th>Precio Actual</th>'+
+          '<th>Precio Negociar</th><th>Costo total</th><th>Costo mes </th><th>Costo proyectado </th></br></thead><tr></tr>'+
+          '<tbody></tbody> <tfoot> <tr> <th>Total:</th> <th></th><th></th><th></th></tr> </tfoot>')
+         
+          }
+          
             //se reinicia la variable que guardara el valor total
             valorTotalMateriales=0;
             //Se captura el id del producto seleccionado
@@ -28,9 +40,6 @@ $(document).ready(function(){
             //cambia el titulo de la tabla
             $('#Titulo').empty();
             $('#Titulo').append(productSelected.name);
-            //Se vacia el input de los materiales
-            $('#input-materiaAM').empty();
-            $('#input-materiaAM').append('<option selected disabled>Selecione un Material</option>')
             //Llamado de los materiales de la base de datos dependiendo del producto
             $.get('api/get_materialesA.php?id='+idInputProducto, (_material, status, xhr) => {
                 materialsJSON = _material
@@ -44,38 +53,146 @@ $(document).ready(function(){
                 $("#Costo_total").val(formatCurrency("es-CO","COP",2,total))
                 //Si el llamado es exitoso carga los datos en el input de los materiales
                 if (status == 'success') {
-                    _material.forEach((materials) => {
-                      $('#input-materiaAM').append(`<option value="${materials.id}">${materials.material.description}</option>`)
-                    })
+                    creada=true
                     let productSelected = data.filter(product => product.id == $(this).val())[0]
                     $('#inputProductoA').val(productSelected.id)
                     $('#title-products').text(productSelected.name)
                     $('#input-materiaAM option[selected]').attr('selected', false)
                     $('#input-materiaAM option[disabled]').attr('selected', 'selected')
-                    $tableProductoMateriaAM.api().ajax.url(`api/get_materialesA.php?dataTable=true&id=${productSelected.id}`)
-                    $tableProductoMateriaAM.api().ajax.reload()
                     $tableProductoMateriaA.api().ajax.url(`api/get_materialesA.php?dataTable=true&id=${productSelected.id}`)
                     $tableProductoMateriaA.api().ajax.reload()
+                    //Arreglo que guarda los datos de costo y descripcion de los materiales para ordenarlos
+                    let arregloMateriales = new Array();
+                   
+                    for (var i=0; i<_material.length;i++){
+                    arregloMateriales[i] = [(_material[i].material.cost * _material[i].quantity),_material[i].material.description,_material[i].material.cost,_material[i].id]
+                    }
+                    //variables para determinar y comparar el 80 % del costo de los productos
+                    var sumatoria=0;
+                    var porcentaje = (80*valorTotalMateriales)/100
+                    //Ordena el arreglo 
+                    arregloMateriales=arregloMateriales.sort((a, b) => b[0] - a[0])
+                    //Ciclo para validar los materiales que ocupan el 80% del costo del producto
+                    console.log(arregloMateriales)
+                    if(arregloMateriales!=0){
+                    for (var i=0; i<arregloMateriales.length;i++){
+                    sumatoria+=arregloMateriales[i][0]
+                    arrPorcentaje[i]=arregloMateriales[i]
+                    if(sumatoria>=porcentaje)
+                      break
+                    }}
+                    console.log(arrPorcentaje)
+                    $tableProductoMateriaAM = $('#tableAnalisisMateriaPrimaAM').dataTable({
+                      bFilter: false, bInfo: false,"bPaginate": false,
+                      responsive: true,
+                      info: false,
+                      data: arrPorcentaje,
+                      columns: [
+                          { data:'1', "defaultContent": '<p >Sin registro </p>'},
+                          { data:'2', "defaultContent": '<p >Sin registro </p>',render: (data, type, row) => {return formatCurrency("es-CO","COP",2,data)}},
+                          {
+                            data: '0',
+                            "defaultContent": '<p >Sin registro </p>',
+                            render: (data, type, row) => {
+                              if(data!=null)
+                              return '<input type="number" class="form-control col-md-8"  style="margin-left:20%" value="0"  id="input-'+row[3]+'">'
+                              } 
+                          },
+                          {data:'0',render: (data, type, row) => {return formatCurrency("es-CO","COP",2,data)}},
+                          {data:'0',
+                          render: (data, type, row) => {
+                            if(data!=null){
+                              return formatCurrency("es-CO","COP",2,data*$("#input-UnidadesFMes").val())
+                            }
+                          }
+                          },
+                          {data:'1',
+                           render: (data, type, row) => {
+                            if(data!=null){
+                              if(fsima==false){
+                                return 0;
+                              }
+                              else{
+                                return formatCurrency("es-CO","COP",2,$("#input-"+row[3]).val()*$("#input-UnidadesFMes").val())
+                              }
+                          }
+                          }}
+                      ]
+                  });
+                 
+                    
                 }
             })
+            
+
+
         })
-        //se activa al selecionar un material
-        $('#input-materiaAM').change(function () {
-            //Se captura el id del producto seleccionado
-            let idInputProducto = $('#input-productoA').val();
-            //Llamado de los materiales de la base de datos dependiendo del producto
-            $.get('api/get_materialesA.php?id='+idInputProducto, (_material, status, xhr) => {
-                materialsJSON = _material
-                // Se captura el id del material seleccionado
-                console.log(_material)
-                let materialSelected = _material.filter(material => material.id == $(this).val())[0]
-                //Se asigna la cantidad del material a un input 
-                $('#input-cantidadM').val(parseFloat(materialSelected.quantity))
-                $('#input-Valor').val(parseFloat(materialSelected.material.cost))
-                materialSeleccionado = materialSelected.material.description
-                
-            })
-        })
+        $( "#btnValidarNuevoPrecio" ).click(function() {
+          arr2=new Array()
+          var ahorroMes=0
+          console.log(arrPorcentaje)
+          for(var i = 0 ; i<arrPorcentaje.length; i++){
+            arr2[i]=arrPorcentaje[i]
+            if(arr2[i].length==4){
+              if($("#input-"+arrPorcentaje[i][3]).val()==null){
+                arr2[i].push(0)
+              }
+              else{
+                arr2[i].push($("#input-"+arrPorcentaje[i][3]).val())
+            }
+          }
+            else{
+              arr2[i].pop()
+              arr2[i].push($("#input-"+arrPorcentaje[i][3]).val())
+            }
+          }
+          console.log(arr2)
+          $("#tableAnalisisMateriaPrimaAM").dataTable().fnDestroy();
+          $("#tableAnalisisMateriaPrimaAM").empty()
+          $("#tableAnalisisMateriaPrimaAM").append('<thead class="text-primary"><th>Materia</th><th>Precio Actual</th>'+
+          '<th>Precio Negociar</th><th>Costo total</th><th>Costo mes </th><th>Costo proyectado </th></br></thead><tr></tr>'+
+          '<tbody></tbody> <tfoot> <tr> <th>Total:</th> <th></th><th></th><th></th></tr> </tfoot>')
+          $tableProductoMateriaAM = $('#tableAnalisisMateriaPrimaAM').dataTable({
+            bFilter: false, bInfo: false,"bPaginate": false,
+            responsive: true,
+            info: false,
+            data: arr2,
+            columns: [
+                { data:'1', "defaultContent": '<p >Sin registro </p>'},
+                { data:'2', "defaultContent": '<p >Sin registro </p>', render: (data, type, row) => {return formatCurrency("es-CO","COP",2,data)}},
+                {
+                  data: '3',
+                  render: (data, type, row) => {
+                    if(data!=null)
+                    return '<input type="number" class="form-control col-md-8"  style="margin-left:20%" value='+row[4]+'  id="input-'+row[3]+'">'
+                    else{
+                      '<input type="number" class="form-control col-md-8"  style="margin-left:20%" value=0  id="input-'+row[3]+'">'
+                    }  
+                  } 
+                },
+                {data:'0',render: (data, type, row) => {return formatCurrency("es-CO","COP",2,data)}},
+                {data:'0',
+                render: (data, type, row) => {
+                  if(data!=null){
+                    return formatCurrency("es-CO","COP",2,data*$("#input-UnidadesFMes").val())
+                  }
+                }
+                },
+                {data:'4',
+                 render: (data, type, row) => {
+
+                      return formatCurrency("es-CO","COP",2,data*$("#input-UnidadesFMes").val())
+
+                }
+                }
+            ]
+        });
+        for(var i=0 ; i<arr2.length; i++){
+          ahorroMes+=arr2[i][2]-arr2[i][4]
+        }
+        $("#input-AhorroMes").val(formatCurrency("es-CO","COP",2,ahorroMes*$("#input-UnidadesFMes").val()))
+        $("#input-AhorroAño").val(formatCurrency("es-CO","COP",2,ahorroMes*$("#input-UnidadesFMes").val()*12))
+        });
     })
     //evento al dar click al boton de vbalidar las ordenes de produccion
     $( "#btnValidar" ).click(function() {
@@ -98,82 +215,9 @@ $(document).ready(function(){
             //multiplica  el valor de los materiales por el numero de ordenes de produccion
             total = valorTotalMateriales * inputCantidadOP;
             $("#Costo_total").val(formatCurrency("es-CO","COP",2,total))
-            //Arreglo que guarda los datos de costo y descripcion de los materiales para ordenarlos
-            let arregloMateriales = new Array();
-            for (var i=0; i<_material.length;i++){
-               arregloMateriales[i] = [(_material[i].material.cost * _material[i].quantity)*inputCantidadOP,_material[i].material.description]
-            }
-            //variables para determinar y comparar el 80 % del costo de los productos
-            var sumatoria=0;
-            var porcentaje = (80*total)/100
-            //Ordena el arreglo 
-            arregloMateriales=arregloMateriales.sort((a, b) => b[0] - a[0])
-            //Ciclo para validar los materiales que ocupan el 80% del costo del producto
-            for (var i=0; i<3;i++){
-              sumatoria+=arregloMateriales[i][0]
-              arrPorcentaje[i]=arregloMateriales[i]
-             if(sumatoria>=porcentaje)
-              break
-            }
-            //carga esos materiales en pantalla
-            $('#cargaValor').empty();
-            $('#cargaValor').append('<div class="card py-2" id="MaterialesD"><h5>Materiales de Mayor gasto</h5></div>')
-            for (var i=0; i<arrPorcentaje.length; i++){
-            $('#MaterialesD').append('<div class="form-group row my-2"> <label class="col-md-3 col-3 col-form-label px-0  ml-5">'+arrPorcentaje[i][1]+': </label><label class="col-md-3 col-3 col-form-label px-0  ml-5">'+formatCurrency("es-CO","COP",2,arrPorcentaje[i][0])+'</label><label class="col-md-3 col-3 col-form-label px-0">'+(arrPorcentaje[i][0]*100/total).toFixed(5)+' % </labe></div>')
-            }
           }); 
     
-    })
-    $( "#btnValidarA" ).click(function() {
-        /**let idInputProducto = $('#input-productoA').val();
-        ahorroMateria=0;
-        //Se consultan los productos de la base de datos
-        $.get('api/get_materialesA.php?id='+idInputProducto, (_material, status, xhr) => {
-          valorTotalMateriales = 0
-          materialsJSON = _material
-          let materialSelected = _material.filter(material => material.id == $("#input-materiaAM").val())[0]
-          
-          for (var i=0; i<_material.length;i++){
-            if(_material[i].material.description===materialSelected.material.description){
-            ahorroMaterial=_material[i].quantity*_material[i].material.cost
-            _material[i].quantity=$('#input-cantidadM').val();
-            _material[i].material.cost=$('#input-Valor').val();
-            ahorroMaterial-=_material[i].quantity*_material[i].material.cost
-            valorTotalMateriales += _material[i].quantity*_material[i].material.cost
-            let pesoLote=$("#input-pesoLote").val();
-            let unidadesLote=$("#input-valorLote").val()
-            if(pesoLote!=0){
-              $('#cargaAhorro').empty();
-              $('#cargaAhorro').append('<div class="card py-2" id="MaterialesAhorro"><h5>Ahorro Mensual</h5></div>')
-              $('#MaterialesAhorro').append('<div class="form-group row my-2"> <label class="col-md-3 col-3 col-form-label px-0  ml-5">'+_material[i].material.description+': </label><label class="col-md-3 col-3 col-form-label px-0  ml-5">'+formatCurrency("es-CO","COP",2,(ahorroMaterial)*(pesoLote/unidadesLote))+'</label></div>')
-              $('#MaterialesAhorro').append('<div class="form-group row my-2"> <label class="col-md-3 col-3 col-form-label px-0  ml-5">Valor total del producto: </label><label class="col-md-3 col-3 col-form-label px-0  ml-5">'+formatCurrency("es-CO","COP",2, valorTotalMateriales*(pesoLote/unidadesLote))+'</label></div>')
-              console.log((ahorroMaterial)*(pesoLote/unidadesLote))
-            }
-            else{
-              $('#cargaAhorro').empty();
-              $('#cargaAhorro').append('<div class="card py-2" id="MaterialesAhorro"><h5>Ahorro:</h5></div>')
-              $('#MaterialesAhorro').append('<div class="form-group row my-2"> <label class="col-md-3 col-3 col-form-label px-0  ml-5">Ahorro mensual: </label><label class="col-md-3 col-3 col-form-label px-0  ml-5">'+formatCurrency("es-CO","COP",2,(ahorroMaterial)*(unidadesLote))+'</label></div><div class="form-group row my-2"> <label class="col-md-3 col-3 col-form-label px-0  ml-5"> Ahorro anual: </label><label class="col-md-3 col-3 col-form-label px-0  ml-5">'+formatCurrency("es-CO","COP",2,((ahorroMaterial)*(unidadesLote))*12)+'</label></div>')
-
-              console.log((ahorroMaterial)*unidadesLote)
-            }
-            
-            
-            }
-            else {
-            valorTotalMateriales += _material[i].quantity*_material[i].material.cost
-          }
-        }
-        })**/
-        
-        $tableProductoMateriaAM.api().ajax.reload()
-        console.log($("#input-83").val())
-        
- 
-      }); 
-      $( "#btnValidarMes" ).click(function() {
-        $tableProductoMateriaMes.api().ajax.reload()
-      });
-    
+    }) 
 })
 //variable que guardara la cantidad del producto para dividirlo por el valor por kilo 
 var cant
@@ -219,7 +263,7 @@ var $tableProductoMateriaA = $('#tableAnalisisMateriaPrima').dataTable({
       "defaultContent": '<p >Sin registro </p>',
       render: (data, type, row) => {
         if(data!=null)
-        return formatCurrency("es-CO","COP",2,$.number(data)*cant)
+        return formatCurrency("es-CO","COP",2,$.number(data)*row.quantity)
       }
     },
     {
@@ -286,7 +330,8 @@ $tableProductoMateriaA.on('click', 'tr', function () {
 })
 
 
-var $tableProductoMateriaAM = $('#tableAnalisisMateriaPrimaAM').dataTable({
+/**var $tableProductoMateriaAM = $('#tableAnalisisMateriaPrimaAM').dataTable({
+  bFilter: false, bInfo: false,"bPaginate": false,
     language: {
       url: "/vendor/dataTables/Spanish.json",
       "emptyTable":"My Custom Message On Empty Table"
@@ -317,7 +362,12 @@ var $tableProductoMateriaAM = $('#tableAnalisisMateriaPrimaAM').dataTable({
       "defaultContent": '<p >Sin registro </p>',
       render: (data, type, row) => {
         if(data!=null)
-        return '<input type="text" class="form-control col-md-8"  style="margin-left:20%" value="10" id="input-'+row.id+'">'
+        if(fsima==false){
+        return '<input type="text" class="form-control col-md-8"  style="margin-left:20%" value="0" id="input-'+row.id+'">'
+        }
+        else{
+          return '<input type="text" class="form-control col-md-8"  style="margin-left:20%"  id="input-'+row.id+'" value='+$("#input-"+row.id).val()+'>'
+        }
         
       }
     },
@@ -344,7 +394,12 @@ var $tableProductoMateriaAM = $('#tableAnalisisMateriaPrimaAM').dataTable({
       "defaultContent": '<p >Sin registro </p>',
       render: (data, type, row) => {
         if(data!=null){
-        
+          if(fsima==false){
+            return 0;
+          }
+          else{
+            return formatCurrency("es-CO","COP",2,$("#input-"+row.id).val()*row.quantity*$("#input-UnidadesFMes").val())
+          }
       }
       }
     },
@@ -364,7 +419,7 @@ var $tableProductoMateriaAM = $('#tableAnalisisMateriaPrimaAM').dataTable({
   $tableProductoMateriaAM.width('100%')
   $tableProductoMateriaAM.on('click', 'tr', function () {
         $(this).toggleClass('selected');
-    })
+    })**/
 
 //Funcion para convertir un numero a formato de moneda
 function formatCurrency (locales, currency, fractionDigits, number) {
