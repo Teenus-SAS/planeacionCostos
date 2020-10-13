@@ -9,6 +9,7 @@ var ahorroMaterial
 var creada=false
 var arrPorcentaje = new Array();
 $(document).ready(function(){
+    $("#input-UnidadesFMes").attr('disabled','disabled');
     //Agrega al select de los productos
     $('#input-productoA').append('<option selected disabled>Seleccione un producto</option>')
     //llamado de los productos de la base de datos
@@ -22,13 +23,16 @@ $(document).ready(function(){
         }
         //se activa al selecionar un producto
         $('#input-productoA').change(function () {
+          $("#input-UnidadesFMes").removeAttr('disabled');
+          $("#input-AhorroMes").val(formatCurrency("es-CO","COP",2,0))
+          $("#input-AhorroAño").val(formatCurrency("es-CO","COP",2,0))
           arrPorcentaje= new Array()
           if(creada ==true){
           $("#tableAnalisisMateriaPrimaAM").dataTable().fnDestroy();
           $("#tableAnalisisMateriaPrimaAM").empty()
           $("#tableAnalisisMateriaPrimaAM").append('<thead class="text-primary"><th>Materia</th><th>Precio Actual</th>'+
           '<th>Precio Negociar</th><th>Costo total</th><th>Costo mes </th><th>Costo proyectado </th></br></thead><tr></tr>'+
-          '<tbody></tbody> <tfoot> <tr> <th>Total:</th> <th></th><th></th><th></th></tr> </tfoot>')
+          '<tbody></tbody>')
          
           }
           
@@ -151,7 +155,7 @@ $(document).ready(function(){
           $("#tableAnalisisMateriaPrimaAM").empty()
           $("#tableAnalisisMateriaPrimaAM").append('<thead class="text-primary"><th>Materia</th><th>Precio Actual</th>'+
           '<th>Precio Negociar</th><th>Costo total</th><th>Costo mes </th><th>Costo proyectado </th></br></thead><tr></tr>'+
-          '<tbody></tbody> <tfoot> <tr> <th>Total:</th> <th></th><th></th><th></th></tr> </tfoot>')
+          '<tbody></tbody> ')
           $tableProductoMateriaAM = $('#tableAnalisisMateriaPrimaAM').dataTable({
             bFilter: false, bInfo: false,"bPaginate": false,
             responsive: true,
@@ -328,99 +332,6 @@ $tableProductoMateriaA.width('100%')
 $tableProductoMateriaA.on('click', 'tr', function () {
   $(this).toggleClass('selected');
 })
-
-
-/**var $tableProductoMateriaAM = $('#tableAnalisisMateriaPrimaAM').dataTable({
-  bFilter: false, bInfo: false,"bPaginate": false,
-    language: {
-      url: "/vendor/dataTables/Spanish.json",
-      "emptyTable":"My Custom Message On Empty Table"
-    },
-    responsive: true,
-    ajax: {
-      url: 'api/get_materialesA.php?dataTable=true',
-      dataSrc: 'data',
-      
-    },
-    columns: [{
-      data: 'material.description',
-      "defaultContent": '<p >Sin registro </p>',
-      render: (data, type, row) => {
-        return data
-      }
-  
-    },
-    {
-      data: 'material.cost',
-      "defaultContent": '<p >Sin registro </p>',
-      render: (data, type, row) => {
-        return formatCurrency("es-CO","COP",2, data)
-      }
-    
-    }, {
-      data: 'material.cost',
-      "defaultContent": '<p >Sin registro </p>',
-      render: (data, type, row) => {
-        if(data!=null)
-        if(fsima==false){
-        return '<input type="text" class="form-control col-md-8"  style="margin-left:20%" value="0" id="input-'+row.id+'">'
-        }
-        else{
-          return '<input type="text" class="form-control col-md-8"  style="margin-left:20%"  id="input-'+row.id+'" value='+$("#input-"+row.id).val()+'>'
-        }
-        
-      }
-    },
-    {
-      data: 'material.cost' ,
-      "defaultContent": '<p >Sin registro </p>',
-      render: (data, type, row) => {
-        if(data!=null){
-        return   formatCurrency("es-CO","COP",2,data*row.quantity)
-      }
-      }
-    },
-    {
-      data: 'material.cost' ,
-      "defaultContent": '<p >Sin registro </p>',
-      render: (data, type, row) => {
-        if(data!=null){
-        return   formatCurrency("es-CO","COP",2,data*row.quantity*$("#input-UnidadesFMes").val())
-      }
-      }
-    },
-    {
-      data: 'material.cost' ,
-      "defaultContent": '<p >Sin registro </p>',
-      render: (data, type, row) => {
-        if(data!=null){
-          if(fsima==false){
-            return 0;
-          }
-          else{
-            return formatCurrency("es-CO","COP",2,$("#input-"+row.id).val()*row.quantity*$("#input-UnidadesFMes").val())
-          }
-      }
-      }
-    },
-    ],
-    "drawCallback":function(){
-      var api = this.api();
-      let OP=$("#input-cantidadOP").val();
-      $(api.column(0).footer()).html(
-        'Total: '
-      )
-      $(api.column(3).footer()).html(
-        formatCurrency("es-CO","COP",2, valorTotalMateriales)
-      )
-    }
-    
-  })
-  $tableProductoMateriaAM.width('100%')
-  $tableProductoMateriaAM.on('click', 'tr', function () {
-        $(this).toggleClass('selected');
-    })**/
-
 //Funcion para convertir un numero a formato de moneda
 function formatCurrency (locales, currency, fractionDigits, number) {
     var formatted = new Intl.NumberFormat(locales, {
