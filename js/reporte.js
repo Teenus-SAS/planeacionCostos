@@ -52,7 +52,7 @@ function fillFields(data, flag = false) {
   $('#totalCostosUSD').val((data.totalCost*100/data.salePrice).toFixed(2) + " %")
   // precio de venta
   $('#precioVentaCOP').val(data.salePrice)
-  $('#precioVentaUSD').val(100.00 + " %")
+  $('#precioVentaUSD').val("100.00" + " %")
   //costos
   $('#CostoCOP').val(data.cost)
   $('#CostoUSD').val(((data.cost*100)/data.totalCost).toFixed(2)+ " %")
@@ -377,23 +377,23 @@ function calculatesalePrice() {
 
 function calculateUSD() {
   // total de costos
-  $('#totalCostosUSD').val(parseFloat($('#totalCostosCOP').val()) / limInf)
+  $('#totalCostosUSD').val((parseFloat($('#totalCostosCOP').val()) * 100 / parseFloat($('#precioVentaCOP').val())).toFixed(2) + "%")
   // precio de venta
-  $('#precioVentaUSD').val(parseFloat($('#precioVentaCOP').val()) / limInf)
+  $('#precioVentaUSD').val("100.00 %")
   //costos
-  $('#CostoUSD').val(parseFloat($('#CostoCOP').val()) / limInf)
+  $('#CostoUSD').val((parseFloat($('#CostoCOP').val())* 100 / parseFloat($('#totalCostosCOP').val())).toFixed(2) + "%")
   // materia prima
-  $('#materiaPrimaUSD').val(parseFloat($('#materiaPrimaCOP').val()) / limInf)
+  $('#materiaPrimaUSD').val((parseFloat($('#materiaPrimaCOP').val()) * 100/ parseFloat($('#CostoCOP').val())).toFixed(2) + "%")
   //mano de obra
-  $('#manoObraUSD').val(parseFloat($('#manoObraCOP').val()) / limInf)
+  $('#manoObraUSD').val((parseFloat($('#manoObraCOP').val()) * 100/ parseFloat($('#CostoCOP').val())).toFixed(2) + "%")
   //costos indirectos
-  $('#costosIndirectosUSD').val(parseFloat($('#costosIndirectosCOP').val()) / limInf)
+  $('#costosIndirectosUSD').val((parseFloat($('#costosIndirectosCOP').val()) * 100 / parseFloat($('#CostoCOP').val())).toFixed(2)+ "%")
   // gastos
-  $('#gastosUSD').val(parseFloat($('#gastosCOP').val()) / limInf)
+  $('#gastosUSD').val((parseFloat($('#gastosCOP').val()) * 100/ parseFloat($('#totalCostosCOP').val())).toFixed(2) + "%")
   // gastos generales
-  $('#gastosGeneralesUSD').val(parseFloat($('#gastosGeneralesCOP').val()) / limInf)
+  $('#gastosGeneralesUSD').val((parseFloat($('#gastosGeneralesCOP').val()) * 100 / parseFloat($('#gastosCOP').val())).toFixed(2)+"%")
   // comision 
-  $('#comisionUSD').val(parseFloat($('#comisionCOP').val()) / limInf)
+  $('#comisionUSD').val((parseFloat($('#comisionCOP').val())*100 / parseFloat($('#gastosCOP').val())).toFixed(2) + "%")
   // rentabilidad
-  $('#rentabilidadUSD').val(parseFloat($('#rentabilidadCOP').val()) / limInf)
+  $('#rentabilidadUSD').val((parseFloat($('#rentabilidadCOP').val()) * 100 /  parseFloat($('#precioVentaCOP').val())).toFixed(2) + "%")
 }
