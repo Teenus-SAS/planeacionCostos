@@ -94,7 +94,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
         <div class="row justify-content-center">
           <div class="col-sm-5 col-12 col-sm-offset-1">
             <div class="list-group" id="list1">
-              <a href="#" class="list-group-item active" style="background: #51cbce;"> <span class="pull-left">Referencia</span> <span class="pull-right">Seleccion De Productos</span> <input title="toggle all" type="checkbox" class="all pull-right"></a>
+              <a href="#" class="list-group-item active" style="background:#51cbce;"> <span class="pull-left">Referencia</span> <span class="pull-right">Seleccion De Productos</span> <input title="toggle all" type="checkbox" class="all pull-right"></a>
             </div>
           </div>
           <div class="col-md-2 col-6 v-center text-canter">
