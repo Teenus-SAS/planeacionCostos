@@ -56,7 +56,7 @@ if (!isset($_SESSION)) {
                 <!-- The image half -->
                 <div class="col-md-6 d-none d-md-flex bg-image"></div>
                 <!-- The content half -->
-                <div class="col-md-6" style="color:white";>
+                <div class="col-md-6" style="background:white;">
                     <div class="login d-flex align-items-center py-5">
         
                         <!-- Demo content-->
