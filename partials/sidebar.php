@@ -36,6 +36,7 @@
             <a href="/app/products/">
               <!--<i class="nc-icon nc-diamond"></i>-->
               <i class="fa fa-product-hunt"></i>
+              <i class="fa fa-industry" aria-hidden="true"></i>
               <p>Productos</p>
             </a>
         </ul>
@@ -51,7 +52,8 @@
       <li id="sidebar-analisis-item">
         <a href="/app/Analisis/">
           <!--<i class="nc-icon nc-money-coins"></i>-->
-          <i class="fa fa-optin-monster" aria-hidden="true"></i>
+          <i class="fa fa-optin-monster"></i>
+          <i class="fa fa-bolt"></i>
           <p>Optimización</p>
         </a>
       </li>
