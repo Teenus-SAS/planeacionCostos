@@ -8,7 +8,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <title>
-    Parametrización General | EQUOTE
+    Parametrización General | Tezlik
   </title>
   <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
   <!--     Fonts and icons     -->
@@ -124,7 +124,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                     <a class="nav-link active" href="#home" data-toggle="tab">Datos Generales</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="#updates" data-toggle="tab">Materia Prima</a>
+                    <a class="nav-link" href="#updates" data-toggle="tab">Materias Primas</a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" href="#history" data-toggle="tab">Máquinas</a>
@@ -192,7 +192,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
 
                   <div class="row">
                     <div class="col"></div>
-                    <div class="col"><button class="btn btn-primary"><i class="nc-icon nc-refresh-69"></i>Guardar</button></div>
+                    <div class="col"><button class="btn btn-primary"><i class="nc-icon nc-refresh-69"></i> Guardar</button></div>
                     <div class="col"></div>
                   </div>
                 </form>
