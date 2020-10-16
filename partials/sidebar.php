@@ -18,7 +18,6 @@
       <hr class="my-0">
       <li class="active" id="sidebar-parametrizar-item">
         <a data-toggle="collapse" href="#collapseParametrizar" role="button" aria-expanded="false" aria-controls="collapseParametrizar">
-          <!--<i class="nc-icon nc-settings-gear-65"></i>-->
           <i class="fa fa-wrench" aria-hidden="true"></i>
           <p class="text-capitalize">Configurar</p>
         </a>
@@ -27,15 +26,12 @@
         <ul class="nav">
           <li >
             <a href="/app/config-general/">
-              <!--<i class="nc-icon nc-settings-gear-65"></i>-->
-              <i class="fa fa-product-hunt"></i>
               <i class="fa fa-cogs"></i>
               <p class="text-capitalize">General</p>
             </a>
           </li>
           <li id="sidebar-products-item">
             <a href="/app/products/">
-              <i class="fa fa-product-hunt"></i>
               <i class="fa fa-industry" aria-hidden="true"></i>
               <p>Productos</p>
             </a>
