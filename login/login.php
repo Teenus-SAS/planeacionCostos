@@ -65,7 +65,7 @@ if (!isset($_SESSION)) {
                                 <div class="col-lg-10 col-xl-7 mx-auto">
                                 <div class="login100-form-title" style="background-image: url();">
                                     <span class="login100-form-title-1 ">
-                                      <img src="../upload/img/logo_nombre_equote.png" alt="" style="width:100%">
+                                      <img src="../upload/img/logo_tezlik.png" alt="" style="width:100%">
                                     </span>
                                     </div>
                                     <form id="form-login">
