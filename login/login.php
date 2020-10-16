@@ -56,7 +56,7 @@ if (!isset($_SESSION)) {
                 <!-- The image half -->
                 <div class="col-md-6 d-none d-md-flex bg-image"></div>
                 <!-- The content half -->
-                <div class="col-md-6 bg-light">
+                <div class="col-md-6" style="color:white";>
                     <div class="login d-flex align-items-center py-5">
         
                         <!-- Demo content-->
@@ -71,12 +71,12 @@ if (!isset($_SESSION)) {
                                     <form id="form-login">
                                         <div class="form-group mb-3">
                                           <span class="label-input100"></span>
-                                          <input class="input100" type="text" id="username-input" name="username" placeholder="Usuario" value="<?= isset($_COOKIE["username_remember_me"]) ? $_COOKIE["username_remember_me"] : "" ?>">
+                                          <input class="input100" type="text" id="username-input" name="username" placeholder="Usuario" style="background: ghostwhite;" value="<?= isset($_COOKIE["username_remember_me"]) ? $_COOKIE["username_remember_me"] : "" ?>">
                                           <span class="focus-input100"></span>
                                         </div>
                                         <div class="form-group mb-3">
                                           <span class="label-input100"></span>
-                                          <input class="input100" type="password" id="pass" name="password" placeholder="Contraseña">
+                                          <input class="input100" type="password" id="pass" name="password" placeholder="Contraseña" style="background: ghostwhite;">
                                         <span class="focus-input100"></span>
                                         </div>
                                         <div class="custom-control custom-checkbox mb-3">
