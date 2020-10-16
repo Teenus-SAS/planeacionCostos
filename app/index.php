@@ -40,7 +40,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
       </ul>
       <ul class="nav navbar-nav ">
         <li class="nav-item ">
-          <a class="nav-link nav-bar-item" href="/app/config-general">Configuración</a>
+          <a class="nav-link nav-bar-item" href="/app/config-general">Iniciar</a>
         </li>
         <li class="nav-item">
           <a class="nav-link nav-bar-item" href="javascript:logout()">Cerrar Sesión</a>
