@@ -94,19 +94,19 @@ include(PARTIALS_PATH . "verify_session.php") ?>
         <div class="row justify-content-center">
           <div class="col-sm-5 col-12 col-sm-offset-1">
             <div class="list-group" id="list1">
-              <a href="#" class="list-group-item active"> <span class="pull-left">Referencia</span> <span class="pull-right">Seleccion De Productos</span> <input title="toggle all" type="checkbox" class="all pull-right"></a>
+              <a href="#" class="list-group-item active" style="background: #51cbce;"> <span class="pull-left">Referencia</span> <span class="pull-right">Seleccion De Productos</span> <input title="toggle all" type="checkbox" class="all pull-right"></a>
             </div>
           </div>
           <div class="col-md-2 col-6 v-center text-canter">
-            <button title="Agregar a la lista" class="btn btn-default center-block add"><i class="nc-icon nc-minimal-right"></i></button>
-            <button title="Quitar de la lista" class="btn btn-default center-block remove"><i class="nc-icon nc-minimal-left"></i></button>
+            <button title="Agregar a la lista" class="btn btn-default center-block add" style="background:#51cbce;"><i class="nc-icon nc-minimal-right"></i></button>
+            <button title="Quitar de la lista" class="btn btn-default center-block remove" style="background:#51cbce;"><i class="nc-icon nc-minimal-left"></i></button>
             <div class="col-md-2 col">
               <button class="btn btn-primary btn-round" id="btn-procesar">Procesar</button>
             </div>
           </div>
           <div class="col-sm-5 col-12">
             <div class="list-group" id="list2">
-              <a href="#" class="list-group-item active title"><span class="pull-left">Referencia</span>
+              <a href="#" class="list-group-item active title" style="background:#51cbce;"><span class="pull-left">Referencia</span>
                 <input title="toggle all" type="checkbox" class="all pull-right"><span class="pull-right quantity">Cantidad</span><span class="pull-right title mar">Productos</span></a>
             </div>
           </div>
