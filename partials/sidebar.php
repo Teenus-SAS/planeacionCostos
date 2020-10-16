@@ -28,13 +28,13 @@
           <li >
             <a href="/app/config-general/">
               <!--<i class="nc-icon nc-settings-gear-65"></i>-->
+              <i class="fa fa-product-hunt"></i>
               <i class="fa fa-cogs"></i>
               <p class="text-capitalize">General</p>
             </a>
           </li>
           <li id="sidebar-products-item">
             <a href="/app/products/">
-              <!--<i class="nc-icon nc-diamond"></i>-->
               <i class="fa fa-product-hunt"></i>
               <i class="fa fa-industry" aria-hidden="true"></i>
               <p>Productos</p>
@@ -44,15 +44,12 @@
 
       <li id="sidebar-costear-item">
         <a href="/app/cost/">
-          <!--<i class="nc-icon nc-money-coins"></i>-->
           <i class="fa fa-check"></i>
           <p>Análisis</p>
         </a>
       </li>
       <li id="sidebar-analisis-item">
         <a href="/app/Analisis/">
-          <!--<i class="nc-icon nc-money-coins"></i>-->
-          <i class="fa fa-optin-monster"></i>
           <i class="fa fa-bolt"></i>
           <p>Optimización</p>
         </a>
