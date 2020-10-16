@@ -63,9 +63,9 @@ if (!isset($_SESSION)) {
                         <div class="container">
                             <div class="row">
                                 <div class="col-lg-10 col-xl-7 mx-auto">
-                                <div class="login100-form-title" style="background-image: url();">
+                                <div class="login100-form-title mb-3" style="background-image: url();">
                                     <span class="login100-form-title-1 ">
-                                      <img src="../upload/img/logo_tezlik.png" alt="" style="width:100%">
+                                      <img src="../upload/img/logo_tezlik.png" alt="logo tezlik" style="width:70%">
                                     </span>
                                     </div>
                                     <form id="form-login">
@@ -81,7 +81,7 @@ if (!isset($_SESSION)) {
                                         </div>
                                         <div class="custom-control custom-checkbox mb-3">
                                             <input id="ckb1" type="checkbox" checked class="custom-control-input">
-                                            <label for="ckb1" class="custom-control-label">Recordarme</label>
+                                            <label for="ckb1" class="custom-control-label" style="font-size: 13px; font-family: 'Poppins-Regular';">Recordarme</label>
                                         </div>
                                         <button type="submit" class="btn btn-primary btn-block text-uppercase mb-2 rounded-pill shadow-sm">Ingresar</button>
                                         <div class="text-center d-flex justify-content-between mt-4"> <a href="remember_pass.php" id="text-recover-pass" class="txt1 pull-right">
