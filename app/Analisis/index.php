@@ -8,7 +8,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <title>
-    Analisis Productos | EQUOTE
+    Optimizacion | Tezlik
   </title>
   <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
   <!--     Fonts and icons     -->
@@ -97,13 +97,13 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                       <div class="form-group row my-2">
                       <label class="col-sm-5 col-md-2 col-12 text-left col-form-label pl-4">Producto</label>
                       <div class="col-md-3 col-sm-6 px-0 col-10"><select class="custom-select" id="input-productoA" name="materia"></select></div>
-                      <label class="col-md-2 col-3 col-form-label px-0  ml-2">Cantidad OP</label>
-                      <div class="col-md-3 col-3 text-left px-0 ml-4"><input type="number" id="input-cantidadOP" class="form-control" name="cantidad" step=".01" value="10"></div>
+                      <label class="col-md-2 col-3 col-form-label px-0  ml-2">Cantidad Orden de Pedido</label>
+                      <div class="col-md-3 col-3 text-left px-0 ml-4"><input type="number" id="input-cantidadOP" class="form-control" name="cantidad" step=".01" value=""></div>
                       </div>
                         <div class="row mb-4">
                           <div class="col"></div>
                             <div class="col">
-                              <button class="btn btn-primary" id="btnValidar">Validar</button>
+                              <button class="btn btn-primary" id="btnValidar">Cargar</button>
                             </div>
                           <div class="col"></div>
                         </div>      
@@ -118,12 +118,12 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                   <h3 class="card-title bg-primary text-white text-left" style="padding:2% " id="Titulo">Carga</h5>
                   <table class="table" id="tableAnalisisMateriaPrima">
                             <thead class="text-primary">
-                              <th>Materia</th>
+                              <th>Materia Prima</th>
                               <th>Cantidad</th>
                               <th> Vlr Unidad</th>
                               <th>Consumo Op</th>
                               <th>Vlr Total</th>
-                              <th>% participacion</th>
+                              <th>% participación</th>
                               </br>
                             </thead>
                             <tr>
@@ -214,9 +214,9 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                   <h3 class="card-title bg-primary text-white text-left" style="padding:2% " >Ahorro</h5>
                  <table class="table" id="tableAnalisisMateriaPrimaAM">
                             <thead class="text-primary">
-                              <th>Materia</th>
+                              <th>Materia Prima</th>
                               <th>Precio Actual</th>
-                              <th>Precio Negociar</th>
+                              <th>Precio a Negociar</th>
                               <th>Costo total</th>
                               <th>Costo mes </th>
                               <th>Costo proyectado </th>
@@ -238,7 +238,9 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                             </tfoot> 
 
                           </table>
-                          <button class="btn btn-primary" id="btnValidarNuevoPrecio">Validar</button>
+                      <div style="display:grid; justify-content:center;">
+                          <button class="btn btn-primary" id="btnValidarNuevoPrecio">Calcular</button>
+                      </div>
                   </div>
                   </div>
                   <div class="col-md-10 col-sm-12 col-12 col-xs-12 mb-5">
