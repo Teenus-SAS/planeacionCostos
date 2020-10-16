@@ -61,7 +61,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
         <div class="col"></div>
         <div class="col-10 col-sm-6 col-md-6">
           <div style="border: 20px solid rgba(206,206,208,0.6);border-radius: 50px;">
-            <a href="/app/cost" class="btn btn-primary btn-round btn-block" style="font-size: 2rem;border-radius: 50px;">Encuentra tus oportunidades de ahorro</a>
+            <a href="/app/cost" class="btn btn-primary btn-round btn-block" style="font-size: 28px;border-radius: 50px;">Encuentra tus oportunidades de ahorro</a>
           </div>
         </div>
         <div class="col"></div>
