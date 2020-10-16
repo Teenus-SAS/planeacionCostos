@@ -29,7 +29,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
     <i class="fas fa-align-left"></i>
   </button> -->
         <img src="<?= $user->getCompany()->getLogo() ?>" height="40" class="d-inline-block align-top" alt="logo de empresa">
-        <?= $user->getCompany()->getTradeName() ?>
+        <?//=$user->getCompany()->getTradeName() ?>
       </a>
     </div>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
