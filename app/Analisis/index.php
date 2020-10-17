@@ -56,6 +56,14 @@ include(PARTIALS_PATH . "verify_session.php") ?>
       overflow: hidden;
       max-width: 80px;
     }
+    
+    .text-resalt{
+      text-align: center!important;
+      font-size: large;
+      color: #34b5b8;
+      font-weight: 600;
+    }
+    
   </style>
 </head>
 
