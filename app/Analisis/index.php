@@ -246,11 +246,11 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                   <div class="col-md-10 col-sm-12 col-12 col-xs-12 mb-5">
                   <div class="card py-2">
                     <div class="form-group row my-2">
-                      <label class="col-sm-4 col-md-4 col-12 text-left col-form-label pl-4">Ahorro mes</label>
+                      <label class="col-sm-4 col-md-4 col-12 text-resalt col-form-label pl-4">Ahorro mes</label>
                       <div class="col-md-5 col-3 text-left px-0 "><input type="text" id="input-AhorroMes" class="form-control" readonly></div>  
                     </div>
                     <div class="form-group row my-2">
-                      <label class="col-sm-4 col-md-4 col-12 text-left col-form-label pl-4">Ahorro Año</label>
+                      <label class="col-sm-4 col-md-4 col-12 text-resalt col-form-label pl-4">Ahorro Año</label>
                       <div class="col-md-5 col-3 text-left px-0 "><input type="text" id="input-AhorroAño" class="form-control" readonly></div>  
                     </div>
                  </div>
