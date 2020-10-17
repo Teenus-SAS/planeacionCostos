@@ -59,8 +59,8 @@ include(PARTIALS_PATH . "verify_session.php") ?>
     
     .text-resalt{
       text-align: center!important;
-      font-size: large;
-      color: #34b5b8;
+      font-size: large!important;
+      color: #34b5b8!important;
       font-weight: 600;
     }
     
