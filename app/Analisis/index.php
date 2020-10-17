@@ -100,7 +100,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                       <label class="col-sm-5 col-md-2 col-12 text-left col-form-label pl-4">Producto</label>
                       <div class="col-md-3 col-sm-6 px-0 col-10"><select class="custom-select" id="input-productoA" name="materia"></select></div>
                       <label class="col-md-2 col-3 col-form-label px-0  ml-2">Cantidad Orden de Pedido</label>
-                      <div class="col-md-3 col-3 text-left px-0 ml-4"><input type="number" id="input-cantidadOP" class="form-control" name="cantidad" step=".01" value=""></div>
+                      <div class="col-md-3 col-3 text-left px-0 ml-4"><input type="number" id="input-cantidadOP" class="form-control" name="cantidad" step=".01" value="1"></div>
                       </div>
                         <div class="row mb-4">
                           <div class="col"></div>
@@ -203,7 +203,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                   <div class="card py-2">
                     <div class="form-group row my-2">
                       <label class="col-sm-4 col-md-4 col-12 text-left col-form-label pl-4">Unidades fabricadas al mes</label>
-                      <div class="col-md-5 col-3 text-left px-0 "><input type="number" id="input-UnidadesFMes" class="form-control" name="cantidad" value="100" ></div>  
+                      <div class="col-md-5 col-3 text-left px-0 "><input type="number" id="input-UnidadesFMes" class="form-control" name="cantidad" value="1" ></div>  
                     </div>
                    
                  </div>
