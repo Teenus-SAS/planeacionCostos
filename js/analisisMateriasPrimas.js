@@ -23,6 +23,10 @@ $(document).ready(function(){
         }
         //se activa al selecionar un producto
         $('#input-productoA').change(function () {
+          var ventana_ancho = $(window).width();
+          var ventana_alto = $(window).height();
+          alert(ventana_ancho);
+          alert(ventana_alto);
           $("#input-UnidadesFMes").removeAttr('disabled');
           $("#input-AhorroMes").val(formatCurrency("es-CO","COP",2,0))
           $("#input-AhorroAño").val(formatCurrency("es-CO","COP",2,0))
@@ -123,6 +127,7 @@ $(document).ready(function(){
                           }}
                       ]
                   });
+                  $tableProductoMateriaAM.width('100%')
                  
                     
                 }
@@ -191,11 +196,18 @@ $(document).ready(function(){
                 }
             ]
         });
+        $tableProductoMateriaAM.width('100%')
         for(var i=0 ; i<arr2.length; i++){
+          if(arr2[i][4]==0){
+            ahorroMes = 0
+            break
+          }
           ahorroMes+=arr2[i][2]-arr2[i][4]
         }
-        $("#input-AhorroMes").val(formatCurrency("es-CO","COP",2,ahorroMes*$("#input-UnidadesFMes").val()))
-        $("#input-AhorroAño").val(formatCurrency("es-CO","COP",2,ahorroMes*$("#input-UnidadesFMes").val()*12))
+        
+          $("#input-AhorroMes").val(formatCurrency("es-CO","COP",2,ahorroMes*$("#input-UnidadesFMes").val()))
+          $("#input-AhorroAño").val(formatCurrency("es-CO","COP",2,ahorroMes*$("#input-UnidadesFMes").val()*12))
+        
         });
     })
     //evento al dar click al boton de vbalidar las ordenes de produccion
@@ -227,9 +239,7 @@ $(document).ready(function(){
 var cant
 //inicializacion de la tabla de materias primas por orden de produccion
 var $tableProductoMateriaA = $('#tableAnalisisMateriaPrima').dataTable({
-  bFilter: false, bInfo: false,"bPaginate": false,
-
-  
+  bFilter: false, bInfo: false,"bPaginate": false,  
     language: {
       url: "/vendor/dataTables/Spanish.json",
       "emptyTable":"My Custom Message On Empty Table"

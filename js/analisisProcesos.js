@@ -9,6 +9,7 @@ $(document).ready(function(){
         $('#input-procesosA').append(`<option value="${process.id}">${process.name}</option>`)
         })
         $('#input-procesosA').change(function () {
+            $('#cargaTabla2').empty()
             $("#form-data-process")[0].reset();
             $('#cargaTabla').empty()
             datos=[]
@@ -21,8 +22,11 @@ $(document).ready(function(){
                 console.log(processJSON)
                 if(processJSON!=null){
                     $('#modal').hide()
-                    $('#cargaTabla').append('<table class="table" id="tableAnalisisProcesos"><thead class=text-primary id="encabezado_tabla">'+
-                    '</thead><tbody id=cuerpo_tabla></tbody></table><div class="row mb-4"><div class="col"></div><div class="col"><button class="btn btn-primary" id="btnModificarDatos">Modificar</button><button class="btn btn-primary" id="btnAnalisisDatos">Analisis</button></div><div class="col"></div></div>')
+                    $('#cargaTabla').append('<div class="col-md-10 col-sm-12 col-12 col-xs-12 mb-5"><div class="card py-2"> <h3 class="card-title bg-primary text-white text-left" style="padding:2% " id="TituloCargar">Carga</h5><table class="table" id="tableAnalisisProcesos"><thead class=text-primary id="encabezado_tabla">'+
+                    '</thead><tbody id=cuerpo_tabla></tbody></table><div class="row mb-4"><div class="col"></div><div class="col"><button class="btn btn-primary" id="btnModificarDatos">Modificar</button><button class="btn btn-primary" id="btnAnalisisDatos">Analisis</button>'+
+                    '</div><div class="col"></div></div></div></div>')
+                    $('#TituloCargar').empty();
+                    $('#TituloCargar').append("Analisis");
                     $('#encabezado_tabla').empty()
                     $('#encabezado_tabla').append("<th>nombre</th><th>valor</th>")
                     //boton
@@ -75,6 +79,7 @@ $(document).ready(function(){
                         datos[i]={nombre:key,valor:processJSON[0][key]}
                     }*/
                     tabla=$('#tableAnalisisProcesos').DataTable({
+                        bFilter: false, bInfo: false,"bPaginate": false,
                         responsive: true,
                         info: false,
                         data: datos,
@@ -116,10 +121,12 @@ $('#form-data-process').submit(function (e) {
     })
     $('#modal').hide()
     setTimeout(2000);  
-    $('#cargaTabla').append('<table class="table" id="tableAnalisisProcesos"><thead class=text-primary id="encabezado_tabla">'+
-                    '</thead><tbody id=cuerpo_tabla></tbody></table><div class="row mb-4"><div class="col"></div><div class="col"><button class="btn btn-primary" id="btnModificarDatos">Modificar</button><button class="btn btn-primary" id="btnAnalisisDatos">Analisis</button></div><div class="col"></div></div>')
+    $('#cargaTabla').append('<div class="col-md-10 col-sm-12 col-12 col-xs-12 mb-5"><div class="card py-2"><h5 class="card-title bg-primary text-white text-left" style="padding:2% " id="TituloCargar">Carga</h5><table class="table" id="tableAnalisisProcesos"><thead class=text-primary id="encabezado_tabla">'+
+                    '</thead><tbody id=cuerpo_tabla></tbody></table><div class="row mb-4"><div class="col"></div><div class="col"><button class="btn btn-primary" id="btnModificarDatos">Modificar</button><button class="btn btn-primary" id="btnAnalisisDatos">Analisis</button></div><div class="col"></div></div></div></div>   ')
                     $('#encabezado_tabla').empty()
                     $('#encabezado_tabla').append("<th>nombre</th><th>valor</th>")
+                    $('#TituloCargar').empty();
+                    $('#TituloCargar').append("Analisis");
     $('#cargaTabla').show()
     $( "#btnAnalisisDatos" ).click(function() {
         $("#input-procesosA").attr('disabled','disabled');
@@ -166,6 +173,7 @@ $('#form-data-process').submit(function (e) {
         
     });
     tabla=$('#tableAnalisisProcesos').DataTable({
+        bFilter: false, bInfo: false,"bPaginate": false,
         responsive: true,
         info: false,
         data: datos,
@@ -176,8 +184,8 @@ $('#form-data-process').submit(function (e) {
     });
 })
 $( "#btnValidarDatos" ).click(function() {
+    $('#cargaTabla2').empty()
     var datosAnalisis = []
-    
     alert($('#input-procesosA').val())
     $.get('api/get_processes.php?dataTable=true&id='+$('#input-procesosA').val(), (_process, status, xhr) => {
         processJSON=_process.data
@@ -195,11 +203,13 @@ $( "#btnValidarDatos" ).click(function() {
         datosAnalisis[7]={nombre:"Costo tiempo espera",valor:cTiempoEspera}
         console.log(datosAnalisis)
         $('#modal2').hide()
-        $('#cargaTabla').empty()
-        $('#cargaTabla').append('<h1>Analisis</h1> <div class ="row"><div class="col-md-5 col-sm-12 col-12 col-xs-12 mb-5"><table class="table" id="tableAnalisisProcesos"><thead class=text-primary id="encabezado_tabla">'+
+        $('#cargaTabla').hide()
+        $('#cargaTabla2').append('<h1>Analisis</h1> <div class ="row"><div class="col-md-6 col-sm-12 col-12 col-xs-12 mb-5">'+
+        '<div class="card py-2"><h5 class="card-title bg-primary text-white text-left" style="padding:2% " id="TituloCargar">Actual</h5>'+
+        '<table class="table" id="tableAnalisisProcesos3"><thead class=text-primary id="encabezado_tabla">'+
         '</thead><tbody id=cuerpo_tabla></tbody></table><div class="row mb-4"><div class="col"></div><div class="col">'+
-        '<button class="btn btn-danger" id="btnCancelar">Cancelar</button></div><div class="col"></div>'+
-        '</div></div><div class="col-md-7 col-sm-15 col-15 col-xs-15 " id="cargaxd">'+
+        '<button class="btn btn-danger" id="btnCancelarAll">Cancelar</button></div><div class="col"></div>'+
+        '</div></div></div><div class="col-md-6 col-sm-15 col-15 col-xs-15 " id="cargaxd">'+
         '<div class="form-group row my-2"><label class="col-sm-4 col-md-4 col-12 text-left col-form-label pl-4">Veces al dia</label>'+
         '<div class="col-md-5 col-3 text-left px-0  mt-16"><input type="number" id="veces_dia2" class="form-control"></div>'+  
         '</div><div class="form-group row my-2"><label class="col-sm-4 col-md-4 col-12 text-left col-form-label pl-4">Tiempo de espera</label>'+
@@ -212,7 +222,7 @@ $( "#btnValidarDatos" ).click(function() {
         '</div><div class="col"></div></div></div></div> ')
         $('#encabezado_tabla').empty()
         $('#encabezado_tabla').append("<th>nombre</th><th>valor</th>")
-        $('#cargaTabla').show()
+        $('#cargaTabla2').show()
         $( "#btnValidarDatos2" ).click(function() {
             datosAnalisis[0]={nombre:"distancia",valor:5}
             datosAnalisis[1]={nombre:"veces al dia",valor:$('#veces_dia2').val()}
@@ -227,11 +237,13 @@ $( "#btnValidarDatos" ).click(function() {
             let cTiempoEspera=tTiempoMes*parseFloat($('#costo_minuto2').val())
             datosAnalisis[7]={nombre:"Costo tiempo espera",valor:cTiempoEspera}
            $("#cargaxd").empty()
-           $("#cargaxd").append('<table class="table" id="tableAnalisisProcesos2"><thead class=text-primary id="encabezado_tabla2">'+
+           $("#cargaxd").append('<div class="card py-2"><h5 class="card-title bg-primary text-white text-left" style="padding:2% " id="TituloCargar">Propuesto</h5>'+
+           '<table class="table" id="tableAnalisisProcesos2"><thead class=text-primary id="encabezado_tabla2">'+
            '</thead><tbody id=cuerpo_tabla></tbody></table><div class="row mb-4"><div class="col"></div><div class="col"><button class="btn btn-primary" id="btnValidarDatos">Validar</button>'+
-            '</div><div class="col"></div></div>')
-           $('#encabezado_tabla2').append("<th>nombre</th><th>valor</th>")
+            '</div><div class="col"></div></div></div>')
+           //$('#encabezado_tabla2').append("<th>nombre</th><th>valor</th>")
            var tabla2=$('#tableAnalisisProcesos2').DataTable({
+            bFilter: false, bInfo: false,"bPaginate": false,
             responsive: true,
             info: false,
             data: datosAnalisis,
@@ -240,9 +252,16 @@ $( "#btnValidarDatos" ).click(function() {
                 { data:'valor', "defaultContent": '<p >Sin registro </p>'}
             ]
         });
-
+       
         })
-        tabla=$('#tableAnalisisProcesos').DataTable({
+        $( "#btnCancelarAll" ).click(function() {
+            $('#cargaTabla2').hide()
+            $('#cargaTabla').show()
+            $("#input-procesosA").removeAttr('disabled');
+            
+        })
+        tabla=$('#tableAnalisisProcesos3').DataTable({
+            bFilter: false, bInfo: false,"bPaginate": false,
             responsive: true,
             info: false,
             data: datosAnalisis,
@@ -253,7 +272,8 @@ $( "#btnValidarDatos" ).click(function() {
         });
        
         $tabla.width('80%')
-        
+       
         
     })
+   
 })

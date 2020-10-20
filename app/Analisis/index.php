@@ -110,12 +110,11 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                        </div>
                           
                         </div>
-                        <!--<div class="col-md-5 col-sm-12 col-12 col-xs-12 mb-5" id="cargaValor">
-                        </div>-->
                   </div>
                   <div class="col-md-10 col-sm-12 col-12 col-xs-12 mb-5">
                   <div class="card py-2">
                   <h3 class="card-title bg-primary text-white text-left" style="padding:2% " id="Titulo">Carga</h5>
+                  <div class="table-responsive">
                   <table class="table" id="tableAnalisisMateriaPrima">
                             <thead class="text-primary">
                               <th>Materia</th>
@@ -141,6 +140,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                             </tfoot> 
 
                           </table>
+                      </div>
                           <div class="form-group row my-2">
                             <label class="col-sm-4 col-md-7 col-12 text-left col-form-label pl-4"><Strong><h6>Costos Totales materias primas para la orden de produccion</h6></Strong></label>
                             <div class="col-md-3 col-3 text-left px-0 "><input type="text" readonly id="Costo_total" class="form-control"></div>  
@@ -212,6 +212,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                   <div class="col-md-10 col-sm-12 col-12 col-xs-12 mb-5">
                   <div class="card py-2">
                   <h3 class="card-title bg-primary text-white text-left" style="padding:2% " >Ahorro</h5>
+                  <div class="table-responsive">
                  <table class="table" id="tableAnalisisMateriaPrimaAM">
                             <thead class="text-primary">
                               <th>Materia</th>
@@ -238,6 +239,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                             </tfoot> 
 
                           </table>
+                          </div>
                           <button class="btn btn-primary" id="btnValidarNuevoPrecio">Validar</button>
                   </div>
                   </div>
@@ -266,6 +268,8 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                   </div>
                 </div>
                 <div id="cargaTabla">
+                </div>
+                <div id="cargaTabla2">
                 </div>
                 <div id="modal2" class="mt-10"style="display:none">
                   <div id="title2"></div>

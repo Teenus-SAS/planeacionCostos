@@ -227,7 +227,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                           <div class="col-md-5 col-5">
                             <div class="form-group">
                               <label for="my-input">Unidad</label>
-                              <input id="input-unidad" class="form-control" type="text" name="unidad" onkeydown="return alphaOnly(event);">
+                              <input id="input-unidad" class="form-control" type="text" name="unidad" >
                             </div>
                           </div>
                           <div class="col-md-5 col-5">

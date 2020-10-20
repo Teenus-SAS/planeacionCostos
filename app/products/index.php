@@ -161,9 +161,9 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                           <span class="form-check-sign"></span>
                         </label>
                       </div>
-                      <div class="form-check form-check-radio form-check-inline">
-                        <label class="form-check-label">
-                          <input class="form-check-input" type="radio" name="optionProductos" id="inlineRadio2" value="option2"> Configurar
+                      <div class="form-check form-check-radio form-check-inline" >
+                        <label class="form-check-label" >
+                          <input class="form-check-input" type="radio" name="optionProductos" id="inlineRadio2" value="option2" > Configurar
                           <span class="form-check-sign"></span>
                         </label>
                       </div>

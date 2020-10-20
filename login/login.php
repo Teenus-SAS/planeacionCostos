@@ -28,6 +28,7 @@ if (!isset($_SESSION)) {
   <link rel="stylesheet" type="text/css" href="/vendor/animsition/css/animsition.min.css">
   <link rel="stylesheet" type="text/css" href="/vendor/select2/select2.min.css">
   <link rel="stylesheet" type="text/css" href="/vendor/daterangepicker/daterangepicker.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
   <style>
     .link {
       color: #212529;
@@ -110,6 +111,7 @@ if (!isset($_SESSION)) {
   <script src="/vendor/daterangepicker/moment.min.js"></script>
   <script src="/vendor/daterangepicker/daterangepicker.js"></script>
   <script src="/vendor/countdowntime/countdowntime.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" ></script>
   <script src="/js/main.js"></script>
   <script>
     $('#form-login').submit(function(e) {
@@ -133,10 +135,17 @@ if (!isset($_SESSION)) {
             } else {
               if (data.typeError == 'user') {
                 $('#username-input').parent().attr('data-validate', data.message)
-                showValidate($('#username-input'))
+                //showValidate($('#username-input'))
+               toastr.error(data.message, 'Error de login',{
+                 "progressBar":true
+                
+               })
               } else if (data.typeError == 'password') {
                 $('#pass').parent().attr('data-validate', data.message)
-                showValidate($('#pass'))
+                //showValidate($('#pass'))
+                toastr.error(data.message, 'Error de login',{
+                  "progressBar":true
+                })
               } else {
                 $('#alert').html(`<div class="alert alert-danger alert-dismissible fade show" role="alert" style="display:none" id="alert-user-active">
             <span id="alert-user-active-message"></span>
