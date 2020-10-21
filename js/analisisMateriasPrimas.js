@@ -277,7 +277,7 @@ var $tableProductoMateriaA = $('#tableAnalisisMateriaPrima').dataTable({
       "defaultContent": '<p >Sin registro </p>',
       render: (data, type, row) => {
         if(data!=null)
-        return formatCurrency("es-CO","COP",2,$.number(data)*row.quantity)
+        return formatCurrency("es-CO","COP",2,$.number(data))
       }
     },
     {

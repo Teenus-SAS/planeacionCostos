@@ -15,6 +15,7 @@ function completeSpinner() {
 // cambio entre adicionar y modificar
 $('input[name=optionProductos]').change(function () {
   if ($(this).val() == 'option2') {
+  
     // desaparece el input
     $('#inputRef').fadeOut()
     $('#inputProducto').fadeOut()
@@ -232,6 +233,14 @@ $('#form-products').submit(function (e) {
             type: 'success',
             timer: 8000
           })
+          $.notify({
+            icon: "nc-icon nc-bell-55",
+            message: "Ahora ah configurar el producto"
+          }, {
+            type: 'primary',
+            timer: 8000
+          })
+          $('#config-color').css("color","orange")
           $tableProductos.api().ajax.reload()
           $tableProductoMateria.api().ajax.reload()
           $tableGastosMensuales.api().ajax.reload()
