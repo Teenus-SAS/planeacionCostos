@@ -10,7 +10,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
   <title>
-    EQUOTE
+    Tezlik
   </title>
 
   <!--     Fonts and icons     -->
@@ -61,7 +61,11 @@ include(PARTIALS_PATH . "verify_session.php") ?>
         <div class="col"></div>
         <div class="col-10 col-sm-6 col-md-6">
           <div style="border: 20px solid rgba(206,206,208,0.6);border-radius: 50px;">
+<<<<<<< HEAD
             <a href="/app/cost" class="btn btn-primary btn-round btn-block" style="font-size: 2rem;border-radius: 50px;">Encuentra tus oportunidades de ahorro</a>
+=======
+            <a href="/app/cost" class="btn btn-primary btn-round btn-block" style="font-size: 28px;border-radius: 50px;">Encuentra tus oportunidades de ahorro</a>
+>>>>>>> origin
           </div>
         </div>
         <div class="col"></div>
