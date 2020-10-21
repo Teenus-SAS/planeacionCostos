@@ -17,7 +17,7 @@
     <div class="row align-items-center justify-content-center">
       <div class="col-md-3 register-left ">
         <img src="https://image.ibb.co/n7oTvU/logo_white.png" alt="" />
-        <h3>Bienvenido</h3>
+        <h3>Bienvenido(a)</h3>
         <p>Completa el formulario y empieza a fijar precios, analizar costos, fijar tu rentabilidad objetivo de manera profesional</p>
       </div>
       <div class="col-md-9 register-right">
