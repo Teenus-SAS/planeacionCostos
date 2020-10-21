@@ -5,26 +5,25 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Registrate a EQUOTE</title>
+  <title>Registrate a Tezlik</title>
   <link href="/app/assets/css/bootstrap.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="/css/register/register.css">
   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
 </head>
-
 <body>
   <div class="container-fluid register">
     <div class="row align-items-center justify-content-center">
       <div class="col-md-3 register-left ">
         <img src="https://image.ibb.co/n7oTvU/logo_white.png" alt="" />
-        <h3>Bienvenido</h3>
-        <p>Completa el formulario y empieza a costear</p>
+        <h3>Bienvenido(a)</h3>
+        <p>Completa el formulario y empieza a fijar precios, analizar costos, fijar tu rentabilidad objetivo de manera profesional</p>
       </div>
       <div class="col-md-9 register-right">
         <div class="tab-content" id="myTabContent">
           <form id="form-register">
             <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-              <h3 class="register-heading">Registrate y Disfruta de EQUOTE</h3>
+              <h3 class="register-heading">Registrate y Disfruta de Tezlik</h3>
               <div class="row register-form" style="padding-bottom: 1%;">
                 <div class="col-md-12">
                   <div class="row">
@@ -86,7 +85,7 @@
               <div class="row register-form" style="padding-top: 0; margin-top: 0;">
                 <div class="col-12 col-md-12">
                   <hr>
-                  <h3 class="text-center">Crea tu Usuario</h3>
+                  <h3 class="text-center">Crea tu usuario</h3>
                   <hr>
                 </div>
                 <div class="col-md-12">
@@ -100,7 +99,6 @@
                       <div class="form-group">
                         <input type="text" class="form-control" placeholder="Nombre de Usuario *" required name="username" />
                       </div>
-
                     </div>
                   </div>
                 </div>
@@ -126,7 +124,7 @@
                 <div class="col-md-12">
                   <div class="row">
                     <div class="col-md-6"></div>
-                    <div class="col-md-6"><input type="submit" class="btnRegister" value="Registrarse" /></div>
+                    <div class="col-md-6"><input type="submit" class="btnRegister" value="Iniciar" /></div>
                   </div>
                 </div>
               </div>
@@ -135,10 +133,7 @@
         </div>
       </div>
     </div>
-
   </div>
-
-
   <script src="/app/assets/js/core/jquery.min.js"></script>
   <script src="/app/assets/js/core/popper.min.js"></script>
   <script src="/app/assets/js/core/bootstrap.min.js"></script>
@@ -146,5 +141,4 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
   <script src="/js/register/register.js"></script>
 </body>
-
 </html>

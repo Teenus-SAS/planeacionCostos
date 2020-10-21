@@ -8,7 +8,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <title>
-    Analisis Productos | EQUOTE
+    Optimizacion | Tezlik
   </title>
   <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
   <!--     Fonts and icons     -->
@@ -56,6 +56,8 @@ include(PARTIALS_PATH . "verify_session.php") ?>
       overflow: hidden;
       max-width: 80px;
     }
+    
+      
   </style>
 </head>
 
@@ -97,13 +99,13 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                       <div class="form-group row my-2">
                       <label class="col-sm-5 col-md-2 col-12 text-left col-form-label pl-4">Producto</label>
                       <div class="col-md-3 col-sm-6 px-0 col-10"><select class="custom-select" id="input-productoA" name="materia"></select></div>
-                      <label class="col-md-2 col-3 col-form-label px-0  ml-2">Cantidad OP</label>
-                      <div class="col-md-3 col-3 text-left px-0 ml-4"><input type="number" id="input-cantidadOP" class="form-control" name="cantidad" step=".01" value="10"></div>
+                      <label class="col-md-2 col-3 col-form-label px-0  ml-2">Cantidad Orden de Pedido</label>
+                      <div class="col-md-3 col-3 text-left px-0 ml-4"><input type="number" id="input-cantidadOP" class="form-control" name="cantidad" step=".01" value="1"></div>
                       </div>
                         <div class="row mb-4">
                           <div class="col"></div>
                             <div class="col">
-                              <button class="btn btn-primary" id="btnValidar">Validar</button>
+                              <button class="btn btn-primary" id="btnValidar">Cargar</button>
                             </div>
                           <div class="col"></div>
                         </div>      
@@ -117,12 +119,12 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                   <div class="table-responsive">
                   <table class="table" id="tableAnalisisMateriaPrima">
                             <thead class="text-primary">
-                              <th>Materia</th>
+                              <th>Materia Prima</th>
                               <th>Cantidad</th>
                               <th> Vlr Unidad</th>
                               <th>Consumo Op</th>
                               <th>Vlr Total</th>
-                              <th>% participacion</th>
+                              <th>% participación</th>
                               </br>
                             </thead>
                             <tr>
@@ -201,7 +203,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                   <div class="card py-2">
                     <div class="form-group row my-2">
                       <label class="col-sm-4 col-md-4 col-12 text-left col-form-label pl-4">Unidades fabricadas al mes</label>
-                      <div class="col-md-5 col-3 text-left px-0 "><input type="number" id="input-UnidadesFMes" class="form-control" name="cantidad" value="100" ></div>  
+                      <div class="col-md-5 col-3 text-left px-0 "><input type="number" id="input-UnidadesFMes" class="form-control" name="cantidad" value="1" ></div>  
                     </div>
                    
                  </div>
@@ -215,9 +217,9 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                   <div class="table-responsive">
                  <table class="table" id="tableAnalisisMateriaPrimaAM">
                             <thead class="text-primary">
-                              <th>Materia</th>
+                              <th>Materia Prima</th>
                               <th>Precio Actual</th>
-                              <th>Precio Negociar</th>
+                              <th>Precio a Negociar</th>
                               <th>Costo total</th>
                               <th>Costo mes </th>
                               <th>Costo proyectado </th>
@@ -239,18 +241,24 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                             </tfoot> 
 
                           </table>
+<<<<<<< HEAD
                           </div>
                           <button class="btn btn-primary" id="btnValidarNuevoPrecio">Validar</button>
+=======
+                      <div style="display:grid; justify-content:center;">
+                          <button class="btn btn-primary" id="btnValidarNuevoPrecio">Calcular</button>
+                      </div>
+>>>>>>> d08bb45f2cc9258589737360d737bba23d4288e4
                   </div>
                   </div>
                   <div class="col-md-10 col-sm-12 col-12 col-xs-12 mb-5">
                   <div class="card py-2">
                     <div class="form-group row my-2">
-                      <label class="col-sm-4 col-md-4 col-12 text-left col-form-label pl-4">Ahorro mes</label>
+                      <label class="col-sm-4 col-md-4 col-12 col-form-label pl-4" style="text-align: center!important;font-size: large!important;color: #34b5b8!important;font-weight: 600;">Ahorro mes</label>
                       <div class="col-md-5 col-3 text-left px-0 "><input type="text" id="input-AhorroMes" class="form-control" readonly></div>  
                     </div>
                     <div class="form-group row my-2">
-                      <label class="col-sm-4 col-md-4 col-12 text-left col-form-label pl-4">Ahorro Año</label>
+                      <label class="col-sm-4 col-md-4 col-12 col-form-label pl-4" style="text-align: center!important;font-size: large!important;color: #34b5b8!important;font-weight: 600;">Ahorro Año</label>
                       <div class="col-md-5 col-3 text-left px-0 "><input type="text" id="input-AhorroAño" class="form-control" readonly></div>  
                     </div>
                  </div>

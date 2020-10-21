@@ -29,7 +29,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
     <i class="fas fa-align-left"></i>
   </button> -->
         <img src="<?= $user->getCompany()->getLogo() ?>" height="40" class="d-inline-block align-top" alt="logo de empresa">
-        <?= $user->getCompany()->getTradeName() ?>
+        <?//=$user->getCompany()->getTradeName() ?>
       </a>
     </div>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -40,7 +40,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
       </ul>
       <ul class="nav navbar-nav ">
         <li class="nav-item ">
-          <a class="nav-link nav-bar-item" href="/app/config-general">Configuración</a>
+          <a class="nav-link nav-bar-item" href="/app/config-general">Iniciar</a>
         </li>
         <li class="nav-item">
           <a class="nav-link nav-bar-item" href="javascript:logout()">Cerrar Sesión</a>
@@ -61,7 +61,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
         <div class="col"></div>
         <div class="col-10 col-sm-6 col-md-6">
           <div style="border: 20px solid rgba(206,206,208,0.6);border-radius: 50px;">
-            <a href="/app/cost" class="btn btn-primary btn-round btn-block" style="font-size: 2rem;border-radius: 50px;">Encuentra tus oportunidades de ahorro</a>
+            <a href="/app/cost" class="btn btn-primary btn-round btn-block" style="font-size: 28px;border-radius: 50px;">Encuentra tus oportunidades de ahorro</a>
           </div>
         </div>
         <div class="col"></div>

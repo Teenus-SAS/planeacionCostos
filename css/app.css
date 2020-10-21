@@ -1,7 +1,7 @@
 .nav-bar-item {
     text-decoration: none;
     font-weight: bold;
-    color: white!important;
+    /*color: white!important;*/
   }
 
   .bg-light {
@@ -22,7 +22,7 @@
 
   body {
     font-family: 'Alatsi', sans-serif;
-    background: url('../upload/img/turn-on-3020730_1920.jpg');
+    background: url('../upload/img/fijar_precios.jpg');
     background-position: center center;
     background-repeat: no-repeat;
     background-attachment: fixed;
