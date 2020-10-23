@@ -241,15 +241,9 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                             </tfoot> 
 
                           </table>
-<<<<<<< HEAD
                           </div>
                           <button class="btn btn-primary" id="btnValidarNuevoPrecio">Validar</button>
-=======
-                      <div style="display:grid; justify-content:center;">
-                          <button class="btn btn-primary" id="btnValidarNuevoPrecio">Calcular</button>
-                      </div>
->>>>>>> d08bb45f2cc9258589737360d737bba23d4288e4
-                  </div>
+            b      </div>
                   </div>
                   <div class="col-md-10 col-sm-12 col-12 col-xs-12 mb-5">
                   <div class="card py-2">
