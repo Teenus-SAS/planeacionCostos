@@ -70,10 +70,20 @@ function fillFields(data, flag = false) {
   $('#gastosUSD').val((data.generalExpenses*100 / data.totalCost).toFixed(2) + " %")
   // gastos generales
   $('#gastosGeneralesCOP').val(data.generalExpenses)
+  if($('#gastosCOP').val()>0){
   $('#gastosGeneralesUSD').val((data.generalExpenses*100 / data.generalExpenses).toFixed(2) + " %" )
+  }
+  else{
+    $('#gastosGeneralesUSD').val( "0.00 %")
+  }
   // comision 
   $('#comisionCOP').val(data.salesCommission)
+  if($('#comisionCOP').val()>0){
   $('#comisionUSD').val((data.salesCommission / limInf).toFixed(2) + " %")
+  }
+  else{
+    $('#comisionUSD').val( "0.00 %")
+  }
   // rentabilidad
   $('#rentabilidadCOP').val(data.profitability)
   $('#rentabilidadUSD').val((data.profitability*100 / data.salePrice).toFixed(2) + " %")

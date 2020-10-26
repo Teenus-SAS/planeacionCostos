@@ -242,8 +242,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
 
                           </table>
                           </div>
-                          <button class="btn btn-primary" id="btnValidarNuevoPrecio">Validar</button>
-            b      </div>
+                          <button class="btn btn-primary" id="btnValidarNuevoPrecio">Validar</button></div>
                   </div>
                   <div class="col-md-10 col-sm-12 col-12 col-xs-12 mb-5">
                   <div class="card py-2">

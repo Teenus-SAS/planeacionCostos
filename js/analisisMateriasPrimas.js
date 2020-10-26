@@ -23,10 +23,6 @@ $(document).ready(function(){
         }
         //se activa al selecionar un producto
         $('#input-productoA').change(function () {
-          var ventana_ancho = $(window).width();
-          var ventana_alto = $(window).height();
-          alert(ventana_ancho);
-          alert(ventana_alto);
           $("#input-UnidadesFMes").removeAttr('disabled');
           $("#input-AhorroMes").val(formatCurrency("es-CO","COP",2,0))
           $("#input-AhorroAño").val(formatCurrency("es-CO","COP",2,0))
@@ -73,7 +69,7 @@ $(document).ready(function(){
                     let arregloMateriales = new Array();
                    
                     for (var i=0; i<_material.length;i++){
-                    arregloMateriales[i] = [(_material[i].material.cost * _material[i].quantity),_material[i].material.description,_material[i].material.cost,_material[i].id]
+                    arregloMateriales[i] = [(_material[i].material.cost * _material[i].quantity),_material[i].material.description,_material[i].material.cost,_material[i].id, _material[i].quantity]
                     }
                     //variables para determinar y comparar el 80 % del costo de los productos
                     var sumatoria=0;
@@ -91,6 +87,10 @@ $(document).ready(function(){
                     }}
                     console.log(arrPorcentaje)
                     $tableProductoMateriaAM = $('#tableAnalisisMateriaPrimaAM').dataTable({
+                      "aoColumnDefs" : [ { 
+                        "bSortable" : false, 
+                        "aTargets" : [ "no-sort" ] 
+                       } ] ,
                       bFilter: false, bInfo: false,"bPaginate": false,
                       responsive: true,
                       info: false,
@@ -117,12 +117,9 @@ $(document).ready(function(){
                           {data:'1',
                            render: (data, type, row) => {
                             if(data!=null){
-                              if(fsima==false){
-                                return 0;
-                              }
-                              else{
-                                return formatCurrency("es-CO","COP",2,$("#input-"+row[3]).val()*$("#input-UnidadesFMes").val())
-                              }
+                             
+                                return formatCurrency("es-CO","COP",2,0)
+                              
                           }
                           }}
                       ]
@@ -142,7 +139,7 @@ $(document).ready(function(){
           console.log(arrPorcentaje)
           for(var i = 0 ; i<arrPorcentaje.length; i++){
             arr2[i]=arrPorcentaje[i]
-            if(arr2[i].length==4){
+            if(arr2[i].length==5){
               if($("#input-"+arrPorcentaje[i][3]).val()==null){
                 arr2[i].push(0)
               }
@@ -156,11 +153,14 @@ $(document).ready(function(){
             }
           }
           console.log(arr2)
+          arr2=arr2.sort((a, b) => b[0] - a[0])
+          console.log(arr2)
           $("#tableAnalisisMateriaPrimaAM").dataTable().fnDestroy();
           $("#tableAnalisisMateriaPrimaAM").empty()
           $("#tableAnalisisMateriaPrimaAM").append('<thead class="text-primary"><th>Materia</th><th>Precio Actual</th>'+
           '<th>Precio Negociar</th><th>Costo total</th><th>Costo mes </th><th>Costo proyectado </th></br></thead><tr></tr>'+
           '<tbody></tbody> ')
+          
           $tableProductoMateriaAM = $('#tableAnalisisMateriaPrimaAM').dataTable({
             bFilter: false, bInfo: false,"bPaginate": false,
             responsive: true,
@@ -173,7 +173,7 @@ $(document).ready(function(){
                   data: '3',
                   render: (data, type, row) => {
                     if(data!=null)
-                    return '<input type="number" class="form-control col-md-8"  style="margin-left:20%" value='+row[4]+'  id="input-'+row[3]+'">'
+                    return '<input type="number" class="form-control col-md-8"  style="margin-left:20%" value='+row[5]+'  id="input-'+row[3]+'">'
                     else{
                       '<input type="number" class="form-control col-md-8"  style="margin-left:20%" value=0  id="input-'+row[3]+'">'
                     }  
@@ -187,26 +187,34 @@ $(document).ready(function(){
                   }
                 }
                 },
-                {data:'4',
+                {data:'5',
                  render: (data, type, row) => {
-
-                      return formatCurrency("es-CO","COP",2,data*$("#input-UnidadesFMes").val())
-
+                   
+                    return formatCurrency("es-CO","COP",2,data*row[4]*$("#input-UnidadesFMes").val())
+                      
                 }
                 }
             ]
         });
+
         $tableProductoMateriaAM.width('100%')
+        var TotalMes=0
+        var AhorroMes=0
+        var AhorroMostrar=0
         for(var i=0 ; i<arr2.length; i++){
-          if(arr2[i][4]==0){
-            ahorroMes = 0
-            break
+          if(arr2[i][5]==0){
+            AhorroMes += arr2[i][0] 
           }
-          ahorroMes+=arr2[i][2]-arr2[i][4]
+          TotalMes+=arr2[i][0]
+          AhorroMes+=arr2[i][5]*arr2[i][4]
         }
-        
-          $("#input-AhorroMes").val(formatCurrency("es-CO","COP",2,ahorroMes*$("#input-UnidadesFMes").val()))
-          $("#input-AhorroAño").val(formatCurrency("es-CO","COP",2,ahorroMes*$("#input-UnidadesFMes").val()*12))
+        console.log(TotalMes)
+        console.log(AhorroMes)
+        if(AhorroMes!=0){
+          AhorroMostrar=TotalMes-AhorroMes
+        }
+          $("#input-AhorroMes").val(formatCurrency("es-CO","COP",2,AhorroMostrar*$("#input-UnidadesFMes").val()))
+          $("#input-AhorroAño").val(formatCurrency("es-CO","COP",2,AhorroMostrar*$("#input-UnidadesFMes").val()*12))
         
         });
     })
