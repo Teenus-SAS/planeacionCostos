@@ -1,13 +1,6 @@
 <?php
 
-/**
- * Clase modelo de Empresa
- * 
- * 
- * @author Alexis Holguin <wholginmor@uniminunto.edu.co>
- * @github MoraHol
- * @package model
- */
+
 class Company implements JsonSerializable
 {
   /**
