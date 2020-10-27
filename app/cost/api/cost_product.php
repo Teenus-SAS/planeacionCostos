@@ -34,6 +34,9 @@ if (isset($_SESSION["user"])) {
       }
     }
   }
+  foreach ($ManoObra as costo) {
+    $response->costo=+costo;
+  }
   foreach ($product->getMaterials() as $rawMaterial) {
     $response->rawMaterialExpenses += $rawMaterial->getQuantity() * $rawMaterial->getMaterial()->getCost();
   }
