@@ -1,11 +1,5 @@
 <?php
-/**
- * Clase modelo de máquina
- * 
- * @author Alexis Holguin <wholguinmor@uniminuto.edu.co>
- * @package model
- * @github MoraHol
- */
+
 class Machine implements JsonSerializable
 {
   /**
