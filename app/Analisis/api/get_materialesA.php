@@ -5,7 +5,6 @@ set_time_limit(300);
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
 require_once DAO_PATH . "UserDao.php";
 require_once DAO_PATH . "ProductDao.php";
-require_once DAO_PATH . "ProcessDao.php";
 
 
 header("Content-Type: application/json");
@@ -14,19 +13,19 @@ if (isset($_SESSION["user"])) {
     $user = unserialize($_SESSION["user"]);
     $productDao = new ProductDao();
     if (isset($_GET["id"])) {
-        $product = $productDao->findById($_GET["id"], false, true);
+        $product = $productDao->findById($_GET["id"], false, false, true);
         if (isset($_GET["dataTable"])) {
             $response = new  stdClass();
-            $response->data = $product->getProcesses() == null ? [] : $product->getProcesses();
+            $response->data = $product->getMaterials();
             echo json_encode($response);
             exit;
         } else {
-            echo json_encode($product->getProcesses() == null ? [] : $product->getProcesses());
+            echo json_encode($product->getMaterials());
             exit;
         }
     } else {
         $response = new  stdClass();
-        $response->data = [];
+        $response->data = ["hola"];
         echo json_encode($response);
     }
 } else {

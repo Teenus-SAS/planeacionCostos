@@ -235,4 +235,47 @@ class ProcessDao
     $query = "DELETE FROM `tiempo_proceso` WHERE `tiempo_proceso`.`id_tiempo_proceso` = $id";
     return $this->db->consult($query);
   }
+
+  /**
+   * Funcion creada por EstebanGomezR
+   * Busca los datos de un proceso
+   * 
+   * 
+   */
+  public function findDataProcess($id){
+    $this->db->connect();
+    $query ="SELECT * FROM `datos_proceso` WHERE `fk_id_proceso`=$id";
+    $procesos = $this->db->consult($query,"yes");
+    //procesos=$procesos[0];
+    $proces=[];
+    if(!empty($procesos)){
+    array_push($proces,$procesos[0]);
+    return($proces);
+    }
+    else{
+    return null;
+  }
+    
+  }
+  /**
+   * Funcion creada por EstebanGomezR
+   * agrega los datos de un proceso a la base de datos
+   * 
+   * 
+   */
+  public function saveDataProcess($idProceso,$tAislamiento,$tOperacion,$nMaquinas,$pRechazo,$nTurnos,$distancia,$disponibilidad,$mCorrectivo,$pMenores){
+    $dataProcess = $this->findDataProcess($idProceso);
+    if($dataProcess == null){
+    $this->db->connect();
+    $query = "INSERT INTO `datos_proceso`(`fk_id_proceso`,`tiempo_aislamiento`,`tiempo_operacion`,`numero_maquinas`,`porcentaje_rechazo`,`numero_turnos`,`distancia`,`disponibilidad`,`mantenimiento_correctivo`,`paradas_menores`,`eficiencia_proceso`) 
+    VALUES ('".$idProceso."','".$tAislamiento."','".$tOperacion."','".$nMaquinas."','".$pRechazo."','".$nTurnos."','".$distancia."','".$disponibilidad."','".$mCorrectivo."','".$pMenores."','".$pMenores."')";
+    return $this->db->consult($query);
+    }
+    else{
+      $query="UPDATE `datos_proceso` SET `tiempo_aislamiento`='$tAislamiento',`tiempo_operacion`='$tOperacion',
+      `numero_maquinas`='$nMaquinas',`porcentaje_rechazo`='$pRechazo',`numero_turnos`='$nTurnos',`distancia`='$distancia',
+      `disponibilidad`='$disponibilidad',`mantenimiento_correctivo`='$mCorrectivo',`paradas_menores`='$pMenores',`eficiencia_proceso`='$pMenores' WHERE `fk_id_proceso` = '$idProceso' ";
+    return $this->db->consult($query);
+    }
+  }
 }

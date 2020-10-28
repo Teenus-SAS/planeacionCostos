@@ -50,7 +50,7 @@ charCostPdf = new Chart(ctx, {
 })
 
 $('#downloaad-pdf').click(() => {
-  doc = new jsPDF('p', 'pt', 'letter')
+  doc = new jsPDF ('p', 'pt', 'letter') ;
   // titulo del documento
   doc.text('Reporte General', 300, 50, {
     align: 'center'
@@ -411,8 +411,8 @@ $('#downloaad-pdf').click(() => {
             type: 'get',
             url: '/app/my-profile/api/get_company.php',
             success: function (data) {
-              let logo = data.company.logo || '/img/logo-empresa.png'
-              logo = logo != '' ? logo : '/img/logo-empresa.png'
+              let logo = data.company.logo || '../upload/img/logo-empresa.png'
+              logo = logo != '' ? logo : '../upload/img/logo-empresa.png'
               toDataURL(logo, function (imgBase64) {
                 for (let page = 1; page <= doc.getNumberOfPages(); page++) {
                   doc.setFontSize(10)

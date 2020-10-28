@@ -11,7 +11,6 @@
   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
 </head>
-
 <body>
   <div class="container-fluid register">
     <div class="row align-items-center justify-content-center">
@@ -100,7 +99,6 @@
                       <div class="form-group">
                         <input type="text" class="form-control" placeholder="Nombre de Usuario *" required name="username" />
                       </div>
-
                     </div>
                   </div>
                 </div>
@@ -135,10 +133,7 @@
         </div>
       </div>
     </div>
-
   </div>
-
-
   <script src="/app/assets/js/core/jquery.min.js"></script>
   <script src="/app/assets/js/core/popper.min.js"></script>
   <script src="/app/assets/js/core/bootstrap.min.js"></script>
@@ -146,5 +141,4 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
   <script src="/js/register/register.js"></script>
 </body>
-
 </html>

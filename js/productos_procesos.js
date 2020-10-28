@@ -96,12 +96,34 @@ function calculateTimeSeg() {
 // enviado de formulario
 
 $('#form-product-process').submit(function (e) {
+   
   e.preventDefault()
   let request = $(this).serialize()
   request += `&timeProcess=${60 / $('#input-unidad-hora').val()}`
   $.post('api/add_modify_product_process.php', request, (_data, _status, xhr) => {
   })
     .always(function (xhr) {
+      if ($('#input-unidad-hora').val().length<=0){
+        
+        $.notify({
+          icon: "nc-icon nc-bell-55",
+          message: "Digite Unidades/Hora"
+        }, {
+          type: 'warning',
+          timer: 8000
+        })
+      }
+      else if(parseFloat($('#input-unidad-hora').val())==0){
+        $.notify({
+          icon: "nc-icon nc-bell-55",
+          message: "Unidades/Hora deben ser mayor a 0"
+        }, {
+          type: 'warning',
+          timer: 8000
+        })
+      }
+      else{
+
       switch (xhr.status) {
         case 200:
           $.notify({
@@ -157,7 +179,9 @@ $('#form-product-process').submit(function (e) {
           location.href = "/login"
           break
       }
+    }
     })
+  
 })
 
 // inicializacion de datatable de procesos por productos

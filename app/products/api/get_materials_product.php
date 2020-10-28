@@ -1,4 +1,3 @@
-
 <?php
 // revisar si existe session
 session_start();

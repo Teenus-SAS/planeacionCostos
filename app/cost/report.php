@@ -161,7 +161,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                 <strong>COP</strong>
               </div>
               <div class="col-md-3 col-sm-3 col-3 text-primary text-center">
-                <strong>USD</strong>
+                <strong>%Participacion</strong>
               </div>
             </div>
 
@@ -173,7 +173,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                 <input type="text" class="form-control number" readonly id="precioVentaCOP">
               </div>
               <div class="col-md-3 col-3">
-                <input type="text" class="form-control number" readonly id="precioVentaUSD">
+                <input type="text" class="form-control" readonly id="precioVentaUSD">
               </div>
             </div>
             <div class="row my-2 align-items-center">
@@ -184,7 +184,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                 <input type="text" class="form-control number" readonly id="totalCostosCOP">
               </div>
               <div class="col-md-3 col-3">
-                <input type="text" class="form-control number" readonly id="totalCostosUSD">
+                <input type="text" class="form-control" readonly id="totalCostosUSD">
               </div>
             </div>
             <div class="row my-2 align-items-center">
@@ -195,7 +195,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                 <input type="text" class="form-control number" readonly id="CostoCOP">
               </div>
               <div class="col-md-3 col-3">
-                <input type="text" class="form-control number" readonly id="CostoUSD">
+                <input type="text" class="form-control" readonly id="CostoUSD">
               </div>
             </div>
             <div class="row my-2 align-items-center">
@@ -206,7 +206,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                 <input type="text" class="form-control number" readonly id="materiaPrimaCOP">
               </div>
               <div class="col-md-3 col-3">
-                <input type="text" class="form-control number" readonly id="materiaPrimaUSD">
+                <input type="text" class="form-control" readonly id="materiaPrimaUSD">
               </div>
             </div>
             <div class="row my-2 align-items-center">
@@ -217,7 +217,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                 <input type="text" class="form-control number" readonly id="manoObraCOP">
               </div>
               <div class="col-md-3 col-3">
-                <input type="text" class="form-control number" readonly id="manoObraUSD">
+                <input type="text" class="form-control" readonly id="manoObraUSD">
               </div>
             </div>
             <div class="row my-2 align-items-center">
@@ -228,7 +228,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                 <input type="text" class="form-control number" readonly id="costosIndirectosCOP">
               </div>
               <div class="col-md-3 col-3">
-                <input type="text" class="form-control number" readonly id="costosIndirectosUSD">
+                <input type="text" class="form-control" readonly id="costosIndirectosUSD">
               </div>
             </div>
             <div class="row my-2 align-items-center">
@@ -239,7 +239,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                 <input type="text" class="form-control number" readonly id="gastosCOP">
               </div>
               <div class="col-md-3 col-3">
-                <input type="text" class="form-control number" readonly id="gastosUSD">
+                <input type="text" class="form-control" readonly id="gastosUSD">
               </div>
             </div>
             <div class="row my-2 align-items-center">
@@ -250,7 +250,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                 <input type="text" class="form-control number" readonly id="gastosGeneralesCOP">
               </div>
               <div class="col-md-3 col-3">
-                <input type="text" class="form-control number" readonly id="gastosGeneralesUSD">
+                <input type="text" class="form-control" readonly id="gastosGeneralesUSD">
               </div>
             </div>
             <div class="row my-2 align-items-center">
@@ -261,56 +261,24 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                 <input type="text" class="form-control number" readonly id="comisionCOP">
               </div>
               <div class="col-md-3 col-3">
-                <input type="text" class="form-control number" readonly id="comisionUSD">
+                <input type="text" class="form-control" readonly id="comisionUSD">
               </div>
             </div>
             <div class="row my-2 align-items-center">
-              <div class="col-md-5 col-5 pl-5">
-                Rentabilidad
+              <div class="col-md-5 col-5 text-primary">
+                <strong>Rentabilidad</strong>
               </div>
               <div class="col-md-4 col-4">
                 <input type="text" class="form-control number" readonly id="rentabilidadCOP">
               </div>
               <div class="col-md-3 col-3">
-                <input type="text" class="form-control number" readonly id="rentabilidadUSD">
+                <input type="text" class="form-control" readonly id="rentabilidadUSD">
               </div>
             </div>
-            <div class="form-group row my-4 align-items-center justify-content-center">
-              <label for="input-dollar" class="col-form-label col-md-4 col-sm-12 text-center">Dolar hoy</label>
-              <div class="col-md-4 col-sm-12">
-                <div class="input-group">
-                  <div class="input-group-prepend">
-                    <div class="input-group-text">USD &nbsp;</div>
-                  </div>
-                  <input type="text" id="input-dollar" class="form-control" readonly>
-                </div>
-                <div id="dollar" style="display:none"></div>
-              </div>
+            <div style="text-align:center; margin-top:10%">
+              <button class="btn btn-primary" id="downloaad-pdf">Generar Reporte</button>
             </div>
-            <div class="form-group row my-4 align-items-center justify-content-center">
-              <label for="input-dollar" class="col-form-label col-md-4 col-sm-12 text-center">Valor de dolar para exportar</label>
-              <div class="col-md-4 col-sm-12">
-                <div class="input-group">
-                  <div class="input-group-prepend">
-                    <div class="input-group-text">USD &nbsp;</div>
-                  </div>
-                  <input type="text" id="input-dollar-export" class="form-control" readonly>
-                </div>
-              </div>
-            </div>
-            <div class="form-group row my-4 align-items-center justify-content-center">
-              <label for="input-dollar" class="col-form-label col-md-4 col-sm-12 text-center">Cobertura
-              </label>
-              <div class="col-md-4 col-sm-12">
-                <div class="input-group">
-                  <div class="input-group-prepend">
-                    <div class="input-group-text">USD &nbsp;</div>
-                  </div>
-                  <input type="text" id="input-cover-export" class="form-control" readonly>
-                </div>
-              </div>
-            </div>
-            <button class="btn btn-primary" id="downloaad-pdf">Generar Reporte</button>
+
           </div>
         </div>
       </div>
@@ -337,7 +305,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
   <script src="/vendor/numberFormat/jquery.number.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/6.2.1/math.min.js"></script>
-  <script src="https://unpkg.com/jspdf@latest/dist/jspdf.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js"></script>
   <script src="https://unpkg.com/jspdf-autotable@3.2.8/dist/jspdf.plugin.autotable.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
   <script src="/vendor/base64/base64.js"></script>

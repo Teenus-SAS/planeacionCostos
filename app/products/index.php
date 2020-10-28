@@ -135,12 +135,13 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                     <a class="nav-link" href="#updates" data-toggle="tab">Procesos</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="#history" data-toggle="tab">Ventas Mensuales</a>
-                  </li>
-                  <li class="nav-item">
                     <a class="nav-link" href="#gastos" data-toggle="tab" id="nav-gastos">Gastos
                       Generales</a>
                   </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#history" data-toggle="tab">Ventas Mensuales</a>
+                  </li>
+                  
                   <li class="nav-item">
                     <a class="nav-link" href="#lineas" data-toggle="tab" id="nav-lienas">Líneas de Productos</a>
                   </li>
@@ -161,9 +162,9 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                           <span class="form-check-sign"></span>
                         </label>
                       </div>
-                      <div class="form-check form-check-radio form-check-inline">
-                        <label class="form-check-label">
-                          <input class="form-check-input" type="radio" name="optionProductos" id="inlineRadio2" value="option2"> Configurar
+                      <div class="form-check form-check-radio form-check-inline" >
+                        <label class="form-check-label" id="config-color">
+                          <input class="form-check-input" type="radio" name="optionProductos" id="inlineRadio2" value="option2" > Configurar
                           <span class="form-check-sign"></span>
                         </label>
                       </div>
@@ -283,7 +284,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                         <div class="form-group row my-2">
                           <label class="col-form-label col-4 text-right">Unidades/Hora</label>
                           <div class="col-5">
-                            <input type="number" class="form-control" step=".01" id="input-unidad-hora">
+                            <input type="number" class="form-control" step=".001" id="input-unidad-hora">
                           </div>
                         </div>
                         <div class="form-group row my-2">

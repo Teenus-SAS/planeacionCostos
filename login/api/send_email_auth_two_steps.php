@@ -13,14 +13,14 @@ header("Content-Type: application/json");
 if (isset($_POST["code"]) && isset($_SESSION["user_aux_auth"])) {
   $user = unserialize($_SESSION["user_aux_auth"]);
   $mail = new PHPMailer();
-  $mail->smtpConnect([
+  $mail->isSMTP();  
+   $mail->smtpConnect([
       'ssl' => [
            'verify_peer' => false,
            'verify_peer_name' => false,
            'allow_self_signed' => true
        ]
        ]);
-  $mail->isSMTP();  
   $mail->SMTPAuth = true;
   $mail->Port = $_ENV["smtpPort"];
   $mail->IsHTML(true);

@@ -13,6 +13,13 @@ if (isset($_POST["username"]) && $_POST["password"]) {
     $user = $userDao->findByUserName($_POST["username"]);
     $mail = new PHPMailer();
     $mail->isSMTP();
+    $mail->smtpConnect([
+        'ssl' => [
+             'verify_peer' => false,
+             'verify_peer_name' => false,
+             'allow_self_signed' => true
+         ]
+         ]);
     $mail->SMTPAuth = true;
     $mail->Port = $_ENV["smtpPort"];
     $mail->IsHTML(true);
@@ -28,7 +35,7 @@ if (isset($_POST["username"]) && $_POST["password"]) {
     $protocol = isset($_SERVER["HTTPS"]) ? 'https' : 'http';
     $mail->Body = "<html>
     <body>
-    <img src='$protocol://" . $_SERVER["HTTP_HOST"] . "/img/logo_nombre_EQUOTE.png' width='150'>
+    <img src='$protocol://" . $_SERVER["HTTP_HOST"] . "../upload/img/logo_nombre_EQUOTE.png' width='150'>
     <p>Hola " . $user->getUsername() . ",</p>
     <p>Es un gusto saludarte y esperamos que estés de maravilla. Recientemente solicitaste crear una nueva cuenta en EQUOTE por lo que generamos el siguiente usuario y contraseña para tu ingreso:</p>
     <p>Usuario: <b>" . $user->getUsername() . "</b></p>
@@ -51,7 +58,7 @@ if (isset($_POST["username"]) && $_POST["password"]) {
     </body>
     </html>
     ";
-    $mail->SMTPSecure = 'tls';
+    $mail->SMTPSecure = 'ssl';
     if (!$mail->send()) {
         http_response_code(500);
         $response->message = "No se ha podido enviar el Mensaje Por Favor intentalo de nuevo";

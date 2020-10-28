@@ -18,21 +18,21 @@
       <hr class="my-0">
       <li class="active" id="sidebar-parametrizar-item">
         <a data-toggle="collapse" href="#collapseParametrizar" role="button" aria-expanded="false" aria-controls="collapseParametrizar">
-          <i class="nc-icon nc-settings-gear-65"></i>
-          <p class="text-capitalize">Parametrización</p>
+          <i class="fa fa-wrench" aria-hidden="true"></i>
+          <p class="text-capitalize">Configurar</p>
         </a>
       </li>
       <div class="collapse" id="collapseParametrizar">
         <ul class="nav">
           <li >
             <a href="/app/config-general/">
-              <i class="nc-icon nc-settings-gear-65"></i>
+              <i class="fa fa-cogs"></i>
               <p class="text-capitalize">General</p>
             </a>
           </li>
           <li id="sidebar-products-item">
             <a href="/app/products/">
-              <i class="nc-icon nc-diamond"></i>
+              <i class="fa fa-industry" aria-hidden="true"></i>
               <p>Productos</p>
             </a>
         </ul>
@@ -40,10 +40,17 @@
 
       <li id="sidebar-costear-item">
         <a href="/app/cost/">
-          <i class="nc-icon nc-money-coins"></i>
-          <p>Cotizar</p>
+          <i class="fa fa-check"></i>
+          <p>Análisis</p>
         </a>
       </li>
+      <li id="sidebar-analisis-item">
+        <a href="/app/Analisis/">
+          <i class="fa fa-bolt"></i>
+          <p>Optimización</p>
+        </a>
+      </li>
+     
       <hr class="my-0">
       <li><a data-toggle="collapse" href="#collapse-herramientas" role="button" aria-expanded="false" aria-controls="collapse-herramientas"><b>Herramientas</b></a></li>
       <hr class="my-0">
@@ -52,7 +59,7 @@
           <li id="sidebar-calculator-item">
             <a href="/app/tools/calculator_hours_extra.php">
               <i class="nc-icon nc-watch-time"></i>
-              <p>Calculadora Horas Extra</p>
+              <p>Calculadora Horas Extras</p>
             </a>
           </li>
           <li id="sidebar-conversor-item">

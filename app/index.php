@@ -10,7 +10,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
   <title>
-    Tezlik
+    EQUOTE
   </title>
 
   <!--     Fonts and icons     -->
@@ -29,7 +29,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
     <i class="fas fa-align-left"></i>
   </button> -->
         <img src="<?= $user->getCompany()->getLogo() ?>" height="40" class="d-inline-block align-top" alt="logo de empresa">
-        <?= $user->getCompany()->getTradeName() ?>
+        <?//=$user->getCompany()->getTradeName() ?>
       </a>
     </div>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -40,7 +40,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
       </ul>
       <ul class="nav navbar-nav ">
         <li class="nav-item ">
-          <a class="nav-link nav-bar-item" href="/app/config-general">Configuración</a>
+          <a class="nav-link nav-bar-item" href="/app/config-general">Iniciar</a>
         </li>
         <li class="nav-item">
           <a class="nav-link nav-bar-item" href="javascript:logout()">Cerrar Sesión</a>
@@ -53,13 +53,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
   <div class="wrapper">
 
     <!-- Sidebar -->
-    <nav id="sidebar">
-      <div class="sidebar-card text-center ">
-        <h1><?= $user->getCompany()->getProfitabilityMargin() ?> %</h1>
-        <h3>Rentabilidad
-        </h3>
-      </div>
-    </nav>
+
     <!-- Page Content -->
     <div id="content">
 
