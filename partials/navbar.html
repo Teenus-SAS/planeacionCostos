@@ -53,6 +53,41 @@
   </div>
 </nav>
 <script>
+
+
+
+window.setInterval(function (){
+
+    let firstTime = localStorage.getItem("firstTime");
+
+      $.ajax({
+            url:"/partials/verify.php",
+            type: "post",
+            dataType: 'text',
+            success:function(result){
+
+              if (!firstTime) {
+                localStorage.setItem('firstTime', result);
+                firstTime = localStorage.getItem('firstTime');  
+              }
+              if(!result) {
+                $.ajax({
+                  url: '/partials/logoutUser.php',
+                  type: 'post',
+                  data: { usuario : firstTime},
+                  success: function (data, status) {
+                    console.log(data, status);
+                    location.href = "/login";
+                  }
+                }).always(function () {
+                    localStorage.removeItem('firstTime');
+                });
+              }
+           }
+         });
+
+    }, 4000);
+
   function changePass(){
     $.confirm({
     title: 'Cambiar Contraseña',
