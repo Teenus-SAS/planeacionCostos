@@ -86,7 +86,7 @@ if (!isset($_SESSION)) {
                                         </div>
                                         <button type="submit" class="btn btn-primary btn-block text-uppercase mb-2 rounded-pill shadow-sm">Ingresar</button>
                                         <div class="text-center d-flex justify-content-between mt-4"> <a href="remember_pass.php" id="text-recover-pass" class="txt1 pull-right">
-                                          ¿Olvidaste tu usuario o contraseña?
+                                          ¿Olvidaste tu usuario o contraseña?W
                                         </a> </div>
                                         
                                         <div id="alert">
@@ -114,6 +114,29 @@ if (!isset($_SESSION)) {
   <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" ></script>
   <script src="/js/main.js"></script>
   <script>
+
+localStorage.setItem('usersLogins', JSON.stringify(['svelandia']));
+
+if(localStorage.getItem('usersLogins')) {
+  const storedUsers = JSON.parse(localStorage.getItem('usersLogins'));
+    
+    const lastLoggedUser = storedUsers[storedUsers.length - 1];
+
+   /*  console.log(lastLoggedUser); */
+  /*  console.log(document.cookie); */
+
+    $.ajax({
+      url: '/partials/DeactivateUser.php',
+      type: 'POST',
+      data: { lastUser: lastLoggedUser },
+      success: function(data, status) {
+        console.log(data, status);
+      }
+    });
+}
+
+
+
     $('#form-login').submit(function(e) {
       e.preventDefault()
       $.post('api/verify_login.php',

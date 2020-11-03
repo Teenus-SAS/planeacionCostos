@@ -192,4 +192,14 @@ class UserDao
     $query = "DELETE FROM `users` WHERE `users`.`id_user` = $id";
     return $this->db->consult($query);
   }
+
+  public function destroySessionByUsername($username)
+  {
+    $this->db->connect();
+    /* $query = "UPDATE `users` SET `session_active` = '0' WHERE `users`.`username` = " . '$username'; */
+    $query = "UPDATE `users` SET `session_active` = '0' WHERE `username` = '$username'";
+ /*    $query = "SELECT `id_user`  FROM `users` WHERE `username`= '$username'"; */
+/*     $user->setSessionActive(false); */
+    return $this->db->consult($query);
+  }
 }
