@@ -19,7 +19,7 @@ if (!isset($_SESSION)) {
         $userDao->activeSession($user);
 
         if(isset($_SESSION["timeout"])) {
-            $max_inactivity = 10;
+            $max_inactivity = 86400;
             $current_inactivity = time() - $_SESSION["timeout"];
 
             if($current_inactivity > $max_inactivity) {
