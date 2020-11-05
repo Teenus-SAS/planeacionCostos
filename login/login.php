@@ -115,22 +115,16 @@ if (!isset($_SESSION)) {
   <script src="/js/main.js"></script>
   <script>
 
-localStorage.setItem('usersLogins', JSON.stringify(['svelandia']));
-
 if(localStorage.getItem('usersLogins')) {
   const storedUsers = JSON.parse(localStorage.getItem('usersLogins'));
     
     const lastLoggedUser = storedUsers[storedUsers.length - 1];
-
-   /*  console.log(lastLoggedUser); */
-  /*  console.log(document.cookie); */
 
     $.ajax({
       url: '/partials/DeactivateUser.php',
       type: 'POST',
       data: { lastUser: lastLoggedUser },
       success: function(data, status) {
-        console.log(data, status);
       }
     });
 }
