@@ -35,16 +35,16 @@ if (isset($_POST["email"])) {
     $mail->Username = $_ENV["smtpEmail"];
     $mail->Password = $_ENV["smtpPass"];
     $mail->From = $_ENV["smtpEmail"]; // Email desde donde envio el correo.
-    $mail->FromName = 'EQUOTE';
+    $mail->FromName = 'Tezlik';
     $mail->AddAddress($admin->getEmail());
     $mail->Subject = "Recordar Contraseña"; // Este es el titulo del email.
     $protocol = isset($_SERVER["HTTPS"]) ? 'https' : 'http';
     $mail->Body = "<html>
     <body>
-    <img src='$protocol://" . $_SERVER["HTTP_HOST"] . "/img/logo_nombre_EQUOTE.png' width='150'>
+    <img src='$protocol://" . $_SERVER["HTTP_HOST"] . "/img/logo_tezlik.png' width='150'>
     <p>Hola,</p>
     <p>Recientemente solicitaste recordar tu contraseña por lo que, para mayor seguridad te recomendamos 
-    crear nueva contraseña para ingresar a EQUOTE con el correo <b>" . $admin->getEmail() . "</b></p>
+    crear nueva contraseña para ingresar a Tezlik con el correo <b>" . $admin->getEmail() . "</b></p>
 
     <p>Si deseas cambiarla 
     <a href='https://" . $_SERVER["HTTP_HOST"] . "/admin/recover_pass.php?id=" . $admin->getId() . "&token=" . $token . "'>Haga clic aquí </a> 
@@ -55,7 +55,7 @@ if (isset($_POST["email"])) {
     obtener acceso no autorizado a tu cuenta, continúa y restablece tu contraseña, 
     o ponte en contacto con <a href='mailto:soporte@teenus.com.co'>soporte@teenus.com.co</a> y te daremos toda la
     ayuda que necesites.</p>
-     <p>Esperamos que disfrute usando EQUOTE.</p>
+     <p>Esperamos que disfrute usando Tezlik.</p>
 
      <p>Saludos,</p>
      

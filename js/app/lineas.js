@@ -122,12 +122,12 @@ $('.add').click(function () {
       })
     } else {
       $.alert(
-        'Selecciona una linea', 'EQUOTE'
+        'Selecciona una linea', 'Tezlik'
       )
     }
   } else {
     $.alert(
-      'Selecciona al menos un elemento para agregar', 'EQUOTE'
+      'Selecciona al menos un elemento para agregar', 'Tezlik'
     )
   }
 })
@@ -144,7 +144,7 @@ $('.remove').click(function () {
   });
   if (items.length == 0) {
     $.alert(
-      'Selecciona al menos un elemento para quitar', 'EQUOTE'
+      'Selecciona al menos un elemento para quitar', 'Tezlik'
     )
   }
 });
@@ -161,7 +161,7 @@ $('#btn-guardar-lineas').click(function () {
       productsToLine.push(product)
     })
   } else {
-    $.alert("Escoge al menos un producto para la lista", "EQUOTE")
+    $.alert("Escoge al menos un producto para la lista", "Tezlik")
     return false
   }
   if (flagSelectLineas) {

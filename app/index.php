@@ -10,7 +10,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
   <title>
-    EQUOTE
+  Tezlik
   </title>
 
   <!--     Fonts and icons     -->

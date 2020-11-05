@@ -66,7 +66,7 @@ function loadedFileProducts(reader, inputFileProducts) {
     // validacion de los productos
     if (errorsProducts.length == 0 && errosRawMaterials.length == 0 && workbook.Sheets['Productos'] != undefined && workbook.Sheets['Materia Prima'] != undefined) {
       $.confirm({
-        title: 'EQUOTE',
+        title: 'Tezlik',
         type: 'green',
         content: 'Los datos han sido procesados y estan listo para ser cargados',
         buttons: {
@@ -258,8 +258,8 @@ function generateFileProducts() {
     // configuración de del libro
     wb.Props = {
       Title: "Productos de Cotizador",
-      Subject: "EQUOTE",
-      Author: "EQUOTE",
+      Subject: "Tezlik",
+      Author: "Tezlik",
       CreatedDate: new Date()
     }
     // agregado de los nombres de las hojas del libro

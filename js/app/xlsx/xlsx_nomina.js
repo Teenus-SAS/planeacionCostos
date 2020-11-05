@@ -67,7 +67,7 @@ function loadedFileRosters(reader, inputFileProducts) {
     // validacion de los productos
     if (errorsRosters.length == 0 && workbook.Sheets['Nominas'] != undefined) {
       $.confirm({
-        title: 'EQUOTE',
+        title: 'Tezlik',
         type: 'green',
         content: 'Los datos han sido procesados y estan listo para ser cargados',
         buttons: {
@@ -274,8 +274,8 @@ function generateFileRosters() {
     // configuración de del libro
     wb.Props = {
       Title: "Productos de Cotizador",
-      Subject: "EQUOTE",
-      Author: "EQUOTE",
+      Subject: "Tezlik",
+      Author: "Tezlik",
       CreatedDate: new Date()
     }
     // agregado de los nombres de las hojas del libro

@@ -43,8 +43,8 @@ function generateFileProductProcesses() {
     // configuración de del libro
     wb.Props = {
       Title: "Productos X Procesos de Cotizador",
-      Subject: "EQUOTE",
-      Author: "EQUOTE",
+      Subject: "Tezlik",
+      Author: "Tezlik",
       CreatedDate: new Date()
     }
     // agregado de los nombres de las hojas del libro
@@ -154,7 +154,7 @@ function loadedFilePP(reader, inputFile) {
     // validacion de la informacion
     if (errorsProductsProcesses.length == 0 && workbook.Sheets['Productos x Procesos'] != undefined) {
       $.confirm({
-        title: 'EQUOTE',
+        title: 'Tezlik',
         type: 'green',
         content: 'Los datos han sido procesados y estan listo para ser cargados',
         buttons: {

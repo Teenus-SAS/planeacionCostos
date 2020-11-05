@@ -67,7 +67,7 @@ $('#fileProcess').change(function () {
         });
       } else {
         $.confirm({
-          title: 'EQUOTE',
+          title: 'Tezlik',
           content: 'Los datos han sido procesados y estan listo para ser cargados',
           type: 'green',
           buttons: {
@@ -104,8 +104,8 @@ function generateFileProcesses() {
     // configuración de del libro
     wb.Props = {
       Title: "Procesos de Cotizador",
-      Subject: "EQUOTE",
-      Author: "EQUOTE",
+      Subject: "Tezlik",
+      Author: "Tezlik",
       CreatedDate: new Date()
     }
     // agregado de los nombres de las hojas del libro

@@ -23,7 +23,7 @@ if (isset($_POST["subject"]) && isset($_POST["content"]) && isset($_SESSION["use
     $mail->Username = $_ENV["smtpEmail"];
     $mail->Password = $_ENV["smtpPass"];
     $mail->From = $_ENV["smtpEmail"]; // Email desde donde envio el correo.
-    $mail->FromName = 'EQUOTE';
+    $mail->FromName = 'Tezlik';
     $mail->AddAddress("soporte@teenus.com.co");
     $mail->Subject = $_POST["subject"]; // Este es el titulo del email.
     $mail->Body = $_POST["content"] . "<p>Usuario: " . $user->getUsername() . "</p>

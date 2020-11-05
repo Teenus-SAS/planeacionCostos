@@ -25,7 +25,7 @@ if (isset($_POST["username"])) {
     $mail->Username = $_ENV["smtpEmail"];
     $mail->Password = $_ENV["smtpPass"];
     $mail->From = $_ENV["smtpEmail"]; // Email desde donde envio el correo.
-    $mail->FromName = 'EQUOTE';
+    $mail->FromName = 'Tezlik';
     foreach ($admins as  $admin) {
         $mail->AddAddress($admin->getEmail());    
     }

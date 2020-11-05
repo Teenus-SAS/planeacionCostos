@@ -11,7 +11,7 @@ $('#fileRawMaterial').change(function () {
     let errors = verifyErrorsRawMaterials(materials)
     if (errors.length == 0 && workSheet != undefined) {
       $.confirm({
-        title: 'EQUOTE',
+        title: 'Tezlik',
         content: 'Los datos han sido procesados y estan listo para ser cargados',
         type: 'green',
         buttons: {
@@ -111,8 +111,8 @@ function generateFileRawMaterials() {
   // configuración de del libro
   wb.Props = {
     Title: "Materia Prima de Cotizador",
-    Subject: "EQUOTE",
-    Author: "EQUOTE",
+    Subject: "Tezlik",
+    Author: "Tezlik",
     CreatedDate: new Date()
   }
   // agregado de los nombres de las hojas del libro
