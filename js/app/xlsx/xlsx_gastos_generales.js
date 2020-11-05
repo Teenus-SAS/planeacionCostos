@@ -47,8 +47,8 @@ function loadedFileGG(req) {
     // configuración de del libro
     wb.Props = {
       Title: "Gastos Generales de Cotizador",
-      Subject: "EQUOTE",
-      Author: "EQUOTE",
+      Subject: "Tezlik",
+      Author: "Tezlik",
       CreatedDate: new Date()
     }
     var ws_data = []
@@ -142,7 +142,7 @@ function loadedFileUploadGG(reader, fileInput) {
     // validacion de la informacion
     if (errorsproductsExpenses.length == 0 && workbook.Sheets['Gastos Generales'] != undefined) {
       $.confirm({
-        title: 'EQUOTE',
+        title: 'Tezlik',
         type: 'green',
         content: 'Los datos han sido procesados y estan listo para ser cargados',
         buttons: {

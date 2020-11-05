@@ -54,7 +54,7 @@ function loadedFileUploadGE(reader, fileInput) {
   // validacion de la informacion
   if (errorsExpenses.length == 0 && workbook.Sheets['Gastos'] != undefined) {
     $.confirm({
-      title: 'EQUOTE',
+      title: 'Tezlik',
       type: 'green',
       content: 'Los datos han sido procesados y estan listo para ser cargados',
       buttons: {
@@ -245,8 +245,8 @@ function generateFileExpensesGE() {
   // configuración de del libro
   wb.Props = {
     Title: "Gastos",
-    Subject: "EQUOTE",
-    Author: "EQUOTE",
+    Subject: "Tezlik",
+    Author: "Tezlik",
     CreatedDate: new Date()
   }
   // agregado de los nombres de las hojas del libro

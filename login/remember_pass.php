@@ -38,7 +38,7 @@
             <div class="wrap-login100">
             <div class="login100-form-title" style="background-image: url();">
                     <span class="login100-form-title-1">
-                        <img src="../upload/img/logo_nombre_equote.png" alt="logo costos equote">
+                        <img src="../upload/img/logo_tezlik.png" alt="logo costos Tezlik">
                     </span>
                 </div>
 

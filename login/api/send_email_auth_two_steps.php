@@ -30,18 +30,18 @@ if (isset($_POST["code"]) && isset($_SESSION["user_aux_auth"])) {
   $mail->Username = $_ENV["smtpEmail"];
   $mail->Password = $_ENV["smtpPass"];
   $mail->From = $_ENV["smtpEmail"]; // Email desde donde envio el correo.
-  $mail->FromName = 'EQUOTE';
+  $mail->FromName = 'Tezlik';
   $mail->AddAddress($user->getEmail());
   $mail->Subject = "Protección de Cuenta"; // Este es el titulo del email.
   $protocol = isset($_SERVER["HTTPS"]) ? 'https' : 'http';
   $mail->Body = "<html>
     <body>
-    <img src='$protocol://" . $_SERVER["HTTP_HOST"] . "upload/img/logo_nombre_EQUOTE.png' width='150'>
+    <img src='$protocol://" . $_SERVER["HTTP_HOST"] . "upload/img/logo_tezlik.png' width='150'>
     <p>Hola, ¿Quieres Iniciar Sesion?
     </p>
 
     <p>Ingresa el siguiente código: " . $_POST["code"] . "</p>
-     <p>Esperamos que disfrute usando EQUOTE.</p>
+     <p>Esperamos que disfrute usando Tezlik.</p>
 
      <p>Saludos,</p>
      

@@ -29,19 +29,19 @@ if (isset($_POST["username"]) && $_POST["password"]) {
     $mail->Username = $_ENV["smtpEmail"];
     $mail->Password = $_ENV["smtpPass"];
     $mail->From = $_ENV["smtpEmail"]; // Email desde donde envio el correo.
-    $mail->FromName = 'EQUOTE';
+    $mail->FromName = 'Tezlik';
     $mail->AddAddress($user->getEmail());
     $mail->Subject = "Creacion de Cuenta"; // Este es el titulo del email.
     $protocol = isset($_SERVER["HTTPS"]) ? 'https' : 'http';
     $mail->Body = "<html>
     <body>
-    <img src='$protocol://" . $_SERVER["HTTP_HOST"] . "../upload/img/logo_nombre_EQUOTE.png' width='150'>
+    <img src='$protocol://" . $_SERVER["HTTP_HOST"] . "../upload/img/logo_tezlik.png' width='150'>
     <p>Hola " . $user->getUsername() . ",</p>
-    <p>Es un gusto saludarte y esperamos que estés de maravilla. Recientemente solicitaste crear una nueva cuenta en EQUOTE por lo que generamos el siguiente usuario y contraseña para tu ingreso:</p>
+    <p>Es un gusto saludarte y esperamos que estés de maravilla. Recientemente solicitaste crear una nueva cuenta en Tezlik por lo que generamos el siguiente usuario y contraseña para tu ingreso:</p>
     <p>Usuario: <b>" . $user->getUsername() . "</b></p>
     <p>Contraseña: <b>" . $_POST["password"] . "</b></p>
     <p><a href='https://" . $_SERVER["HTTP_HOST"] . "/login/'>Haga clic aquí </a> para ingresar a su cuenta</p>
-    <p>Recientemente solicitó una nueva cuenta de EQUOTE su nombre de usuario <b>" . $user->getUsername() . "</b></p>
+    <p>Recientemente solicitó una nueva cuenta de Tezlik su nombre de usuario <b>" . $user->getUsername() . "</b></p>
     <p>La contraseña de ingreso generada es: <b>" . $_POST["password"] . "</b><p>
     
     <p>Puede estar seguro de que su contraseña es segura. 
@@ -50,7 +50,7 @@ if (isset($_POST["username"]) && $_POST["password"]) {
     Si te preocupa tu seguridad! o sospechas que alguien está intentando obtener 
     acceso no autorizado a su cuenta, continúa y restablezca su contraseña,
      o ponte en contacto con <a href='mailto:soporte@teenus.com.co'>soporte@teenus.com.co</a> y te daremos toda la ayuda que necesites.</p>
-     <p>Esperamos que disfrute usando EQUOTE.</p>
+     <p>Esperamos que disfrute usando Tezlik.</p>
 
      <p>Saludos,</p>
      

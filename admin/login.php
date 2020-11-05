@@ -29,7 +29,7 @@
 
         <form class="login100-form validate-form">
           <span class="login100-form-title">
-            EQUOTE Admin
+          Tezlik Admin
           </span>
 
           <div class="wrap-input100 validate-input" data-validate="Ingresa un email valido">

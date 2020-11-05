@@ -161,7 +161,7 @@ $('#form-materia-prima').submit(function (e) {
     let materialSel = materialsMateriaPrima.filter(material => material.description.trim().toLowerCase() == m.trim().toLowerCase())[0]
     if (materialSel != undefined) {
       $.confirm({
-        title: 'EQUOTE',
+        title: 'Tezlik',
         content: '¿Desea Actualizar El material?',
         buttons: {
           SI: function () {

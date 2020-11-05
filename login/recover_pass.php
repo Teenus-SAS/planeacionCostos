@@ -48,7 +48,7 @@ if (isset($_GET["id"]) && isset($_GET["token"])) {
       <div class="wrap-login100">
         <div class="login100-form-title" style="background-image: url();">
           <span class="login100-form-title-1">
-            <img src="../upload/img/logo_nombre_equote.png" alt="">
+            <img src="../upload/img/logo_tezlik.png" alt="">
           </span>
         </div>
 

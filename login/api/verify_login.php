@@ -21,6 +21,7 @@ if (isset($_POST["username"]) && isset($_POST["password"])) {
             session_start();
             $response->status = true;
             $_SESSION["user"] = serialize($user);
+            $_SESSION["timeout"] = time();
             $userDao->activeSession($user);
             if (isset($_POST["remember-me"])) {
               setcookie("username_remember_me", $_POST["username"], time() + (60 * 60 * 24 * 365), "/", $_SERVER["HTTP_HOST"]);

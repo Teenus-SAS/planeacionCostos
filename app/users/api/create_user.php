@@ -6,7 +6,7 @@ require_once DAO_PATH . "UserDao.php";
 // revisar si existe session
 session_start();
 header("Content-Type: application/json");
-$reponse = new stdClass();
+$response = new stdClass();
 if(isset($_POST["email"]) && isset($_POST["username"]) && isset($_POST["rol"])){
   if (isset($_SESSION["user"])) {
     $user = unserialize($_SESSION["user"]);
@@ -20,7 +20,7 @@ if(isset($_POST["email"]) && isset($_POST["username"]) && isset($_POST["rol"])){
     $newUser->setCompany($user->getCompany());
     $newUser->setRolId($_POST["rol"]);
     if ($userDao->save($newUser) > 0) {
-      $reponse->status = true;
+      $response->status = true;
   
       // abrimos la sesión cURL
       $ch = curl_init();
@@ -40,9 +40,9 @@ if(isset($_POST["email"]) && isset($_POST["username"]) && isset($_POST["rol"])){
       curl_close($ch);
     } else {
       $response->status = false;
-      $reponse->errorno = 1064;
+      $response->errorno = 1064;
     }
-    echo json_encode($reponse);
+    echo json_encode($response);
   } else {
     http_response_code(401);
     exit;

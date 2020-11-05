@@ -21,13 +21,13 @@ $.get('/app/products/api/get_products.php', (_products, status) => {
       if (n > 1) {
         // si se desea colocar la misma cantidad para todos los productos
         $.confirm({
-          title: 'EQUOTE',
+          title: 'Tezlik',
           content: '¿Desea Cotizar una Sola Cantidad para los productos Seleccionados?',
           buttons: {
             SI: function () {
               // pide una sola cantidad para todos los productos
               $.confirm({
-                title: 'EQUOTE',
+                title: 'Tezlik',
                 content: '' +
                   '<form class="formName">' +
                   '<div class="form-group">' +
@@ -80,7 +80,7 @@ $.get('/app/products/api/get_products.php', (_products, status) => {
               items.each(function (idx, item) {
                 var choice = $(item);
                 $.confirm({
-                  title: 'EQUOTE',
+                  title: 'Tezlik',
                   content: '' +
                     '<form class="formName">' +
                     '<div class="form-group">' +
@@ -133,7 +133,7 @@ $.get('/app/products/api/get_products.php', (_products, status) => {
         items.each(function (idx, item) {
           var choice = $(item);
           $.confirm({
-            title: 'EQUOTE',
+            title: 'Tezlik',
             content: '' +
               '<form class="formName">' +
               '<div class="form-group">' +
@@ -180,7 +180,7 @@ $.get('/app/products/api/get_products.php', (_products, status) => {
         });
       }
     } else {
-      $.alert("Escoge al menos un elemento de la lista", "EQUOTE");
+      $.alert("Escoge al menos un elemento de la lista", "Tezlik");
     }
   });
 
@@ -196,7 +196,7 @@ $.get('/app/products/api/get_products.php', (_products, status) => {
     });
     if (items.length == 0) {
       $.alert(
-        'Selecciona al menos un elemento para quitar', 'EQUOTE'
+        'Selecciona al menos un elemento para quitar', 'Tezlik'
       )
     }
   });
@@ -264,7 +264,7 @@ $('#btn-procesar').click(function () {
     sessionStorage.setItem('products',JSON.stringify(productsToCost))
     location.href = 'report.php'
   } else {
-    $.alert("Escoge al menos un elemento de la lista para cotizar", "EQUOTE");
+    $.alert("Escoge al menos un elemento de la lista para cotizar", "Tezlik");
   }
 })
 

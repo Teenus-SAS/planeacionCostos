@@ -42,7 +42,7 @@ if (isset($_GET["id"]) && isset($_GET["token"])) {
 
         <form class="login100-form validate-form">
           <span class="login100-form-title">
-            EQUOTE Admin
+          Tezlik Admin
           </span>
 
 
