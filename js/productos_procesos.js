@@ -27,20 +27,21 @@ function loadProductsPP() {
 
       $('#inputRefProcess').change(function () {
         let productSelected = productsInProcess.filter(product => product.id == $(this).val())[0]
+        console.log(productSelected);
         $('#inputProductProcess').val(productSelected.id)
         $('#titleProductProcess').text(productSelected.name)
         cleanSelects()
         $tableProductProcess.api().ajax.url(`api/get_product_processes.php?dataTable=true&id=${productSelected.id}`)
         $tableProductProcess.api().ajax.reload()
       })
-      $('#inputProductProcess').change(function () {
+/*       $('#inputProductProcess').change(function () {
         let productSelected = productsInProcess.filter(product => product.id == $(this).val())[0]
         $('#inputRefProcess').val(productSelected.id)
         $('#titleProductProcess').text(productSelected.name)
         cleanSelects()
         $tableProductProcess.api().ajax.url(`api/get_product_processes.php?dataTable=true&id=${productSelected.id}`)
         $tableProductProcess.api().ajax.reload()
-      })
+      }) */
     }
   })
 }
@@ -239,9 +240,10 @@ $('#selectProcess').change(function () {
         } else {
           $('#selectMachines').val(processSelected.machine.id)
         }
-
         $('#tiempo-seg').val(Math.round10(parseFloat(processSelected.timeProcess), -2))
-        $('#input-unidad-hora').val(Math.round(60 / parseFloat(processSelected.timeProcess)))
+        $('#input-unidad-hora').val((60 / parseFloat(processSelected.timeProcess)).toFixed(2));
+ /*        $('#tiempo-seg').val(Math.round10(parseFloat(processSelected.timeProcess), -2))
+        $('#input-unidad-hora').val(Math.round(60 / parseFloat(processSelected.timeProcess))) */
       } else {
         // limpiado de campos
         $('#selectMachines option[selected]').attr('selected', false)
