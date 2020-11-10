@@ -38,8 +38,11 @@ if ($query->status > 0) {
   // abrimos la sesión cURL
   $ch = curl_init();
 
-  // definimos la URL a la que hacemos la petición
-  curl_setopt($ch, CURLOPT_URL, "http://" . $_SERVER["HTTP_HOST"] . "/admin/api/email_creation.php");
+
+/*   curl_setopt($ch, CURLOPT_URL, "http://" . $_SERVER["HTTP_HOST"] . "/admin/api/email_creation.php"); */
+$protocol =  isset($_SERVER["HTTPS"]) ? 'https' : 'http';
+// definimos la URL a la que hacemos la petición
+curl_setopt($ch, CURLOPT_URL, "$protocol://" . $_SERVER["HTTP_HOST"] . "/admin/api/email_creation.php");
   // indicamos el tipo de petición: POST
   curl_setopt($ch, CURLOPT_POST, TRUE);
   // definimos cada uno de los parámetros

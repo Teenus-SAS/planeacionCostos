@@ -57,7 +57,7 @@ $('#form-register').submit(function (e) {
     position: $('#position_creator').val()
   }
   stringForm += `&creator=${JSON.stringify(creator)}`
-  $.post('/admin/api/create_company2.php', stringForm, (data, status) => {
+  $.post('/admin/api/create_company.php', stringForm, (data, status) => {
     if (data.status) {
       location.href = 'success_register.html'
     } else {
