@@ -7,6 +7,7 @@ $response = new stdClass();
 header("Content-Type: application/json");
 
 $companyDao = new CompanyDao();
+$remote_server_output;
 
 $company = new Company();
 $user = new User();
@@ -33,16 +34,15 @@ $user->setPassword(hash("sha256", $password));
 $user->setActive(true);
 $query = $companyDao->save($company, $user);
 if ($query->status > 0) {
+
   $response->status = true;
 
   // abrimos la sesión cURL
   $ch = curl_init();
 
-
-/*   curl_setopt($ch, CURLOPT_URL, "http://" . $_SERVER["HTTP_HOST"] . "/admin/api/email_creation.php"); */
-$protocol =  isset($_SERVER["HTTPS"]) ? 'https' : 'http';
-// definimos la URL a la que hacemos la petición
-curl_setopt($ch, CURLOPT_URL, "$protocol://" . $_SERVER["HTTP_HOST"] . "/admin/api/email_creation.php");
+  // definimos la URL a la que hacemos la petición
+  $protocol = isset($_SERVER["HTTPS"]) ? "https" : "http";
+  curl_setopt($ch, CURLOPT_URL, $protocol."://" . $_SERVER["HTTP_HOST"] . "/admin/api/email_creation2.php");
   // indicamos el tipo de petición: POST
   curl_setopt($ch, CURLOPT_POST, TRUE);
   // definimos cada uno de los parámetros
@@ -50,17 +50,23 @@ curl_setopt($ch, CURLOPT_URL, "$protocol://" . $_SERVER["HTTP_HOST"] . "/admin/a
 
   // recibimos la respuesta y la guardamos en una variable
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+  
   $remote_server_output = curl_exec($ch);
+
+  $response->message = $remote_server_output;
 
   // cerramos la sesión cURL
   curl_close($ch);
+
+  echo json_encode($response);
 } else {
   $response->status = false;
   $response->error = $query->error;
   $response->errorList = $query->errorList;
   $response->errorno = $query->errorno;
+  echo json_encode($response);
 }
-echo json_encode($response);
+/* echo json_encode($remote_server_output); */
 
 
 
