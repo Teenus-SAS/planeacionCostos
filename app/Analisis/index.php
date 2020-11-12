@@ -79,12 +79,12 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                   <li class="nav-item">
                     <a class="nav-link active" href="#home" data-toggle="tab">Materia prima</a>
                   </li>
-                  <li class="nav-item">
+          <!--         <li class="nav-item">
                     <a class="nav-link" href="#updates" data-toggle="tab">Procesos</a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" href="#uMes" data-toggle="tab">Unidades Mes</a>
-                  </li>
+                  </li> -->
                   
                 </ul>
               </div>

@@ -36,7 +36,7 @@ if (isset($_POST["code"]) && isset($_SESSION["user_aux_auth"])) {
   $protocol = isset($_SERVER["HTTPS"]) ? 'https' : 'http';
   $mail->Body = "<html>
     <body>
-    <img src='$protocol://" . $_SERVER["HTTP_HOST"] . "upload/img/logo_tezlik.png' width='150'>
+    <img src='$protocol://" . $_SERVER["HTTP_HOST"] . "/upload/img/logo_tezlik.png' width='150'>
     <p>Hola, ¿Quieres Iniciar Sesion?
     </p>
 

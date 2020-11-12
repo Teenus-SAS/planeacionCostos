@@ -41,7 +41,7 @@ if (isset($_POST["email"])) {
     $protocol = isset($_SERVER["HTTPS"]) ? 'https' : 'http';
     $mail->Body = "<html>
     <body>
-    <img src='$protocol://" . $_SERVER["HTTP_HOST"] . "/img/logo_tezlik.png' width='150'>
+    <img src='$protocol://" . $_SERVER["HTTP_HOST"] . "/upload/img/logo_tezlik.png' width='150'>
     <p>Hola,</p>
     <p>Recientemente solicitaste recordar tu contraseña por lo que, para mayor seguridad te recomendamos 
     crear nueva contraseña para ingresar a Tezlik con el correo <b>" . $admin->getEmail() . "</b></p>

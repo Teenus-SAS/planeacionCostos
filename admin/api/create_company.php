@@ -20,6 +20,7 @@ $company->setCity($_POST["city"]);
 $company->setCountry($_POST["country"]);
 $company->setDepartment($_POST["department"]);
 $company->setCreator($_POST["creator"]);
+$name = json_decode($company->getCreator())->name;
 if (isset($_POST["license"])) {
   $company->setLicenseExpiration($_POST["license"]);
 } else {
@@ -46,7 +47,7 @@ curl_setopt($ch, CURLOPT_URL, "$protocol://" . $_SERVER["HTTP_HOST"] . "/admin/a
   // indicamos el tipo de petición: POST
   curl_setopt($ch, CURLOPT_POST, TRUE);
   // definimos cada uno de los parámetros
-  curl_setopt($ch, CURLOPT_POSTFIELDS, "username=" . $user->getUsername() . "&password=" . $password);
+  curl_setopt($ch, CURLOPT_POSTFIELDS, "username=" . $user->getUsername() . "&password=" . $password ."&creator=" . $name);
 
   // recibimos la respuesta y la guardamos en una variable
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
