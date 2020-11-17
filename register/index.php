@@ -34,7 +34,7 @@
                     </div>
                     <div class="col-md-6">
                       <div class="form-group">
-                        <input type="text" minlength="7" maxlength="10" class="form-control" placeholder="Telefono *" required name="phone" />
+                        <input type="text" minlength="7" maxlength="10" class="form-control" placeholder="Teléfono *" required name="phone" />
                       </div>
                     </div>
                   </div>
@@ -48,7 +48,7 @@
                     </div>
                     <div class="col-md-6">
                       <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Razon Social *" required name="bussinesName" />
+                        <input type="text" class="form-control" placeholder="Razón Social *" required name="bussinesName" />
                       </div>
                     </div>
                   </div>
