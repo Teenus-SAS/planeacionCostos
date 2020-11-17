@@ -16,7 +16,7 @@
     <div class="row align-items-center justify-content-center">
       <div class="col-md-3 register-left ">
         <!--<img src="https://image.ibb.co/n7oTvU/logo_white.png" alt="" />-->
-        <img src="../upload/img/logo_tezlik2.png" alt="" />
+        <img src="../upload/img/logo_tezlik2.png" alt="" style="width: 90%;" />
         <h3>Registrate y Disfruta de Tezlik</h3>
         <h5 class="mt-5">Completa el formulario y empieza a fijar precios, analizar costos, fijar tu rentabilidad objetivo de manera profesional</h5>
       </div>
