@@ -139,7 +139,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                       Generales</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="#history" data-toggle="tab">Ventas Mensuales</a>
+                    <a class="nav-link" href="#history" data-toggle="tab">Distribución de Gastos</a>
                   </li>
                   
                   <li class="nav-item">
