@@ -12,7 +12,7 @@ require_once DAO_PATH . "MachineDao.php";
  * Esta clase Es el DAO(Data Access Object) para procesos
  * 
  * 
- * @author Alexis Holguin <wholguinmor@uniminuto.edu.co>
+ * @author Teenus SAS <info@teenus.com.co>
  * @version 1.0
  * @uses DBOperator, MachineDao, Process, ProductProcess
  * @package Dao
@@ -141,7 +141,7 @@ class ProcessDao
 
 
   /**
-   * Encunetra un proceso de un producto
+   * Encuentra un proceso de un producto
    *
    * @param Product $product producto en el cual se quiere buscar
    * @param integer $idProcess id del proceso que se quiere buscar
