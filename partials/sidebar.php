@@ -3,18 +3,18 @@
           Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red | yellow"
       -->
   <div class="logo">
-    <!--<a href="/app/my-profile/" class="simple-text logo-mini">
+    <a href="/app/my-profile/" class="simple-text logo-mini">
       <div class="logo-image-small">
-        <img id="img-logo-company-sidebar" src="<?= //$user->getCompany()->getLogo() ?>">
+        <img id="img-logo-company-sidebar" src="<?= $user->getCompany()->getLogo() ?>">
       </div>
     </a>
     <a href="/app/my-profile/" class="simple-text logo-normal">
-      <?= //$user->getCompany()->getTradeName() ?>
-    </a>-->
-<a class="navbar-brand"
+      <?= $user->getCompany()->getTradeName() ?>
+    </a>
+<!--<a class="navbar-brand"
         href="https://teenus.com.co/tezlik/" target="_blank"><img
           src="/favicon.ico" width="25">
-        Tezlik</a>
+        Tezlik</a>-->
   </div>
   <div class="sidebar-wrapper">
     <ul class="nav">
