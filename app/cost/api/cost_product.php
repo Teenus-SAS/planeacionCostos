@@ -37,9 +37,9 @@ if (isset($_SESSION["user"])) {
   foreach ($product->getMaterials() as $rawMaterial) {
     $response->rawMaterialExpenses += $rawMaterial->getQuantity() * $rawMaterial->getMaterial()->getCost();
   }
+  $response->laborCost *= $quantity;
   $response->indirectExpenses *= $quantity;
   $response->rawMaterialExpenses *= $quantity;
- /*  $response->laborCost *= $quantity; */
   $response->cost = $response->indirectExpenses + $response->rawMaterialExpenses + $response->laborCost;
   $response->generalExpenses = $product->getExpenses()->getUnitAssignableExpense();
   $response->totalCost = $response->cost + $response->generalExpenses;
