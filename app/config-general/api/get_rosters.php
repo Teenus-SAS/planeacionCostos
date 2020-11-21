@@ -1,8 +1,7 @@
 <?php
 
 /**
- * @author Alexis Holguin <wholguinmor@uniminuto.edu.co>
- * @github MoraHol
+ * @author Teenus SAS <info@teenus.com.co>
  * Este Script obtener todos las nominas de la empresa 
  * Se llama por metodo 
  * @method GET
