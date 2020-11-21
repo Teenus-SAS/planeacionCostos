@@ -417,7 +417,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                   <div class="col-md-10">
                     <div class="card">
                       <div class="card-header">
-                        <h4>Ventas Mensuales</h4>
+                        <h4>Distribución Gastos Generales</h4>
                       </div>
                       <div class="card-body">
                         <div class="table-responsive tableFixHead">
