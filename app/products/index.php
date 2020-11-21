@@ -139,7 +139,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                       Generales</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="#history" data-toggle="tab">Ventas Mensuales</a>
+                    <a class="nav-link" href="#history" data-toggle="tab">Distribución de Gastos</a>
                   </li>
                   
                   <li class="nav-item">
@@ -417,7 +417,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                   <div class="col-md-10">
                     <div class="card">
                       <div class="card-header">
-                        <h4>Ventas Mensuales</h4>
+                        <h4>Distribución Gastos Generales</h4>
                       </div>
                       <div class="card-body">
                         <div class="table-responsive tableFixHead">

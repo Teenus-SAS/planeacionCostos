@@ -15,15 +15,16 @@
   <div class="container-fluid register">
     <div class="row align-items-center justify-content-center">
       <div class="col-md-3 register-left ">
-        <img src="https://image.ibb.co/n7oTvU/logo_white.png" alt="" />
-        <h3>Bienvenido(a)</h3>
-        <p>Completa el formulario y empieza a fijar precios, analizar costos, fijar tu rentabilidad objetivo de manera profesional</p>
+        <!--<img src="https://image.ibb.co/n7oTvU/logo_white.png" alt="" />-->
+        <img src="../upload/img/logo_tezlik2.png" alt="" style="width: 90%;" />
+        <h3>Registrate y Disfruta de Tezlik</h3>
+        <h5 class="mt-5">Completa el formulario y empieza a fijar precios, analizar costos, fijar tu rentabilidad objetivo de manera profesional</h5>
       </div>
       <div class="col-md-9 register-right">
         <div class="tab-content" id="myTabContent">
           <form id="form-register">
             <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-              <h3 class="register-heading">Registrate y Disfruta de Tezlik</h3>
+              <h3 class="register-heading">Tezlik te ayuda a fijar tus precios y ahorro para tu empresa</h3>
               <div class="row register-form" style="padding-bottom: 1%;">
                 <div class="col-md-12">
                   <div class="row">
@@ -34,7 +35,7 @@
                     </div>
                     <div class="col-md-6">
                       <div class="form-group">
-                        <input type="text" minlength="7" maxlength="10" class="form-control" placeholder="Telefono *" required name="phone" />
+                        <input type="text" minlength="7" maxlength="10" class="form-control" placeholder="Teléfono *" required name="phone" />
                       </div>
                     </div>
                   </div>
@@ -48,7 +49,7 @@
                     </div>
                     <div class="col-md-6">
                       <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Razon Social *" required name="bussinesName" />
+                        <input type="text" class="form-control" placeholder="Razón Social *" required name="bussinesName" />
                       </div>
                     </div>
                   </div>
