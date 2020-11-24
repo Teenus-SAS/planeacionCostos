@@ -53,7 +53,7 @@ $data = json_decode(file_get_contents($_SERVER['DOCUMENT_ROOT'] . '/resources/yo
     <?php include(PARTIALS_PATH . "sidebar.php") ?>
     <div class="main-panel">
       <!-- Navbar -->
-      <?php include(PARTIALS_PATH . "navbar.html") ?>
+      <?php include(PARTIALS_PATH . "navbar.php") ?>
       <!-- End Navbar -->
       <div class="content">
         <div class="row justify-content-center mb-3">

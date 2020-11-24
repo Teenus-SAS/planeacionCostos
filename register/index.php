@@ -107,7 +107,12 @@
                   <div class="row">
                     <div class="col-md-4">
                       <div class="form-group">
-                        <input type="text" class="form-control"  id="name_creator" placeholder="Nombre Completo *" required />
+                        <input type="text" class="form-control"  id="name_creator" placeholder="Nombres *" required />
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <input type="text" class="form-control"  id="lastname_creator" placeholder="Apellidos *" required />
                       </div>
                     </div>
                     <div class="col-md-4">

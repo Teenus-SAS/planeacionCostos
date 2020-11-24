@@ -86,7 +86,7 @@ if (!isset($_SESSION)) {
                                         </div>
                                         <button type="submit" class="btn btn-primary btn-block text-uppercase mb-2 rounded-pill shadow-sm">Ingresar</button>
                                         <div class="text-center d-flex justify-content-between mt-4"> <a href="remember_pass.php" id="text-recover-pass" class="txt1 pull-right">
-                                          ¿Olvidaste tu usuario o contraseña?W
+                                          ¿Olvidaste tu usuario o contraseña?
                                         </a> </div>
                                         
                                         <div id="alert">

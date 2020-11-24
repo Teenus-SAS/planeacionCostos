@@ -47,7 +47,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
     <?php include(PARTIALS_PATH . "sidebar.php") ?>
     <div class="main-panel">
       <!-- Navbar -->
-      <?php include(PARTIALS_PATH . "navbar.html") ?>
+      <?php include(PARTIALS_PATH . "navbar.php") ?>
       <!-- End Navbar -->
 
       <div class="content">
