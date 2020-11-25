@@ -288,7 +288,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                           </div>
                         </div>
                         <div class="form-group row my-2">
-                          <label class="col-form-label col-4 text-right">Min*Unidad</label>
+                          <label class="col-form-label col-4 text-right">Minutos * Unidad</label>
                           <div class="col-5">
                             <input type="text" disabled class="form-control" id="tiempo-seg">
                           </div>
