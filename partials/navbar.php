@@ -17,7 +17,7 @@
         <div class="logo" style="display: flex;">
     <a href="/app/my-profile/" class="simple-text logo-mini">
       <div class="logo-image-small">
-        <img id="img-logo-company-sidebar" src="<?= $user->getCompany()->getLogo() ?>" width="90px">
+        <img id="img-logo-company-sidebar" src="<?= $user->getCompany()->getLogo() ?>" width="50px">
       </div>
     </a>
     <a href="/app/my-profile/" class="simple-text logo-normal" 
@@ -25,6 +25,7 @@
             text-transform: uppercase;
             padding-top: .46rem;
             padding-left: .5rem;
+            font-weight: 800;  
        ">
       <?= $user->getCompany()->getTradeName() ?>
     </a>
