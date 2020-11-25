@@ -1,0 +1,200 @@
+<nav class="navbar navbar-expand-lg navbar-absolute fixed-top
+  navbar-transparent">
+  <div class="container-fluid">
+    <div class="navbar-wrapper">
+      <div class="navbar-toggle">
+        <button type="button" class="navbar-toggler" id="sidebarhidebtn">
+          <span class="navbar-toggler-bar bar1"></span>
+          <span class="navbar-toggler-bar bar2"></span>
+          <span class="navbar-toggler-bar bar3"></span>
+        </button>
+      </div>
+    <!--   <a class="navbar-brand"
+        href="https://teenus.com.co/tezlik/" target="_blank"><img
+          src="/favicon.ico" width="25">
+        Tezlik</a> -->
+
+        <div class="logo" style="display: flex;">
+    <a href="/app/my-profile/" class="simple-text logo-mini">
+      <div class="logo-image-small">
+        <img id="img-logo-company-sidebar" src="<?= $user->getCompany()->getLogo() ?>" width="90px">
+      </div>
+    </a>
+    <a href="/app/my-profile/" class="simple-text logo-normal" 
+       style="
+            text-transform: uppercase;
+            padding-top: .46rem;
+            padding-left: .5rem;
+       ">
+      <?= $user->getCompany()->getTradeName() ?>
+    </a>
+  </div>
+
+    
+    </div>
+    <button class="navbar-toggler" type="button" data-toggle="collapse"
+      data-target="#navigation" aria-controls="navigation-index"
+      aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-bar navbar-kebab"></span>
+      <span class="navbar-toggler-bar navbar-kebab"></span>
+      <span class="navbar-toggler-bar navbar-kebab"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-end" id="navigation">
+      <ul class="navbar-nav">
+        <li class="nav-item btn-rotate dropdown">
+          <a class="nav-link dropdown-toggle" href="http://example.com"
+            id="navbarDropdownMenuLink" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            <i class="nc-icon nc-circle-10"></i>
+            <p>
+              <span class="d-lg-none d-md-block">Mi Cuenta</span>
+            </p>
+          </a>
+          <div class="dropdown-menu dropdown-menu-right"
+            aria-labelledby="navbarDropdownMenuLink">
+            <a class="dropdown-item" href="javascript:changePass()">Cambiar
+              Contraseña</a>
+            <a class="dropdown-item" href="/app/my-profile/">Mi perfil</a>
+            <!-- <a class="dropdown-item" href="#">Something else here</a> -->
+          </div>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link btn-rotate" href="javascript:logout();">
+            <i class="nc-icon nc-button-power"></i>
+            <p>
+              <span class="d-lg-none d-md-block">Cerrar Sesión</span>
+            </p>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<script>
+
+/*   let now = new Date();  */
+
+/* const evHandler = (ev) => {
+            const newNow = new Date();
+           
+            const timeStamp = (newNow - now) / 1000;
+            now = newNow;
+            console.log(timeStamp);
+            if(timeStamp > 15) {
+              $.ajax({
+                url:"/partials/verify.php",
+                type: "post",
+                dataType: 'text',
+                success:function(result, status){ */
+                  /* console.log(result, status); */
+          /*       }
+            });
+            }
+}
+
+document.addEventListener('click',evHandler); */
+
+/* document.cookie = 'user=hello; path=/'; */
+/* console.log(document.cookie);
+
+window.setInterval(function (){
+
+    let firstTime = localStorage.getItem("firstTime");
+
+      $.ajax({
+            url:"/partials/verify.php",
+            type: "post",
+            dataType: 'text',
+            success:function(result){
+
+              if (!firstTime) {
+                localStorage.setItem('firstTime', result);
+                firstTime = localStorage.getItem('firstTime');  
+              }
+              if(!result) {
+                $.ajax({
+                  url: '/partials/logoutUser.php',
+                  type: 'post',
+                  data: { usuario : firstTime},
+                  success: function (data, status) {
+                    console.log(data, status);
+                    location.href = "/login";
+                  }
+                }).always(function () {
+                    localStorage.removeItem('firstTime');
+                });
+              }
+           }
+         });
+
+    }, 4000); */
+
+  function changePass(){
+    $.confirm({
+    title: 'Cambiar Contraseña',
+    content: '' +
+    '<form action="" class="formName">' +
+    '<div class="form-group">' +
+    '<label>Ingresa tu nueva contraseña</label>' +
+    '<input type="password" placeholder="Nueva Contraseña" class="name form-control" required />' +
+    '</div>' +
+    '</form>',
+    buttons: {
+        formSubmit: {
+            text: 'Cambiar',
+            btnClass: 'btn-blue',
+            type: 'yellow',
+            action: function () {
+                var pass = this.$content.find('.name').val();
+                if(!pass){
+                    $.alert('Esta contraseña no es valida');
+                    return false;
+                }
+                if(pass.length < 8 ){
+                  $.alert('La contraseña debe tener al menos 8 caracteres');
+                    return false;
+                }
+                $.post('/login/api/change_pass.php',{password : pass},(data,status)=>{
+                 
+                }).always((xhr)=>{
+                  if(xhr.status == 200){
+                    $.notify({
+                      icon: "nc-icon nc-bell-55",
+                      message: `Contraseña <b>Modificada</b>`
+                    }, {
+                      type: 'success',
+                      timer: 8000
+                    })
+                  }else{
+                    $.notify({
+                      icon: "nc-icon nc-bell-55",
+                      message: `Ha ocurrido un <b>Error</b>`
+                    }, {
+                      type: 'success',
+                      timer: 8000
+                    })
+                  }
+                })
+            }
+        },
+        cancelar: function () {
+            //close
+        },
+    },
+    onContentReady: function () {
+        // bind to events
+        var jc = this;
+        this.$content.find('form').on('submit', function (e) {
+            // if the user submits the form by pressing enter in the field.
+            e.preventDefault();
+            jc.$$formSubmit.trigger('click'); // reference the button and click it
+        });
+    }
+});
+  }
+  function logout(){
+    $.get('/login/api/logout.php',(data,status)=>{
+      location.href = "/login"
+    })
+    }
+  </script>

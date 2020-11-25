@@ -30,12 +30,12 @@
                   <div class="row">
                     <div class="col-md-6">
                       <div class="form-group">
-                        <input type="text" class="form-control" placeholder="NIT *" required name="nit" />
+                        <input type="text" class="form-control" placeholder="NIT *" required name="nit" pattern="^[0-9]+$" />
                       </div>
                     </div>
                     <div class="col-md-6">
                       <div class="form-group">
-                        <input type="text" minlength="7" maxlength="10" class="form-control" placeholder="Teléfono *" required name="phone" />
+                        <input type="text" minlength="7" maxlength="10" class="form-control" placeholder="Teléfono *" required name="phone" pattern="^[0-9]+$"/>
                       </div>
                     </div>
                   </div>
@@ -44,12 +44,12 @@
                   <div class="row">
                     <div class="col-md-6">
                       <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Nombre Comercial *" required name="tradename" />
+                        <input type="text" minlength="3" title="El nombre comercial debe contener minimo 3 caracteres" class="form-control" placeholder="Nombre Comercial *" required name="tradename" />
                       </div>
                     </div>
                     <div class="col-md-6">
                       <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Razón Social *" required name="bussinesName" />
+                        <input type="text" minlength="3" title="La razón social debe contener minimo 3 caracteres" class="form-control" placeholder="Razón Social *" required name="bussinesName" />
                       </div>
                     </div>
                   </div>
@@ -63,7 +63,7 @@
                     </div>
                     <div class="col-md-6">
                       <div class="form-group ui-widget">
-                        <input type="text" class="form-control" id="country" placeholder="País *" required name="country" />
+                        <input type="text" class="form-control" id="country" placeholder="País *" required name="country" pattern="^[a-zA-ZÀ-ÿ\s\u00f1\u00d1]+$" />
                       </div>
                     </div>
                   </div>
@@ -72,12 +72,12 @@
                   <div class="row">
                     <div class="col-md-6">
                       <div class="form-group">
-                        <input type="text" id="department" placeholder="Departamento *" class="form-control" required name="department">
+                        <input type="text" id="department" placeholder="Departamento *" class="form-control" required name="department" pattern="^[a-zA-ZÀ-ÿ\s\u00f1\u00d1]+$">
                       </div>
                     </div>
                     <div class="col-md-6">
                       <div class="form-group">
-                        <input type="text" class="form-control" id="city" placeholder="Ciudad *" required name="city" />
+                        <input type="text" class="form-control" id="city" placeholder="Ciudad *" required name="city" pattern="^[a-zA-ZÀ-ÿ\s\u00f1\u00d1]+$" />
                       </div>
                     </div>
                   </div>
@@ -93,12 +93,12 @@
                   <div class="row">
                     <div class="col-md-6">
                       <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Email *" required name="email" />
+                        <input type="email" class="form-control" placeholder="Email *" required name="email" />
                       </div>
                     </div>
                     <div class="col-md-6">
                       <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Nombre de Usuario *" required name="username" />
+                        <input type="text" class="form-control" placeholder="Nombre de Usuario *" required name="username"/>
                       </div>
                     </div>
                   </div>
@@ -107,17 +107,23 @@
                   <div class="row">
                     <div class="col-md-4">
                       <div class="form-group">
-                        <input type="text" class="form-control"  id="name_creator" placeholder="Nombre Completo *" required />
+                        <input type="text" class="form-control"  id="name_creator" placeholder="Nombres *"
+                        pattern="^[a-zA-ZÀ-ÿ\s\u00f1\u00d1]+$" required />
                       </div>
                     </div>
                     <div class="col-md-4">
                       <div class="form-group">
-                        <input type="text" class="form-control" id="cellphone_creator" placeholder="Celular *" minlength="10" maxlength="10" required />
+                        <input type="text" class="form-control"  id="lastname_creator" placeholder="Apellidos *" pattern="^[a-zA-ZÀ-ÿ\s\u00f1\u00d1]+$" required />
                       </div>
                     </div>
                     <div class="col-md-4">
                       <div class="form-group">
-                        <input type="text" id="position_creator" class="form-control" placeholder="Cargo "  />
+                        <input type="text" class="form-control" id="cellphone_creator" placeholder="Celular *" minlength="10" maxlength="10" required pattern="^[0-9]+$" />
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <input type="text" id="position_creator" class="form-control" placeholder="Cargo " pattern="^[a-zA-ZÀ-ÿ\s\u00f1\u00d1]+$"  />
                       </div>
                     </div>
                   </div>

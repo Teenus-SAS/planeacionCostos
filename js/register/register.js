@@ -50,13 +50,13 @@ $('#country').change(function () {
 
 $('#form-register').submit(function (e) {
   e.preventDefault()
-  let stringForm = $(this).serialize()
+  let stringForm = $(this).serialize();
   let creator = {
-    name: $('#name_creator').val(),
+    name: `${$('#name_creator').val()} ${$('#lastname_creator').val()}`,
     cellphone: $('#cellphone_creator').val(),
     position: $('#position_creator').val()
   }
-  stringForm += `&creator=${JSON.stringify(creator)}`
+  stringForm += `&creator=${JSON.stringify(creator)}`;
   $.post('/admin/api/create_company.php', stringForm, (data, status) => {
     if (data.status) {
       location.href = 'success_register.html'
