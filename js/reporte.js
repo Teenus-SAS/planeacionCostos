@@ -36,6 +36,7 @@ $('.number').number(true, 2, ',', '.')
 
 $('#select-product').change(function () {
   quitSimulation()
+  console.log('select this', this);
   if ($(this).val() == 'total') {
     loadTotalCost()
   } else {
@@ -95,6 +96,7 @@ function loadCost(product, flag = false) {
   $('.btn-product').addClass('btn btn-primary')
   $('#link-indicators').html('Ver indicadores')
   $('#link-simulation').html('Simular')
+  console.log('product', product);
   $('#link-indicators').attr('href', `indicators.php?id=${product.id}&quantity=${product.quantity}`)
   $('.quantity-product').attr('readonly', false)
   $.get('api/cost_product.php', {

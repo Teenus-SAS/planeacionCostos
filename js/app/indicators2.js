@@ -9,15 +9,18 @@ let params = new URLSearchParams(location.search)
 var id = JSON.parse(params.get('id'))
 let quantity = JSON.parse(params.get('quantity'))
 
+
 $.get('api/indicators.php', {
   id,
   quantity
 }, (data, status) => {
+  console.log('data', data);
   var manoObraDataChart = []
   var timeProcessDataChart = []
   data.ManoObra.forEach(roster => {
     manoObraDataChart.push([roster.process, roster.costo])
   })
+  console.log('mano de obra chart',manoObraDataChart);
 
   data.processes.forEach((process) => {
     timeProcessDataChart.push({
