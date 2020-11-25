@@ -610,6 +610,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                               <th>Contrato</th>
                               <th>Salario</th>
                               <th>Salario Neto</th>
+                              <th>Valor/Minuto</th>
                             </thead>
                             <tbody>
 

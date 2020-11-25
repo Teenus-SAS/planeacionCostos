@@ -338,6 +338,12 @@ var $tableNominas = $('#tableNominas').dataTable({
     render: function (data, type, row) {
       return `$ ${$.number(data, 2, '.', ',')}`
     }
+  },
+  {
+    data: 'minuteValue',
+    render: function (data) {
+      return `$ ${$.number(data,2, '.', ',')}`;
+    }
   }
   ]
 })
