@@ -28,7 +28,9 @@ if (isset($_SESSION["user"])) {
       $response->timeProcessTotal += $process->getTimeProcess() * $quantity;
       array_push($response->processes, array("time" => $process->getTimeProcess() * $quantity, "name" => $process->getProcess()->getName()));
       if ($roster != null) {
-        array_push($response->ManoObra, array("process" => $process->getProcess()->getName(), "costo" => ($process->getTimeProcess() * $roster->getValueMinute()) / $roster->getNumberEmployees()));
+        array_push($response->ManoObra, array("process" => $process->getProcess()->getName(), "costo" =>
+        ($process->getTimeProcess() * $roster->getValueMinute() * $quantity)));
+        /* ($process->getTimeProcess() * $roster->getValueMinute()) / $roster->getNumberEmployees())); */
       }
     }
   }
