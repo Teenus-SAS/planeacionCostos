@@ -4,9 +4,10 @@
       -->
   <div class="logo" style="padding-left: 2rem">
   <a class="navbar-brand"
-        href="https://teenus.com.co/tezlik/" target="_blank"><img
-          src="/favicon.ico" width="25">
-        Tezlik</a>
+        href="https://teenus.com.co/tezlik/" target="_blank">
+        <img src="/favicon.ico" width="25">
+        <img src="../../upload/img/logo_tezlik.png" width="90">
+  </a>
   </div>
   <div class="sidebar-wrapper">
     <ul class="nav">
