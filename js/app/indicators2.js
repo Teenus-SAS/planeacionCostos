@@ -14,7 +14,6 @@ $.get('api/indicators.php', {
   id,
   quantity
 }, (data, status) => {
-  console.log('data', data);
   var manoObraDataChart = []
   var timeProcessDataChart = []
   data.ManoObra.forEach(roster => {
@@ -28,6 +27,7 @@ $.get('api/indicators.php', {
       y: process.time
     })
   })
+
   // configuracion grafico de procesos
   let chartProcess = $('#chartProcess').highcharts({
     chart: {
@@ -62,8 +62,6 @@ $.get('api/indicators.php', {
     }]
   });
 
-  console.log(chartProcess)
-
   // configuracion grafico de mano de obra
   Highcharts.chart('chartLaborCost', {
     chart: {
@@ -97,18 +95,29 @@ $.get('api/indicators.php', {
       enabled: false
     },
     tooltip: {
-      pointFormat: 'Costo de mano de Obra: <b> $ {point.y:.3f} </b>'
+      /* pointFormat: 'Costo de mano de Obra: <b> $ {point.y:.2f} </b>' */
+      pointFormatter: function () {
+        return `Costo de mano de Obra: <b>$ ${Highcharts.numberFormat(this.y, '2', ',')} </b>`;
+        }
     },
     series: [{
       name: 'Mano de Obra',
+      dataSorting: {
+        enabled: true,
+      },
       data: manoObraDataChart,
       dataLabels: {
         enabled: true,
         rotation: -90,
         color: '#FFFFFF',
         align: 'right',
-        format: '$ {point.y:.1f}', // one decimal
-        y: 30, // 10 pixels down from the top
+        inside: true,
+        formatter: function () {
+          return `$ ${Highcharts.numberFormat(this.y, '2', ',')}`;
+          },
+        /* format: '$ {point.y:.1f}',  */
+        // one decimal
+        y: -30, // 10 pixels down from the top
         style: {
           fontSize: '13px',
           fontFamily: 'Verdana, sans-serif'

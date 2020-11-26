@@ -324,9 +324,9 @@ var $tableNominas = $('#tableNominas').dataTable({
   {
     data: 'numberEmployees'
   },
-  {
+/*   {
     data: 'contract'
-  },
+  }, */
   {
     data: 'salary',
     render: function (data, type, row) {
