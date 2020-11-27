@@ -153,7 +153,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                         <div class="card-body">
                           <div class="form-group row">
                             <label class="col-md-5 col-sm-12 col-form-label col-6" for="my-input">Horas de Trabajo por Dia</label>
-                            <input id="my-input" class="col-md-6 form-control col-sm-10 col-5" type="number" name="workHours" value="<?= $user->getCompany()->getWorkHours() ?>" required>
+                            <input id="my-input" class="col-md-6 form-control col-sm-10 col-5" type="number" name="workHours" value="<?= $user->getCompany()->getWorkHours() ?>" step=".01" required>
                           </div>
                           <div class="form-group row">
                             <label class="col-md-5 col-sm-12 col-form-label col-6" for="my-input">Dias Laborales del Mes</label>
@@ -169,7 +169,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                           <div class="form-group row align-items-center">
                             <label class="col-md-4 col-sm-12 col-form-label col-6" for="my-input">Comisión de Ventas</label>
                             <div class="input-group col-md-7 col-sm-10 col-5 mb-0">
-                              <input id="my-input" class="form-control" type="number" name="SalesCommission" value="<?= $user->getCompany()->getSalesCommission() ?>" required>
+                              <input id="my-input" class="form-control" type="number" name="SalesCommission" value="<?= $user->getCompany()->getSalesCommission() ?>" step=".01" required>
                               <div class="input-group-append">
                                 <span class="input-group-text">%</span>
                               </div>
@@ -179,7 +179,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                           <div class="form-group row align-items-center mb-0">
                             <label class="col-md-4 col-form-label col-sm-12 col-6 " for="my-input">Margen De rentabilidad</label>
                             <div class="input-group col-md-7 col-sm-10 col-5 mb-0">
-                              <input id="my-input" class="form-control " type="number" name="ProfitabilityMargin" value="<?= $user->getCompany()->getProfitabilityMargin() ?>" required>
+                              <input id="my-input" class="form-control " type="number" name="ProfitabilityMargin" value="<?= $user->getCompany()->getProfitabilityMargin() ?>" step=".01" required>
                               <div class="input-group-append">
                                 <span class="input-group-text">%</span>
                               </div>
@@ -526,7 +526,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                             <div class="input-group-prepend">
                               <span class="input-group-text">$</span>
                             </div>
-                            <input type="text" class="form-control" id="input-horas-extra" name="horasExtras" value="0">
+                            <input type="text" class="form-control" id="input-horas-extra" name="horasExtra" value="0">
                           </div>
                         </div>
                         <div class="form-group row">

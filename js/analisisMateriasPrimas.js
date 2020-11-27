@@ -255,7 +255,7 @@ var $tableProductoMateriaA = $('#tableAnalisisMateriaPrima').dataTable({
     responsive: true,
     ajax: {
       url: 'api/get_materialesA.php?dataTable=true',
-      dataSrc: 'data', 
+      dataSrc: 'data',
     },
     columns: [{
       data: 'material.description',
@@ -309,26 +309,41 @@ var $tableProductoMateriaA = $('#tableAnalisisMateriaPrima').dataTable({
   
     },
     {
-      data: 'material.cost',
-      "defaultContent": '<p >Sin registro </p>',
-      render: (data, type, row) => {
-      if(data!=null){
-      let OP=$("#input-cantidadOP").val();
-      let mul=(parseFloat(data)*cant)*OP;
-      return formatCurrency("es-CO","COP",2,$.number(mul));
-    }
-      else return data
+      data: null,
+      'defaultContent': '<p>Sin registro </p>',
+      render: (data, type) => {
+        if (data !== 'hola') {
+          const OP = $("#input-cantidadOP").val();
+          const { quantity, material: { cost } = {} } = data;
+          const mul = (parseFloat(cost) * quantity) * OP;
+          if (type === 'display') {
+            return formatCurrency('es-CO','COP', 2, $.number(mul));
+          }
+          else {
+            return mul;
+          }
+        }
+        else {
+          return '<p>Sin registro </p>';
+        }
       }
     },
     {
-      data:'material.cost',
+      data: null,
       "defaultContent": '<p >Sin registro </p>',
       render: (data, type, row) => {
-      if(data!=null){  
-      let OP=$("#input-cantidadOP").val();
-      let mul=(((parseFloat(data)*cant)*OP)*100)/total;
-      return mul.toFixed(5)+" %"
-      }
+        if (data !== 'hola') {
+          const OP=$("#input-cantidadOP").val();
+          const { quantity, material: { cost } = {}} = data;
+          const mul = ((quantity * parseFloat(cost) * OP) * 100) / total;
+          if (type === 'display') {
+            return mul.toFixed(5) + ' %';
+          }
+          return mul;
+        }
+        else {
+          return '<p >Sin registro </p>';
+        }
       }
     }, 
     ], "drawCallback":function(){
