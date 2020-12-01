@@ -177,6 +177,12 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                           <label class="col-sm-5 col-md-4 col-12 text-left col-form-label pl-4">Producto</label>
                           <div class="col-md-7 col-sm-6 px-0 col-10"><input type="text" class="form-control" id="inputProducto" name="producto"></div>
                         </div>
+
+                        <div class="form-group row my-2">
+                          <label class="col-sm-5 col-md-4 col-12 text-left col-form-label pl-4">Rentabilidad</label>
+                          <div class="col-sm-6 col-md-7 px-0 col-10"><input type="text" class="form-control" id="inputRentabilidad" name="rentabilidad"></div>
+                        </div>
+
                         <div class="form-group row my-2">
                           <label class="col-sm-4 col-md-4 col-12 text-left col-form-label pl-4">Materia</label>
                           <div class="col-md-7 px-0 col-10"><select class="custom-select" id="input-materia" name="materia">
@@ -233,6 +239,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                             <thead class="text-primary">
                               <th>Referencia</th>
                               <th>Producto</th>
+                              <th>Rentabilidad</th>
                             </thead>
                             <tbody>
                             </tbody>
@@ -630,6 +637,9 @@ include(PARTIALS_PATH . "verify_session.php") ?>
   <script src="/vendor/dataTables/jquery.dataTables.min.js"></script>
   <script src="/vendor/dataTables/dataTables.bootstrap4.min.js"></script>
   <script src="/vendor/numberFormat/jquery.number.min.js"></script>
+
+  <script src="/vendor/jquery-validation/jquery.validate.min.js"></script>
+
   <script src="/vendor/xlsx-js/xlsx.full.min.js"></script>
   <script src="/vendor/file-saver/FileSaver.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>

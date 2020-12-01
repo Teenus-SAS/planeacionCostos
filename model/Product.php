@@ -37,6 +37,13 @@ class Product implements JsonSerializable
    * @var string
    */
   private $ref;
+    /**
+   * Rentabilidad del producto o en su defecto la rentabilidad general
+   *
+   * @access private
+   * @var decimal
+   */
+  private $rentabilidad;
   /**
    * materiales Del producto
    *
@@ -149,6 +156,29 @@ class Product implements JsonSerializable
   public function setRef($ref)
   {
     $this->ref = $ref;
+  }
+
+  /**
+   * obtiene la rentabilidad del producto o en su defecto la rentablidad general
+   *
+   * @access public
+   * @return decimal
+   */
+  public function getRentabilidad()
+  {
+    return $this->rentabilidad;
+  }
+
+    /**
+   * cambia el valor de la rentabilidad del producto
+   *
+   * @access public
+   * @param string $rentabilidad nueva rentabilidad del producto
+   * @return void
+   */
+  public function setRentabilidad($rentabilidad)
+  {
+    $this->rentabilidad = $rentabilidad;
   }
 
   /**

@@ -45,6 +45,10 @@ if (isset($_SESSION["user"])) {
   $response->totalCost = $response->cost + $response->generalExpenses;
   $response->salePrice = $response->totalCost / (1 - ($user->getCompany()->getProfitabilityMargin() / 100) - ($user->getCompany()->getSalesCommission() / 100));
   $response->profitability = ($user->getCompany()->getProfitabilityMargin() / 100) * $response->salePrice;
+
+  $response->productProfitability = $product->getRentabilidad();
+  $response->profitabilityMargin = $user->getCompany()->getProfitabilityMargin();
+  
   $response->salesCommission = ($user->getCompany()->getSalesCommission() / 100) * $response->salePrice;
   echo json_encode($response);
 } else {
