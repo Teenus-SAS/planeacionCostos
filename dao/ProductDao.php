@@ -66,6 +66,7 @@ class ProductDao
     $product->setIdCompany($productDB["empresas_id_empresa"]);
     $product->setName($productDB["nombre"]);
     $product->setRef($productDB["ref"]);
+    $product->setRentabilidad($productDB['rentabilidad']);
     if ($materials) {
       $product->setMaterials($this->findRawMaterialsByProduct($product));
     }
@@ -186,8 +187,8 @@ class ProductDao
   {
     $this->db->connect();
     $query = "INSERT INTO `productos` (`id_producto`, `empresas_id_empresa`,
-     `ref`, `nombre`) VALUES (NULL, '" . $product->getIdCompany() . "',
-    '" . $product->getRef() . "', '" . $product->getName() . "') ON DUPLICATE KEY UPDATE `nombre` = '" . $product->getName() . "'";
+     `ref`, `nombre`, `rentabilidad`) VALUES (NULL, '" . $product->getIdCompany() . "',
+    '" . $product->getRef() . "', '" . $product->getName() . "','" . $product->getRentabilidad() . "') ON DUPLICATE KEY UPDATE `nombre` = '" . $product->getName() . "'";
     return $this->db->consult($query);
   }
 

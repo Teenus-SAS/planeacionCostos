@@ -153,7 +153,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                         <div class="card-body">
                           <div class="form-group row">
                             <label class="col-md-5 col-sm-12 col-form-label col-6" for="my-input">Horas de Trabajo por Dia</label>
-                            <input id="my-input" class="col-md-6 form-control col-sm-10 col-5" type="number" name="workHours" value="<?= $user->getCompany()->getWorkHours() ?>" step=".01" required>
+                            <input id="my-input-wh" class="col-md-6 form-control col-sm-10 col-5" type="text" name="workHours" value="<?= $user->getCompany()->getWorkHours() ?>">
                           </div>
                           <div class="form-group row">
                             <label class="col-md-5 col-sm-12 col-form-label col-6" for="my-input">Dias Laborales del Mes</label>
@@ -169,12 +169,11 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                           <div class="form-group row align-items-center">
                             <label class="col-md-4 col-sm-12 col-form-label col-6" for="my-input">Comisión de Ventas</label>
                             <div class="input-group col-md-7 col-sm-10 col-5 mb-0">
-                              <input id="my-input" class="form-control" type="number" name="SalesCommission" value="<?= $user->getCompany()->getSalesCommission() ?>" step=".01" required>
+                              <input id="my-input-sc" class="form-control" type="text" name="SalesCommission" value="<?= $user->getCompany()->getSalesCommission() ?>">
                               <div class="input-group-append">
                                 <span class="input-group-text">%</span>
                               </div>
                             </div>
-
                           </div>
                           <div class="form-group row align-items-center mb-0">
                             <label class="col-md-4 col-form-label col-sm-12 col-6 " for="my-input">Margen De rentabilidad</label>
@@ -532,7 +531,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                         <div class="form-group row">
                           <label for="inputPassword" class="col-sm-5 col-5 col-form-label">Horas de Trabajo dia / empleado</label>
                           <div class="col-sm-6 col-6">
-                            <input type="number" class="form-control" id="inputHorasTrabajo" name="horasTrabajo" min="1" max="18">
+                            <input type="text" class="form-control" id="inputHorasTrabajo" name="horasTrabajo" min="1" max="18">
                           </div>
                         </div>
                         <div class="form-group row">
@@ -942,6 +941,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
   <script src="/app/assets/js/core/popper.min.js"></script>
   <script src="/app/assets/js/core/bootstrap.min.js"></script>
   <script src="/app/assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+  <script src="/vendor/jquery-validation/jquery.validate.min.js"></script>
   <!-- Chart JS -->
   <script src="/app/assets/js/plugins/chartjs.min.js"></script>
   <!--  Notifications Plugin    -->
@@ -957,7 +957,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
   <script src="/vendor/xlsx-js/xlsx.full.min.js"></script>
   <script src="/vendor/file-saver/FileSaver.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
-  <script src="/vendor/jquery-validation/jquery.validate.min.js"></script>
+
   <script src="/js/RedondeoDecimal.js"></script>
   <script src="/js/materia-prima.js"></script>
   <script src="/js/factor-prestacional.js"></script>

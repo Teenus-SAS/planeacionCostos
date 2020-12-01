@@ -11,7 +11,6 @@ function completeSpinner() {
   $('#spinnerAjax').addClass('fade')
 }
 
-
 // cambio entre adicionar y modificar
 $('input[name=optionProductos]').change(function () {
   if ($(this).val() == 'option2') {
@@ -19,6 +18,7 @@ $('input[name=optionProductos]').change(function () {
     // desaparece el input
     $('#inputRef').fadeOut()
     $('#inputProducto').fadeOut()
+    $('#inputRentabilidad').parent().parent().fadeOut();
     // guarda el padre del input
     let $formGroupParent = $('#inputRef').parent()
     $('#input-cantidad').attr('disabled', false)
@@ -120,6 +120,9 @@ $('input[name=optionProductos]').change(function () {
       $('#inputProducto').fadeOut()
       $formGroupParent.append(`<input id="inputProducto" class="form-control" type="text" name="producto"> `)
       $('#inputProducto').remove()
+
+      // reaparece el contenedor del input rentabilidad
+      $('#inputRentabilidad').parent().parent().show();
     }
     // cambio de tabla a la lista de productos
     $('#tableProductoMateriaPrima_wrapper').parent().fadeOut(400, () => {
@@ -156,6 +159,12 @@ var $tableProductos = $('#tableProductos').dataTable({
   },
   {
     data: 'name'
+  },
+  {
+    data: 'rentabilidad',
+    render: function (data) {
+      return data + ' %';
+      }
   }
   ],
   reponsive: true
@@ -202,10 +211,112 @@ $tableProductoMateria.on('click', 'tr', function () {
   $(this).toggleClass('selected');
 })
 
+$.validator.addMethod("rentabilidadInput", function (value) {
+  return /^\s*-?[1-9]\d*(\.\d{1,2})?\s*$/.test(value) || value.trim() === '';
+  }, "Máximo dos decimales");
+
 
 // formulario para adicionar o modificar valores de una nomina
 
-$('#form-products').submit(function (e) {
+$('#form-products').validate({
+  rules: {
+    rentabilidad: 'rentabilidadInput'
+  },
+  messages: {
+    rentabilidad: "Máximo dos decimales"
+  },
+  submitHandler: function (form) {
+    let request = $(form).serialize()
+    $.post('api/add_modify_products.php', request, (_data, _status, xhr) => {
+    })
+      .always(function (xhr) {
+        switch (xhr.status) {
+          case 200:
+            $.notify({
+              icon: "nc-icon nc-bell-55",
+              message: "El producto ha sido <b>Actualizado</b> Correctamente"
+            }, {
+              type: 'primary',
+              timer: 8000
+            })
+            $tableProductos.api().ajax.reload()
+            $tableProductoMateria.api().ajax.reload()
+            $tableGastosMensuales.api().ajax.reload()
+            loadProductsInProcess()
+            break
+          case 201:
+            $.notify({
+              icon: "nc-icon nc-bell-55",
+              message: "El producto ha sido <b>Creado</b> Correctamente"
+            }, {
+              type: 'success',
+              timer: 8000
+            })
+            $.notify({
+              icon: "nc-icon nc-bell-55",
+              message: "Ahora ah configurar el producto"
+            }, {
+              type: 'primary',
+              timer: 8000
+            })
+            $('#config-color').css("color","orange")
+            $tableProductos.api().ajax.reload()
+            $tableProductoMateria.api().ajax.reload()
+            $tableGastosMensuales.api().ajax.reload()
+            $('#form-products')[0].reset()
+            loadProductsGG()
+            loadProductsPP()
+            loadProductsInProcess()
+            loadProductsInXLSX()
+            break
+          case 412:
+            $.notify({
+              icon: "nc-icon nc-bell-55",
+              message: "Por favor <b>selecciona</b> una opcion para <b>adicionar</b> o <b>modificar</b>"
+            }, {
+              type: 'warning',
+              timer: 8000
+            })
+            break
+          case 400:
+            $.notify({
+              icon: "nc-icon nc-bell-55",
+              message: "Por favor <b>Completa</b> Todos los campos"
+            }, {
+              type: 'warning',
+              timer: 8000
+            })
+            break
+          case 500:
+            $.notify({
+              icon: "nc-icon nc-bell-55",
+              message: "Esta <b>Referencia</b> ya existe"
+            }, {
+              type: 'danger',
+              timer: 8000
+            })
+            break
+          case 401:
+            location.href = "/login"
+            break
+          case 403:
+            $.notify({
+              icon: "nc-icon nc-bell-55",
+              message: "Ya no puede crear mas productos <br> Se ha alcanzado el limite de productos licenciados"
+            }, {
+              type: 'danger',
+              timer: 8000
+            })
+            break
+        }
+      })
+  }
+});
+
+
+
+
+/* $('#form-products').submit(function (e) {
   e.preventDefault()
   let request = $(this).serialize()
   $.post('api/add_modify_products.php', request, (_data, _status, xhr) => {
@@ -292,7 +403,7 @@ $('#form-products').submit(function (e) {
 
       }
     })
-})
+}) */
 
 
 //borrado de productos
@@ -377,3 +488,5 @@ $('#delete-materia-prima').click(() => {
     })
   }
 })
+
+

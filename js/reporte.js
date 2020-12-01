@@ -36,7 +36,7 @@ $('.number').number(true, 2, ',', '.')
 
 $('#select-product').change(function () {
   quitSimulation()
-  console.log('select this', this);
+/*   console.log('select this', this); */
   if ($(this).val() == 'total') {
     loadTotalCost()
   } else {
@@ -44,50 +44,98 @@ $('#select-product').change(function () {
   }
 })
 
-function fillFields(data, flag = false) {
+function fillFields(data, flag = false, consolidado = true) {
   if (!flag) {
     $('.quantity-product').val(data.quantity)
   }
+
+  /////// operaciones calculos finales a mostrar/////
+  //// GASTOS /////
+  const gComisionVentas = data.salesCommission;
+  const gGenerales = data.generalExpenses;
+  const gastos = gComisionVentas + gGenerales;
+  ////// GASTOS PORCENTAJES //////////
+  const gpComisionVentas = gComisionVentas * 100 / gastos;
+  const gpGenerales = gGenerales / gastos * 100;
+ 
+
+  ///// COSTOS /////////
+  const cIndirectosFabricacion = data.indirectExpenses;
+  const cManoObra = data.laborCost;
+  const cMateriaPrima = data.rawMaterialExpenses;
+  const costos = cIndirectosFabricacion + cManoObra + cMateriaPrima;
+  ////// COSTOS PORCENTAJE /////////////
+  const cpIndirectosFabricacion = cIndirectosFabricacion / costos * 100;
+  const cpManoObra = cManoObra / costos * 100;
+  const cpMateriaPrima = cMateriaPrima / costos * 100;
+
+  const totalCostos = gastos + costos;
+  const gastosPorcentaje = gastos / totalCostos * 100;
+  const costosPorcentaje = costos / totalCostos * 100;
+  const pTotalCostos = totalCostos / data.salePrice * 100;
+
+
   // total de costos
-  $('#totalCostosCOP').val(data.totalCost)
-  $('#totalCostosUSD').val((data.totalCost*100/data.salePrice).toFixed(2) + " %")
+/*   $('#totalCostosCOP').val(data.totalCost) */
+$('#totalCostosCOP').val(totalCostos)
+$('#totalCostosUSD').val((pTotalCostos).toFixed(2) + " %")
+/*   $('#totalCostosUSD').val((data.totalCost*100/data.salePrice).toFixed(2) + " %") */
   // precio de venta
   $('#precioVentaCOP').val(data.salePrice)
   $('#precioVentaUSD').val("100.00" + " %")
   //costos
-  $('#CostoCOP').val(data.cost)
-  $('#CostoUSD').val(((data.cost*100)/data.totalCost).toFixed(2)+ " %")
+ /*  $('#CostoCOP').val(data.cost) */
+ $('#CostoCOP').val(costos)
+ $('#CostoUSD').val((costosPorcentaje).toFixed(2)+ " %")
+/*   $('#CostoUSD').val(((data.cost*100)/data.totalCost).toFixed(2)+ " %") */
   // materia prima
-  $('#materiaPrimaCOP').val(data.rawMaterialExpenses)
-  $('#materiaPrimaUSD').val((data.rawMaterialExpenses*100 /data.cost).toFixed(2)+ " %")
+ /*  $('#materiaPrimaCOP').val(data.rawMaterialExpenses) */
+  $('#materiaPrimaCOP').val(cMateriaPrima)
+/*   $('#materiaPrimaUSD').val((data.rawMaterialExpenses*100 /data.cost).toFixed(2)+ " %") */
+$('#materiaPrimaUSD').val((cpMateriaPrima).toFixed(2)+ " %")
   //mano de obra
-  $('#manoObraCOP').val(data.laborCost)
-  $('#manoObraUSD').val((data.laborCost*100 / data.cost).toFixed(2) + " %")
+  /* $('#manoObraCOP').val(data.laborCost) */
+  $('#manoObraCOP').val(cManoObra)
+  /* $('#manoObraUSD').val((data.laborCost*100 / data.cost).toFixed(2) + " %") */
+  $('#manoObraUSD').val((cpManoObra).toFixed(2) + " %")
   //costos indirectos
-  $('#costosIndirectosCOP').val(data.indirectExpenses)
-  $('#costosIndirectosUSD').val((data.indirectExpenses*100 / data.cost).toFixed(2) + " %")
+  /* $('#costosIndirectosCOP').val(data.indirectExpenses) */
+  $('#costosIndirectosCOP').val(cIndirectosFabricacion)
+/*   $('#costosIndirectosUSD').val((data.indirectExpenses*100 / data.cost).toFixed(2) + " %") */
+$('#costosIndirectosUSD').val((cpIndirectosFabricacion).toFixed(2) + " %")
   // gastos
-  $('#gastosCOP').val(data.generalExpenses)
-  $('#gastosUSD').val((data.generalExpenses*100 / data.totalCost).toFixed(2) + " %")
+  $('#gastosCOP').val(gastos)
+/*   $('#gastosUSD').val((data.generalExpenses*100 / data.totalCost).toFixed(2) + " %") */
+ $('#gastosUSD').val((gastosPorcentaje).toFixed(2) + " %")
+
   // gastos generales
-  $('#gastosGeneralesCOP').val(data.generalExpenses)
+  $('#gastosGeneralesCOP').val(gGenerales)
   if($('#gastosCOP').val()>0){
-  $('#gastosGeneralesUSD').val((data.generalExpenses*100 / data.generalExpenses).toFixed(2) + " %" )
+ /*  $('#gastosGeneralesUSD').val((data.generalExpenses*100 / data.generalExpenses).toFixed(2) + " %" ) */
+ $('#gastosGeneralesUSD').val((gpGenerales).toFixed(2) + " %" )
   }
   else{
     $('#gastosGeneralesUSD').val( "0.00 %")
   }
   // comision 
-  $('#comisionCOP').val(data.salesCommission)
+ /*  $('#comisionCOP').val(data.salesCommission) */
+  $('#comisionCOP').val(gComisionVentas)
   if($('#comisionCOP').val()>0){
-  $('#comisionUSD').val((data.salesCommission / limInf).toFixed(2) + " %")
+ /*  $('#comisionUSD').val((data.salesCommission / limInf).toFixed(2) + " %") */
+ $('#comisionUSD').val((gpComisionVentas).toFixed(2) + " %")
   }
   else{
     $('#comisionUSD').val( "0.00 %")
   }
   // rentabilidad
   $('#rentabilidadCOP').val(data.profitability)
-  $('#rentabilidadUSD').val((data.profitability*100 / data.salePrice).toFixed(2) + " %")
+/*   $('#rentabilidadUSD').val((data.profitability*100 / data.salePrice).toFixed(2) + " %") */
+  if (consolidado) {
+    $('#rentabilidadUSD').val((data.profitabilityMargin) + " %") 
+  }else{
+    $('#rentabilidadUSD').val((data.productProfitability) + " %") 
+  }
+
 }
 
 // cargar informacion del producto cotizado
@@ -96,7 +144,6 @@ function loadCost(product, flag = false) {
   $('.btn-product').addClass('btn btn-primary')
   $('#link-indicators').html('Ver indicadores')
   $('#link-simulation').html('Simular')
-  console.log('product', product);
   $('#link-indicators').attr('href', `indicators.php?id=${product.id}&quantity=${product.quantity}`)
   $('.quantity-product').attr('readonly', false)
   $.get('api/cost_product.php', {
@@ -107,7 +154,7 @@ function loadCost(product, flag = false) {
       if (!flag) {
         data.quantity = product.quantity
       }
-      fillFields(data, flag)
+      fillFields(data, flag, false)
       loadChartIndividual(data)
     })
 }
@@ -129,6 +176,7 @@ function loadTotalCost() {
     totalCost: 0,
     salePrice: 0,
     profitability: 0,
+    profitabilityMargin: 0,
     salesCommission: 0
   }
   productsReq.forEach((product, indx) => {
@@ -157,6 +205,10 @@ function loadTotalCost() {
         consolidated.salesCommission += data.salesCommission
         // rentabilidad
         consolidated.profitability += data.profitability
+
+        //porcenjate rentabilidad del producto
+        consolidated.profitabilityMargin += parseFloat(data.profitabilityMargin);
+
         fillFields(consolidated)
         loadChart()
       })
@@ -272,7 +324,7 @@ function loadChart() {
     charCost.update()
   }
 }
-console.log(Chart.defaults.global.layout)
+/* console.log(Chart.defaults.global.layout) */
 function loadChartIndividual(dataProduct) {
   charCost.data.datasets[0].data = []
   charCost.data.datasets[0].backgroundColor = colors[Math.floor(Math.random() * (colors.length - 0)) + 0]
