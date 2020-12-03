@@ -25,6 +25,18 @@ if (isset($_SESSION["user"])) {
               $product->setRentabilidad($_POST["rentabilidad"]);
             }
             $product->setIdCompany($user->getCompany()->getId());
+
+            if (isset($_POST["formOption"]) && $_POST["formOption"] == '1' &&
+                isset($_POST["prodId"]) && $_POST["prodId"] != '-1') {
+                $product->setId($_POST["prodId"]);
+                if($productDao->update($product) == true) {
+                  http_response_code(200);
+                } else {
+                  http_response_code(500);
+                }
+                return;
+            }
+
             if ($productDao->save($product) > 0) {
               http_response_code(201);
             } else {

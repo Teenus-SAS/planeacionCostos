@@ -14,6 +14,9 @@ function completeSpinner() {
 // cambio entre adicionar y modificar
 $('input[name=optionProductos]').change(function () {
   if ($(this).val() == 'option2') {
+
+    //RESETEA OPCIONES DE GUARDAR EDITAR
+    resetFormOptions();
   
     // desaparece el input
     $('#inputRef').fadeOut()
@@ -165,14 +168,55 @@ var $tableProductos = $('#tableProductos').dataTable({
     render: function (data) {
       return data + ' %';
       }
+  },
+  { 
+    data: 'id',
+    render: function (data) {
+      return `<a href='#'><i data-prod-id=${data} class='nc-icon nc-refresh-69 link-editar' style='color:rgb(255, 165, 0)'></i></a>`;
+    }
+  },
+  { 
+    data: 'id',
+    render: function (data) { 
+      return `<a href='#' <i data-prod-id=${data} class='nc-icon nc-simple-remove link-borrar' data-toggle='tooltip' title='Eliminar' style='color:rgb(255, 0, 0)'></i></a>`;
+    }
   }
   ],
   reponsive: true
 })
+
 $tableProductos.width('100%')
-$tableProductos.on('click', 'tr', function () {
+/* $tableProductos.on('click', 'tr', function () {
   $(this).toggleClass('selected');
-})
+}) */
+
+///////// FUNCIONALIDAD EDITAR / ELIMINAR PRODUCTOS ////////////////
+document.getElementById('tableProductos').addEventListener('click', (ev) => {
+  const selectedElement = ev.target;
+  if (selectedElement.classList.contains('link-editar')) {
+
+    const closestRow = selectedElement.closest('tr');
+    const ref = closestRow.cells[0].textContent;
+    const producto = closestRow.cells[1].textContent;
+    const rentabilidad = closestRow.cells[2].textContent.slice(0, -2);
+    
+    document.getElementById('inputRef').value = ref;
+    document.getElementById('inputProducto').value = producto;
+    document.getElementById('inputRentabilidad').value = rentabilidad;
+
+    document.getElementById('form-product-btn').textContent = 'Editar';
+    /// Opcion en formulario 1 = editar, 0 = guardar
+    document.getElementById('formOption').value = 1;
+    //// id del producto ///////
+    document.getElementById('prodId').value = selectedElement.dataset.prodId;
+  }
+  else if (selectedElement.classList.contains('link-borrar')) {
+    deleteProduct(selectedElement.dataset.prodId);
+  }
+});
+
+
+
 
 // inicializacion de datatable de productos
 var $tableProductoMateria = $('#tableProductoMateriaPrima').dataTable({
@@ -308,10 +352,26 @@ $('#form-products').validate({
               timer: 8000
             })
             break
-        }
+        };
+        $('#inputRef').val('');
+        $('#inputProducto').val('');
+        $('#inputRentabilidad').val('');
+        /// RESETEA EL VALOR DEL FORM OPTION GUARDAR/EDITAR ///
+          resetFormOptions();
       })
   }
 });
+
+
+/// resetea opciones de guardar editar/////
+function resetFormOptions() {
+  const formOption = document.getElementById('formOption');
+  if (formOption.value == 1) {
+    document.getElementById('form-product-btn').textContent = 'Guardar';
+    document.getElementById('prodId').value = '-1';
+    formOption.value = 0;
+  }
+}
 
 
 
@@ -405,10 +465,34 @@ $('#form-products').validate({
     })
 }) */
 
+function deleteProduct(prodId) {
+  $.post('api/delete_product.php', {
+    id: prodId
+  }).always(function (xhr) {
+    loadingSpinner()
+    if (xhr.status == 200) {
+      $tableProductos.api().ajax.reload()
+      loadProductsGG()
+      loadProductsPP()
+      loadProductsInProcess()
+      loadProductsInXLSX()
+      $.notify({
+        icon: "nc-icon nc-bell-55",
+        message: `Se ha borrado 1 producto`,
+      }, {
+        type: 'info',
+        timer: 8000
+      })
+      completeSpinner()
+    }
+  })
+}
+
 
 //borrado de productos
-$('#delete-producto').click(() => {
+/* $('#delete-producto').click(() => {
   let rows = $tableProductos.api().rows('.selected').data()
+  console.log(rows);
   let count = 0
   let countAux = 0
   if (rows.length > 0) {
@@ -448,7 +532,7 @@ $('#delete-producto').click(() => {
       timer: 8000
     })
   }
-})
+}) */
 
 //borrado de materia prima
 $('#delete-materia-prima').click(() => {

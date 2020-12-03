@@ -201,7 +201,7 @@ class ProductDao
   public function update($product)
   {
     $this->db->connect();
-    $query = "UPDATE `productos` SET `ref` = '" . $product->getRef() . "', `nombre` = '" . $product->getName() . "' WHERE `productos`.`id_producto` = " . $product->getId();
+    $query = "UPDATE `productos` SET `ref` = '" . $product->getRef() . "', `nombre` = '" . $product->getName() . "', `rentabilidad` = '" . $product->getRentabilidad() . "' WHERE `productos`.`id_producto` = " . $product->getId();
     return $this->db->consult($query);
   }
 

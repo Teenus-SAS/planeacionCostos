@@ -198,7 +198,9 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                       <div class="row mb-4">
                         <div class="col"></div>
                         <div class="col">
-                          <button class="btn btn-primary">Guardar</button>
+                          <input type="hidden" id="formOption" name="formOption" value="0">
+                          <input type="hidden" id="prodId" name="prodId" value="-1">
+                          <button id="form-product-btn" class="btn btn-primary">Guardar</button>
                         </div>
                         <div class="col"></div>
                       </div>
@@ -222,7 +224,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                       </div>
                       <div class="card-body">
                         <button class="btn btn-danger" id="delete-materia-prima">Eliminar</button>
-                        <button class="btn btn-danger" id="delete-producto" style="display:none;">Eliminar</button>
+                     <!--    <button class="btn btn-danger" id="delete-producto" style="display:none;">Eliminar</button> -->
                         <div class="table-responsive tableFixHead">
                           <table class="table" id="tableProductoMateriaPrima">
                             <thead class="text-primary">
@@ -240,6 +242,8 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                               <th>Referencia</th>
                               <th>Producto</th>
                               <th>Rentabilidad</th>
+                              <th>Editar</th>
+                              <th>Eliminar</th>
                             </thead>
                             <tbody>
                             </tbody>
