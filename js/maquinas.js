@@ -92,14 +92,15 @@ var $tableMaquinas = $('#table-maquinas').dataTable({
   {
     "data": 'price',
     render: function (data, type, row) {
-      return `$ ${$.number(data, 2, '.', ',')}`
+      return `$ ${$.number(data, 0, '.', ',')}`
     }
   },
   {
     "data": 'depreciation',
     render: function (data, type, row) {
       if (parseFloat(data) < 1) {
-        return data
+        /* return data */
+        return $.number(data, 2, '.', ',')
       } else {
         return $.number(data, 2, '.', ',')
       }
