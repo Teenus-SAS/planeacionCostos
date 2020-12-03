@@ -239,11 +239,10 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                         <div class="table-responsive tableFixHead" style="display: none;">
                           <table class="table compact" id="tableProductos">
                             <thead class="text-primary">
-                              <th>Referencia</th>
+                              <th>Ref</th>
                               <th>Producto</th>
                               <th>Rentabilidad</th>
-                              <th>Editar</th>
-                              <th>Eliminar</th>
+                              <th>Acciones</th>
                             </thead>
                             <tbody>
                             </tbody>

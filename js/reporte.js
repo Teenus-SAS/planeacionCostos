@@ -1,6 +1,5 @@
 var productsReq = JSON.parse(sessionStorage.getItem('products'))
 
-
 var dollar = 0
 $('#dollar').load('api/page_dollar.php #cc-ratebox', (data, status, xhr) => {
   strDollar = $('#dollar #cc-ratebox').text()
@@ -27,8 +26,13 @@ $.get('/app/products/api/get_products.php', (data, status, xhr) => {
       </tr>`)
     }
   })
-  $('#select-product').append(`<option value="total" selected>Consolidado</option>`)
-  loadTotalCost()
+  if (productsReq.length > 1) {
+    $('#select-product').append(`<option value="total" selected>Consolidado</option>`)
+    loadTotalCost()
+  }
+  else {
+    loadCost(productsReq[0], false, true);
+  }
 })
 
 // formateo de entradas
@@ -139,7 +143,7 @@ $('#costosIndirectosUSD').val((cpIndirectosFabricacion).toFixed(2) + " %")
 }
 
 // cargar informacion del producto cotizado
-function loadCost(product, flag = false) {
+function loadCost(product, flag = false, cargaUnicoProducto = false) {
   $('#title-product').html(products.filter(productA => productA.id == product.id)[0].name)
   $('.btn-product').addClass('btn btn-primary')
   $('#link-indicators').html('Ver indicadores')
@@ -155,7 +159,12 @@ function loadCost(product, flag = false) {
         data.quantity = product.quantity
       }
       fillFields(data, flag, false)
-      loadChartIndividual(data)
+      if (cargaUnicoProducto) {
+        loadChartWhenOneProduct(data);
+      }else{
+        loadChartIndividual(data)
+      }
+      
     })
 }
 var consolidated
@@ -207,7 +216,7 @@ function loadTotalCost() {
         consolidated.profitability += data.profitability
 
         //porcenjate rentabilidad del producto
-        consolidated.profitabilityMargin += parseFloat(data.profitabilityMargin);
+        consolidated.profitabilityMargin = parseFloat(data.profitabilityMargin);
 
         fillFields(consolidated)
         loadChart()
@@ -337,6 +346,79 @@ function loadChartIndividual(dataProduct) {
   ]
   charCost.update()
 }
+
+
+/// CARGA DE CHART CUANDO SOLO SE ESCOJE UN PRODUCTO ////
+function loadChartWhenOneProduct(dataProduct) {
+  let ctx = document.getElementById('chartCost').getContext('2d')
+  charCost = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['Materia Prima', 'Costos Indirectos', 'Mano de Obra', 'Comisiones', 'Gastos Generales'],
+      datasets: [{
+        borderColor: '#fff',
+        backgroundColor: color,
+        borderWidth: 1,
+        data: [$.number(dataProduct.rawMaterialExpenses, 2, '.'),
+        $.number(dataProduct.indirectExpenses, 2, '.'),
+        $.number(dataProduct.laborCost, 2, '.'),
+        $.number(dataProduct.salesCommission, 2, '.'),
+        $.number(dataProduct.generalExpenses, 2, '.')]
+      }]
+    },
+    options: {
+      responsive: true,
+      legend: {
+        display: false
+      },
+      tooltips: {
+        callbacks: {
+          label: function (tooltipItem, data) {
+            let value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]
+            return ' $ ' + $.number(value, 2, ',', '.')
+          }
+        }
+      },
+      scales: {
+        yAxes: [{
+          display: true,
+          ticks: {
+
+          },
+          gridLines: {
+            offsetGridLines: true
+          }
+        }]
+      },
+      plugins: {
+        datalabels: {
+          align: 'end',
+          anchor: 'center',
+          clamp: true,
+          backgroundColor: '#fff',
+          borderColor: function (context) {
+            return context.dataset.backgroundColor;
+          },
+          borderWidth: 2,
+          borderRadius: 2,
+          color: function (context) {
+            return context.dataset.backgroundColor;
+          },
+          font: function (context) {
+            var w = context.chart.width;
+            return {
+              size: w < 512 ? 12 : 14
+            };
+          },
+          formatter: function (value, context) {
+            return `$ ${$.number(value, 2, ',', '.')}`
+          }
+        }
+      },
+    }
+  })
+}
+
 
 function calculateCoverExport(limInf) {
   if (dollar > 0) {

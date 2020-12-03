@@ -19,16 +19,34 @@ $.validator.addMethod("decimalInput", function (value) {
       'workHours': {
         required: true,
         decimalInput: true
+      },
+      'BussinesDayMonth': {
+        required: true,
+        max: 31,
+        min: 1
+      },
+      'ProfitabilityMargin': {
+        required: true,
+        decimalInput: true
       }
     },
     messages: {
       'SalesCommission': {
-        required: 'requerido',
-        decimalInput: 'dos decimales'
+        required: 'campo requerido',
+        decimalInput: 'máximo dos decimales'
       },
       'workHours': {
-        required:'required',
-        decimalInput: 'max dos',
+        required:'campo required',
+        decimalInput: 'máximo dos decimales',
+      },
+      'BussinesDayMonth': {
+        required: 'campo requerido',
+        max: 'máximo 31 días laborales requeridos al mes',
+        min: 'minimo 1 día laboral requerido al mes'
+      },
+      'ProfitabilityMargin': {
+        required: 'campo requerido',
+        decimalInput: 'máximo dos decimales'
       }
     },
     errorPlacement: function (error, element) {  
@@ -70,5 +88,7 @@ $.validator.addMethod("decimalInput", function (value) {
                 break
             }
           })
-      }
+      },
+      errorClass: "is-invalid",
+      validClass: 'is-valid'
   });

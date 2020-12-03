@@ -157,7 +157,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                           </div>
                           <div class="form-group row">
                             <label class="col-md-5 col-sm-12 col-form-label col-6" for="my-input">Dias Laborales del Mes</label>
-                            <input id="my-input" class="col-md-6 form-control col-sm-8 col-5" type="number" name="BussinesDayMonth" value="<?= $user->getCompany()->getBussinesDaysMonth() ?>" required>
+                            <input id="my-input-dl" class="col-md-6 form-control col-sm-8 col-5" type="number" name="BussinesDayMonth" value="<?= $user->getCompany()->getBussinesDaysMonth() ?>" required>
                           </div>
                         </div>
                       </div>
@@ -178,7 +178,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                           <div class="form-group row align-items-center mb-0">
                             <label class="col-md-4 col-form-label col-sm-12 col-6 " for="my-input">Margen De rentabilidad</label>
                             <div class="input-group col-md-7 col-sm-10 col-5 mb-0">
-                              <input id="my-input" class="form-control " type="number" name="ProfitabilityMargin" value="<?= $user->getCompany()->getProfitabilityMargin() ?>" step=".01" required>
+                              <input id="my-input-mr" class="form-control " type="number" name="ProfitabilityMargin" value="<?= $user->getCompany()->getProfitabilityMargin() ?>" required>
                               <div class="input-group-append">
                                 <span class="input-group-text">%</span>
                               </div>

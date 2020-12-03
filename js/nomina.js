@@ -18,6 +18,11 @@ $('#input-salario').number(true, 2)
 $('#input-dotacion').number(true, 2)
 $('#input-horas-extra').number(true, 2)
 
+/// validadores
+$.validator.addMethod("decimalInput", function (value) {
+  return /^\s*-?[1-9]\d*(\.\d{1,2})?\s*$/.test(value);
+  }, "Máximo dos decimales");
+
 
 
 $('input[name=optionNomina]').change(function () {
@@ -363,7 +368,8 @@ $('#form-nomina').validate({
     horasTrabajo: {
       required: true,
       min: 1,
-      max: 18
+      max: 18,
+      decimalInput: true,
     },
     diasMes: {
       required: true,
@@ -371,7 +377,10 @@ $('#form-nomina').validate({
       max: 31
     },
     optionFactorPrestacional: 'required',
-    factorPrestacional: 'required'
+    factorPrestacional: {
+      required: true,
+      decimalInput: true
+    }
   },
   messages: {
     cargo: 'Ingrese un cargo',
@@ -381,7 +390,8 @@ $('#form-nomina').validate({
     horasTrabajo: {
       required: 'Ingrese las horas de trabajo',
       min: 'El número de horas minimo es 1',
-      max: 'El número de horas maximo es de 18'
+      max: 'El número de horas maximo es de 18',
+      decimalInput: 'máximo dos decimales'
     },
     diasMes: {
       required: 'Ingrese los días de trabajo',
@@ -389,7 +399,10 @@ $('#form-nomina').validate({
       max: 'El número de horas maximo es de 31'
     },
     optionFactorPrestacional: '',
-    factorPrestacional: ''
+    factorPrestacional: {
+      required: 'Ingrese el factor prestacional',
+      decimalInput: 'máximo dos decimales'
+    }
   },
   submitHandler: function (form) {
     let request = $(form).serialize()
