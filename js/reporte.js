@@ -191,7 +191,8 @@ function loadTotalCost() {
   productsReq.forEach((product, indx) => {
     $.get('api/cost_product.php', {
       id: product.id,
-      quantity: product.quantity
+      quantity: product.quantity,
+      consolidated: 1,
     },
       (data, status) => {
         // cantidades
