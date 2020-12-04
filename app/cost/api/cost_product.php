@@ -43,8 +43,18 @@ if (isset($_SESSION["user"])) {
   $response->cost = $response->indirectExpenses + $response->rawMaterialExpenses + $response->laborCost;
   $response->generalExpenses = $product->getExpenses()->getUnitAssignableExpense();
   $response->totalCost = $response->cost + $response->generalExpenses;
-  $response->salePrice = $response->totalCost / (1 - ($user->getCompany()->getProfitabilityMargin() / 100) - ($user->getCompany()->getSalesCommission() / 100));
+
+
+  if (isset($_GET["consolidated"])) {
+    $response->salePrice = $response->totalCost / (1 - ($user->getCompany()->getProfitabilityMargin() / 100) - ($user->getCompany()->getSalesCommission() / 100));
   $response->profitability = ($user->getCompany()->getProfitabilityMargin() / 100) * $response->salePrice;
+  } else {
+    $response->salePrice = $response->totalCost / (1 - ($product->getRentabilidad() / 100) - ($user->getCompany()->getSalesCommission() / 100));
+      $response->profitability = ($product->getRentabilidad() / 100) * $response->salePrice;
+  }
+
+
+
 
   $response->productProfitability = $product->getRentabilidad();
   $response->profitabilityMargin = $user->getCompany()->getProfitabilityMargin();
