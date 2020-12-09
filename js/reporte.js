@@ -499,21 +499,14 @@ function simulationCost() {
   $('#comisionCOP').attr('readonly', false)
   $('#rentabilidadCOP').attr('readonly', false)
 
-  $('#materiaPrimaCOP').keyup(sumCost)
-  $('#manoObraCOP').keyup(sumCost)
-  $('#costosIndirectosCOP').keyup(sumCost)
-  $('#gastosGeneralesCOP').keyup(sumCost)
-  $('#comisionCOP').keyup(calculatesalePrice)
-  $('#rentabilidadCOP').keyup(calculatesalePrice)
-  $('#totalCostosCOP').keyup(calculatesalePrice)
+  $('#materiaPrimaCOP').on('input', sumCost);
+  $('#manoObraCOP').on('input', sumCost);
+  $('#costosIndirectosCOP').on('input', sumCost);
+  $('#gastosGeneralesCOP').on('input', sumCost);
+  $('#comisionCOP').on('input', calculatesalePrice);
+  $('#rentabilidadCOP').on('input', calculatesalePrice);
+  $('#totalCostosCOP').on('input', calculatesalePrice);
 
-  $('#materiaPrimaCOP').change(sumCost)
-  $('#manoObraCOP').change(sumCost)
-  $('#costosIndirectosCOP').change(sumCost)
-  $('#gastosGeneralesCOP').change(sumCost)
-  $('#comisionCOP').change(calculatesalePrice)
-  $('#rentabilidadCOP').change(calculatesalePrice)
-  $('#totalCostosCOP').change(calculatesalePrice)
 
   //Habilitar Porcentajes
   
@@ -526,29 +519,29 @@ function simulationCost() {
   const costoCOP = document.getElementById('CostoCOP');
   const precioVentaCOP = document.getElementById('precioVentaCOP');
 
-  materiaPrimaUSD.onkeyup = startCostSimulation.bind(
+  materiaPrimaUSD.oninput = startCostSimulation.bind(
     null, 
     materiaPrimaUSD.value, 
     manoObraUSD.value, 
     costosIndirectosUSD.value,
     costoCOP
     );
-  manoObraUSD.onkeyup = startCostSimulation.bind(
+  manoObraUSD.oninput = startCostSimulation.bind(
     null, 
     materiaPrimaUSD.value,
     manoObraUSD.value,
     costosIndirectosUSD.value,
     costoCOP
     );
-  costosIndirectosUSD.onkeyup = startCostSimulation.bind(
+  costosIndirectosUSD.oninput = startCostSimulation.bind(
     null,
     materiaPrimaUSD.value,
     manoObraUSD.value,
     costosIndirectosUSD.value,
     costoCOP);
-  gastosGeneralesUSD.onkeyup = startCostSimulation2.bind(null, gastosGeneralesUSD.value, $('#gastosCOP').val());
-  comisionUSD.onkeyup = startCostSimulation2.bind(null, comisionUSD.value, $('#gastosCOP').val());
-  rentabilidadUSD.onkeyup = cambioPorcentajeRentabilidad.bind(null, precioVentaCOP.value);
+  gastosGeneralesUSD.oninput = startCostSimulation2.bind(null, gastosGeneralesUSD.value, $('#gastosCOP').val());
+  comisionUSD.oninput = startCostSimulation2.bind(null, comisionUSD.value, $('#gastosCOP').val());
+  rentabilidadUSD.oninput = cambioPorcentajeRentabilidad.bind(null, precioVentaCOP.value);
 
   manoObraUSDValue = manoObraUSD.value;
 }
@@ -618,7 +611,8 @@ function updateCostosFields(pastInputValue) {
 
 function sumCost() {
   $('#CostoCOP').val(parseFloat($('#materiaPrimaCOP').val()) + parseFloat($('#manoObraCOP').val()) + parseFloat($('#costosIndirectosCOP').val()))
-  $('#gastosCOP').val($('#gastosGeneralesCOP').val())
+ /*  $('#gastosCOP').val($('#gastosGeneralesCOP').val()) */
+ $('#gastosCOP').val(parseFloat($('#gastosGeneralesCOP').val()) + parseFloat($('#comisionCOP').val()));
   $('#totalCostosCOP').val(parseFloat($('#CostoCOP').val()) + parseFloat($('#gastosGeneralesCOP').val()))
   calculatesalePrice();
   calculateUSD();
@@ -704,17 +698,12 @@ function startCostSimulation2(inputValue, gastosValue, ev) {
   charCost.update()
 } 
 
-let materiaPrimaUSDTempValue = materiaPrimaUSD.value;
-let manoObraUSDTempValue = manoObraUSD.value;
-let costosIndirectosTempUSDValue = costosIndirectosUSD.value;
-
-
 function startCostSimulation(materiaPrimaUSDValue, manoObraUSDValue, costosIndirectosUSDValue, inputOption, ev) {
   manoObraUSDValue = parseFloat(manoObraUSDValue);
   costosIndirectosUSDValue = parseFloat(costosIndirectosUSDValue);
   materiaPrimaUSDValue = parseFloat(materiaPrimaUSDValue);
 
- const costValue = parseFloat(inputOption.value.replace('.', '').replace(',', '.'));
+  const costValue = parseFloat(inputOption.value.replace('.', '').replace(',', '.'));
   const inputTarget = ev.target;
   const inputTargetValue = parseFloat(inputTarget.value);
   const COPTarget = document.getElementById(`${inputTarget.id.replace('USD', 'COP')}`);
@@ -725,7 +714,7 @@ function startCostSimulation(materiaPrimaUSDValue, manoObraUSDValue, costosIndir
 
   if (inputTarget.id === 'materiaPrimaUSD') {
 
-    if (materiaPrimaUSDTempValue === '' || materiaPrimaUSDTempValue === inputTarget.value) {
+/*     if (materiaPrimaUSDTempValue === '' || materiaPrimaUSDTempValue === inputTarget.value) {
       materiaPrimaUSDTempValue = inputTarget.value;
       charCost.data.datasets[0].data = [
         $.number(parseFloat($('#materiaPrimaCOP').val()), 2, '.'),
@@ -736,8 +725,7 @@ function startCostSimulation(materiaPrimaUSDValue, manoObraUSDValue, costosIndir
       ]
       charCost.update();
       return;
-    }
-
+    } */
     const manoObraPart = diffCostAndtargetCOP * manoObraUSDValue / 100;
     const costosIndirectosPart = diffCostAndtargetCOP * costosIndirectosUSDValue / 100;
 
@@ -753,23 +741,8 @@ function startCostSimulation(materiaPrimaUSDValue, manoObraUSDValue, costosIndir
 
     manoObraUSD.value = (manoObraCOPValue / costValue * 100).toFixed(2) + ' %';
     costosIndirectosUSD.value = ((costosIndirectosCOPValue / costValue * 100).toFixed(2) + ' %');
-
-    materiaPrimaUSDTempValue = inputTarget.value;
-
+    
   } else if(inputTarget.id === 'manoObraUSD') {
-
-    if (manoObraUSDTempValue === '' || manoObraUSDTempValue === inputTarget.value) {
-      manoObraUSDTempValue = inputTarget.value;
-      charCost.data.datasets[0].data = [
-        $.number(parseFloat($('#materiaPrimaCOP').val()), 2, '.'),
-        $.number(parseFloat($('#costosIndirectosCOP').val()), 2, '.'),
-        $.number(parseFloat($('#manoObraCOP').val()), 2, '.'),
-        $.number(parseFloat($('#comisionCOP').val()), 2, '.'),
-        $.number(parseFloat($('#gastosGeneralesCOP').val()), 2, '.')
-      ]
-      charCost.update();
-      return;
-    }
 
     const materiaPrimaPart = diffCostAndtargetCOP * materiaPrimaUSDValue / 100;
     const costosIndirectosPart = diffCostAndtargetCOP * costosIndirectosUSDValue / 100;
@@ -787,22 +760,7 @@ function startCostSimulation(materiaPrimaUSDValue, manoObraUSDValue, costosIndir
     materiaPrimaUSD.value = (materiaPrimaCOPValue / costValue * 100).toFixed(2) + ' %';
     costosIndirectosUSD.value = ((costosIndirectosCOPValue / costValue * 100).toFixed(2) + ' %');
 
-    manoObraUSDTempValue = inputTarget.value;
-
   } else {
-
-    if (costosIndirectosTempUSDValue === '' || costosIndirectosTempUSDValue === inputTarget.value) {
-      costosIndirectosTempUSDValue = inputTarget.value;
-      charCost.data.datasets[0].data = [
-        $.number(parseFloat($('#materiaPrimaCOP').val()), 2, '.'),
-        $.number(parseFloat($('#costosIndirectosCOP').val()), 2, '.'),
-        $.number(parseFloat($('#manoObraCOP').val()), 2, '.'),
-        $.number(parseFloat($('#comisionCOP').val()), 2, '.'),
-        $.number(parseFloat($('#gastosGeneralesCOP').val()), 2, '.')
-      ]
-      charCost.update();
-      return;
-    }
 
     const materiaPrimaPart = diffCostAndtargetCOP * materiaPrimaUSDValue / 100;
     const manoObraPart = diffCostAndtargetCOP * manoObraUSDValue / 100;
@@ -820,7 +778,6 @@ function startCostSimulation(materiaPrimaUSDValue, manoObraUSDValue, costosIndir
     materiaPrimaUSD.value = (materiaPrimaCOPValue / costValue * 100).toFixed(2) + ' %';
     manoObraUSD.value = (manoObraCOPValue / costValue * 100).toFixed(2) + ' %';
 
-    costosIndirectosTempUSDValue = inputTarget.value;
 
   }
 
@@ -839,16 +796,18 @@ function cambioPorcentajeRentabilidad(inputPrecioVentaCOPValue, ev) {
   inputPrecioVentaCOPValue = inputPrecioVentaCOPValue.replace('.', '').replace(',', '.');
   const rentabilidadUSD = ev.target;
   const rentabilidadUSDValue = parseFloat(rentabilidadUSD.value);
-  const precioVentaCOP = document.getElementById('precioVentaCOP');
-  const totalCostosCOPValue = parseFloat(document.getElementById('totalCostosCOP').value.replace('.', '').replace(',', '.'));
-  const totalCostosUSD = document.getElementById('totalCostosUSD');
-  const precioVentaCOPValue = parseFloat(precioVentaCOP.value.replace('.', '').replace(',', '.'));
+  const totalCostosCOP = document.getElementById('totalCostosCOP');
 
+/*   const totalCostosCOPValue = parseFloat(totalCostosCOP.value.replace('.', '').replace(',', '.')); */
+  const totalCostosUSD = document.getElementById('totalCostosUSD');
   const rentabilidadCOP = document.getElementById('rentabilidadCOP');
+
   const newRentabilidadCOPValue =  rentabilidadUSDValue * inputPrecioVentaCOPValue / 100;
+  const newCostosUSDValue = 100 - rentabilidadUSDValue;
+  const newCostosCOPValue = inputPrecioVentaCOPValue * newCostosUSDValue / 100;
 
   rentabilidadCOP.value = formatCurrency(newRentabilidadCOPValue);
-  precioVentaCOP.value = formatCurrency(newRentabilidadCOPValue + totalCostosCOPValue);
-  totalCostosUSD.value = (totalCostosCOPValue / (newRentabilidadCOPValue + totalCostosCOPValue) * 100).toFixed(2) + ' %';
+  totalCostosUSD.value = newCostosUSDValue.toFixed(2) + ' %';
+  totalCostosCOP.value = formatCurrency(newCostosCOPValue);
 }
 
