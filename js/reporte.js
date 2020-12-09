@@ -474,6 +474,15 @@ function quitSimulation() {
   $('#rentabilidadCOP').attr('readonly', true)
 }
 
+const manoObraUSD = document.getElementById('manoObraUSD');
+manoObraUSD.firstEvent = true;
+const materiaPrimaUSD = document.getElementById('materiaPrimaUSD');
+materiaPrimaUSD.firstEvent = true;
+const costosIndirectosUSD = document.getElementById('costosIndirectosUSD');
+const gastosGeneralesUSD = document.getElementById('gastosGeneralesUSD');
+const comisionUSD = document.getElementById('comisionUSD');
+const rentabilidadUSD = document.getElementById('rentabilidadUSD');
+
 function simulationCost() {
   $('.number').number(true, 2, ',', '.')
   $('#materiaPrimaCOP').attr('readonly', false)
@@ -499,15 +508,105 @@ function simulationCost() {
   $('#rentabilidadCOP').change(calculatesalePrice)
   $('#totalCostosCOP').change(calculatesalePrice)
 
+  //Habilitar Porcentajes
+  
+  manoObraUSD.readOnly = false;
+  materiaPrimaUSD.readOnly = false;
+  costosIndirectosUSD.readOnly = false;
+  gastosGeneralesUSD.readOnly = false;
+  comisionUSD.readOnly = false;
+  rentabilidadUSD.readOnly = false;
+  const costoCOP = document.getElementById('CostoCOP');
+  const precioVentaCOP = document.getElementById('precioVentaCOP');
+
+  materiaPrimaUSD.onkeyup = startCostSimulation.bind(null, materiaPrimaUSD.value, costoCOP);
+  manoObraUSD.onkeyup = startCostSimulation.bind(null, manoObraUSD.value, costoCOP);
+  costosIndirectosUSD.onkeyup = startCostSimulation.bind(null, costosIndirectosUSD.value, costoCOP);
+  gastosGeneralesUSD.onkeyup = startCostSimulation2.bind(null, gastosGeneralesUSD.value, $('#gastosCOP').val());
+  comisionUSD.onkeyup = startCostSimulation2.bind(null, comisionUSD.value, $('#gastosCOP').val());
+  rentabilidadUSD.onkeyup = cambioPorcentajeRentabilidad.bind(null, precioVentaCOP.value);
+}
+
+function sumCostPercentage(inputUSDVal, inputCOPVal, ev) {
+
+  const inputTarget = ev.target;
+  const costoCOPInput = document.getElementById('CostoCOP');
+  const costoCOPval = parseFloat(costoCOPInput.value.replace('.', '').replace(',', '.'));
+  const gastosCOPInput = document.getElementById('gastosCOP');
+  const gastosCOPval = parseFloat(gastosCOPInput.value.replace('.', '').replace(',', '.'));
+  let COPInput;
+
+  switch (inputTarget.id) {
+    case 'materiaPrimaUSD':
+      COPInput = document.getElementById('materiaPrimaCOP');
+     
+      const pastCOPInputValue = COPInput.value;
+     /*  console.log($('#materiaPrimaCOP')); */
+      innerFn(materiaPrimaUSD, costoCOPval);
+      break;
+    case 'manoObraUSD':
+      COPInput = document.getElementById('manoObraCOP');
+      innerFn(manoObraUSD, costoCOPval);
+      break;
+    case 'costosIndirectosUSD':
+      COPInput = document.getElementById('costosIndirectosCOP');
+      innerFn(costosIndirectosUSD, costoCOPval);
+      break;
+    case 'gastosGeneralesUSD':
+      COPInput = document.getElementById('gastosGeneralesCOP');
+      innerFn(gastosGeneralesUSD, gastosCOPval);
+      break;
+    case 'comisionUSD': 
+      COPInput = document.getElementById('comisionCOP');
+      innerFn(comisionUSD, gastosCOPval);
+      break;
+    default:
+      break;
+  }
+
+  sumCost2(inputTarget);
+  
+  function innerFn(USDInput, COPTotalInputVal) {
+    if (ev.type === 'keyup' && inputTarget.value === inputUSDVal ) {
+      COPInput.value = formatCurrency(parseFloat(inputCOPVal));
+    }
+    else {
+      console.log(COPTotalInputVal, parseFloat(USDInput.value));
+      const finalValueFormat = formatCurrency(COPTotalInputVal * parseFloat(USDInput.value) / 100);
+      COPInput.value = finalValueFormat;
+    }    
+  }
+
+  /* console.log(document.getElementById('materiaPrimaCOP').value); */
+
+/*   document.getElementById('materiaPrimaCOP').value = formatCurrency(costoCOPval * parseFloat(materiaPrimaUSD.value) / 100);
+
+  document.getElementById('manoObraCOP').value = formatCurrency(costoCOPval * parseFloat(manoObraUSD.value) / 100);
+
+  document.getElementById('costosIndirectosCOP').value = formatCurrency(costoCOPval * parseFloat(costosIndirectosUSD.value) / 100); */
+}
+
+function formatCurrency(resultadoFloat) {
+  return $.number(resultadoFloat, 2, ',', '.')
+}
+
+function updateCostosFields(pastInputValue) {
+
+  const costoCOPInput = document.getElementById('CostoCOP');
+  const materiaPrimaCOP = document.getElementById('materiaPrimaCOP');
+  pastInputValue = parseFloat(pastInputValue.replace('.', '').replace(',', '.'));
+  const materiaPrimaCOPValue = parseFloat(materiaPrimaCOP.value.replace('.', '').replace(',', '.'));
+  const diferenciaValores = pastInputValue -  materiaPrimaCOPValue;
 }
 
 function sumCost() {
   $('#CostoCOP').val(parseFloat($('#materiaPrimaCOP').val()) + parseFloat($('#manoObraCOP').val()) + parseFloat($('#costosIndirectosCOP').val()))
   $('#gastosCOP').val($('#gastosGeneralesCOP').val())
   $('#totalCostosCOP').val(parseFloat($('#CostoCOP').val()) + parseFloat($('#gastosGeneralesCOP').val()))
-  calculatesalePrice()
-  calculateUSD()
+  calculatesalePrice();
+  calculateUSD();
 }
+
 function calculatesalePrice() {
   $('#precioVentaCOP').val(parseFloat($('#totalCostosCOP').val()) +
     parseFloat($('#comisionCOP').val()) + parseFloat($('#rentabilidadCOP').val()))
@@ -523,6 +622,7 @@ function calculatesalePrice() {
 }
 
 function calculateUSD() {
+  console.log('calculateUSD');
   // total de costos
   $('#totalCostosUSD').val((parseFloat($('#totalCostosCOP').val()) * 100 / parseFloat($('#precioVentaCOP').val())).toFixed(2) + "%")
   // precio de venta
@@ -544,3 +644,188 @@ function calculateUSD() {
   // rentabilidad
   $('#rentabilidadUSD').val((parseFloat($('#rentabilidadCOP').val()) * 100 /  parseFloat($('#precioVentaCOP').val())).toFixed(2) + "%")
 }
+
+
+function sumCost2(newUSDInputNoCalc) {
+  $('#CostoCOP').val(parseFloat($('#materiaPrimaCOP').val()) + parseFloat($('#manoObraCOP').val()) + parseFloat($('#costosIndirectosCOP').val()))
+  $('#gastosCOP').val($('#gastosGeneralesCOP').val())
+  $('#totalCostosCOP').val(parseFloat($('#CostoCOP').val()) + parseFloat($('#gastosGeneralesCOP').val()))
+  /* calculatesalePrice(); */
+   /* calculateUSD(); */
+/*   calculateUSDPercentage(newUSDInputNoCalc); */
+}
+
+
+function calculateUSDPercentage(newUSDInputNoCalc) {
+  /* console.log(newUSDInputNoCalc); */
+  // total de costos
+  $('#totalCostosUSD').val((parseFloat($('#totalCostosCOP').val()) * 100 / parseFloat($('#precioVentaCOP').val())).toFixed(2) + "%")
+  // precio de venta
+  $('#precioVentaUSD').val("100.00 %")
+  //costos
+  $('#CostoUSD').val((parseFloat($('#CostoCOP').val())* 100 / parseFloat($('#totalCostosCOP').val())).toFixed(2) + "%");
+
+  Array.from(document.querySelectorAll('input[id$="USD"]:not([readonly])'))
+ .filter(input => (input.id !== 'rentabilidadUSD'))
+ .forEach(input => {
+   console.log(parseFloat($(`#${input.id.replace('USD', 'COP')}`).val()) / parseFloat($('#CostoCOP').val()));
+/*  $(`#${input.id}`).val((parseFloat($(`#${input.id.replace('USD', 'COP')}`).val()) / parseFloat($('#CostoCOP').val() * 100)).toFixed(2) + "%") */
+ });
+  // materia prima
+  /* $('#materiaPrimaUSD').val((parseFloat($('#materiaPrimaCOP').val()) * 100/ parseFloat($('#CostoCOP').val())).toFixed(2) + "%") */
+  //mano de obra
+ /*  $('#manoObraUSD').val((parseFloat($('#manoObraCOP').val()) * 100/ parseFloat($('#CostoCOP').val())).toFixed(2) + "%") */
+  //costos indirectos
+ /*  $('#costosIndirectosUSD').val((parseFloat($('#costosIndirectosCOP').val()) * 100 / parseFloat($('#CostoCOP').val())).toFixed(2)+ "%") */
+  // gastos
+  $('#gastosUSD').val((parseFloat($('#gastosCOP').val()) * 100/ parseFloat($('#totalCostosCOP').val())).toFixed(2) + "%")
+  // gastos generales
+/*   $('#gastosGeneralesUSD').val((parseFloat($('#gastosGeneralesCOP').val()) * 100 / parseFloat($('#gastosCOP').val())).toFixed(2)+"%") */
+  // comision 
+/*   $('#comisionUSD').val((parseFloat($('#comisionCOP').val())*100 / parseFloat($('#gastosCOP').val())).toFixed(2) + "%") */
+  // rentabilidad
+  $('#rentabilidadUSD').val((parseFloat($('#rentabilidadCOP').val()) * 100 /  parseFloat($('#precioVentaCOP').val())).toFixed(2) + "%")
+}
+
+
+
+
+/*  Array.from(document.querySelectorAll('input[id$="USD"]:not([readonly])'))
+ .filter(input => (input.id !== 'rentabilidadUSD') && (input.id !== newUSDInputNoCalc.id))
+ .forEach(input => {
+   console.log($(`#${input.id}`));
+  $(`#${input.id}`).val((parseFloat($(`#${input.id}`).val()) * 100/ parseFloat($('#CostoCOP').val())).toFixed(2) + "%")
+ });
+  */
+
+
+const totalCost = document.getElementById('CostoCOP');
+
+function startCostSimulation2(inputValue, gastosValue, ev) {
+
+  inputValue = parseFloat(inputValue);
+   gastosValue = parseFloat(gastosValue);
+  const inputTarget = ev.target;
+  const inputTargetValue = parseFloat(inputTarget.value);
+  const COPTarget = document.getElementById(`${inputTarget.id.replace('USD', 'COP')}`);
+  const newCOPTargetValue = inputTargetValue *  gastosValue / 100;
+  COPTarget.value = formatCurrency(newCOPTargetValue); 
+
+  const diffCostAndtargetCOP = gastosValue -  newCOPTargetValue;
+
+  const filterInputs = Array.from(document.querySelectorAll('input[id$="COP"]:not([readonly])'))
+  .filter(input => input.id !== COPTarget.id && input.id !== 'rentabilidadCOP');
+
+   const inputToChange = filterInputs[filterInputs.length - 1];
+   inputToChange.value = formatCurrency(diffCostAndtargetCOP);
+   const inputUSDToChange = document.getElementById(inputToChange.id.replace('COP', 'USD'));
+   inputUSDToChange.value = (diffCostAndtargetCOP / gastosValue * 100).toFixed(2) + ' $';
+
+   charCost.data.datasets[0].data = [
+    $.number(parseFloat($('#materiaPrimaCOP').val()), 2, '.'),
+    $.number(parseFloat($('#costosIndirectosCOP').val()), 2, '.'),
+    $.number(parseFloat($('#manoObraCOP').val()), 2, '.'),
+    $.number(parseFloat($('#comisionCOP').val()), 2, '.'),
+    $.number(parseFloat($('#gastosGeneralesCOP').val()), 2, '.')
+  ]
+  charCost.update()
+
+/*    let sumPercentage = 0;
+   const mappedInputs = filterInputs.slice(0, 2)
+   .map(input => {
+     const inputUSD = document.getElementById(input.id.replace('COP', 'USD'));
+     const prevSum = diffCostAndtargetCOP * parseFloat(inputUSD.value) / 100;
+     sumPercentage += prevSum;
+     return {
+       inputCOP: input,
+       inputUSD,
+       prevSum,
+     };
+   });
+   mappedInputs.forEach(obj => {
+     const m = diffCostAndtargetCOP - sumPercentage;
+     const newCOPInputValue = obj.prevSum + (m / 2);
+     obj.inputCOP.value = formatCurrency(newCOPInputValue);
+     obj.inputUSD.value = `${(newCOPInputValue / costValue * 100).toFixed(2)} %`;
+   });
+ */
+/*   inputValue = parseFloat(inputValue);
+  costValue = parseFloat(costValue);
+  const inputTarget = ev.target;
+  const inputTargetValue = parseFloat(inputTarget.value);
+  const diffTargetAndPrv = inputTargetValue - inputValue;
+
+  const multToTotalCost = diffTargetAndPrv > 0 ? 1 + (diffTargetAndPrv / 100) : 1 - (Math.abs(diffTargetAndPrv) / 100);
+
+  const newTotalCost = costValue * multToTotalCost;
+  totalCost.value = formatCurrency(newTotalCost); 
+
+  const COPTarget = document.getElementById(`${inputTarget.id.replace('USD', 'COP')}`);
+  COPTarget.value = formatCurrency(newTotalCost * inputTargetValue / 100); */
+
+} 
+
+function startCostSimulation(inputValue, inputOption, ev) {
+
+  inputValue = parseFloat(inputValue);
+ /*  costValue = parseFloat(costValue); */
+ const costValue = parseFloat(inputOption.value.replace('.', '').replace(',', '.'));
+  const inputTarget = ev.target;
+  const inputTargetValue = parseFloat(inputTarget.value);
+  const COPTarget = document.getElementById(`${inputTarget.id.replace('USD', 'COP')}`);
+  const newCOPTargetValue = inputTargetValue * costValue / 100;
+  COPTarget.value = formatCurrency(newCOPTargetValue); 
+
+  const diffCostAndtargetCOP = costValue -  newCOPTargetValue;
+
+ 
+  const filterInputs = Array.from(document.querySelectorAll('input[id$="COP"]:not([readonly])'))
+       .filter(input => input.id !== COPTarget.id && input.id !== 'rentabilidadCOP');
+
+        let sumPercentage = 0;
+        const mappedInputs = filterInputs.slice(0, 2)
+        .map(input => {
+          const inputUSD = document.getElementById(input.id.replace('COP', 'USD'));
+          const prevSum = diffCostAndtargetCOP * parseFloat(inputUSD.value) / 100;
+          sumPercentage += prevSum;
+          return {
+            inputCOP: input,
+            inputUSD,
+            prevSum,
+          };
+        });
+        mappedInputs.forEach(obj => {
+          const m = diffCostAndtargetCOP - sumPercentage;
+          const newCOPInputValue = obj.prevSum + (m / 2);
+          obj.inputCOP.value = formatCurrency(newCOPInputValue);
+          obj.inputUSD.value = `${(newCOPInputValue / costValue * 100).toFixed(2)} %`;
+        });
+
+        charCost.data.datasets[0].data = [
+          $.number(parseFloat($('#materiaPrimaCOP').val()), 2, '.'),
+          $.number(parseFloat($('#costosIndirectosCOP').val()), 2, '.'),
+          $.number(parseFloat($('#manoObraCOP').val()), 2, '.'),
+          $.number(parseFloat($('#comisionCOP').val()), 2, '.'),
+          $.number(parseFloat($('#gastosGeneralesCOP').val()), 2, '.')
+        ]
+        charCost.update()
+} 
+
+
+function cambioPorcentajeRentabilidad(inputPrecioVentaCOPValue, ev) {
+  inputPrecioVentaCOPValue = inputPrecioVentaCOPValue.replace('.', '').replace(',', '.');
+  const rentabilidadUSD = ev.target;
+  const rentabilidadUSDValue = parseFloat(rentabilidadUSD.value);
+  const precioVentaCOP = document.getElementById('precioVentaCOP');
+  const totalCostosCOPValue = parseFloat(document.getElementById('totalCostosCOP').value.replace('.', '').replace(',', '.'));
+  const totalCostosUSD = document.getElementById('totalCostosUSD');
+  const precioVentaCOPValue = parseFloat(precioVentaCOP.value.replace('.', '').replace(',', '.'));
+
+  const rentabilidadCOP = document.getElementById('rentabilidadCOP');
+  const newRentabilidadCOPValue =  rentabilidadUSDValue * inputPrecioVentaCOPValue / 100;
+
+  rentabilidadCOP.value = formatCurrency(newRentabilidadCOPValue);
+  precioVentaCOP.value = formatCurrency(newRentabilidadCOPValue + totalCostosCOPValue);
+  totalCostosUSD.value = (totalCostosCOPValue / (newRentabilidadCOPValue + totalCostosCOPValue) * 100).toFixed(2) + ' %';
+}
+
