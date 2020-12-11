@@ -138,6 +138,9 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                   <li class="nav-item">
                     <a class="nav-link" href="#nomina-nav" data-toggle="tab">Nómina</a>
                   </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#products" data-toggle="tab">Productos</a>
+                  </li>
                 </ul>
               </div>
             </div>
@@ -632,6 +635,110 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                 </div>
               </div>
 
+
+              <div class="tab-pane" id="products">
+                <div class="row justify-content-center" >
+                  <div class="col-md-5 col-sm-12 col-12 col-xs-12 mb-5">
+                    <!--<h3>Productos</h3>-->
+                    <form id="form-products" novalidate>
+                      <div class="form-check form-check-radio form-check-inline">
+                        <label class="form-check-label">
+                          <input class="form-check-input" type="radio" name="optionProductos" id="inlineRadio1" value="option1"> Adicionar
+                          <span class="form-check-sign"></span>
+                        </label>
+                      </div>
+                      <div class="form-check form-check-radio form-check-inline" >
+                        <label class="form-check-label" id="config-color">
+                          <input class="form-check-input" type="radio" name="optionProductos" id="inlineRadio2" value="option2" > Configurar
+                          <span class="form-check-sign"></span>
+                        </label>
+                      </div>
+                      <div class="card py-2">
+                        <div class="form-group row my-2">
+                          <label class="col-sm-5 col-md-4 col-12 text-left col-form-label pl-4">Referencia</label>
+                          <div class="col-sm-6 col-md-7 px-0 col-10"><input type="text" class="form-control" id="inputRef" name="ref"></div>
+                        </div>
+                        <div class="form-group row my-2">
+                          <label class="col-sm-5 col-md-4 col-12 text-left col-form-label pl-4">Producto</label>
+                          <div class="col-md-7 col-sm-6 px-0 col-10"><input type="text" class="form-control" id="inputProducto" name="producto"></div>
+                        </div>
+
+                        <div class="form-group row my-2">
+                          <label class="col-sm-5 col-md-4 col-12 text-left col-form-label pl-4">Rentabilidad</label>
+                          <div class="col-sm-6 col-md-7 px-0 col-10"><input type="text" class="form-control" id="inputRentabilidad" name="rentabilidad"></div>
+                        </div>
+
+                        <div class="form-group row my-2">
+                          <label class="col-sm-4 col-md-4 col-12 text-left col-form-label pl-4">Materia</label>
+                          <div class="col-md-7 px-0 col-10"><select class="custom-select" id="input-materia" name="materia">
+                            </select></div>
+                        </div>
+                        <div class="form-group row my-3">
+                          <label class="col-md-3 col-3 col-form-label px-0 ">Cantidad</label>
+                          <div class="col-md-3 col-3 text-left px-0"><input type="number" id="input-cantidad" class="form-control" name="cantidad" step=".01"></div>
+                          <label class="col-md-2 col-2 col-form-label px-0">Unidad</label>
+                          <div class="col-md-3 col-3 text-left px-0"><input type="text" id="input-unidad" class="form-control" name="unidad" disabled></div>
+                        </div>
+                      </div>
+                      <div class="row mb-4">
+                        <div class="col"></div>
+                        <div class="col">
+                          <input type="hidden" id="formOption" name="formOption" value="0">
+                          <input type="hidden" id="prodId" name="prodId" value="-1">
+                          <button id="form-product-btn" class="btn btn-primary">Guardar</button>
+                        </div>
+                        <div class="col"></div>
+                      </div>
+                    </form>
+                    <hr>
+                    <div class="row my-4">
+                      <div class="col-12">
+                        <h5 class="pull-left">Importar Productos</h5>
+                        <a href="#" title="Descargar hoja de Excel de ejemplo" id="download-products" class="pull-right btn btn-success btn-icon"><i class="fas fa-file-excel"></i></a>
+                      </div>
+                      <div class="custom-file">
+                        <input type="file" id="fileProducts" class="custom-file-input" data-browse="Elegir" lang="es">
+                        <label for="fileProducts" class="custom-file-label">importar Archivo</label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-7 col-sm-12 col-12">
+                    <div class="card">
+                      <div class="card-header">
+                      </div>
+                      <div class="card-body">
+                        <button class="btn btn-danger" id="delete-materia-prima">Eliminar</button>
+                        <div class="table-responsive tableFixHead">
+                          <table class="table" id="tableProductoMateriaPrima">
+                            <thead class="text-primary">
+                              <th>Materia</th>
+                              <th>Cantidad</th>
+                              <th>Unidad</th>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                          </table>
+                        </div>
+                        <div class="table-responsive tableFixHead" style="display: none;">
+                          <table class="table compact" id="tableProductos">
+                            <thead class="text-primary">
+                              <th>Ref</th>
+                              <th>Producto</th>
+                              <th>Rentabilidad</th>
+                              <th>Acciones</th>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+
             </div>
           </div>
         </div>
@@ -959,6 +1066,13 @@ include(PARTIALS_PATH . "verify_session.php") ?>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
 
   <script src="/js/RedondeoDecimal.js"></script>
+
+  <script src="/js/productos.js"></script> 
+  <script src="/js/gastos-generales.js"></script>
+  <script src="/js/productos_procesos.js"></script>
+  <script src="/js/app/xlsx/xlsx_productos_procesos.js"></script>
+  <script src="/js/app/xlsx/xlsx_gastos_generales.js"></script>
+
   <script src="/js/materia-prima.js"></script>
   <script src="/js/factor-prestacional.js"></script>
   <script src="/js/maquinas.js"></script>
@@ -970,6 +1084,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
   <script src="/js/app/xlsx/xlsx_nomina.js"></script>
   <script src="/js/horas_extra.js"> </script>
   <script src="/js/app/bpm.js">
+
   </script>
   <script>
     $(function() {

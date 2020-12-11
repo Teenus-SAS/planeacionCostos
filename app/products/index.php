@@ -128,9 +128,9 @@ include(PARTIALS_PATH . "verify_session.php") ?>
             <div class="nav-tabs-navigation">
               <div class="nav-tabs-wrapper">
                 <ul class="nav nav-tabs" data-tabs="tabs">
-                  <li class="nav-item">
+                <!--   <li class="nav-item">
                     <a class="nav-link active" href="#home" data-toggle="tab">Productos</a>
-                  </li>
+                  </li> -->
                   <li class="nav-item">
                     <a class="nav-link" href="#updates" data-toggle="tab">Procesos</a>
                   </li>
@@ -151,10 +151,9 @@ include(PARTIALS_PATH . "verify_session.php") ?>
           </div>
           <div class="card-body">
             <div class="tab-content text-center">
-              <div class="tab-pane active" id="home">
+           <!--    <div class="tab-pane active" id="home">
                 <div class="row justify-content-center" >
                   <div class="col-md-5 col-sm-12 col-12 col-xs-12 mb-5">
-                    <!--<h3>Productos</h3>-->
                     <form id="form-products" novalidate>
                       <div class="form-check form-check-radio form-check-inline">
                         <label class="form-check-label">
@@ -220,11 +219,9 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                   <div class="col-md-7 col-sm-12 col-12">
                     <div class="card">
                       <div class="card-header">
-                        <!--<h4 id="title-products">Productos</h4>-->
                       </div>
                       <div class="card-body">
                         <button class="btn btn-danger" id="delete-materia-prima">Eliminar</button>
-                     <!--    <button class="btn btn-danger" id="delete-producto" style="display:none;">Eliminar</button> -->
                         <div class="table-responsive tableFixHead">
                           <table class="table" id="tableProductoMateriaPrima">
                             <thead class="text-primary">
@@ -252,8 +249,8 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div class="tab-pane" id="updates">
+              </div> -->
+              <div class="tab-pane active" id="updates">
                 <div class="row justify-content-center align-items-center">
                   <div class="col-md-5 col-sm-12">
                     <!--<h3>Productos por Proceso</h3>-->
