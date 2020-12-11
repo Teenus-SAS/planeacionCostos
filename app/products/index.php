@@ -128,9 +128,9 @@ include(PARTIALS_PATH . "verify_session.php") ?>
             <div class="nav-tabs-navigation">
               <div class="nav-tabs-wrapper">
                 <ul class="nav nav-tabs" data-tabs="tabs">
-                <!--   <li class="nav-item">
+                  <li class="nav-item">
                     <a class="nav-link active" href="#home" data-toggle="tab">Productos</a>
-                  </li> -->
+                  </li>
                   <li class="nav-item">
                     <a class="nav-link" href="#updates" data-toggle="tab">Procesos</a>
                   </li>
@@ -151,22 +151,23 @@ include(PARTIALS_PATH . "verify_session.php") ?>
           </div>
           <div class="card-body">
             <div class="tab-content text-center">
-           <!--    <div class="tab-pane active" id="home">
+              <div class="tab-pane active" id="home">
                 <div class="row justify-content-center" >
                   <div class="col-md-5 col-sm-12 col-12 col-xs-12 mb-5">
                     <form id="form-products" novalidate>
                       <div class="form-check form-check-radio form-check-inline">
                         <label class="form-check-label">
-                          <input class="form-check-input" type="radio" name="optionProductos" id="inlineRadio1" value="option1"> Adicionar
-                          <span class="form-check-sign"></span>
+                        <!--   <input class="form-check-input" type="radio" name="optionProductos" id="inlineRadio1" value="option1">  -->
+                          Configurar
+                         <!--  <span class="form-check-sign"></span> -->
                         </label>
                       </div>
-                      <div class="form-check form-check-radio form-check-inline" >
+               <!--        <div class="form-check form-check-radio form-check-inline" >
                         <label class="form-check-label" id="config-color">
                           <input class="form-check-input" type="radio" name="optionProductos" id="inlineRadio2" value="option2" > Configurar
                           <span class="form-check-sign"></span>
                         </label>
-                      </div>
+                      </div> -->
                       <div class="card py-2">
                         <div class="form-group row my-2">
                           <label class="col-sm-5 col-md-4 col-12 text-left col-form-label pl-4">Referencia</label>
@@ -249,8 +250,8 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                     </div>
                   </div>
                 </div>
-              </div> -->
-              <div class="tab-pane active" id="updates">
+              </div>
+              <div class="tab-pane" id="updates">
                 <div class="row justify-content-center align-items-center">
                   <div class="col-md-5 col-sm-12">
                     <!--<h3>Productos por Proceso</h3>-->
@@ -650,7 +651,12 @@ include(PARTIALS_PATH . "verify_session.php") ?>
     }
   </script>
   <script src="/js/RedondeoDecimal.js"></script>
-  <script src="/js/productos.js"></script>
+
+<!--   <script src="/js/productos.js"></script> -->
+    <script src="/js/productos-configurar.js"></script>
+
+
+
   <script src="/js/productos_procesos.js"></script>
   <script src="/js/gastos-generales.js"></script>
   <script src="/js/calculo_GG.js"></script>

@@ -643,16 +643,17 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                     <form id="form-products" novalidate>
                       <div class="form-check form-check-radio form-check-inline">
                         <label class="form-check-label">
-                          <input class="form-check-input" type="radio" name="optionProductos" id="inlineRadio1" value="option1"> Adicionar
-                          <span class="form-check-sign"></span>
+                       <!--    <input class="form-check-input" type="radio" name="optionProductos" id="inlineRadio1" value="option1">  -->
+                          Adicionar
+                       <!--    <span class="form-check-sign"></span> -->
                         </label>
                       </div>
-                      <div class="form-check form-check-radio form-check-inline" >
+                  <!--     <div class="form-check form-check-radio form-check-inline" >
                         <label class="form-check-label" id="config-color">
                           <input class="form-check-input" type="radio" name="optionProductos" id="inlineRadio2" value="option2" > Configurar
                           <span class="form-check-sign"></span>
                         </label>
-                      </div>
+                      </div> -->
                       <div class="card py-2">
                         <div class="form-group row my-2">
                           <label class="col-sm-5 col-md-4 col-12 text-left col-form-label pl-4">Referencia</label>
@@ -667,7 +668,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                           <label class="col-sm-5 col-md-4 col-12 text-left col-form-label pl-4">Rentabilidad</label>
                           <div class="col-sm-6 col-md-7 px-0 col-10"><input type="text" class="form-control" id="inputRentabilidad" name="rentabilidad"></div>
                         </div>
-
+<!-- 
                         <div class="form-group row my-2">
                           <label class="col-sm-4 col-md-4 col-12 text-left col-form-label pl-4">Materia</label>
                           <div class="col-md-7 px-0 col-10"><select class="custom-select" id="input-materia" name="materia">
@@ -678,7 +679,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                           <div class="col-md-3 col-3 text-left px-0"><input type="number" id="input-cantidad" class="form-control" name="cantidad" step=".01"></div>
                           <label class="col-md-2 col-2 col-form-label px-0">Unidad</label>
                           <div class="col-md-3 col-3 text-left px-0"><input type="text" id="input-unidad" class="form-control" name="unidad" disabled></div>
-                        </div>
+                        </div> -->
                       </div>
                       <div class="row mb-4">
                         <div class="col"></div>
@@ -707,7 +708,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                       <div class="card-header">
                       </div>
                       <div class="card-body">
-                        <button class="btn btn-danger" id="delete-materia-prima">Eliminar</button>
+               <!--          <button class="btn btn-danger" id="delete-materia-prima">Eliminar</button>
                         <div class="table-responsive tableFixHead">
                           <table class="table" id="tableProductoMateriaPrima">
                             <thead class="text-primary">
@@ -718,8 +719,8 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                             <tbody>
                             </tbody>
                           </table>
-                        </div>
-                        <div class="table-responsive tableFixHead" style="display: none;">
+                        </div> -->
+                        <div class="table-responsive tableFixHead">
                           <table class="table compact" id="tableProductos">
                             <thead class="text-primary">
                               <th>Ref</th>
@@ -1067,7 +1068,10 @@ include(PARTIALS_PATH . "verify_session.php") ?>
 
   <script src="/js/RedondeoDecimal.js"></script>
 
-  <script src="/js/productos.js"></script> 
+<!--   <script src="/js/productos.js"></script>  -->
+    <script src="/js/productos-adicionar.js"></script>
+
+
   <script src="/js/gastos-generales.js"></script>
   <script src="/js/productos_procesos.js"></script>
   <script src="/js/app/xlsx/xlsx_productos_procesos.js"></script>
@@ -1078,6 +1082,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
   <script src="/js/maquinas.js"></script>
   <script src="/js/procesos.js"></script>
   <script src="/js/nomina.js"></script>
+  <script src="/js/app/xlsx/xlsx_productos.js"></script>
   <script src="/js/app/xlsx/xlsx_procesos.js"></script>
   <script src="/js/app/xlsx/xlsx_materia_prima.js"></script>
   <script src="/js/app/xlsx/xlsx_maquinas.js"></script>

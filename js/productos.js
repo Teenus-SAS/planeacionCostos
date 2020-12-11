@@ -3,6 +3,7 @@
 @github: MoraHol
 logica de productos
 */
+
 function loadingSpinner() {
   $('#spinnerAjax').removeClass('fade')
 }
@@ -255,7 +256,6 @@ $.validator.addMethod("rentabilidadInput", function (value) {
 
 
 // formulario para adicionar o modificar valores de una nomina
-
 $('#form-products').validate({
   rules: {
     rentabilidad: 'rentabilidadInput'
