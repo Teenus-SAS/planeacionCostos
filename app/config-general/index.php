@@ -124,6 +124,9 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                     <a class="nav-link active" href="#home" data-toggle="tab">Datos Generales</a>
                   </li>
                   <li class="nav-item">
+                    <a class="nav-link" href="#products" data-toggle="tab">Productos</a>
+                  </li>
+                  <li class="nav-item">
                     <a class="nav-link" href="#updates" data-toggle="tab">Materia Prima</a>
                   </li>
                   <li class="nav-item">
@@ -137,9 +140,6 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" href="#nomina-nav" data-toggle="tab">Nómina</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="#products" data-toggle="tab">Productos</a>
                   </li>
                 </ul>
               </div>
