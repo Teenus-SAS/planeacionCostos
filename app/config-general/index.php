@@ -136,10 +136,10 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                     <a class="nav-link" href="#process" data-toggle="tab">Procesos</a>
                   </li>
                   <li class="nav-item">
-                    <a href="#bpm-nav" data-toggle="tab" class="nav-link">BPM</a>
+                    <a class="nav-link" href="#nomina-nav" data-toggle="tab">Nómina</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="#nomina-nav" data-toggle="tab">Nómina</a>
+                    <a href="#bpm-nav" data-toggle="tab" class="nav-link">BPM</a>
                   </li>
                 </ul>
               </div>
