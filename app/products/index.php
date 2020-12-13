@@ -155,14 +155,14 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                 <div class="row justify-content-center" >
                   <div class="col-md-5 col-sm-12 col-12 col-xs-12 mb-5">
                     <form id="form-products" novalidate>
-                      <div class="form-check form-check-radio form-check-inline">
+                      <!--<div class="form-check form-check-radio form-check-inline">
                         <label class="form-check-label">
-                        <!--   <input class="form-check-input" type="radio" name="optionProductos" id="inlineRadio1" value="option1">  -->
+                           <input class="form-check-input" type="radio" name="optionProductos" id="inlineRadio1" value="option1"> 
                           Configurar
-                         <!--  <span class="form-check-sign"></span> -->
+                           <span class="form-check-sign"></span>
                         </label>
                       </div>
-               <!--        <div class="form-check form-check-radio form-check-inline" >
+                      <div class="form-check form-check-radio form-check-inline" >
                         <label class="form-check-label" id="config-color">
                           <input class="form-check-input" type="radio" name="optionProductos" id="inlineRadio2" value="option2" > Configurar
                           <span class="form-check-sign"></span>
