@@ -561,7 +561,19 @@ function simulationCost() {
   /* rentabilidadUSD.oninput = cambioPorcentajeRentabilidad.bind(null, precioVentaCOP.value); */
   rentabilidadUSD.oninput = calculatePrecioVenta;
 
+
+  materiaPrimaUSD.onchange = formatOnChange;
+  manoObraUSD.onchange = formatOnChange;
+  costosIndirectosUSD.onchange = formatOnChange;
+  gastosUSD.onchange = formatOnChange;
+  comisionUSD.onchange = formatOnChange;
+  rentabilidadUSD.onchange = formatOnChange;
+
   manoObraUSDValue = manoObraUSD.value;
+}
+
+function formatOnChange(ev) {
+  ev.target.value = parseFloat(ev.target.value).toFixed(2) + ' %';
 }
 
 // Calcula precio total venta basado en el total costos, rentabilidad y comision venta.
