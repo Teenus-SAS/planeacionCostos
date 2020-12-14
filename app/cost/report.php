@@ -242,7 +242,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                 <input type="text" class="form-control" readonly id="gastosUSD">
               </div>
             </div>
-            <div class="row my-2 align-items-center">
+       <!--      <div class="row my-2 align-items-center">
               <div class="col-md-5 col-5 pl-5">
                 Gastos Generales
               </div>
@@ -252,10 +252,10 @@ include(PARTIALS_PATH . "verify_session.php") ?>
               <div class="col-md-3 col-3">
                 <input type="text" class="form-control" readonly id="gastosGeneralesUSD">
               </div>
-            </div>
+            </div> -->
             <div class="row my-2 align-items-center">
-              <div class="col-md-5 col-5 pl-5">
-                Comision de Ventas
+              <div class="col-md-5 col-5 text-primary">
+                <strong>Comision de Ventas</strong> 
               </div>
               <div class="col-md-4 col-4">
                 <input type="text" class="form-control number" readonly id="comisionCOP">

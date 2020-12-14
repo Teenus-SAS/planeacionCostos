@@ -59,7 +59,8 @@ if (isset($_SESSION["user"])) {
   $response->productProfitability = $product->getRentabilidad();
   $response->profitabilityMargin = $user->getCompany()->getProfitabilityMargin();
   
-  $response->salesCommission = ($user->getCompany()->getSalesCommission() / 100) * $response->salePrice;
+  /* $response->salesCommission = ($user->getCompany()->getSalesCommission() / 100) * $response->salePrice; */
+  $response->salesCommission = $user->getCompany()->getSalesCommission();
   echo json_encode($response);
 } else {
   http_response_code(401);
