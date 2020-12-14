@@ -53,14 +53,26 @@ function fillFields(data, flag = false, consolidado = true) {
     $('.quantity-product').val(data.quantity)
   }
 
+console.log('fillfields ', data);
+
   /////// operaciones calculos finales a mostrar/////
-  //// GASTOS /////
-  const gComisionVentas = data.salesCommission;
+
+  //// GASTOS GENERALES /////
+  const gastosGenerales = data.generalExpenses;
+  const pGastosGenerales = gastosGenerales / data.salePrice * 100;
+
+  //////// COMISION VENTAS /////////////
+  const pComisionVentas = data.salesCommission;
+  const comisionVentas = pComisionVentas * data.salePrice / 100;
+
+
+/*   const gComisionVentas = data.salesCommission;
   const gGenerales = data.generalExpenses;
-  const gastos = gComisionVentas + gGenerales;
+  const gastos = gComisionVentas + gGenerales; */
   ////// GASTOS PORCENTAJES //////////
-  const gpComisionVentas = gComisionVentas * 100 / gastos;
-  const gpGenerales = gGenerales / gastos * 100;
+/*   const gpComisionVentas = gComisionVentas * 100 / gastos; */
+ /*  const gpComisionVentas = gComisionVentas ;
+  const gpGenerales = gGenerales / gastos * 100; */
  
 
   ///// COSTOS /////////
@@ -72,10 +84,12 @@ function fillFields(data, flag = false, consolidado = true) {
   const cpIndirectosFabricacion = cIndirectosFabricacion / costos * 100;
   const cpManoObra = cManoObra / costos * 100;
   const cpMateriaPrima = cMateriaPrima / costos * 100;
+  const costosPorcentaje = costos / data.salePrice * 100;
 
-  const totalCostos = gastos + costos;
-  const gastosPorcentaje = gastos / totalCostos * 100;
-  const costosPorcentaje = costos / totalCostos * 100;
+  ////// TOTALS COSTOS  ////////////
+  const totalCostos = gastosGenerales + costos;
+  /* const gastosPorcentaje = gastos / totalCostos * 100; */
+  
   const pTotalCostos = totalCostos / data.salePrice * 100;
 
 
@@ -108,25 +122,26 @@ $('#materiaPrimaUSD').val((cpMateriaPrima).toFixed(2)+ " %")
 /*   $('#costosIndirectosUSD').val((data.indirectExpenses*100 / data.cost).toFixed(2) + " %") */
 $('#costosIndirectosUSD').val((cpIndirectosFabricacion).toFixed(2) + " %")
   // gastos
-  $('#gastosCOP').val(gastos)
+  $('#gastosCOP').val(gastosGenerales)
 /*   $('#gastosUSD').val((data.generalExpenses*100 / data.totalCost).toFixed(2) + " %") */
- $('#gastosUSD').val((gastosPorcentaje).toFixed(2) + " %")
+ $('#gastosUSD').val(pGastosGenerales.toFixed(2) + " %")
 
   // gastos generales
-  $('#gastosGeneralesCOP').val(gGenerales)
-  if($('#gastosCOP').val()>0){
+/*   $('#gastosGeneralesCOP').val(gGenerales)
+  if($('#gastosCOP').val()>0){ */
  /*  $('#gastosGeneralesUSD').val((data.generalExpenses*100 / data.generalExpenses).toFixed(2) + " %" ) */
- $('#gastosGeneralesUSD').val((gpGenerales).toFixed(2) + " %" )
-  }
+/*  $('#gastosGeneralesUSD').val((gpGenerales).toFixed(2) + " %" ) */
+/*   }
   else{
     $('#gastosGeneralesUSD').val( "0.00 %")
-  }
+  } */
   // comision 
  /*  $('#comisionCOP').val(data.salesCommission) */
-  $('#comisionCOP').val(gComisionVentas)
+  $('#comisionCOP').val(comisionVentas)
   if($('#comisionCOP').val()>0){
  /*  $('#comisionUSD').val((data.salesCommission / limInf).toFixed(2) + " %") */
- $('#comisionUSD').val((gpComisionVentas).toFixed(2) + " %")
+ console.log('p c v', pComisionVentas.toFixed(2));
+ $('#comisionUSD').val(pComisionVentas.toFixed(2) + " %");
   }
   else{
     $('#comisionUSD').val( "0.00 %")
@@ -155,6 +170,8 @@ function loadCost(product, flag = false, cargaUnicoProducto = false) {
     quantity: product.quantity
   },
     (data, status) => {
+      console.log('load one',data);
+      data.salesCommission = parseFloat(data.salesCommission);
       if (!flag) {
         data.quantity = product.quantity
       }
@@ -195,6 +212,7 @@ function loadTotalCost() {
       consolidated: 1,
     },
       (data, status) => {
+        console.log(data);
         // cantidades
         consolidated.quantity += parseInt(product.quantity)
         // total de costos
@@ -212,7 +230,8 @@ function loadTotalCost() {
         // gastos
         consolidated.generalExpenses += data.generalExpenses
         // comision 
-        consolidated.salesCommission += data.salesCommission
+     /*    consolidated.salesCommission += data.salesCommission */
+        consolidated.salesCommission = parseFloat(data.salesCommission);  
         // rentabilidad
         consolidated.profitability += data.profitability
 
@@ -462,58 +481,54 @@ function quitSimulation() {
   $('#materiaPrimaCOP').off()
   $('#manoObraCOP').off()
   $('#costosIndirectosCOP').off()
-  $('#gastosGeneralesCOP').off()
+ /*  $('#gastosGeneralesCOP').off() */
   $('#comisionCOP').off()
   $('#rentabilidadCOP').off()
 
   $('#materiaPrimaCOP').attr('readonly', true)
   $('#manoObraCOP').attr('readonly', true)
   $('#costosIndirectosCOP').attr('readonly', true)
-  $('#gastosGeneralesCOP').attr('readonly', true)
+/*   $('#gastosGeneralesCOP').attr('readonly', true) */
   $('#comisionCOP').attr('readonly', true)
   $('#rentabilidadCOP').attr('readonly', true)
 
   document.getElementById('materiaPrimaUSD').readOnly = true;
   document.getElementById('manoObraUSD').readOnly = true;
   document.getElementById('costosIndirectosUSD').readOnly = true;
-  document.getElementById('gastosGeneralesUSD').readOnly = true;
+ /*  document.getElementById('gastosGeneralesUSD').readOnly = true; */
   document.getElementById('comisionUSD').readOnly = true;
   document.getElementById('rentabilidadUSD').readOnly = true;
+  document.getElementById('gastosUSD').readOnly = true;
 }
 
+const precioVentaCOP = document.getElementById('precioVentaCOP');
+const costosCOP = document.getElementById('CostoCOP');
+const costosUSD = document.getElementById('CostoUSD');
 const manoObraUSD = document.getElementById('manoObraUSD');
 manoObraUSD.firstEvent = true;
 const materiaPrimaUSD = document.getElementById('materiaPrimaUSD');
 materiaPrimaUSD.firstEvent = true;
 const costosIndirectosUSD = document.getElementById('costosIndirectosUSD');
-const gastosGeneralesUSD = document.getElementById('gastosGeneralesUSD');
+/* const gastosGeneralesUSD = document.getElementById('gastosGeneralesUSD'); */
 const comisionUSD = document.getElementById('comisionUSD');
+const comisionCOP = document.getElementById('comisionCOP');
 const rentabilidadUSD = document.getElementById('rentabilidadUSD');
+const rentabilidadCOP = document.getElementById('rentabilidadCOP');
+const gastosUSD = document.getElementById('gastosUSD');
+const gastosCOP = document.getElementById('gastosCOP');
+const totalCostosCOP = document.getElementById('totalCostosCOP');
+const totalCostosUSD = document.getElementById('totalCostosUSD');
 
 function simulationCost() {
   $('.number').number(true, 2, ',', '.')
-  $('#materiaPrimaCOP').attr('readonly', false)
-  $('#manoObraCOP').attr('readonly', false)
-  $('#costosIndirectosCOP').attr('readonly', false)
-  $('#gastosGeneralesCOP').attr('readonly', false)
-  $('#comisionCOP').attr('readonly', false)
-  $('#rentabilidadCOP').attr('readonly', false)
-
-  $('#materiaPrimaCOP').on('input', sumCost);
-  $('#manoObraCOP').on('input', sumCost);
-  $('#costosIndirectosCOP').on('input', sumCost);
-  $('#gastosGeneralesCOP').on('input', sumCost);
-  $('#comisionCOP').on('input', calculatesalePrice);
-  $('#rentabilidadCOP').on('input', calculatesalePrice);
-  $('#totalCostosCOP').on('input', calculatesalePrice);
-
 
   //Habilitar Porcentajes
   
   manoObraUSD.readOnly = false;
   materiaPrimaUSD.readOnly = false;
   costosIndirectosUSD.readOnly = false;
-  gastosGeneralesUSD.readOnly = false;
+/*   gastosGeneralesUSD.readOnly = false; */
+  gastosUSD.readOnly = false;
   comisionUSD.readOnly = false;
   rentabilidadUSD.readOnly = false;
   const costoCOP = document.getElementById('CostoCOP');
@@ -539,12 +554,111 @@ function simulationCost() {
     manoObraUSD.value,
     costosIndirectosUSD.value,
     costoCOP);
-  gastosGeneralesUSD.oninput = startCostSimulation2.bind(null, gastosGeneralesUSD.value, $('#gastosCOP').val());
-  comisionUSD.oninput = startCostSimulation2.bind(null, comisionUSD.value, $('#gastosCOP').val());
-  rentabilidadUSD.oninput = cambioPorcentajeRentabilidad.bind(null, precioVentaCOP.value);
+    gastosUSD.oninput = calculateNewValuesOnChange.bind(null, gastosUSD.value, rentabilidadUSD.value, comisionUSD.value);
+/*   gastosGeneralesUSD.oninput = startCostSimulation2.bind(null, gastosGeneralesUSD.value, $('#gastosCOP').val()); */
+ /*  comisionUSD.oninput = startCostSimulation2.bind(null, comisionUSD.value, $('#gastosCOP').val()); */
+  comisionUSD.oninput = calculatePrecioVenta;
+  /* rentabilidadUSD.oninput = cambioPorcentajeRentabilidad.bind(null, precioVentaCOP.value); */
+  rentabilidadUSD.oninput = calculatePrecioVenta;
 
   manoObraUSDValue = manoObraUSD.value;
 }
+
+// Calcula precio total venta basado en el total costos, rentabilidad y comision venta.
+function calculatePrecioVenta() {
+  
+  const rentabilidadUSDValue = parseFloat(rentabilidadUSD.value);
+  const comisionUSDValue = parseFloat(comisionUSD.value);
+  const totalCostosCOPValue = parseFloat(totalCostosCOP.value.replaceAll('.', '').replace(',','.'));
+
+  const precioVentaCOPValue = totalCostosCOPValue / (1 - (rentabilidadUSDValue / 100) - (comisionUSDValue / 100));
+
+  precioVentaCOP.value = formatCurrency(precioVentaCOPValue);
+  totalCostosUSD.value = (totalCostosCOPValue / precioVentaCOPValue * 100).toFixed(2) + ' %';
+
+  calculateCOPS();
+
+  charCost.data.datasets[0].data = [
+    $.number(parseFloat($('#materiaPrimaCOP').val()), 2, '.'),
+    $.number(parseFloat($('#costosIndirectosCOP').val()), 2, '.'),
+    $.number(parseFloat($('#manoObraCOP').val()), 2, '.'),
+    $.number(parseFloat($('#comisionCOP').val()), 2, '.'),
+    $.number(parseFloat($('#gastosCOP').val()), 2, '.')
+  ]
+  charCost.update()
+}
+
+function calculateCOPS() {
+  
+  const rentabilidadUSDValue = parseFloat(rentabilidadUSD.value);
+  const comisionUSDValue = parseFloat(comisionUSD.value);
+
+  const precioVentaCOPValue = parseFloat(precioVentaCOP.value.replaceAll('.', '').replace(',','.'));
+
+  console.log('nuevo precio venta', precioVentaCOPValue);
+
+  rentabilidadCOP.value = formatCurrency(precioVentaCOPValue * rentabilidadUSDValue / 100);
+  comisionCOP.value = formatCurrency(precioVentaCOPValue * comisionUSDValue / 100);
+
+  calculateCostosGastosCOP();
+}
+
+function calculateCostosGastosCOP() {
+  
+  const costosCOPValue = parseFloat(costosCOP.value.replaceAll('.', '').replace(',','.'));
+  const gastosCOPValue = parseFloat(gastosCOP.value.replaceAll('.', '').replace(',','.'));
+
+  const precioVentaCOPValue = parseFloat(precioVentaCOP.value.replaceAll('.', '').replace(',','.'));
+
+  costosUSD.value = (costosCOPValue / precioVentaCOPValue * 100).toFixed(2) + ' %';
+  gastosUSD.value = (gastosCOPValue / precioVentaCOPValue * 100).toFixed(2) + ' %';
+
+}
+
+
+function calculateNewValuesOnChange(oldGastosUSDValue, oldRentabilidadUSDValue, oldComisionUSDValue, ev) {
+  
+  const newGastos = ev.target;
+  oldGastosUSDValue = parseFloat(oldGastosUSDValue);
+  const newGastosUSDValue = parseFloat(newGastos.value);
+  const costosUSDValue = parseFloat(costosUSD.value);
+  oldComisionUSDValue = parseFloat(oldComisionUSDValue);
+  oldRentabilidadUSDValue = parseFloat(oldRentabilidadUSDValue);
+
+  const precioVentaCOPValue = parseFloat(precioVentaCOP.value.replaceAll('.', '').replace(',','.'));
+
+  totalCostosUSD.value = (costosUSDValue + newGastosUSDValue).toFixed(2) + ' %';
+  const totalCostosUSDValue = parseFloat(totalCostosUSD.value);
+
+  const diffNewOldGastosUSD = newGastosUSDValue - oldGastosUSDValue;
+
+  console.log(diffNewOldGastosUSD);
+
+  comisionUSD.value = (oldComisionUSDValue - (diffNewOldGastosUSD / 2)).toFixed(2) + ' %';
+  rentabilidadUSD.value = (oldRentabilidadUSDValue - (diffNewOldGastosUSD / 2)).toFixed(2) + ' %';
+
+  console.log(precioVentaCOPValue, totalCostosUSDValue);
+
+  gastosCOP.value = formatCurrency(precioVentaCOPValue * newGastosUSDValue / 100);
+  totalCostosCOP.value = formatCurrency(precioVentaCOPValue * totalCostosUSDValue / 100);
+
+  const comisionUSDValue = parseFloat(comisionUSD.value);
+  const rentabilidadUSDValue = parseFloat(rentabilidadUSD.value);
+
+  comisionCOP.value = formatCurrency(precioVentaCOPValue * comisionUSDValue / 100);
+  rentabilidadCOP.value = formatCurrency(precioVentaCOPValue * rentabilidadUSDValue / 100);
+
+  charCost.data.datasets[0].data = [
+    $.number(parseFloat($('#materiaPrimaCOP').val()), 2, '.'),
+    $.number(parseFloat($('#costosIndirectosCOP').val()), 2, '.'),
+    $.number(parseFloat($('#manoObraCOP').val()), 2, '.'),
+    $.number(parseFloat($('#comisionCOP').val()), 2, '.'),
+    $.number(parseFloat($('#gastosCOP').val()), 2, '.')
+  ]
+  charCost.update()
+}
+
+
 
 function sumCostPercentage(inputUSDVal, inputCOPVal, ev) {
 
