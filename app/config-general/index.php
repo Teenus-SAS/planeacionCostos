@@ -204,24 +204,25 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                   <div class="col-md-4 col-sm-12">
                     <!--<h3>Materia Prima</h3>-->
                     <form id="form-materia-prima">
-                     <!--  <div hidden class="form-check form-check-radio form-check-inline"> -->
-                        <label hidden>
+                      <div hidden class="form-check form-check-radio form-check-inline">
+                        <label>
                           <input type="radio" name="optionMateriaPrima" id="inlineRadio1" value="option1"> Adicionar
                          <!--  <span class="form-check-sign"></span> -->
                         </label>
-                    <!--   </div> -->
-                  <!--     <div hidden class="form-check form-check-radio form-check-inline"> -->
-                        <label hidden>
+                      </div>
+                      <div hidden class="form-check form-check-radio form-check-inline">
+                        <label>
                           <input type="radio" name="optionMateriaPrima" id="inlineRadio2" value="option2"> Modificar
                         <!--   <span class="form-check-sign"></span> -->
                         </label>
-                      <!-- </div> -->
+                      </div>
                       <div class="card py-2">
                         <div class="row my-4 justify-content-center">
                           <div class="col-md-10 col-10">
                             <div class="form-group">
                               <label for="input-materia-prima">Materia Prima</label>
                               <input id="input-materia-prima" class="form-control" type="text" name="material">
+                           <!--    <input type="hidden" name="material"> -->
                             </div>
                           </div>
                         </div>
@@ -372,6 +373,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                               <th>Máquinas</th>
                               <th>P. Compra</th>
                               <th>Depreciación*Min</th>
+                              <th>Acciones</th>
                             </thead>
                             <tbody>
                             </tbody>
