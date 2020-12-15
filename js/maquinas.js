@@ -78,10 +78,10 @@ var $tableMaquinas = $('#table-maquinas').dataTable({
       targets: 1,
       className: 'text-right'
     },
-    {
-      targets: -1,
+  /*   {
+      targets: -2,
       className: 'text-right'
-    }
+    } */
   ],
   columns: [{
     "data": 'name',
@@ -104,6 +104,12 @@ var $tableMaquinas = $('#table-maquinas').dataTable({
       } else {
         return $.number(data, 2, '.', ',')
       }
+    }
+  },
+  {
+    data: 'id',
+    render: function (data) {
+      return `<a href='#'><i data-maquina-id=${data} data-toggle='tooltip' title="Editar" class='nc-icon nc-refresh-69 link-editar' style='color:rgb(255, 165, 0)'></i></a><a href='#' style="margin-left: 1rem;"><i data-maquina-id=${data} class='nc-icon nc-simple-remove link-borrar' data-toggle='tooltip' title='Eliminar' style='color:rgb(255, 0, 0)'></i></a>`;
     }
   }
   ],

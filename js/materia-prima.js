@@ -4,6 +4,9 @@
 logica de materia prima
 */
 
+document.querySelector('a[href$="updates"]')
+.addEventListener('click', () => {resetFormMaterials(); });
+
 function clearFormMaterials() {
   if ($('#input-materia-prima')[0].tagName == 'SELECT') {
     let $formGroupParent = $('#input-materia-prima').parent()
@@ -17,7 +20,10 @@ function clearFormMaterials() {
 
 elById('inlineRadio1').click();
 
-
+let materialSeletedByEdit = {
+  description: null,
+  id: null,
+};
 var materialsMateriaPrima
 $.get('api/get_materials.php', (data, status, xhr) => {
   materialsMateriaPrima = data
@@ -31,38 +37,44 @@ $('input[name=optionMateriaPrima]').change(function () {
     // desaparece el input
     /* $('#input-materia-prima').fadeOut() */
     // guarda el padre del input
-/*     let $formGroupParent = $('#input-materia-prima').parent()
-    loadingSpinner()
+/*     let $formGroupParent = $('#input-materia-prima').parent() */
+/*     loadingSpinner() */
     $.get('api/get_materials.php', (data, status, xhr) => {
-      completeSpinner() */
+  /*     completeSpinner() */
       // se consulta los materiales de esa empresa
-     /*  if (status == 'success') { */
+      if (status == 'success') {
         // se agregan todos los materiales en un input select
-       /*  let string = `<select id="input-materia-prima" class="form-control" name="material"><option selected disabled>Seleccione un material</option>` */
- /*       let string = `<select id="input-materia-prima" class="form-control" name="material">`
+     /*    let string = `<select id="input-materia-prima" class="form-control" name="material"><option selected disabled>Seleccione un material</option>` */
+    /*    let string = `<select readonly id="input-materia-prima" class="form-control" name="material">` */
         materialsMateriaPrima = data
-        data.forEach((material) => {
-          string += `<option value="${material.id}">${material.description}</option>`
-        })
-        string += '</select>'
+    /*     data.forEach((material) => {
+          if (material.description === materialSeletedByEdit.description) {
+            string += `<option selected value="${material.id}">${material.description}</option>`
+          } else{
+            string += `<option value="${material.id}">${material.description}</option>`
+          }
+          
+        } */
+      /*   ) */
+    /*     string += '</select>'
         $formGroupParent.append(string) */
         // se quita el input de tipo de texto
-/*         $('#input-materia-prima').remove()
+     /*    $('#input-materia-prima').remove() */
 
-        $('#input-materia-prima').change(function () {
+/*         $('#input-materia-prima').change(function () {
           let materialSelected = data.filter(material => material.id == $(this).val())[0]
           $('#input-unidad').val(materialSelected.unit)
           $('#input-costo').val(parseFloat(materialSelected.cost))
           $tableMateriaPrima.api().search(materialSelected.description).draw();
-        })
+        }) */
       } else {
         location = '/login'
       }
-    }) */
+    })
   } else {
     elById('material-btn').value = 'Adicionar Material';
-    /* clearFormMaterials() */
     resetFormMaterials();
+    elById('input-materia-prima').readOnly = false;
   }
 })
 $("#input-unidad").autocomplete({
@@ -123,7 +135,10 @@ $('#form-materia-prima').submit(function (e) {
   e.preventDefault()
   if (materialsMateriaPrima != undefined) {
     let m = $('#input-materia-prima').val()
-    let materialSel = materialsMateriaPrima.filter(material => material.description.trim().toLowerCase() == m.trim().toLowerCase())[0]
+    console.log(m);
+    let materialSel = materialsMateriaPrima.filter(material => material.description.trim().toLowerCase() == m.trim().toLowerCase())[0];
+
+  
     if (materialSel != undefined) {
       $.confirm({
         title: 'Tezlik',
@@ -143,7 +158,14 @@ $('#form-materia-prima').submit(function (e) {
   }
 
 })
-function submitFormMaterials(updated = false) {
+function submitFormMaterials(updated = false, repeated = false) {
+  if (updated && elById('inlineRadio1').checked) {
+    
+  }
+  else if (updated) {
+    elById('input-materia-prima').value = elById('input-materia-prima').getAttribute('value');
+  }
+
   $.post('api/add_modify_materials.php', $('#form-materia-prima').serialize())
     .always(function (xhr) {
       switch (xhr.status) {
@@ -220,7 +242,7 @@ function submitFormMaterials(updated = false) {
           })
           break
       }
-
+      resetFormMaterials();
       elById('inlineRadio1').click();
     })
 }
@@ -255,12 +277,16 @@ document.getElementById('table-materia-prima').addEventListener('click', (ev) =>
       const unidad = closestTr.cells[1].textContent.trim();
       const costo = closestTr.cells[2].textContent.replace('$', '').trim();
 
+      
       elById('input-materia-prima').value = description;
       elById('input-unidad').value = unidad;
       elById('input-costo').value = costo;
 
+      materialSeletedByEdit.description = description;
+      materialSeletedByEdit.id = target.dataset.materialId;
+      elById('input-materia-prima').setAttribute('value', materialSeletedByEdit.id);
+      elById('input-materia-prima').readOnly = true;
       elById('inlineRadio2').click();
-
     }
 });
 
@@ -301,6 +327,7 @@ function elById(id) {
 
 function resetFormMaterials() {
   elById('input-materia-prima').value = '';
+  elById('input-materia-prima').readOnly = false;
   elById('input-unidad').value = '';
   elById('input-costo').value = '';
 }
