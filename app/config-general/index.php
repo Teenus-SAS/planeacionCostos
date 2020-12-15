@@ -204,18 +204,18 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                   <div class="col-md-4 col-sm-12">
                     <!--<h3>Materia Prima</h3>-->
                     <form id="form-materia-prima">
-                      <div class="form-check form-check-radio form-check-inline">
-                        <label class="form-check-label">
-                          <input class="form-check-input" type="radio" name="optionMateriaPrima" id="inlineRadio1" value="option1"> Adicionar
-                          <span class="form-check-sign"></span>
+                     <!--  <div hidden class="form-check form-check-radio form-check-inline"> -->
+                        <label hidden>
+                          <input type="radio" name="optionMateriaPrima" id="inlineRadio1" value="option1"> Adicionar
+                         <!--  <span class="form-check-sign"></span> -->
                         </label>
-                      </div>
-                      <div class="form-check form-check-radio form-check-inline">
-                        <label class="form-check-label">
-                          <input class="form-check-input" type="radio" name="optionMateriaPrima" id="inlineRadio2" value="option2"> Modificar
-                          <span class="form-check-sign"></span>
+                    <!--   </div> -->
+                  <!--     <div hidden class="form-check form-check-radio form-check-inline"> -->
+                        <label hidden>
+                          <input type="radio" name="optionMateriaPrima" id="inlineRadio2" value="option2"> Modificar
+                        <!--   <span class="form-check-sign"></span> -->
                         </label>
-                      </div>
+                      <!-- </div> -->
                       <div class="card py-2">
                         <div class="row my-4 justify-content-center">
                           <div class="col-md-10 col-10">
@@ -242,7 +242,10 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                       </div>
                       <div class="row justify-content-center mb-4">
                         <div class="col"></div>
-                        <div class="col"><input type="submit" class="btn btn-primary" value="Guardar Datos"></div>
+                        <div class="col">
+                          <input id="material-btn" type="submit" class="btn btn-primary" value="Adicionar Material">
+
+                        </div>
                         <div class="col"></div>
                       </div>
                       <hr>
@@ -264,13 +267,13 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                         <!--<h4>Materia Prima</h4>-->
                       </div>
                       <div class="card-body">
-                        <button class="btn btn-danger" id="delete-materials">Eliminar</button>
                         <div class="table-responsive tableFixHead">
                           <table class="table table-hover" id="table-materia-prima">
                             <thead class="text-primary">
                               <th>Materia Prima</th>
                               <th>Unidad</th>
                               <th>Costo</th>
+                              <th>Acciones</th>
                             </thead>
                             <tbody>
                             </tbody>

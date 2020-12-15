@@ -15,49 +15,7 @@ function clearFormMaterials() {
   }
 }
 
-//eliminado de materiales seleccionados
-$('#delete-materials').click(() => {
-  let rows = $tableMateriaPrima.api().rows('.selected').data()
-  var count = 0
-  if (rows.length > 0) {
-    for (let index = 0; index < rows.length; index++) {
-      $.post('api/delete_material.php', {
-        id: rows[index].id
-      }).always(function (xhr) {
-        if (xhr.status == 200) {
-          $tableMateriaPrima.api().ajax.reload()
-          count++
-        } else {
-          $.notify({
-            icon: "nc-icon nc-bell-55",
-            message: `El material <b>${rows[index].description}</b> esta asociado a uno o mas productos`
-          }, {
-            type: 'danger',
-            timer: 8000
-          })
-        }
-
-        if (count == rows.length) {
-          $.notify({
-            icon: "nc-icon nc-bell-55",
-            message: `Se ${count > 1 ? 'han' : 'ha'} borrado ${count} ${count > 1 ? 'materiales' : count == 0 ? 'materiales' : 'material'}`
-          }, {
-            type: 'info',
-            timer: 8000
-          })
-        }
-      })
-    }
-  } else {
-    $.notify({
-      icon: "nc-icon nc-bell-55",
-      message: `Selecciona al menos <b>1</b> material`
-    }, {
-      type: 'warning',
-      timer: 8000
-    })
-  }
-})
+elById('inlineRadio1').click();
 
 
 var materialsMateriaPrima
@@ -69,25 +27,27 @@ $.get('api/get_materials.php', (data, status, xhr) => {
 $('input[name=optionMateriaPrima]').change(function () {
   $tableMateriaPrima.api().search('').draw();
   if ($(this).val() == 'option2') {
+    elById('material-btn').value = 'Modificar';
     // desaparece el input
-    $('#input-materia-prima').fadeOut()
+    /* $('#input-materia-prima').fadeOut() */
     // guarda el padre del input
-    let $formGroupParent = $('#input-materia-prima').parent()
+/*     let $formGroupParent = $('#input-materia-prima').parent()
     loadingSpinner()
     $.get('api/get_materials.php', (data, status, xhr) => {
-      completeSpinner()
+      completeSpinner() */
       // se consulta los materiales de esa empresa
-      if (status == 'success') {
+     /*  if (status == 'success') { */
         // se agregan todos los materiales en un input select
-        let string = `<select id="input-materia-prima" class="form-control" name="material"><option selected disabled>Seleccione un material</option>`
+       /*  let string = `<select id="input-materia-prima" class="form-control" name="material"><option selected disabled>Seleccione un material</option>` */
+ /*       let string = `<select id="input-materia-prima" class="form-control" name="material">`
         materialsMateriaPrima = data
         data.forEach((material) => {
           string += `<option value="${material.id}">${material.description}</option>`
         })
         string += '</select>'
-        $formGroupParent.append(string)
+        $formGroupParent.append(string) */
         // se quita el input de tipo de texto
-        $('#input-materia-prima').remove()
+/*         $('#input-materia-prima').remove()
 
         $('#input-materia-prima').change(function () {
           let materialSelected = data.filter(material => material.id == $(this).val())[0]
@@ -98,9 +58,11 @@ $('input[name=optionMateriaPrima]').change(function () {
       } else {
         location = '/login'
       }
-    })
+    }) */
   } else {
-    clearFormMaterials()
+    elById('material-btn').value = 'Adicionar Material';
+    /* clearFormMaterials() */
+    resetFormMaterials();
   }
 })
 $("#input-unidad").autocomplete({
@@ -121,14 +83,10 @@ var $tableMateriaPrima = $('#table-materia-prima').dataTable({
     dataSrc: 'data'
   },
   columnDefs: [
-    {
+   /*  {
       targets: 0,
       className: 'text-left'
-    },
-    {
-      targets: -1,
-      className: 'text-right'
-    }
+    }, */
   ],
   columns: [{
     "data": 'description'
@@ -142,14 +100,21 @@ var $tableMateriaPrima = $('#table-materia-prima').dataTable({
       $('.cost').parent().addClass('text-right')
       return `<span class="cost">$ ${$.number(data, 2, '.', ',')}</span>`
     }
+  },
+  {
+    "data": 'id',
+    render: (data) => {
+
+      return `<a  href='#'><i data-material-id=${data} data-toggle='tooltip' title="Editar" class='nc-icon nc-refresh-69 link-editar' style='color:rgb(255, 165, 0)'></i></a><a href='#' style="margin-left: 1rem;"><i data-material-id=${data} class='nc-icon nc-simple-remove link-borrar' data-toggle='tooltip' title='Eliminar' style='color:rgb(255, 0, 0)'></i></a>`;
+    }
   }
   ],
   reponsive: true
 })
 $tableMateriaPrima.width('100%')
-$tableMateriaPrima.on('click', 'tr', function () {
+/* $tableMateriaPrima.on('click', 'tr', function () {
   $(this).toggleClass('selected');
-})
+}) */
 
 // manejo de costo como precio
 $('#input-costo').number(true, 2)
@@ -255,6 +220,8 @@ function submitFormMaterials(updated = false) {
           })
           break
       }
+
+      elById('inlineRadio1').click();
     })
 }
 
@@ -270,4 +237,70 @@ $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
 function alphaOnly(event) {
   var key = event.keyCode;
   return ((key >= 65 && key <= 90) || key == 8 || key == 9);
+}
+
+
+document.getElementById('table-materia-prima').addEventListener('click', (ev) => {
+  
+    const target = ev.target;
+
+    if (target.classList.contains('link-borrar')) {
+      deleteMaterial(target.dataset.materialId, target.closest('tr').cells[0].textContent);
+    }
+    else if(target.classList.contains('link-editar')) {
+
+      const closestTr = target.closest('tr');
+
+      const description = closestTr.cells[0].textContent.trim();
+      const unidad = closestTr.cells[1].textContent.trim();
+      const costo = closestTr.cells[2].textContent.replace('$', '').trim();
+
+      elById('input-materia-prima').value = description;
+      elById('input-unidad').value = unidad;
+      elById('input-costo').value = costo;
+
+      elById('inlineRadio2').click();
+
+    }
+});
+
+
+/// elimina material por id ///
+function deleteMaterial(id, description) {
+  
+   $.post('api/delete_material.php', {
+        id: id
+      }).always(function (xhr) {
+        if (xhr.status == 200) {
+          $tableMateriaPrima.api().ajax.reload()  
+          $.notify({
+            icon: "nc-icon nc-bell-55",
+            message: `Se ha eliminado un material`
+          }, {
+            type: 'info',
+            timer: 8000
+          })
+        } else {
+          $.notify({
+            icon: "nc-icon nc-bell-55",
+            message: `El material <b>${description}</b> esta asociado a uno o mas productos`
+          }, {
+            type: 'danger',
+            timer: 8000
+          })
+        }
+      })
+
+}
+
+
+function elById(id) {
+  return document.getElementById(id);
+}
+
+
+function resetFormMaterials() {
+  elById('input-materia-prima').value = '';
+  elById('input-unidad').value = '';
+  elById('input-costo').value = '';
 }
