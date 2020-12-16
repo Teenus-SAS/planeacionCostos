@@ -51,6 +51,7 @@ if (isset($_SESSION["user"])) {
             }
           } else {
             $material = $materialDao->findById($_POST["material"]);
+            $material->setDescription($_POST["material-description"]);
             $material->setCost($_POST["costo"]);
             $material->setUnit($_POST["unidad"]);
             if ($materialDao->update($material) > 0) {

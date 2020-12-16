@@ -118,7 +118,7 @@ class MaterialDao
   public function update($material)
   {
     $this->db->connect();
-    $query = "UPDATE `materiales` SET `unidad` = '" . $material->getUnit() . "', `costo` = '" . $material->getCost() . "' WHERE `materiales`.`id_materiales` = " . $material->getId() . " AND `materiales`.`empresas_id_empresa` = " . $material->getIdCompany();
+    $query = "UPDATE `materiales` SET `unidad` = '" . $material->getUnit() . "', `costo` = '" . $material->getCost() . "' , `descripcion` = '" . $material->getDescription() . "' WHERE `materiales`.`id_materiales` = " . $material->getId() . " AND `materiales`.`empresas_id_empresa` = " . $material->getIdCompany();
     return $this->db->consult($query);
   }
 

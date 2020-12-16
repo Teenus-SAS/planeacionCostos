@@ -135,10 +135,18 @@ $('#form-materia-prima').submit(function (e) {
   e.preventDefault()
   if (materialsMateriaPrima != undefined) {
     let m = $('#input-materia-prima').val()
-    console.log(m);
     let materialSel = materialsMateriaPrima.filter(material => material.description.trim().toLowerCase() == m.trim().toLowerCase())[0];
 
-  
+    if (!materialSel && elById('material-btn').value.trim().toLowerCase() === 'modificar') {
+      submitFormMaterials(true);
+      return;
+    }
+    
+    if (materialSel && elById('material-btn').value.trim().toLowerCase() === 'modificar') {
+      submitFormMaterials(true);
+      return;
+    }
+
     if (materialSel != undefined) {
       $.confirm({
         title: 'Tezlik',
@@ -159,8 +167,12 @@ $('#form-materia-prima').submit(function (e) {
 
 })
 function submitFormMaterials(updated = false, repeated = false) {
+  elById('material-description').value = elById('input-materia-prima').value.trim();
+
   if (updated && elById('inlineRadio1').checked) {
-    
+  }
+  else if(updated  && elById('material-firstname').value !== elById('input-materia-prima').value) {
+    elById('input-materia-prima').value = elById('input-materia-prima').getAttribute('value');
   }
   else if (updated) {
     elById('input-materia-prima').value = elById('input-materia-prima').getAttribute('value');
@@ -277,6 +289,7 @@ document.getElementById('table-materia-prima').addEventListener('click', (ev) =>
       const unidad = closestTr.cells[1].textContent.trim();
       const costo = closestTr.cells[2].textContent.replace('$', '').trim();
 
+      elById('material-firstname').value = description;
       
       elById('input-materia-prima').value = description;
       elById('input-unidad').value = unidad;
