@@ -7,7 +7,6 @@ logica de maquinas
 
 elById('inlineRadio1M').click();
 document.querySelector('a[href$="history"]').addEventListener('click', () => {resetFormMaquinas(); elById('inlineRadio1M').click(); });
-let maquinas = [];
 
 function clearformMachines() {
   if ($('#input-maquinas')[0].tagName == 'SELECT') {
@@ -121,13 +120,6 @@ var $tableMaquinas = $('#table-maquinas').dataTable({
   }
   ],
   reponsive: true,
-  "initComplete": function (settings, json) {
-    maquinas = json.data;
-  },
-  "createdRow": function (row, data) {
-    maquinas = [];
-    maquinas.push(data);
-  }
 })
 $tableMaquinas.width('100%')
 /* $tableMaquinas.on('click', 'tr', function () {
@@ -371,6 +363,7 @@ function resetFormMaquinas() {
 }
 
 function checkIfMaquinaExists(name) {
-  return maquinas.some(m => m.name === name.trim());
+  return Array.from(elById('table-maquinas').tBodies[0].rows)
+  .some(row => row.cells[0].textContent.trim() === name.trim());
 }
 
