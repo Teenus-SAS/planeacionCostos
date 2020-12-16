@@ -226,7 +226,7 @@ function submitForm(e, option, maquina) {
   let request = $(this).serialize()
   request += `&depreciation=${$('#input-depreciation-machine').val()}`;
   const maquinaExists = checkIfMaquinaExists(elById('input-maquinas').value.trim());
-  console.log();
+  console.log(request);
     if (elById("inlineRadio1M").checked && !maquinaExists) {
       sendData(request);
     }

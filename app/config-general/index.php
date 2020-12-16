@@ -222,7 +222,8 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                             <div class="form-group">
                               <label for="input-materia-prima">Materia Prima</label>
                               <input id="input-materia-prima" class="form-control" type="text" name="material">
-                           <!--    <input type="hidden" name="material"> -->
+                              <input type="hidden" name="material-description" id="material-description">
+                              <input type="hidden" name="material-firstname" id="material-firstname">
                             </div>
                           </div>
                         </div>

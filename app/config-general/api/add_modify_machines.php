@@ -54,6 +54,7 @@ if (isset($_SESSION["user"])) {
           } else {
             if ($_POST["machine-id"] != "") {
             $machine = $machineDao->findById($_POST["machine-id"]);
+            $machine->setName($_POST["machine"]);
             $machine->setPrice($_POST["price"]);
             $machine->setDepreciation($_POST["depreciation"]);
             $machine->setYearsDepreciation($_POST["years"]);
