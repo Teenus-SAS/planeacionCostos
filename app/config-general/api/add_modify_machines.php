@@ -35,7 +35,7 @@ if (isset($_SESSION["user"])) {
   $user = unserialize($_SESSION["user"]);
   $machineDao = new MachineDao();
   if (isset($_POST["optionMaquinas"])) {
-    if (isset($_POST["machine"]) && isset($_POST["price"]) && isset($_POST["depreciation"])) {
+    if (isset($_POST["machine"]) && isset($_POST["price"]) && isset($_POST["depreciation"]) && isset($_POST["machine-id"])) {
       if ($_POST["machine"] != "" || $_POST["price"] != "" || $_POST["depreciation"] != "") {
         if ($_POST["price"] > 0) {
           if ($_POST["optionMaquinas"] == "option1") {
@@ -52,16 +52,19 @@ if (isset($_SESSION["user"])) {
               http_response_code(500);
             }
           } else {
-            $machine = $machineDao->findById($_POST["machine"]);
+            if ($_POST["machine-id"] != "") {
+            $machine = $machineDao->findById($_POST["machine-id"]);
             $machine->setPrice($_POST["price"]);
             $machine->setDepreciation($_POST["depreciation"]);
             $machine->setYearsDepreciation($_POST["years"]);
             $machine->setResidualValue($_POST["valor-residual"]);
+            echo var_dump($machine);
             if ($machineDao->update($machine) > 0) {
               http_response_code(200);
             } else {
               http_response_code(500);
             }
+          }
           }
         } else {
           http_response_code(501);

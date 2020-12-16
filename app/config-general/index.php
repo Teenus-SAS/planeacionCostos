@@ -290,15 +290,15 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                   <div class="col-md-5 col-sm-12">
                     <form id="form-maquinas">
                       <!--<h3>Máquinas</h3>-->
-                      <div class="form-check form-check-radio form-check-inline">
+                      <div hidden class="form-check form-check-radio form-check-inline">
                         <label class="form-check-label">
-                          <input class="form-check-input" type="radio" name="optionMaquinas" id="inlineRadio1" value="option1"> Adicionar
+                          <input class="form-check-input" type="radio" name="optionMaquinas" id="inlineRadio1M" value="option1"> Adicionar
                           <span class="form-check-sign"></span>
                         </label>
                       </div>
-                      <div class="form-check form-check-radio form-check-inline">
+                      <div  hidden class="form-check form-check-radio form-check-inline">
                         <label class="form-check-label">
-                          <input class="form-check-input" type="radio" name="optionMaquinas" id="inlineRadio2" value="option2"> Modificar
+                          <input class="form-check-input" type="radio" name="optionMaquinas" id="inlineRadio2M" value="option2"> Modificar
                           <span class="form-check-sign"></span>
                         </label>
                       </div>
@@ -308,6 +308,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                             <div class="form-group">
                               <label for="input-maquinas">Nombre</label>
                               <input id="input-maquinas" class="form-control" type="text" name="machine">
+                              <input type="hidden" id="machine-id" name="machine-id"></input>
                             </div>
                           </div>
                           <div class="col-md-5 col-6">
@@ -344,7 +345,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                       </div>
                       <div class="row mb-4">
                         <div class="col"></div>
-                        <div class="col"><button class="btn btn-primary">Guardar</button></div>
+                        <div class="col"><button id="maquinas-btn" class="btn btn-primary" type="submit" value="ADICIONAR">ADICIONAR</button></div>
                         <div class="col"></div>
                       </div>
                       <hr>
@@ -366,7 +367,6 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                         <!--<h4>Máquinas</h4>-->
                       </div>
                       <div class="card-body">
-                        <button class="btn btn-danger" id="delete-maquinas">Eliminar</button>
                         <div class="table-responsive tableFixHead">
                           <table class="table table-compact table-hover" id="table-maquinas">
                             <thead class="text-primary">

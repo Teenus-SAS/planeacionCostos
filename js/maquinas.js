@@ -5,6 +5,10 @@ logica de maquinas
 */
 
 
+elById('inlineRadio1M').click();
+document.querySelector('a[href$="history"]').addEventListener('click', () => {resetFormMaquinas(); elById('inlineRadio1M').click(); });
+let maquinas = [];
+
 function clearformMachines() {
   if ($('#input-maquinas')[0].tagName == 'SELECT') {
     let $formGroupParent = $('#input-maquinas').parent()
@@ -22,24 +26,25 @@ function clearFile(input) {
 $('input[name=optionMaquinas]').change(function () {
   $tableMaquinas.api().search('').draw();
   if ($(this).val() == 'option2') {
+
     // desaparece el input
-    $('#input-maquinas').fadeOut()
+   /*  $('#input-maquinas').fadeOut() */
     // guarda el padre del input
-    let $formGroupParent = $('#input-maquinas').parent()
-    $.get('api/get_machines.php', (data, status, xhr) => {
+   /*  let $formGroupParent = $('#input-maquinas').parent()
+    $.get('api/get_machines.php', (data, status, xhr) => { */
       // se consulta las maquinas de esa empresa
-      if (status == 'success') {
+/*       if (status == 'success') { */
         // se agregan todas las maquinas en un input select
-        let string = `<select id="input-maquinas" class="form-control" name="machine">
+ /*        let string = `<select id="input-maquinas" class="form-control" name="machine">
         <option selected disabled>Seleccione una maquina</option>`
         machines = data
         data.forEach((machine) => {
           string += `<option value="${machine.id}">${machine.name}</option>`
         })
         string += '</select>'
-        $formGroupParent.append(string)
+        $formGroupParent.append(string) */
         // se quita el input de tipo de texto
-        $('#input-maquinas').remove()
+/*         $('#input-maquinas').remove()
 
         $('#input-maquinas').change(function () {
           let machineSelected = data.filter(machine => machine.id == $(this).val())[0]
@@ -51,10 +56,12 @@ $('input[name=optionMaquinas]').change(function () {
         })
       } else {
         location = '/login'
-      }
-    })
+      } */
+/*     }) */
   } else {
-    clearformMachines()
+    clearformMachines();
+    elById('maquinas-btn').value = 'ADICIONAR';
+    elById('maquinas-btn').textContent = 'ADICIONAR';
   }
 })
 
@@ -107,145 +114,43 @@ var $tableMaquinas = $('#table-maquinas').dataTable({
     }
   },
   {
-    data: 'id',
+    data: null,
     render: function (data) {
-      return `<a href='#'><i data-maquina-id=${data} data-toggle='tooltip' title="Editar" class='nc-icon nc-refresh-69 link-editar' style='color:rgb(255, 165, 0)'></i></a><a href='#' style="margin-left: 1rem;"><i data-maquina-id=${data} class='nc-icon nc-simple-remove link-borrar' data-toggle='tooltip' title='Eliminar' style='color:rgb(255, 0, 0)'></i></a>`;
+      return `<a href='#'><i data-maquina-id=${data.id} data-maquina-years-deprec=${data.yearsDepreciation} data-maquina-residual=${data.residualValue} data-toggle='tooltip' title="Editar" class='nc-icon nc-refresh-69 link-editar' style='color:rgb(255, 165, 0)'></i></a><a href='#' style="margin-left: 1rem;"><i data-maquina-id=${data.id} class='nc-icon nc-simple-remove link-borrar' data-toggle='tooltip' title='Eliminar' style='color:rgb(255, 0, 0)'></i></a>`;
     }
   }
   ],
-  reponsive: true
-})
-$tableMaquinas.width('100%')
-$tableMaquinas.on('click', 'tr', function () {
-  $(this).toggleClass('selected');
-})
-// formulario para adicionar o modificar valores de una maquina
-
-$('#form-maquinas').submit(function (e) {
-  e.preventDefault()
-  let request = $(this).serialize()
-  request += `&depreciation=${$('#input-depreciation-machine').val()}`
-  $.post('api/add_modify_machines.php', request)
-    .always(function (xhr) {
-      switch (xhr.status) {
-        case 200:
-          $.notify({
-            icon: "nc-icon nc-bell-55",
-            message: "Maquina <b>Actualizada</b>"
-          }, {
-            type: 'primary',
-            timer: 8000
-          })
-          $tableMaquinas.api().ajax.reload()
-          break
-        case 201:
-          $.notify({
-            icon: "nc-icon nc-bell-55",
-            message: "La Maquina ha sido <b>Creada</b> Correctamente"
-          }, {
-            type: 'success',
-            timer: 8000
-          })
-          $tableMaquinas.api().ajax.reload()
-          $('#form-maquinas')[0].reset()
-          break
-        case 412:
-          $.notify({
-            icon: "nc-icon nc-bell-55",
-            message: "Por favor <b>selecciona</b> una opcion para <b>adicionar</b> o <b>modificar</b>"
-          }, {
-            type: 'warning',
-            timer: 8000
-          })
-          break
-        case 400:
-          $.notify({
-            icon: "nc-icon nc-bell-55",
-            message: "Por favor <b>Completa</b> Todos los campos"
-          }, {
-            type: 'warning',
-            timer: 8000
-          })
-          break
-        case 500:
-          $.notify({
-            icon: "nc-icon nc-bell-55",
-            message: "Ha ocurrido un error mientras se creaba la maquina"
-          }, {
-            type: 'danger',
-            timer: 8000
-          })
-          break
-        case 401:
-          location.href = "/login"
-          break
-        case 501:
-          $.notify({
-            icon: "nc-icon nc-bell-55",
-            message: "El precio no puede ser 0"
-          }, {
-            type: 'danger',
-            timer: 8000
-          })
-          break
-      }
-    })
-})
-
-
-
-
-
-
-// borrado de maquinas
-$('#delete-maquinas').click(() => {
-  let rows = $tableMaquinas.api().rows('.selected').data()
-  let count = 0
-  if (rows.length > 0) {
-    for (let index = 0; index < rows.length; index++) {
-      $.post('api/delete_machine.php', {
-        id: rows[index].id
-      }).always(function (xhr) {
-        if (xhr.status == 200) {
-          count++
-        } else {
-          $.notify({
-            icon: "nc-icon nc-bell-55",
-            message: `La maquina <b>${rows[index].name}</b> esta asociado a uno o mas productos`
-          }, {
-            type: 'danger',
-            timer: 8000
-          })
-        }
-
-        if (count == rows.length) {
-          $.notify({
-            icon: "nc-icon nc-bell-55",
-            message: `Se ${count > 1 ? 'han' : 'ha'} borrado ${count} ${count > 1 ? 'maquinas' : count == 0 ? 'maquinas' : 'maquina'}`
-          }, {
-            type: 'info',
-            timer: 8000
-          })
-          $tableMaquinas.api().ajax.reload()
-        }
-      })
-    }
-
-  } else {
-    $.notify({
-      icon: "nc-icon nc-bell-55",
-      message: `Selecciona al menos <b>1</b> máquina`
-    }, {
-      type: 'warning',
-      timer: 8000
-    })
+  reponsive: true,
+  "initComplete": function (settings, json) {
+    maquinas = json.data;
+  },
+  "createdRow": function (row, data) {
+    maquinas = [];
+    maquinas.push(data);
   }
 })
+$tableMaquinas.width('100%')
+/* $tableMaquinas.on('click', 'tr', function () {
+  $(this).toggleClass('selected');
+}) */
+
+
+
+// formulario para adicionar o modificar valores de una maquina
+$('#form-maquinas').submit(submitForm);
+
+
+
+
+
+
 // calcular depreciacion con el cambio de precio
 $('#input-price-machine').keyup(calulateDepreciation)
 $('#input-years-depreciation').keyup(calulateDepreciation)
 $('#input-years-depreciation').change(calulateDepreciation)
 $('#input-valor-residual').keyup(calulateDepreciation)
+elById('input-price-machine').oninput = calulateDepreciation;
+elById('input-valor-residual').oninput = calulateDepreciation;
 
 function calulateDepreciation() {
   "use strict";
@@ -285,3 +190,187 @@ function loadingSpinner() {
 function completeSpinner() {
   $('#spinnerAjax').addClass('fade')
 }
+
+
+document.getElementById('table-maquinas').addEventListener('click', ev => {
+
+  const selectedElement = ev.target;
+  const closestTr = selectedElement.closest('tr');
+  const maquina = closestTr.cells[0].textContent;
+
+  if (selectedElement.classList.contains('link-borrar')) {
+    
+    deleteMachine(selectedElement.dataset.maquinaId, maquina);
+  }
+
+  else if(selectedElement.classList.contains('link-editar')) {
+    
+    elById('inlineRadio2M').click();
+
+    elById('maquinas-btn').value = 'MODIFICAR';
+    elById('maquinas-btn').textContent = 'MODIFICAR';
+    const pCompra = closestTr.cells[1].textContent.replace('$', '').trim();
+    const depreciacion = closestTr.cells[2].textContent.trim().replace(',','',);
+    console.log(depreciacion);
+    const yearsDepreciation = selectedElement.dataset.maquinaYearsDeprec;
+    const valorResidual = selectedElement.dataset.maquinaResidual;
+    const idMaquina = selectedElement.dataset.maquinaId;
+
+    elById('input-price-machine').value = pCompra;
+    elById('input-valor-residual').value = parseFloat(valorResidual);
+    elById('input-years-depreciation').value = yearsDepreciation;
+    elById('input-depreciation-machine').value = depreciacion;
+    elById('input-maquinas').value = maquina;
+    elById('machine-id').value = idMaquina;
+
+    
+  }
+
+});
+
+
+function submitForm(e, option, maquina) {
+  e.preventDefault()
+  let request = $(this).serialize()
+  request += `&depreciation=${$('#input-depreciation-machine').val()}`;
+  const maquinaExists = checkIfMaquinaExists(elById('input-maquinas').value.trim());
+  console.log();
+    if (elById("inlineRadio1M").checked && !maquinaExists) {
+      sendData(request);
+    }
+    else if (elById("inlineRadio2M").checked) {
+      sendData(request);
+    } 
+    else if(elById("inlineRadio1M").checked && maquinaExists) {
+      $.confirm({
+        title: 'Tezlik',
+        content: `${elById('input-maquinas').value} ya existe, ¿desea actualizarla?`,
+        buttons: {
+          SI: function () {
+             sendData(request);
+          },
+          No: function () {
+            resetFormMaquinas();
+            return;
+          }
+        }
+      })
+    }
+}
+
+
+function sendData(request) {
+  $.post('api/add_modify_machines.php', request)
+  .always(function (xhr) {
+    switch (xhr.status) {
+      case 200:
+        $.notify({
+          icon: "nc-icon nc-bell-55",
+          message: "Maquina <b>Actualizada</b>"
+        }, {
+          type: 'primary',
+          timer: 8000
+        })
+        $tableMaquinas.api().ajax.reload()
+        break
+      case 201:
+        $.notify({
+          icon: "nc-icon nc-bell-55",
+          message: "La Maquina ha sido <b>Creada</b> Correctamente"
+        }, {
+          type: 'success',
+          timer: 8000
+        })
+        $tableMaquinas.api().ajax.reload()
+        $('#form-maquinas')[0].reset()
+        break
+      case 412:
+        $.notify({
+          icon: "nc-icon nc-bell-55",
+          message: "Por favor <b>selecciona</b> una opcion para <b>adicionar</b> o <b>modificar</b>"
+        }, {
+          type: 'warning',
+          timer: 8000
+        })
+        break
+      case 400:
+        $.notify({
+          icon: "nc-icon nc-bell-55",
+          message: "Por favor <b>Completa</b> Todos los campos"
+        }, {
+          type: 'warning',
+          timer: 8000
+        })
+        break
+      case 500:
+        $.notify({
+          icon: "nc-icon nc-bell-55",
+          message: "Ha ocurrido un error mientras se creaba la maquina"
+        }, {
+          type: 'danger',
+          timer: 8000
+        })
+        break
+      case 401:
+        location.href = "/login"
+        break
+      case 501:
+        $.notify({
+          icon: "nc-icon nc-bell-55",
+          message: "El precio no puede ser 0"
+        }, {
+          type: 'danger',
+          timer: 8000
+        })
+        break
+    }
+
+    elById('maquinas-btn').value = 'ADICIONAR';
+    elById('maquinas-btn').textContent = 'ADICIONAR';
+    elById('inlineRadio1M').click();
+    resetFormMaquinas();
+  })
+}
+
+
+function deleteMachine(id, maquina) {
+
+  $.post('api/delete_machine.php', {
+    id: id
+  }).always(function (xhr) {
+    if (xhr.status == 200) {
+      $.notify({
+        icon: "nc-icon nc-bell-55",
+        message: 'Se ha borrado una máquina',
+      }, {
+        type: 'info',
+        timer: 8000
+      })
+      $tableMaquinas.api().ajax.reload()
+    } else {
+      $.notify({
+        icon: "nc-icon nc-bell-55",
+        message: `La maquina <b>${maquina}</b> esta asociado a uno o mas productos`
+      }, {
+        type: 'danger',
+        timer: 8000
+      })
+    }
+  })
+}
+
+function formatCurrency(resultadoFloat) {
+  return $.number(resultadoFloat, 2, ',', '.')
+}
+
+function resetFormMaquinas() {
+  elById('input-maquinas').value = "";
+  elById('input-price-machine').value = "";
+  elById('input-valor-residual').value = "";
+  elById('input-depreciation-machine').value = "";
+}
+
+function checkIfMaquinaExists(name) {
+  return maquinas.some(m => m.name === name.trim());
+}
+

@@ -5,7 +5,7 @@ logica de materia prima
 */
 
 document.querySelector('a[href$="updates"]')
-.addEventListener('click', () => {resetFormMaterials(); });
+.addEventListener('click', () => {resetFormMaterials(); elById('inlineRadio1').click(); });
 
 function clearFormMaterials() {
   if ($('#input-materia-prima')[0].tagName == 'SELECT') {
@@ -285,7 +285,6 @@ document.getElementById('table-materia-prima').addEventListener('click', (ev) =>
       materialSeletedByEdit.description = description;
       materialSeletedByEdit.id = target.dataset.materialId;
       elById('input-materia-prima').setAttribute('value', materialSeletedByEdit.id);
-      elById('input-materia-prima').readOnly = true;
       elById('inlineRadio2').click();
     }
 });
