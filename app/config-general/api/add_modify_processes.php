@@ -46,12 +46,14 @@ if (isset($_SESSION["user"])) {
             http_response_code(500);
           }
         } else {
-          $process = $processDao->findById($_POST["proceso"]);
-          $process->setName($_POST["name_proceso"]);
-          if ($processDao->update($process) > 0) {
-            http_response_code(200);
-          } else {
-            http_response_code(500);
+          if (isset($_POST['proceso-id'])) {
+            $process = $processDao->findById($_POST["proceso-id"]);
+            $process->setName($_POST["proceso"]);
+            if ($processDao->update($process) > 0) {
+              http_response_code(200);
+            } else {
+              http_response_code(500);
+            }
           }
         }
       } else {

@@ -147,7 +147,29 @@ $('#form-materia-prima').submit(function (e) {
       return;
     }
 
-    if (materialSel != undefined) {
+    console.log(existsMateriaPrma(elById('input-materia-prima').value));
+
+    if (existsMateriaPrma(elById('input-materia-prima').value)) {
+      $.confirm({
+        title: 'Tezlik',
+        content: '¿Desea Actualizar El material?',
+        buttons: {
+          SI: function () {
+            submitFormMaterials(true)
+            return;
+          },
+          No: function () {
+            resetFormMaterials();
+            return;
+          }
+        }
+      })
+    }
+    else {
+      submitFormMaterials()
+    }
+
+/*     if (materialSel != undefined) {
       $.confirm({
         title: 'Tezlik',
         content: '¿Desea Actualizar El material?',
@@ -162,7 +184,7 @@ $('#form-materia-prima').submit(function (e) {
       })
     } else {
       submitFormMaterials()
-    }
+    } */
   }
 
 })
@@ -334,6 +356,14 @@ function deleteMaterial(id, description) {
 
 function elById(id) {
   return document.getElementById(id);
+}
+
+function existsMateriaPrma(matPrimaName) {
+  
+  const tableRows = Array.from(elById('table-materia-prima').tBodies[0].rows);
+
+  return tableRows.some(row => row.cells[0].textContent.trim().toLowerCase() === matPrimaName.trim().toLowerCase());s
+
 }
 
 

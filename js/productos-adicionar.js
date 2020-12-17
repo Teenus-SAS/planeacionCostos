@@ -1,4 +1,13 @@
 
+document.querySelector('li.nav-item a[href$="#products"]')
+.addEventListener('click', () => {
+  resetFormProducts();
+});
+
+/* document.querySelector('li.nav-item > a[href$="#products"]')
+addEventListener('click', (ev) => { console.log(ev.target); });
+ */
+
 function loadingSpinner() {
     $('#spinnerAjax').removeClass('fade')
   }
@@ -59,98 +68,128 @@ var $tableProductos = $('#tableProductos').dataTable({
     submitHandler: function (form) {
       let request = $(form).serialize()
       request += '&optionProductos=option1';
-      $.post('api/add_modify_products.php', request, (_data, _status, xhr) => {
-      })
-        .always(function (xhr) {
-          switch (xhr.status) {
-            case 200:
-              $.notify({
-                icon: "nc-icon nc-bell-55",
-                message: "El producto ha sido <b>Actualizado</b> Correctamente"
-              }, {
-                type: 'primary',
-                timer: 8000
-              })
-              $tableProductos.api().ajax.reload()
-          /*     $tableProductoMateria.api().ajax.reload() */
-              $tableGastosMensuales.api().ajax.reload()
-              loadProductsInProcess()
-              break
-            case 201:
-              $.notify({
-                icon: "nc-icon nc-bell-55",
-                message: "El producto ha sido <b>Creado</b> Correctamente"
-              }, {
-                type: 'success',
-                timer: 8000
-              })
-              $.notify({
-                icon: "nc-icon nc-bell-55",
-                message: "Ahora ah configurar el producto"
-              }, {
-                type: 'primary',
-                timer: 8000
-              })
-              $('#config-color').css("color","orange")
-              $tableProductos.api().ajax.reload()
-        /*       $tableProductoMateria.api().ajax.reload() */
-              $tableGastosMensuales.api().ajax.reload()
-              $('#form-products')[0].reset()
-              loadProductsGG()
-              loadProductsPP()
-              loadProductsInProcess()
-              loadProductsInXLSX()
-              break
-            case 412:
-              $.notify({
-                icon: "nc-icon nc-bell-55",
-                message: "Por favor <b>selecciona</b> una opcion para <b>adicionar</b> o <b>modificar</b>"
-              }, {
-                type: 'warning',
-                timer: 8000
-              })
-              break
-            case 400:
-              $.notify({
-                icon: "nc-icon nc-bell-55",
-                message: "Por favor <b>Completa</b> Todos los campos"
-              }, {
-                type: 'warning',
-                timer: 8000
-              })
-              break
-            case 500:
-              $.notify({
-                icon: "nc-icon nc-bell-55",
-                message: "Esta <b>Referencia</b> ya existe"
-              }, {
-                type: 'danger',
-                timer: 8000
-              })
-              break
-            case 401:
-              location.href = "/login"
-              break
-            case 403:
-              $.notify({
-                icon: "nc-icon nc-bell-55",
-                message: "Ya no puede crear mas productos <br> Se ha alcanzado el limite de productos licenciados"
-              }, {
-                type: 'danger',
-                timer: 8000
-              })
-              break
+    /*   console.log(productExists(document.getElementById('inputRef').value)); */
+    console.log(document.getElementById('form-product-btn').textContent);
+      if (productExists(document.getElementById('inputRef').value) && 
+          document.getElementById('form-product-btn').textContent.toLowerCase() === 'guardar') {
+        
+        $.confirm({
+          title: 'Tezlik',
+          content: `${document.getElementById('inputRef').value} ya existe, ¿desea actualizarlo?`,
+          buttons: {
+            SI: function () {
+               sendRequest(request);
+               return;
+            },
+            No: function () {
+              resetFormOptions();
+              resetFormProducts();
+              return;
+            }
           }
-
-          $('#inputRef').val('');
-          $('#inputProducto').val('');
-          $('#inputRentabilidad').val('');
-          /// RESETEA EL VALOR DEL FORM OPTION GUARDAR/EDITAR ///
-            resetFormOptions();
         })
+
+      } else {
+        sendRequest(request);
+      }
+      
     }
   });
 
+
+  function sendRequest(request) {
+    
+    $.post('api/add_modify_products.php', request, (_data, _status, xhr) => {
+    })
+      .always(function (xhr) {
+        switch (xhr.status) {
+          case 200:
+            $.notify({
+              icon: "nc-icon nc-bell-55",
+              message: "El producto ha sido <b>Actualizado</b> Correctamente"
+            }, {
+              type: 'primary',
+              timer: 8000
+            })
+            $tableProductos.api().ajax.reload()
+        /*     $tableProductoMateria.api().ajax.reload() */
+            $tableGastosMensuales.api().ajax.reload()
+            loadProductsInProcess()
+            break
+          case 201:
+            $.notify({
+              icon: "nc-icon nc-bell-55",
+              message: "El producto ha sido <b>Creado</b> Correctamente"
+            }, {
+              type: 'success',
+              timer: 8000
+            })
+            $.notify({
+              icon: "nc-icon nc-bell-55",
+              message: "Ahora ah configurar el producto"
+            }, {
+              type: 'primary',
+              timer: 8000
+            })
+            $('#config-color').css("color","orange")
+            $tableProductos.api().ajax.reload()
+      /*       $tableProductoMateria.api().ajax.reload() */
+            $tableGastosMensuales.api().ajax.reload()
+            $('#form-products')[0].reset()
+            loadProductsGG()
+            loadProductsPP()
+            loadProductsInProcess()
+            loadProductsInXLSX()
+            break
+          case 412:
+            $.notify({
+              icon: "nc-icon nc-bell-55",
+              message: "Por favor <b>selecciona</b> una opcion para <b>adicionar</b> o <b>modificar</b>"
+            }, {
+              type: 'warning',
+              timer: 8000
+            })
+            break
+          case 400:
+            $.notify({
+              icon: "nc-icon nc-bell-55",
+              message: "Por favor <b>Completa</b> Todos los campos"
+            }, {
+              type: 'warning',
+              timer: 8000
+            })
+            break
+          case 500:
+            $.notify({
+              icon: "nc-icon nc-bell-55",
+              message: "Esta <b>Referencia</b> ya existe"
+            }, {
+              type: 'danger',
+              timer: 8000
+            })
+            break
+          case 401:
+            location.href = "/login"
+            break
+          case 403:
+            $.notify({
+              icon: "nc-icon nc-bell-55",
+              message: "Ya no puede crear mas productos <br> Se ha alcanzado el limite de productos licenciados"
+            }, {
+              type: 'danger',
+              timer: 8000
+            })
+            break
+        }
+
+        $('#inputRef').val('');
+        $('#inputProducto').val('');
+        $('#inputRentabilidad').val('');
+        /// RESETEA EL VALOR DEL FORM OPTION GUARDAR/EDITAR ///
+          resetFormOptions();
+      })
+
+  }
 
 
 
@@ -218,6 +257,22 @@ function resetFormOptions() {
     }
   }
 
+  function resetFormProducts() {
+    document.getElementById('inputRef').value = '';
+    document.getElementById('inputProducto').value = '';
+    document.getElementById('inputRentabilidad').value = '';
+  }
+
+
+  function productExists(prodName) {
+
+    const tableRows = Array.from(document.getElementById('tableProductos').tBodies[0].rows);
+
+    return tableRows
+            .some(row => row.cells[0].textContent.trim().toLowerCase() === prodName.trim().toLowerCase());
+
+  }
+  
 
 
 
