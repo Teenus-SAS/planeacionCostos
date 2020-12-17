@@ -4,6 +4,8 @@
 logica de productos
 */
 
+
+
 function loadingSpinner() {
   $('#spinnerAjax').removeClass('fade')
 }
@@ -264,7 +266,9 @@ $('#form-products').validate({
     rentabilidad: "Máximo dos decimales"
   },
   submitHandler: function (form) {
-    let request = $(form).serialize()
+    let request = $(form).serialize();
+    console.log(request);
+    productExists();
     $.post('api/add_modify_products.php', request, (_data, _status, xhr) => {
     })
       .always(function (xhr) {
@@ -566,5 +570,6 @@ $('#delete-materia-prima').click(() => {
     })
   }
 })
+
 
 
