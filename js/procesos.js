@@ -4,6 +4,9 @@
 logica de procesos
 */
 
+document.querySelector('a[href$="#process"')
+  .addEventListener('click', () => {elById('input-proceso').value = ''; elById('inlineRadioProc1').click();});
+
 
 function clearFormProcess() {
   if ($('#input-proceso')[0].tagName == 'SELECT') {
@@ -32,17 +35,17 @@ $('input[name=optionProceso]').change(function () {
   $tableProcesos.api().search('').draw();
   if ($(this).val() == 'option2') {
     // desaparece el input
-    $('#input-proceso').fadeOut()
+    /* $('#input-proceso').fadeOut() */
     // guarda el padre del input
-    let $formGroupParent = $('#input-proceso').parent()
-    loadingSpinner()
-    $.get('api/get_processes.php', (data, status, xhr) => {
-      completeSpinner()
+/*     let $formGroupParent = $('#input-proceso').parent()
+    loadingSpinner() */
+ /*    $.get('api/get_processes.php', (data, status, xhr) => {
+      completeSpinner() */
       // se consulta las maquinas de esa empresa
-      if (status == 'success') {
-        addSelectecFormProcces(data)
+    /*   if (status == 'success') { */
+        /* s */
 
-        $formGroupParent.parent().parent().parent().append(`<div class="row my-1 justify-content-center">
+/*         $formGroupParent.parent().parent().parent().append(`<div class="row my-1 justify-content-center">
         <div class="col-md-10">
           <div class="form-group">
             <label for="input-name-process">Nuevo Nombre Proceso</label>
@@ -58,8 +61,10 @@ $('input[name=optionProceso]').change(function () {
       } else {
         location = '/login'
       }
-    })
+    }) */
   } else {
+    elById('btn-procesos').value = 'Adicionar';
+    elById('input-proceso').value = '';
     clearFormProcess()
   }
 })
@@ -82,14 +87,20 @@ var $tableProcesos = $('#table-procesos').dataTable({
     render: (data, type, row) => {
       return data;
     }
+  },
+  {
+    data: null,
+    render: (data) => {
+      return `<a href='#'><i data-procesos-id=${data.id} data-toggle='tooltip' title="Editar" class='nc-icon nc-refresh-69 link-editar' style='color:rgb(255, 165, 0)'></i></a><a href='#' style="margin-left: 1rem;"><i data-procesos-id=${data.id} class='nc-icon nc-simple-remove link-borrar' data-toggle='tooltip' title='Eliminar' style='color:rgb(255, 0, 0)'></i></a>`;
+    }
   }
   ],
   reponsive: true
 })
 $tableProcesos.width('100%')
-$tableProcesos.on('click', 'tr', function () {
+/* $tableProcesos.on('click', 'tr', function () {
   $(this).toggleClass('selected');
-})
+}) */
 
 
 // formulario para adicionar o modificar valores de una maquina
@@ -97,6 +108,7 @@ $tableProcesos.on('click', 'tr', function () {
 $('#form-procesos').submit(function (e) {
   e.preventDefault()
   let request = $(this).serialize()
+  console.log(request);
   $.post('api/add_modify_processes.php', request)
     .always(function (xhr) {
       switch (xhr.status) {
@@ -109,7 +121,7 @@ $('#form-procesos').submit(function (e) {
             timer: 8000
           })
           $tableProcesos.api().ajax.reload()
-          $('#input-proceso option:selected').text($('#input-name-process').val())
+         /*  $('#input-proceso option:selected').text($('#input-name-process').val()) */
           break
         case 201:
           $.notify({
@@ -120,10 +132,10 @@ $('#form-procesos').submit(function (e) {
             timer: 8000
           })
           $tableProcesos.api().ajax.reload()
-          $('#form-procesos')[0].reset()
+      /*     $('#form-procesos')[0].reset()
           $.get('api/get_processes.php', (data, status, xhr) => {
             addSelectecFormProcces(data)
-          })
+          }) */
           break
         case 412:
           $.notify({
@@ -156,57 +168,69 @@ $('#form-procesos').submit(function (e) {
           location.href = "/login"
           break
       }
+      elById('inlineRadioProc1').click();
+      elById('input-proceso').value = '';
     })
 })
 
 // borrado de procesos
-$('#delete-process').click(() => {
-  let rows = $tableProcesos.api().rows('.selected').data()
-  var count = 0
-  var countAux = 0
-  if (rows.length > 0) {
-    for (let index = 0; index < rows.length; index++) {
-      $.post('api/delete_process.php', {
-        id: rows[index].id
-      }).always(function (xhr) {
-        countAux++
-        if (xhr.status == 200) {
-          count++
-        } else {
-          $.notify({
-            icon: "nc-icon nc-bell-55",
-            message: `El proceso <b>${rows[index].name}</b> esta asociado a uno o mas productos. <br>
-            O esta asociado a uno o mas nominas`
-          }, {
-            type: 'danger',
-            timer: 8000
-          })
-        }
-        if (countAux == rows.length) {
-          $tableProcesos.api().ajax.reload()
-          $.notify({
-            icon: "nc-icon nc-bell-55",
-            message: `Se ${count > 1 ? 'han' : 'ha'} borrado ${count} ${count > 1 ? 'procesos' : count == 0 ? 'procesos' : 'proceso'}`
-          }, {
-            type: 'info',
-            timer: 8000
-          })
-        }
+function deleteProceso(id, proceso) {
+  
+  $.post('api/delete_process.php', {
+    id: id
+  }).always(function (xhr) {
+    if (xhr.status == 200) {
+
+      $tableProcesos.api().ajax.reload()
+      $.notify({
+        icon: "nc-icon nc-bell-55",
+        message: `se ha eliminado un proceso`
+      }, {
+        type: 'info',
+        timer: 8000
+      })
+
+    } else {
+      $.notify({
+        icon: "nc-icon nc-bell-55",
+        message: `El proceso <b>${proceso}</b> esta asociado a uno o mas productos. <br>
+        O esta asociado a uno o mas nominas`
+      }, {
+        type: 'danger',
+        timer: 8000
       })
     }
-    $.get('api/get_processes.php', (data, status, xhr) => {
-      addSelectecFormProcces(data)
-    })
-  } else {
-    $.notify({
-      icon: "nc-icon nc-bell-55",
-      message: `Selecciona al menos <b>1</b> proceso`
-    }, {
-      type: 'warning',
-      timer: 8000
-    })
+  })
+}
+
+
+elById('table-procesos').addEventListener('click', ev => {
+
+  const selectedEl = ev.target;
+  const proceso = selectedEl.closest('tr').cells[0].textContent;
+
+  if (selectedEl.classList.contains('link-borrar')) {
+    
+    deleteProceso(selectedEl.dataset.procesosId, proceso);
+
+  } else if (selectedEl.classList.contains('link-editar')) {
+    
+    const inputProceso = elById('input-proceso');
+
+    inputProceso.value = proceso;
+
+    elById('proceso-id').value = selectedEl.dataset.procesosId;
+
+    elById('btn-procesos').value = 'Modificar';
+
+    elById('inlineRadioProc2').click();
+
   }
-})
+
+});
+
+
+
 
 
 

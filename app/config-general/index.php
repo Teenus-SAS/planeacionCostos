@@ -390,15 +390,15 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                   <div class="col-md-4 col-sm-12">
                     <!--<h3>Procesos</h3>-->
                     <form id="form-procesos">
-                      <div class="form-check form-check-radio form-check-inline">
+                      <div hidden class="form-check form-check-radio form-check-inline">
                         <label class="form-check-label">
-                          <input class="form-check-input" type="radio" name="optionProceso" id="inlineRadio1" value="option1"> Adicionar
+                          <input class="form-check-input" type="radio" name="optionProceso" id="inlineRadioProc1" value="option1"> Adicionar
                           <span class="form-check-sign"></span>
                         </label>
                       </div>
-                      <div class="form-check form-check-radio form-check-inline">
+                      <div hidden class="form-check form-check-radio form-check-inline">
                         <label class="form-check-label">
-                          <input class="form-check-input" type="radio" name="optionProceso" id="inlineRadio2" value="option2"> Modificar
+                          <input class="form-check-input" type="radio" name="optionProceso" id="inlineRadioProc2" value="option2"> Modificar
                           <span class="form-check-sign"></span>
                         </label>
                       </div>
@@ -408,13 +408,14 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                             <div class="form-group">
                               <label for="input-proceso">Proceso</label>
                               <input id="input-proceso" class="form-control" type="text" name="proceso">
+                              <input type="hidden" id="proceso-id" name="proceso-id">
                             </div>
                           </div>
                         </div>
                       </div>
                       <div class="row justify-content-center mb-4">
                         <div class="col"></div>
-                        <div class="col"><input type="submit" class="btn btn-primary" value="Guardar"></div>
+                        <div class="col"><input id="btn-procesos" type="submit" class="btn btn-primary" value="Adicionar"></div>
                         <div class="col"></div>
                       </div>
                       <hr>
@@ -436,11 +437,12 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                         <!--<h4>Procesos</h4>-->
                       </div>
                       <div class="card-body">
-                        <button class="btn btn-danger" id="delete-process">Eliminar</button>
+                      
                         <div class="table-responsive tableFixHead">
                           <table class="table table-compact table-hover" id="table-procesos">
                             <thead class="text-primary">
                               <th>Procesos</th>
+                              <th>Acciones</th>
                             </thead>
                             <tbody>
                             </tbody>
