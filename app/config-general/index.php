@@ -468,15 +468,15 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                   <div class="col-md-6 mb-3">
                     <!--<h4>Nómina</h4>-->
                     <form id="form-nomina">
-                      <div class="form-check form-check-radio form-check-inline">
+                      <div hidden class="form-check form-check-radio form-check-inline">
                         <label class="form-check-label">
-                          <input class="form-check-input" type="radio" name="optionNomina" id="inlineRadio1" value="option1"> Adicionar
+                          <input class="form-check-input" type="radio" name="optionNomina" id="inlineRadioNom1" value="option1"> Adicionar
                           <span class="form-check-sign"></span>
                         </label>
                       </div>
-                      <div class="form-check form-check-radio form-check-inline">
+                      <div hidden class="form-check form-check-radio form-check-inline">
                         <label class="form-check-label">
-                          <input class="form-check-input" type="radio" name="optionNomina" id="inlineRadio2" value="option2"> Modificar
+                          <input class="form-check-input" type="radio" name="optionNomina" id="inlineRadioNom2" value="option2"> Modificar
                           <span class="form-check-sign"></span>
                         </label>
                       </div>
@@ -485,6 +485,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                           <label for="input-cargo" class="col-sm-3 col-3 col-form-label">Cargo</label>
                           <div class="col-sm-8 col-8">
                             <input type="text" name="cargo" class="form-control" id="input-cargo">
+                            <input id="cargo-id" type="hidden" name="cargo-id">
                           </div>
                         </div>
                         <div class="form-group row">
@@ -571,13 +572,13 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                           <div class="col-md-6">
                             <div class="form-check form-check-radio form-check-inline">
                               <label class="form-check-label">
-                                <input class="form-check-input" type="radio" name="optionFactorPrestacional" id="inlineRadio1" value="nomina"> Nomina
+                                <input class="form-check-input" type="radio" name="optionFactorPrestacional" id="inlineRadioTipoContrato1" value="nomina"> Nomina
                                 <span class="form-check-sign"></span>
                               </label>
                             </div>
                             <div class="form-check form-check-radio form-check-inline">
                               <label class="form-check-label">
-                                <input class="form-check-input" type="radio" name="optionFactorPrestacional" id="inlineRadio2" value="servicios"> Servicios
+                                <input class="form-check-input" type="radio" name="optionFactorPrestacional" id="inlineRadioTipoContrato2" value="servicios"> Servicios
                                 <span class="form-check-sign"></span>
                               </label>
                             </div>
@@ -599,7 +600,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                       </div>
                       <div class="row justify-content-center">
                         <div class="col"></div>
-                        <div class="col"><input type="submit" class="btn btn-primary" value="Guardar"></div>
+                        <div class="col"><input id="nomina-btn" type="submit" class="btn btn-primary" value="Adicionar"></div>
                         <div class="col"></div>
                       </div>
                     </form>
@@ -610,7 +611,6 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                         <h4>Nómina</h4>
                       </div>
                       <div class="card-body">
-                        <button class="btn btn-danger" id="delete-nomina">Eliminar</button>
                         <div class="table-responsive table-hover tableFixHead">
                           <table class="table" id="tableNominas">
                             <thead class="text-primary">
@@ -621,6 +621,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                               <th>Salario</th>
                               <th>Salario Neto</th>
                               <th>Valor/Minuto</th>
+                              <th>Acciones</th>
                             </thead>
                             <tbody>
 

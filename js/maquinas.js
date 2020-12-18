@@ -6,7 +6,7 @@ logica de maquinas
 
 
 elById('inlineRadio1M').click();
-document.querySelector('a[href$="history"]').addEventListener('click', () => {resetFormMaquinas(); elById('inlineRadio1M').click(); });
+document.querySelector('a[href$="nomina-nav"]').addEventListener('click', () => {resetFieldsRoster(); elById('inlineRadio1M').click(); });
 
 function clearformMachines() {
   if ($('#input-maquinas')[0].tagName == 'SELECT') {
