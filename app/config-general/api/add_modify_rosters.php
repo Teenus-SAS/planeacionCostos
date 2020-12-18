@@ -78,8 +78,10 @@ if (isset($_SESSION["user"])) {
             http_response_code(500);
           }
         } else {
-          $roster = $rosterDao->findById($_POST["cargo"]);
+          if (isset($_POST["cargo-id"])) {
+          $roster = $rosterDao->findById($_POST["cargo-id"]);
           $roster->setProcess($processDao->findById($_POST["proceso"]));
+          $roster->setPosition($_POST["cargo"]);
           $roster->setNumberEmployees($_POST["Numeroempleados"]);
           $roster->setSalary($_POST["salario"]);
           $roster->setBonus($_POST["bonificacion"]);
@@ -95,6 +97,7 @@ if (isset($_SESSION["user"])) {
           } else {
             http_response_code(500);
           }
+        }
         }
       } else {
         http_response_code(400);
