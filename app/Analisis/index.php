@@ -94,7 +94,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
             <div class="tab-content text-center">
               <div class="tab-pane active" id="home">
               <div class = "row">
-                <div class="col-md-10 col-sm-12 col-12 col-xs-12 mb-5">
+                <div class="col-md-12 col-sm-12 col-12 col-xs-12 mb-5">
                   <div class="card py-2">
                       <div class="form-group row my-2">
                       <label class="col-sm-5 col-md-2 col-12 text-left col-form-label pl-4">Producto</label>
@@ -113,7 +113,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                           
                         </div>
                   </div>
-                  <div class="col-md-10 col-sm-12 col-12 col-xs-12 mb-5">
+                  <div class="col-md-12 col-sm-12 col-12 col-xs-12 mb-5">
                   <div class="card py-2">
                   <h3 class="card-title bg-primary text-white text-left" style="padding:2% " id="Titulo">Carga</h5>
                   <div class="table-responsive">
@@ -198,7 +198,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                           </table>
                           <hr>-->
               <div class = "row">           
-              <div class="col-md-10 col-sm-12 col-12 col-xs-12 mb-5">
+              <div class="col-md-12 col-sm-12 col-12 col-xs-12 mb-5">
                 <h3 >Escenario de ahorro</h3>
                   <div class="card py-2">
                     <div class="form-group row my-2">
@@ -211,7 +211,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                 </div>
                 <!--<div class="col-md-5 col-sm-12 col-12 col-xs-12 mb-5" id="cargaAhorro"></div>-->
               </div>
-                  <div class="col-md-10 col-sm-12 col-12 col-xs-12 mb-5">
+                  <div class="col-md-12 col-sm-12 col-12 col-xs-12 mb-5">
                   <div class="card py-2">
                   <h3 class="card-title bg-primary text-white text-left" style="padding:2% " >Ahorro</h5>
                   <div class="table-responsive">
@@ -242,7 +242,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
 
                           </table>
                           </div>
-                          <button class="btn btn-primary" id="btnValidarNuevoPrecio">Validar</button></div>
+                          <button class="btn btn-primary" id="btnValidarNuevoPrecio">Calcular</button></div>
                   </div>
                   <div class="col-md-10 col-sm-12 col-12 col-xs-12 mb-5">
                   <div class="card py-2">
