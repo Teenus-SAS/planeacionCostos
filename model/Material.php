@@ -22,6 +22,13 @@ class Material implements JsonSerializable
    * @var integer
    */
   private $IdCompany;
+   /**
+   * referencia de del material
+   *
+   * @access private
+   * @var integer
+   */
+  private $referencia;
   /**
    * Nombre del  material
    *
@@ -89,6 +96,31 @@ class Material implements JsonSerializable
   {
     $this->IdCompany = $IdCompany;
   }
+
+  /**
+   * Obtiene la refencia del material
+   *
+   * @access public
+   * @return string
+   */
+  public function getReferencia()
+  {
+    return $this->referencia;
+  }
+
+  /**
+   * Cambia la referencia del material
+   *
+   * @access public
+   * @param string $referencia del nuevo nombre del material
+   * @return void
+   */
+  public function setReferencia($referencia)
+  {
+    $this->referencia = $referencia;
+  }
+
+
 
   /**
    * Obtiene el nombre del material

@@ -1,8 +1,8 @@
 <?php
 
 /**
- * @author Alexis Holguin <wholguinmor@uniminuto.edu.co>
- * @github MoraHol
+ * @author Teenus SAS>
+ * @github Teenus SAS
  * Este Script crea o modifica un material
  * Se llama por metodo 
  * @method POST 
@@ -40,6 +40,7 @@ if (isset($_SESSION["user"])) {
         if($_POST["costo"] > 0){
           if ($_POST["optionMateriaPrima"] == "option1") {
             $material = new Material();
+            $material->setReferencia($_POST["ref_material"]);
             $material->setDescription(trim($_POST["material"]));
             $material->setIdCompany($user->getCompany()->getId());
             $material->setCost($_POST["costo"]);
@@ -51,6 +52,7 @@ if (isset($_SESSION["user"])) {
             }
           } else {
             $material = $materialDao->findById($_POST["material"]);
+            $material->setReferencia($_POST["ref_material"]);
             $material->setDescription($_POST["material-description"]);
             $material->setCost($_POST["costo"]);
             $material->setUnit($_POST["unidad"]);

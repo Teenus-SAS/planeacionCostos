@@ -3,9 +3,9 @@
 /**
  * Clase modelo que representa El proceso de un producto
  * 
- * @author Alexis Holguin <wholguinmor@uniminuto.edu.co>
+ * @author Teenus SAS>
  * @package model
- * @github MoraHol
+ * @github Teenus SAS
  */
 class ProductProcess implements JsonSerializable
 {

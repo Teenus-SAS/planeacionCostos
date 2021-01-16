@@ -1,11 +1,11 @@
 /* 
-@Author: Alexis Holguin
-@github: MoraHol
+@Author: Teenus SAS
+@github: Teenus-SAS
 logica de materia prima
 */
 
-document.querySelector('a[href$="updates"]')
-.addEventListener('click', () => {resetFormMaterials(); elById('inlineRadio1').click(); });
+document.querySelector('a[href$="materia_prima"]')
+  .addEventListener('click', () => { resetFormMaterials(); elById('inlineRadio1').click(); });
 
 function clearFormMaterials() {
   if ($('#input-materia-prima')[0].tagName == 'SELECT') {
@@ -37,42 +37,42 @@ $('input[name=optionMateriaPrima]').change(function () {
     // desaparece el input
     /* $('#input-materia-prima').fadeOut() */
     // guarda el padre del input
-/*     let $formGroupParent = $('#input-materia-prima').parent() */
-/*     loadingSpinner() */
+    /*     let $formGroupParent = $('#input-materia-prima').parent() */
+    /*     loadingSpinner() */
     $.get('api/get_materials.php', (data, status, xhr) => {
-  /*     completeSpinner() */
+      /*     completeSpinner() */
       // se consulta los materiales de esa empresa
       if (status == 'success') {
         // se agregan todos los materiales en un input select
-     /*    let string = `<select id="input-materia-prima" class="form-control" name="material"><option selected disabled>Seleccione un material</option>` */
-    /*    let string = `<select readonly id="input-materia-prima" class="form-control" name="material">` */
+        /*    let string = `<select id="input-materia-prima" class="form-control" name="material"><option selected disabled>Seleccione un material</option>` */
+        /*    let string = `<select readonly id="input-materia-prima" class="form-control" name="material">` */
         materialsMateriaPrima = data
-    /*     data.forEach((material) => {
-          if (material.description === materialSeletedByEdit.description) {
-            string += `<option selected value="${material.id}">${material.description}</option>`
-          } else{
-            string += `<option value="${material.id}">${material.description}</option>`
-          }
-          
-        } */
-      /*   ) */
-    /*     string += '</select>'
-        $formGroupParent.append(string) */
+        /*     data.forEach((material) => {
+              if (material.description === materialSeletedByEdit.description) {
+                string += `<option selected value="${material.id}">${material.description}</option>`
+              } else{
+                string += `<option value="${material.id}">${material.description}</option>`
+              }
+              
+            } */
+        /*   ) */
+        /*     string += '</select>'
+            $formGroupParent.append(string) */
         // se quita el input de tipo de texto
-     /*    $('#input-materia-prima').remove() */
+        /*    $('#input-materia-prima').remove() */
 
-/*         $('#input-materia-prima').change(function () {
-          let materialSelected = data.filter(material => material.id == $(this).val())[0]
-          $('#input-unidad').val(materialSelected.unit)
-          $('#input-costo').val(parseFloat(materialSelected.cost))
-          $tableMateriaPrima.api().search(materialSelected.description).draw();
-        }) */
+        /*         $('#input-materia-prima').change(function () {
+                  let materialSelected = data.filter(material => material.id == $(this).val())[0]
+                  $('#input-unidad').val(materialSelected.unit)
+                  $('#input-costo').val(parseFloat(materialSelected.cost))
+                  $tableMateriaPrima.api().search(materialSelected.description).draw();
+                }) */
       } else {
         location = '/login'
       }
     })
   } else {
-    elById('material-btn').value = 'Adicionar Material';
+    elById('material-btn').value = 'Adicionar';
     resetFormMaterials();
     elById('input-materia-prima').readOnly = false;
   }
@@ -87,6 +87,10 @@ $("#input-unidad").autocomplete({
 
 // inicializacion de datatable
 var $tableMateriaPrima = $('#table-materia-prima').dataTable({
+  "scrollY": "500px",
+  "scrollCollapse": true,
+  "paging": false,
+
   language: {
     url: "/vendor/dataTables/Spanish.json"
   },
@@ -95,31 +99,25 @@ var $tableMateriaPrima = $('#table-materia-prima').dataTable({
     dataSrc: 'data'
   },
   columnDefs: [
-   /*  {
-      targets: 0,
-      className: 'text-left'
-    }, */
+    /*  {targets: 0,className: 'text-left'}, */
   ],
-  columns: [{
-    "data": 'description'
-  },
-  {
-    "data": 'unit'
-  },
-  {
-    "data": 'cost',
-    render: (data, type, row) => {
-      $('.cost').parent().addClass('text-right')
-      return `<span class="cost">$ ${$.number(data, 2, '.', ',')}</span>`
+  columns: [
+    { "data": 'referencia' },
+    { "data": 'description' },
+    { "data": 'unit' },
+    {
+      "data": 'cost',
+      render: (data, type, row) => {
+        $('.cost').parent().addClass('text-right')
+        return `<span class="cost">$ ${$.number(data, 2, '.', ',')}</span>`
+      }
+    },
+    {
+      "data": 'id',
+      render: (data) => {
+        return `<a  href='#'><i data-material-id=${data} data-toggle='tooltip' title="Editar" class='nc-icon nc-refresh-69 link-editar' style='color:rgb(255, 165, 0)'></i></a><a href='#' style="margin-left: 1rem;"><i data-material-id=${data} class='nc-icon nc-simple-remove link-borrar' data-toggle='tooltip' title='Eliminar' style='color:rgb(255, 0, 0)'></i></a>`;
+      }
     }
-  },
-  {
-    "data": 'id',
-    render: (data) => {
-
-      return `<a  href='#'><i data-material-id=${data} data-toggle='tooltip' title="Editar" class='nc-icon nc-refresh-69 link-editar' style='color:rgb(255, 165, 0)'></i></a><a href='#' style="margin-left: 1rem;"><i data-material-id=${data} class='nc-icon nc-simple-remove link-borrar' data-toggle='tooltip' title='Eliminar' style='color:rgb(255, 0, 0)'></i></a>`;
-    }
-  }
   ],
   reponsive: true
 })
@@ -141,18 +139,18 @@ $('#form-materia-prima').submit(function (e) {
       submitFormMaterials(true);
       return;
     }
-    
+
     if (materialSel && elById('material-btn').value.trim().toLowerCase() === 'modificar') {
       submitFormMaterials(true);
       return;
     }
 
-    console.log(existsMateriaPrma(elById('input-materia-prima').value));
+    //console.log(existsMateriaPrma(elById('input-materia-prima').value));
 
     if (existsMateriaPrma(elById('input-materia-prima').value)) {
       $.confirm({
         title: 'Tezlik',
-        content: '¿Desea Actualizar El material?',
+        content: '¿Desea Actualizar la materia prima?',
         buttons: {
           SI: function () {
             submitFormMaterials(true)
@@ -169,22 +167,22 @@ $('#form-materia-prima').submit(function (e) {
       submitFormMaterials()
     }
 
-/*     if (materialSel != undefined) {
-      $.confirm({
-        title: 'Tezlik',
-        content: '¿Desea Actualizar El material?',
-        buttons: {
-          SI: function () {
-            submitFormMaterials(true)
-          },
-          No: function () {
-
-          }
-        }
-      })
-    } else {
-      submitFormMaterials()
-    } */
+    /*     if (materialSel != undefined) {
+          $.confirm({
+            title: 'Tezlik',
+            content: '¿Desea Actualizar El material?',
+            buttons: {
+              SI: function () {
+                submitFormMaterials(true)
+              },
+              No: function () {
+    
+              }
+            }
+          })
+        } else {
+          submitFormMaterials()
+        } */
   }
 
 })
@@ -193,7 +191,7 @@ function submitFormMaterials(updated = false, repeated = false) {
 
   if (updated && elById('inlineRadio1').checked) {
   }
-  else if(updated  && elById('material-firstname').value !== elById('input-materia-prima').value) {
+  else if (updated && elById('material-firstname').value !== elById('input-materia-prima').value) {
     elById('input-materia-prima').value = elById('input-materia-prima').getAttribute('value');
   }
   else if (updated) {
@@ -206,7 +204,7 @@ function submitFormMaterials(updated = false, repeated = false) {
         case 200:
           $.notify({
             icon: "nc-icon nc-bell-55",
-            message: "El Material ha sido <b>Actualizado</b> Correctamente"
+            message: "La materia prima ha sido <b>Actualizada</b> Correctamente"
           }, {
             type: 'primary',
             timer: 8000
@@ -218,7 +216,7 @@ function submitFormMaterials(updated = false, repeated = false) {
           if (updated) {
             $.notify({
               icon: "nc-icon nc-bell-55",
-              message: "El Material ha sido <b>Actualizado</b> Correctamente"
+              message: "La materia prima ha sido <b>Actualizado</b> Correctamente"
             }, {
               type: 'primary',
               timer: 8000
@@ -226,7 +224,7 @@ function submitFormMaterials(updated = false, repeated = false) {
           } else {
             $.notify({
               icon: "nc-icon nc-bell-55",
-              message: "El Material ha sido <b>Creado</b> Correctamente"
+              message: "La materia prima ha sido <b>Creado</b> Correctamente"
             }, {
               type: 'success',
               timer: 8000
@@ -239,7 +237,7 @@ function submitFormMaterials(updated = false, repeated = false) {
         case 412:
           $.notify({
             icon: "nc-icon nc-bell-55",
-            message: "Por favor <b>selecciona</b> una opcion para <b>adicionar</b> o <b>modificar</b>"
+            message: "<b>Selecciona</b> una opción para <b>adicionar</b> o <b>modificar</b>"
           }, {
             type: 'warning',
             timer: 8000
@@ -248,7 +246,7 @@ function submitFormMaterials(updated = false, repeated = false) {
         case 400:
           $.notify({
             icon: "nc-icon nc-bell-55",
-            message: "Por favor <b>Completa</b> Todos los campos"
+            message: "<b>Completa</b> Todos los campos"
           }, {
             type: 'warning',
             timer: 8000
@@ -297,59 +295,61 @@ function alphaOnly(event) {
 
 
 document.getElementById('table-materia-prima').addEventListener('click', (ev) => {
-  
-    const target = ev.target;
 
-    if (target.classList.contains('link-borrar')) {
-      deleteMaterial(target.dataset.materialId, target.closest('tr').cells[0].textContent);
-    }
-    else if(target.classList.contains('link-editar')) {
+  const target = ev.target;
 
-      const closestTr = target.closest('tr');
+  if (target.classList.contains('link-borrar')) {
+    deleteMaterial(target.dataset.materialId, target.closest('tr').cells[0].textContent);
+  }
+  else if (target.classList.contains('link-editar')) {
 
-      const description = closestTr.cells[0].textContent.trim();
-      const unidad = closestTr.cells[1].textContent.trim();
-      const costo = closestTr.cells[2].textContent.replace('$', '').trim();
+    const closestTr = target.closest('tr');
 
-      elById('material-firstname').value = description;
-      
-      elById('input-materia-prima').value = description;
-      elById('input-unidad').value = unidad;
-      elById('input-costo').value = costo;
+    const referencia = closestTr.cells[0].textContent.trim();
+    const description = closestTr.cells[1].textContent.trim();
+    const unidad = closestTr.cells[2].textContent.trim();
+    const costo = closestTr.cells[3].textContent.replace('$', '').trim();
 
-      materialSeletedByEdit.description = description;
-      materialSeletedByEdit.id = target.dataset.materialId;
-      elById('input-materia-prima').setAttribute('value', materialSeletedByEdit.id);
-      elById('inlineRadio2').click();
-    }
+    elById('material-firstname').value = description;
+
+    elById('ref-materia-prima').value = referencia;
+    elById('input-materia-prima').value = description;
+    elById('input-unidad').value = unidad;
+    elById('input-costo').value = costo;
+
+    materialSeletedByEdit.description = description;
+    materialSeletedByEdit.id = target.dataset.materialId;
+    elById('input-materia-prima').setAttribute('value', materialSeletedByEdit.id);
+    elById('inlineRadio2').click();
+  }
 });
 
 
 /// elimina material por id ///
 function deleteMaterial(id, description) {
-  
-   $.post('api/delete_material.php', {
-        id: id
-      }).always(function (xhr) {
-        if (xhr.status == 200) {
-          $tableMateriaPrima.api().ajax.reload()  
-          $.notify({
-            icon: "nc-icon nc-bell-55",
-            message: `Se ha eliminado un material`
-          }, {
-            type: 'info',
-            timer: 8000
-          })
-        } else {
-          $.notify({
-            icon: "nc-icon nc-bell-55",
-            message: `El material <b>${description}</b> esta asociado a uno o mas productos`
-          }, {
-            type: 'danger',
-            timer: 8000
-          })
-        }
+
+  $.post('api/delete_material.php', {
+    id: id
+  }).always(function (xhr) {
+    if (xhr.status == 200) {
+      $tableMateriaPrima.api().ajax.reload()
+      $.notify({
+        icon: "nc-icon nc-bell-55",
+        message: `Se ha eliminado la materia prima seleccionada`
+      }, {
+        type: 'info',
+        timer: 8000
       })
+    } else {
+      $.notify({
+        icon: "nc-icon nc-bell-55",
+        message: `la materia prima <b>${description}</b> esta asociado a uno o más productos`
+      }, {
+        type: 'danger',
+        timer: 8000
+      })
+    }
+  })
 
 }
 
@@ -359,16 +359,17 @@ function elById(id) {
 }
 
 function existsMateriaPrma(matPrimaName) {
-  
-  const tableRows = Array.from(elById('table-materia-prima').tBodies[0].rows);
 
-  return tableRows.some(row => row.cells[0].textContent.trim().toLowerCase() === matPrimaName.trim().toLowerCase());s
+  const tableRows = Array.from(elById('table-materia-prima').tBodies[0].rows);
+  return tableRows.some(row => row.cells[0].textContent.trim().toLowerCase() === matPrimaName.trim().toLowerCase()); s
 
 }
 
+/* Limpiar campos de materia prima */
 
 function resetFormMaterials() {
   elById('input-materia-prima').value = '';
+  elById('ref-materia-prima').value = '';
   elById('input-materia-prima').readOnly = false;
   elById('input-unidad').value = '';
   elById('input-costo').value = '';

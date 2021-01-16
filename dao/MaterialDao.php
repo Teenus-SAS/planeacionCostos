@@ -6,8 +6,8 @@ require_once DB_PATH . "env.php";
 require_once MODEL_PATH . "Material.php";
 
 /**
- *  Esta clase Es el DAO(Data Access Object) para máquinas
- * @author Alexis Holguin <wholguinmor@uniminuto.edu.co>
+ *  Esta clase Es el DAO(Data Access Object) para materia prima
+ * @author Teenus SAS>
  * @version 1.0
  * @uses DBOperator, Material
  * @package Dao
@@ -17,7 +17,7 @@ class MaterialDao
 {
 
   /**
-   * Objeto de comuniacion con la base de datos
+   * Objeto de comunicacion con la base de datos
    *
    * @access private
    * @var DBOperator
@@ -46,6 +46,7 @@ class MaterialDao
     $material = new Material();
     $material->setId($materialDB["id_materiales"]);
     $material->setIdCompany($materialDB["empresas_id_empresa"]);
+    $material->setReferencia($materialDB["referencia"]);
     $material->setDescription($materialDB["descripcion"]);
     $material->setUnit($materialDB["unidad"]);
     $material->setCost($materialDB["costo"]);
@@ -105,7 +106,9 @@ class MaterialDao
   public function save($material)
   {
     $this->db->connect();
-    $query = "INSERT INTO `materiales` (`id_materiales`, `empresas_id_empresa`, `descripcion`, `unidad`, `costo`) VALUES (NULL, '" . $material->getIdCompany() . "', '" . $material->getDescription() . "', '" . $material->getUnit() . "', '" . $material->getCost() . "') ON DUPLICATE KEY UPDATE `costo` = '" . $material->getCost() . "', `unidad` = '" . $material->getUnit() . "'";
+    $query = "INSERT INTO `materiales` (`id_materiales`, `empresas_id_empresa`, `referencia`, `descripcion`, `unidad`, `costo`) 
+              VALUES (NULL, '" . $material->getIdCompany() . "', '" . $material->getReferencia() . "', '" . $material->getDescription() . "', '" . $material->getUnit() . "', '" . $material->getCost() . "') 
+              ON DUPLICATE KEY UPDATE `costo` = '" . $material->getCost() . "', `unidad` = '" . $material->getUnit() . "'";
     return $this->db->consult($query);
   }
 
@@ -118,7 +121,7 @@ class MaterialDao
   public function update($material)
   {
     $this->db->connect();
-    $query = "UPDATE `materiales` SET `unidad` = '" . $material->getUnit() . "', `costo` = '" . $material->getCost() . "' , `descripcion` = '" . $material->getDescription() . "' WHERE `materiales`.`id_materiales` = " . $material->getId() . " AND `materiales`.`empresas_id_empresa` = " . $material->getIdCompany();
+    $query = "UPDATE `materiales` SET `unidad` = '" . $material->getUnit() . "', `costo` = '" . $material->getCost() . "' , `referencia` = '" . $material->getReferencia() . "' , `descripcion` = '" . $material->getDescription() . "' WHERE `materiales`.`id_materiales` = " . $material->getId() . " AND `materiales`.`empresas_id_empresa` = " . $material->getIdCompany();
     return $this->db->consult($query);
   }
 

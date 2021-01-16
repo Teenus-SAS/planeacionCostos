@@ -4,7 +4,7 @@
  * 
  * 
  * @author Alexis Holguin <wholginmor@uniminunto.edu.co>
- * @github MoraHol
+ * @github Teenus SAS
  * @package model 
  * 
  */

@@ -2,9 +2,9 @@
 /**
  * Clase modelo para un usuario de la apliacion
  * 
- * @author Alexis Holguin <wholguinmor@uniminuto.edu.co>
+ * @author Teenus SAS>
  * @package model
- * @github MoraHol
+ * @github Teenus SAS
  */
 class User implements JsonSerializable
 {

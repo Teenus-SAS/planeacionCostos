@@ -1,6 +1,6 @@
 /* 
-@Author: Alexis Holguin
-@github: MoraHol
+@Author: Teenus SAS
+@github: Teenus-SAS
 logica de gastos generales
 */
 var productsInExpenses
@@ -66,6 +66,11 @@ function loadfields(expenses) {
 
 // inicializacion de datatable de gastos generales
 var $tableGastosMensuales = $('#tableGastosMensuales').dataTable({
+
+  "scrollY": "500px",
+  "scrollCollapse": true,
+  "paging": false,
+
   language: {
     url: "/vendor/dataTables/Spanish.json"
   },
@@ -78,12 +83,8 @@ var $tableGastosMensuales = $('#tableGastosMensuales').dataTable({
     className: 'text-right'
   }],
   columns: [
-    {
-      data: 'ref'
-    },
-    {
-      data: 'name'
-    },
+    { data: 'ref' },
+    { data: 'name' },
     {
       data: 'expenses.soldUnitsPercentage',
       render: function (data, type, row) {
@@ -142,7 +143,7 @@ $('#formGastosMensuales').submit(function (e) {
         case 400:
           $.notify({
             icon: "nc-icon nc-bell-55",
-            message: "Por favor <b>Completa</b> Todos los campos"
+            message: "<b>Completa</b> Todos los campos"
           }, {
             type: 'warning',
             timer: 8000
@@ -165,6 +166,6 @@ $('#formGastosMensuales').submit(function (e) {
 })
 
 
-function goGG(){
+function goGG() {
   $('#nav-gastos').trigger('click');
 }

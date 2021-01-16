@@ -1,7 +1,7 @@
 <?php
 /**
- * @author Alexis Holguin <wholguinmor@uniminuto.edu.co>
- * @github MoraHol
+ * @author Teenus SAS>
+ * @github Teenus SAS
  * Este Script crea o modifica una máquina
  * Se llama por metodo 
  * @method POST 

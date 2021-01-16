@@ -1,7 +1,7 @@
 <?php
 /**
- * @author Alexis Holguin <wholguinmor@uniminuto.edu.co>
- * @github MoraHol
+ * @author Teenus SAS>
+ * @github Teenus SAS
  * @date 25/10/2019
  * 
  * Este script devuelve los datos de la compañia que tiene sesion iniciada

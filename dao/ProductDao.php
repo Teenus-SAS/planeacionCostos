@@ -14,7 +14,7 @@ require_once MODEL_PATH . "MonthlyExpenses.php";
 /**
  * Esta clase Es el DAO(Data Access Object) para productos
  * 
- * @author Alexis Holguin <wholguinmor@uniminuto.edu.co>
+ * @author Teenus SAS>
  * @version 1.0
  * @uses DBOperator, ProductRawMaterials, CompanyDao, ProcessDao, MaterialDao, Product, MonthlyExpenses
  * @package Dao

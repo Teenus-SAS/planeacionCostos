@@ -12,7 +12,7 @@ if (isset($_POST["username"]) && isset($_POST["password"])) {
   if ($user != null) {
     if ($user->getCompany()->getActiveLicense()) {
       if ($user->getActive()) {
-        if ($user->getPassword() ==hash("sha256", $_POST["password"])) {
+        if ($user->getPassword() == hash("sha256", $_POST["password"])) {
           if ($user->getSessionActive()) {
             $response->status = false;
             $response->typeError = "userActive";
@@ -30,7 +30,7 @@ if (isset($_POST["username"]) && isset($_POST["password"])) {
         } else {
           $response->status = false;
           $response->typeError = "password";
-          $response->message = "La contraseña es Incorrecta";
+          $response->message = "Usuario y/o contraseña incorrectos";
         }
       } else {
         $response->status = false;
@@ -45,7 +45,7 @@ if (isset($_POST["username"]) && isset($_POST["password"])) {
   } else {
     $response->status = false;
     $response->typeError = "user";
-    $response->message = "El usuario no existe";
+    $response->message = "Usuario y/o contraseña incorrectos";
   }
 } else {
   http_response_code(400);

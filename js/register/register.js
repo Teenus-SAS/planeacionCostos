@@ -1,6 +1,6 @@
 /* 
-* @Author: Alexis Holguin
-* @github: MoraHol
+* @Author: Teenus SAS
+* @github: Teenus-SAS
 * 
 * Funcionalidad de registro de empresas
 */

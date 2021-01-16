@@ -1,6 +1,6 @@
 /* 
-@Author: Alexis Holguin
-@github: MoraHol
+@Author: Teenus SAS
+@github: Teenus-SAS
 logica de maquinas
 */
 
@@ -68,6 +68,11 @@ $('input[name=optionMaquinas]').change(function () {
 
 // inicializacion de datatable
 var $tableMaquinas = $('#table-maquinas').dataTable({
+  
+  "scrollY": "300px",
+  "scrollCollapse": true,
+  "paging": false,
+  
   language: {
     url: "/vendor/dataTables/Spanish.json"
   },

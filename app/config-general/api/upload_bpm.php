@@ -1,8 +1,8 @@
 <?php
 
 /**
- * @author Alexis Holguin <wholguinmor@uniminuto.edu.co>
- * @github MoraHol
+ * @author Teenus SAS>
+ * @github Teenus SAS
  * Este Script subir el archivo de imagen del bpm
  * Se llama por metodo 
  * @method POST FILE

@@ -8,7 +8,7 @@ require_once DAO_PATH . "CompanyDao.php";
 /**
  * Esta clase Es el DAO(Data Access Object) para usuarios
  * 
- * @author Alexis Holguin <wholguinmor@uniminuto.edu.co>
+ * @author Teenus SAS>
  * @version 1.0
  * @uses DBOperator, User, CompanyDao
  * @package Dao
@@ -18,7 +18,7 @@ class UserDao
 {
 
   /**
-   * Objeto de comuniacion con la base de datos
+   * Objeto de comunicacion con la base de datos
    *
    * @access private
    * @var DBOperator

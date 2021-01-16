@@ -10,8 +10,8 @@ require_once DAO_PATH . "CompanyDao.php";
  * Script para modificar los gastos de un producto 
  * Con la empresa que tiene iniciada la sesion
  * 
- * @author Alexis Holguin <wholguinmor@uniminuto.edu.co>
- * @github MoraHol
+ * @author Teenus SAS>
+ * @github Teenus SAS
  * 
  * @param string $ref Referencia del producto
  * @param double $unidades Unidades vendidas del producto al mes

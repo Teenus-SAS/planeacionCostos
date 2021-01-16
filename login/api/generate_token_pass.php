@@ -9,7 +9,7 @@ require_once DB_PATH . "env.php";
 
 $response = new stdClass();
 header("Content-Type: application/json");
-// token que se le asignara al usuario para el reestablecimineto de cuenta
+// token que se le asignara al usuario para el reestablecimiento de cuenta
 $token = bin2hex(openssl_random_pseudo_bytes(128));
 
 if (isset($_POST["username"])) {

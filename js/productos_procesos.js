@@ -1,6 +1,6 @@
 /**
 * @author  Alexis Holguin
-* @github MoraHol
+* @github Teenus SAS
 * logica de procesos por productos
 * permite agregar, modificar y eliminar procesos asociados un productos
 */
@@ -34,14 +34,14 @@ function loadProductsPP() {
         $tableProductProcess.api().ajax.url(`api/get_product_processes.php?dataTable=true&id=${productSelected.id}`)
         $tableProductProcess.api().ajax.reload()
       })
-/*       $('#inputProductProcess').change(function () {
-        let productSelected = productsInProcess.filter(product => product.id == $(this).val())[0]
-        $('#inputRefProcess').val(productSelected.id)
-        $('#titleProductProcess').text(productSelected.name)
-        cleanSelects()
-        $tableProductProcess.api().ajax.url(`api/get_product_processes.php?dataTable=true&id=${productSelected.id}`)
-        $tableProductProcess.api().ajax.reload()
-      }) */
+      /*       $('#inputProductProcess').change(function () {
+              let productSelected = productsInProcess.filter(product => product.id == $(this).val())[0]
+              $('#inputRefProcess').val(productSelected.id)
+              $('#titleProductProcess').text(productSelected.name)
+              cleanSelects()
+              $tableProductProcess.api().ajax.url(`api/get_product_processes.php?dataTable=true&id=${productSelected.id}`)
+              $tableProductProcess.api().ajax.reload()
+            }) */
     }
   })
 }
@@ -97,15 +97,15 @@ function calculateTimeSeg() {
 // enviado de formulario
 
 $('#form-product-process').submit(function (e) {
-   
+
   e.preventDefault()
   let request = $(this).serialize()
   request += `&timeProcess=${60 / $('#input-unidad-hora').val()}`
   $.post('api/add_modify_product_process.php', request, (_data, _status, xhr) => {
   })
     .always(function (xhr) {
-      if ($('#input-unidad-hora').val().length<=0){
-        
+      if ($('#input-unidad-hora').val().length <= 0) {
+
         $.notify({
           icon: "nc-icon nc-bell-55",
           message: "Digite Unidades/Hora"
@@ -114,7 +114,7 @@ $('#form-product-process').submit(function (e) {
           timer: 8000
         })
       }
-      else if(parseFloat($('#input-unidad-hora').val())==0){
+      else if (parseFloat($('#input-unidad-hora').val()) == 0) {
         $.notify({
           icon: "nc-icon nc-bell-55",
           message: "Unidades/Hora deben ser mayor a 0"
@@ -123,70 +123,75 @@ $('#form-product-process').submit(function (e) {
           timer: 8000
         })
       }
-      else{
+      else {
 
-      switch (xhr.status) {
-        case 200:
-          $.notify({
-            icon: "nc-icon nc-bell-55",
-            message: "El Proceso ha sido <b>Actualizado</b> Correctamente"
-          }, {
-            type: 'primary',
-            timer: 8000
-          })
-          $tableProductProcess.api().ajax.reload()
-		  loadProductsPP()
-          break
-        case 201:
-          $.notify({
-            icon: "nc-icon nc-bell-55",
-            message: "El proceso ha sido <b>Creado</b> Correctamente"
-          }, {
-            type: 'success',
-            timer: 8000
-          })
-          $tableProductProcess.api().ajax.reload()
-          $('#form-product-process')[0].reset()
-		  loadProductsPP()
-          break
-        case 412:
-          $.notify({
-            icon: "nc-icon nc-bell-55",
-            message: "Por favor <b>selecciona</b> una opcion para <b>adicionar</b> o <b>modificar</b>"
-          }, {
-            type: 'warning',
-            timer: 8000
-          })
-          break
-        case 400:
-          $.notify({
-            icon: "nc-icon nc-bell-55",
-            message: "Por favor <b>Completa</b> Todos los campos"
-          }, {
-            type: 'warning',
-            timer: 8000
-          })
-          break
-        case 500:
-          $.notify({
-            icon: "nc-icon nc-bell-55",
-            message: "Esta <b>Referencia</b> ya existe"
-          }, {
-            type: 'danger',
-            timer: 8000
-          })
-          break
-        case 401:
-          location.href = "/login"
-          break
+        switch (xhr.status) {
+          case 200:
+            $.notify({
+              icon: "nc-icon nc-bell-55",
+              message: "El Proceso ha sido <b>Actualizado</b> Correctamente"
+            }, {
+              type: 'primary',
+              timer: 8000
+            })
+            $tableProductProcess.api().ajax.reload()
+            loadProductsPP()
+            break
+          case 201:
+            $.notify({
+              icon: "nc-icon nc-bell-55",
+              message: "El proceso ha sido <b>Creado</b> Correctamente"
+            }, {
+              type: 'success',
+              timer: 8000
+            })
+            $tableProductProcess.api().ajax.reload()
+            $('#form-product-process')[0].reset()
+            loadProductsPP()
+            break
+          case 412:
+            $.notify({
+              icon: "nc-icon nc-bell-55",
+              message: "Por favor <b>selecciona</b> una opcion para <b>adicionar</b> o <b>modificar</b>"
+            }, {
+              type: 'warning',
+              timer: 8000
+            })
+            break
+          case 400:
+            $.notify({
+              icon: "nc-icon nc-bell-55",
+              message: "Por favor <b>Completa</b> Todos los campos"
+            }, {
+              type: 'warning',
+              timer: 8000
+            })
+            break
+          case 500:
+            $.notify({
+              icon: "nc-icon nc-bell-55",
+              message: "Esta <b>Referencia</b> ya existe"
+            }, {
+              type: 'danger',
+              timer: 8000
+            })
+            break
+          case 401:
+            location.href = "/login"
+            break
+        }
       }
-    }
     })
-  
+
 })
 
 // inicializacion de datatable de procesos por productos
 var $tableProductProcess = $('#table-product-process').dataTable({
+
+  "scrollY": "500px",
+  "scrollCollapse": true,
+  "paging": false,
+
   language: {
     url: "/vendor/dataTables/Spanish.json"
   },
@@ -242,8 +247,8 @@ $('#selectProcess').change(function () {
         }
         $('#tiempo-seg').val(Math.round10(parseFloat(processSelected.timeProcess), -2))
         $('#input-unidad-hora').val((60 / parseFloat(processSelected.timeProcess)).toFixed(2));
- /*        $('#tiempo-seg').val(Math.round10(parseFloat(processSelected.timeProcess), -2))
-        $('#input-unidad-hora').val(Math.round(60 / parseFloat(processSelected.timeProcess))) */
+        /*        $('#tiempo-seg').val(Math.round10(parseFloat(processSelected.timeProcess), -2))
+               $('#input-unidad-hora').val(Math.round(60 / parseFloat(processSelected.timeProcess))) */
       } else {
         // limpiado de campos
         $('#selectMachines option[selected]').attr('selected', false)

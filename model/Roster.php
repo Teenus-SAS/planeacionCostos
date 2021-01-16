@@ -2,9 +2,9 @@
 /**
  * Clase modelo de nomina
  * 
- * @author ALexis Holguin <wholguinmor@uniminuto.edu.co>
+ * @author Teenus SAS>
  * @package model
- * @github MoraHol
+ * @github Teenus SAS
  */
 class Roster implements JsonSerializable
 {

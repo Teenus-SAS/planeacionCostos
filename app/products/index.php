@@ -209,10 +209,10 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                     <div class="row my-4">
                       <div class="col-12">
                         <h5 class="pull-left">Importar Productos</h5>
-                        <a href="#" title="Descargar hoja de Excel de ejemplo" id="download-products" class="pull-right btn btn-success btn-icon"><i class="fas fa-file-excel"></i></a>
+                        <a href="#" title="Descargar hoja de Excel de ejemplo" id="download-products-materials" class="pull-right btn btn-success btn-icon"><i class="fas fa-file-excel"></i></a>
                       </div>
                       <div class="custom-file">
-                        <input type="file" id="fileProducts" class="custom-file-input" data-browse="Elegir" lang="es">
+                        <input type="file" id="fileProductsMaterials" class="custom-file-input" data-browse="Elegir" lang="es">
                         <label for="fileProducts" class="custom-file-label">importar Archivo</label>
                       </div>
                     </div>

@@ -1,6 +1,6 @@
 /**
 * @author Alexis Holguin
-* @github MoraHol
+* @github Teenus SAS
 * 
 * Funcionalidad para crear graficos de indicadores
 */

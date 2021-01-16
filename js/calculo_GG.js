@@ -1,6 +1,6 @@
 /* 
-* @Author: Alexis Holguin
-* @github: MoraHol
+* @Author: Teenus SAS
+* @github: Teenus-SAS
 * 
 * Calculo y funcionalidad de gastos especificos
 */

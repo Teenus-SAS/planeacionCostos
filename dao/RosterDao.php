@@ -9,7 +9,7 @@ require_once DAO_PATH . "ProcessDao.php";
 /**
  * Esta clase Es el DAO(Data Access Object) para nomina
  * 
- * @author Alexis Holguin <wholguinmor@uniminuto.edu.co>
+ * @author Teenus SAS>
  * @version 1.0
  * @uses DBOperator, ProcessDao, Rosters
  * @package Dao

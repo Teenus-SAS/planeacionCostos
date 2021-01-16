@@ -1,12 +1,12 @@
 
 /**
 * @author Alexis Holguin
-* @github MoraHol
+* @github Teenus SAS
 * logica de máquinas
 */
 
 elById('inlineRadioNom1').click();
-document.querySelector('a[href$="history"]').addEventListener('click', () => {resetFormMaquinas(); elById('inlineRadio1M').click(); });
+document.querySelector('a[href$="maquinas"]').addEventListener('click', () => { resetFormMaquinas(); elById('inlineRadio1M').click(); });
 
 // cargado de procesos de la base de datos
 $.get('api/get_processes.php', (processes, status) => {
@@ -24,7 +24,7 @@ $('#input-horas-extra').number(true, 2)
 /// validadores
 $.validator.addMethod("decimalInput", function (value) {
   return /^\s*-?[1-9]\d*(\.\d{1,2})?\s*$/.test(value);
-  }, "Máximo dos decimales");
+}, "Máximo dos decimales");
 
 let nominasInfo = null;
 
@@ -32,53 +32,53 @@ $('input[name=optionNomina]').change(function () {
   if ($(this).val() == 'option2') {
     $('#form-nomina').removeClass('was-validated')
     // desaparece el input
-   /*  $('#input-cargo').fadeOut() */
+    /*  $('#input-cargo').fadeOut() */
     // guarda el padre del input
-  /*   let $formGroupParent = $('#input-cargo').parent() */
+    /*   let $formGroupParent = $('#input-cargo').parent() */
     loadingSpinner()
     $.get('api/get_rosters.php', (data, status, xhr) => {
       completeSpinner()
       // se consulta las maquinas de esa empresa
       if (status == 'success') {
         // se agregan todas las maquinas en un input select
-  /*       let string = `<select id="input-cargo" class="custom-select" name="cargo" required><option selected disabled>Seleccione un Cargo</option>`
-        data.forEach((roster) => {
-          string += `<option value="${roster.id}">${roster.position}</option>`
-        })
-        string += '</select>'
-        $formGroupParent.append(string) */
+        /*       let string = `<select id="input-cargo" class="custom-select" name="cargo" required><option selected disabled>Seleccione un Cargo</option>`
+              data.forEach((roster) => {
+                string += `<option value="${roster.id}">${roster.position}</option>`
+              })
+              string += '</select>'
+              $formGroupParent.append(string) */
         // se quita el input de tipo de texto
-      /*   $('#input-cargo').remove() */
+        /*   $('#input-cargo').remove() */
 
-/*         $('#input-cargo').change(function () {
-          $('#form-nomina').validate()
-          let rosterSelected = data.filter(roster => roster.id == $(this).val())[0]
-          $('#select-proceso').val(rosterSelected.process.id)
-          $('#input-quantity-employees').val(parseInt(rosterSelected.numberEmployees))
-          $('#input-salario').val(parseFloat(rosterSelected.salary))
-          $('#input-bonificacion').val(parseFloat(rosterSelected.bonus))
-          $('#input-dotacion').val(parseFloat(rosterSelected.endowment))
-          $('#inputHorasTrabajo').val(parseInt(rosterSelected.workHours))
-          $('#inputDiasMes').val(parseInt(rosterSelected.bussinesDaysMonth))
-          $('#inputFP').val(parseFloat(rosterSelected.performaceFactor))
-          $(`input[name=optionFactorPrestacional][value=${rosterSelected.contract}]`).prop('checked', true)
-        }) */
-     /*    clearFieldsRoster() */
+        /*         $('#input-cargo').change(function () {
+                  $('#form-nomina').validate()
+                  let rosterSelected = data.filter(roster => roster.id == $(this).val())[0]
+                  $('#select-proceso').val(rosterSelected.process.id)
+                  $('#input-quantity-employees').val(parseInt(rosterSelected.numberEmployees))
+                  $('#input-salario').val(parseFloat(rosterSelected.salary))
+                  $('#input-bonificacion').val(parseFloat(rosterSelected.bonus))
+                  $('#input-dotacion').val(parseFloat(rosterSelected.endowment))
+                  $('#inputHorasTrabajo').val(parseInt(rosterSelected.workHours))
+                  $('#inputDiasMes').val(parseInt(rosterSelected.bussinesDaysMonth))
+                  $('#inputFP').val(parseFloat(rosterSelected.performaceFactor))
+                  $(`input[name=optionFactorPrestacional][value=${rosterSelected.contract}]`).prop('checked', true)
+                }) */
+        /*    clearFieldsRoster() */
       } else {
         location = '/login'
       }
     })
   } else {
     /* if ($('#input-cargo')[0].tagName == 'SELECT') { */
- /*      let $formGroupParent = $('#input-cargo').parent()
-      $('#input-cargo').fadeOut()
-      $formGroupParent.append(`<input id="input-cargo" class="form-control" type="text" name="cargo" required> `)
-      $('#input-cargo').remove() */
-      clearFieldsRoster();
+    /*      let $formGroupParent = $('#input-cargo').parent()
+         $('#input-cargo').fadeOut()
+         $formGroupParent.append(`<input id="input-cargo" class="form-control" type="text" name="cargo" required> `)
+         $('#input-cargo').remove() */
+    clearFieldsRoster();
 
-      resetFieldsRoster();
+    resetFieldsRoster();
 
-/*     } */
+    /*     } */
   }
 })
 
@@ -312,61 +312,55 @@ if ($(window).width() > 800) {
 
 // inicializacion de datatable
 var $tableNominas = $('#tableNominas').dataTable({
+  "scrollY": "500px",
+  "scrollCollapse": true,
+  "paging": false,
+
   language: {
     url: "/vendor/dataTables/Spanish.json"
   },
   responsive: true,
   ajax: {
     url: 'api/get_rosters.php?dataTable=true',
-  /*   dataSrc: 'data' */
-  dataSrc: function (json) {
-    console.log(json.data);
-    nominasInfo = json.data;
-    return json.data;
+    /*   dataSrc: 'data' */
+    dataSrc: function (json) {
+      //console.log(json.data);
+      nominasInfo = json.data;
+      return json.data;
     }
   },
   columnDefs: [
-    {
-      targets: [4, 5],
-      className: 'text-right'
-    }
+    { targets: [4, 5], className: 'text-right' }
   ],
-  columns: [{
-    data: 'position'
-  },
-  {
-    data: 'process.name'
-  },
-  {
-    data: 'numberEmployees'
-  },
-/*   {
-    data: 'contract'
-  }, */
-  {
-    data: 'salary',
-    render: function (data, type, row) {
-      return `$ ${$.number(data, 2, '.', ',')}`
+  columns: [
+    { data: 'position' },
+    { data: 'process.name' },
+    { data: 'numberEmployees' },
+    /*   {data: 'contract'}, */
+    {
+      data: 'salary',
+      render: function (data, type, row) {
+        return `$ ${$.number(data, 2, '.', ',')}`
+      }
+    },
+    {
+      data: 'netSalary',
+      render: function (data, type, row) {
+        return `$ ${$.number(data, 2, '.', ',')}`
+      }
+    },
+    {
+      data: 'minuteValue',
+      render: function (data) {
+        return `$ ${$.number(data, 2, '.', ',')}`;
+      }
+    },
+    {
+      data: null,
+      render: function (data) {
+        return `<a href='#'><i data-nomina-id=${data.id} data-toggle='tooltip' title="Editar" class='nc-icon nc-refresh-69 link-editar' style='color:rgb(255, 165, 0)'></i></a><a href='#' style="margin-left: 1rem;"><i data-nomina-id=${data.id} class='nc-icon nc-simple-remove link-borrar' data-toggle='tooltip' title='Eliminar' style='color:rgb(255, 0, 0)'></i></a>`;
+      }
     }
-  },
-  {
-    data: 'netSalary',
-    render: function (data, type, row) {
-      return `$ ${$.number(data, 2, '.', ',')}`
-    }
-  },
-  {
-    data: 'minuteValue',
-    render: function (data) {
-      return `$ ${$.number(data,2, '.', ',')}`;
-    }
-  },
-  {
-    data: null,
-    render: function (data) {
-      return `<a href='#'><i data-nomina-id=${data.id} data-toggle='tooltip' title="Editar" class='nc-icon nc-refresh-69 link-editar' style='color:rgb(255, 165, 0)'></i></a><a href='#' style="margin-left: 1rem;"><i data-nomina-id=${data.id} class='nc-icon nc-simple-remove link-borrar' data-toggle='tooltip' title='Eliminar' style='color:rgb(255, 0, 0)'></i></a>`;
-  }
-}
   ]
 })
 $tableNominas.width('100%')
@@ -437,12 +431,12 @@ $('#form-nomina').validate({
             })
             $tableNominas.api().ajax.reload()
             $('#form-nomina')[0].reset()
-      /*       if ($('#input-cargo')[0].tagName == 'SELECT') {
-              let $formGroupParent = $('#input-cargo').parent()
-              $('#input-cargo').fadeOut()
-              $formGroupParent.append(`<input id="input-cargo" class="form-control" type="text" name="cargo" required> `)
-              $('#input-cargo').remove() */
-         /*    } */
+            /*       if ($('#input-cargo')[0].tagName == 'SELECT') {
+                    let $formGroupParent = $('#input-cargo').parent()
+                    $('#input-cargo').fadeOut()
+                    $formGroupParent.append(`<input id="input-cargo" class="form-control" type="text" name="cargo" required> `)
+                    $('#input-cargo').remove() */
+            /*    } */
             break
           case 201:
             $.notify({
@@ -535,47 +529,47 @@ $('#delete-nomina').click(() => {
 })
 
 function deleteNomina(id) {
-  
-/*   let rows = $tableNominas.api().rows('.selected').data()
-  let count = 0, countAux = 0
-  if (rows.length > 0) {
-    for (let index = 0; index < rows.length; index++) { */
-      $.post('api/delete_roster.php', {
-        id: id
-      }).always(function (xhr) {
-      /*   countAux++ */
-        if (xhr.status == 200) {
-        /*   count++ */
-        $tableNominas.api().ajax.reload()
-        $.notify({
-          icon: "nc-icon nc-bell-55",
-          message: `Se ha eliminado una nomina`
-        }, {
-          type: 'info',
-          timer: 8000
-        })
-        }
-/*         if (countAux == rows.length) {
-          $tableNominas.api().ajax.reload()
-          $.notify({
-            icon: "nc-icon nc-bell-55",
-            message: `Se ${count > 1 ? 'han' : 'ha'} borrado ${count} ${count > 1 ? 'nominas' : 'nomina'}`
-          }, {
-            type: 'info',
-            timer: 8000
-          })
-        } */
+
+  /*   let rows = $tableNominas.api().rows('.selected').data()
+    let count = 0, countAux = 0
+    if (rows.length > 0) {
+      for (let index = 0; index < rows.length; index++) { */
+  $.post('api/delete_roster.php', {
+    id: id
+  }).always(function (xhr) {
+    /*   countAux++ */
+    if (xhr.status == 200) {
+      /*   count++ */
+      $tableNominas.api().ajax.reload()
+      $.notify({
+        icon: "nc-icon nc-bell-55",
+        message: `Se ha eliminado una nomina`
+      }, {
+        type: 'info',
+        timer: 8000
       })
+    }
+    /*         if (countAux == rows.length) {
+              $tableNominas.api().ajax.reload()
+              $.notify({
+                icon: "nc-icon nc-bell-55",
+                message: `Se ${count > 1 ? 'han' : 'ha'} borrado ${count} ${count > 1 ? 'nominas' : 'nomina'}`
+              }, {
+                type: 'info',
+                timer: 8000
+              })
+            } */
+  })
   /*   } */
-/*   } else {
-    $.notify({
-      icon: "nc-icon nc-bell-55",
-      message: `Selecciona al menos <b>1</b> nomina`
-    }, {
-      type: 'warning',
-      timer: 8000
-    })
-  } */
+  /*   } else {
+      $.notify({
+        icon: "nc-icon nc-bell-55",
+        message: `Selecciona al menos <b>1</b> nomina`
+      }, {
+        type: 'warning',
+        timer: 8000
+      })
+    } */
 }
 
 function clearFieldsRoster() {
@@ -614,16 +608,16 @@ elById('tableNominas').addEventListener('click', ev => {
   const selectedEl = ev.target;
 
   if (selectedEl.classList.contains('link-borrar')) {
-    
+
     deleteNomina(selectedEl.dataset.nominaId);
 
   }
-  else if(selectedEl.classList.contains('link-editar')) {
-/* 
-    console.log(new FormData(elById('form-nomina'))); */
-    const rowInfo =  $tableNominas.fnGetData(selectedEl.closest('tr'));
+  else if (selectedEl.classList.contains('link-editar')) {
+    /* 
+        console.log(new FormData(elById('form-nomina'))); */
+    const rowInfo = $tableNominas.fnGetData(selectedEl.closest('tr'));
     console.log($tableNominas.fnGetData(selectedEl.closest('tr')));
-    const {process: proceso} = rowInfo;
+    const { process: proceso } = rowInfo;
 
     elById('input-cargo').value = rowInfo.position;
     elById('input-quantity-employees').value = rowInfo.numberEmployees;
@@ -648,34 +642,33 @@ elById('tableNominas').addEventListener('click', ev => {
 
 
     Array.from(elById('select-proceso'))
-      .forEach(option => 
-        {
-          if (option.textContent.trim() === proceso.name) {
-            option.selected = true;
-            return true;
-          } else {
-            return false;
-          }
-        });
+      .forEach(option => {
+        if (option.textContent.trim() === proceso.name) {
+          option.selected = true;
+          return true;
+        } else {
+          return false;
+        }
+      });
 
-        elById('inlineRadioNom2').click();
-         elById('nomina-btn').value = 'Modificar';
-       
+    elById('inlineRadioNom2').click();
+    elById('nomina-btn').value = 'Modificar';
+
   }
 });
 
 function resetFieldsRoster() {
-  
+
   elById('input-cargo').value = '';
-    elById('input-quantity-employees').value = '';
-    elById('input-salario').value = '0.0';
-    elById('input-bonificacion').value = '0.0';
-    elById('input-dotacion').value = '0.0';
-    elById('input-horas-extra').value = '0.0';
-    elById('inputHorasTrabajo').value = '';
-    elById('inputDiasMes').value = '';
-    elById('inputFP').value = '0.0';
-    elById('cargo-id').value = '';
+  elById('input-quantity-employees').value = '';
+  elById('input-salario').value = '0.0';
+  elById('input-bonificacion').value = '0.0';
+  elById('input-dotacion').value = '0.0';
+  elById('input-horas-extra').value = '0.0';
+  elById('inputHorasTrabajo').value = '';
+  elById('inputDiasMes').value = '';
+  elById('inputFP').value = '0.0';
+  elById('cargo-id').value = '';
 
 }
 

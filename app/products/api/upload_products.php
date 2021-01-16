@@ -22,6 +22,7 @@ if (isset($_SESSION["user"])) {
       $product = new Product();
       $product->setRef($productJSON->Referencia);
       $product->setName($productJSON->Producto);
+      //$product->setRentabilidad($productJSON->Rentabilidad);
       $product->setIdCompany($user->getCompany()->getId());
       array_push($responses, $productDao->save($product) > 0 ? true : false);
     }

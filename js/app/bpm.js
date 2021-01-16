@@ -1,7 +1,7 @@
 /**
  * @author Alexis Holguin
  * @date 21/10/2019
- * @github MoraHol
+ * @github Teenus SAS
  * @company Teenus
  */
 

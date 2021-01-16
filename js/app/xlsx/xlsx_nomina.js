@@ -1,6 +1,6 @@
 /**
 * @author Alexis Holguin
-* @github MoraHol
+* @github Teenus SAS
 * logica para trabajar con excel
 * importacion de datos 
 * exportacion de datos

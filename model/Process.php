@@ -2,8 +2,8 @@
 /**
  * Modelo de un proceso de una empresa
  * 
- * @author Alexis Holguin <wholguinmor@uniminuto.edu.co>
- * @github MoraHol
+ * @author Teenus SAS>
+ * @github Teenus SAS
  * @package model
  */
 class Process implements JsonSerializable

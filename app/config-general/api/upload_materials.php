@@ -4,8 +4,8 @@ set_time_limit(300);
 
 
 /**
- * @author Alexis Holguin <wholguinmor@uniminuto.edu.co>
- * @github MoraHol
+ * @author Teenus SAS>
+ * @github Teenus SAS
  * Este Script crea o modifica materiales desde un archivo excel
  * Se llama por metodo 
  * @method POST 

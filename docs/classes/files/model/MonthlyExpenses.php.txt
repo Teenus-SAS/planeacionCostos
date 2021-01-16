@@ -2,8 +2,8 @@
 /**
  * Clase que contiene los gastos mensuales de un producto
  * 
- * @author Alexis Holguin <wholguinmor@uniminuto.edu.co>
- * @github MoraHol
+ * @author Teenus SAS>
+ * @github Teenus SAS
  * @package model
  */
 class MonthlyExpenses implements JsonSerializable

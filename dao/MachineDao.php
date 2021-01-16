@@ -6,7 +6,7 @@ require_once MODEL_PATH . "Machine.php";
 /**
  * Esta clase Es el DAO(Data Access Object) para máquinas
  * 
- * @author Alexis Holguin <wholguinmor@uniminuto.edu.co>
+ * @author Teenus SAS>
  * @version 1.0
  * @uses DBOperator, Machine
  * @package Dao

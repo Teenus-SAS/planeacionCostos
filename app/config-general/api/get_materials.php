@@ -1,8 +1,8 @@
 <?php
 
 /**
- * @author Alexis Holguin <wholguinmor@uniminuto.edu.co>
- * @github MoraHol
+ * @author Teenus SAS>
+ * @github Teenus SAS
  * Este Script obtener todos los materiales de la empresa 
  * Se llama por metodo 
  * @method GET

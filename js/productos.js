@@ -1,6 +1,6 @@
 /* 
-@Author: Alexis Holguin
-@github: MoraHol
+@Author: Teenus SAS
+@github: Teenus-SAS
 logica de productos
 */
 
@@ -20,7 +20,7 @@ $('input[name=optionProductos]').change(function () {
 
     //RESETEA OPCIONES DE GUARDAR EDITAR
     resetFormOptions();
-  
+
     // desaparece el input
     $('#inputRef').fadeOut()
     $('#inputProducto').fadeOut()
@@ -33,7 +33,7 @@ $('input[name=optionProductos]').change(function () {
     $('#input-unidad').parent().parent().fadeIn()
     $('#delete-producto').fadeOut(400, () => {
 
-      
+
       $('#delete-materia-prima').fadeIn();
     });
     loadingSpinner()
@@ -86,7 +86,7 @@ $('input[name=optionProductos]').change(function () {
           let productSelected = data.filter(product => product.id == $('#inputProducto').val())[0]
           let materialSelected = materialsJSON.filter(material => material.id == $(this).val())[0]
           let materialInProduct
-          if(productSelected.materials != undefined){
+          if (productSelected.materials != undefined) {
             materialInProduct = productSelected.materials.filter(material => material.material.id == materialSelected.id)[0]
           }
           $('#input-unidad').val(materialSelected.unit)
@@ -152,6 +152,9 @@ $.get('/app/config-general/api/get_materials.php', (_materials) => {
 
 // inicializacion de datatable de productos
 var $tableProductos = $('#tableProductos').dataTable({
+  "scrollY": "200px",
+  "scrollCollapse": true,
+  "paging": false,
   language: {
     url: "/vendor/dataTables/Spanish.json"
   },
@@ -160,26 +163,23 @@ var $tableProductos = $('#tableProductos').dataTable({
     url: 'api/get_products.php?dataTable=true',
     dataSrc: 'data'
   },
-  columns: [{
-    data: 'ref'
-  },
-  {
-    data: 'name'
-  },
-  {
-    data: 'rentabilidad',
-    render: function (data) {
-      return data + ' %';
+  columns: [
+    { data: 'ref' },
+    { data: 'name' },
+    {
+      data: 'rentabilidad',
+      render: function (data) {
+        return data + ' %';
       }
-  },
-  { 
-    data: 'id',
-    render: function (data) {
-      return `<a href='#'><i data-prod-id=${data} data-toggle='tooltip' title="Editar" class='nc-icon nc-refresh-69 link-editar' style='color:rgb(255, 165, 0)'></i></a><a href='#' style="margin-left: 1rem;"><i data-prod-id=${data} class='nc-icon nc-simple-remove link-borrar' data-toggle='tooltip' title='Eliminar' style='color:rgb(255, 0, 0)'></i></a>`;
-    }
-  },
+    },
+    {
+      data: 'id',
+      render: function (data) {
+        return `<a href='#'><i data-prod-id=${data} data-toggle='tooltip' title="Editar" class='nc-icon nc-refresh-69 link-editar' style='color:rgb(255, 165, 0)'></i></a><a href='#' style="margin-left: 1rem;"><i data-prod-id=${data} class='nc-icon nc-simple-remove link-borrar' data-toggle='tooltip' title='Eliminar' style='color:rgb(255, 0, 0)'></i></a>`;
+      }
+    },
   ],
-  reponsive: true
+  //reponsive: true
 })
 
 $tableProductos.width('100%')
@@ -196,7 +196,7 @@ document.getElementById('tableProductos').addEventListener('click', (ev) => {
     const ref = closestRow.cells[0].textContent;
     const producto = closestRow.cells[1].textContent;
     const rentabilidad = closestRow.cells[2].textContent.slice(0, -2);
-    
+
     document.getElementById('inputRef').value = ref;
     document.getElementById('inputProducto').value = producto;
     document.getElementById('inputRentabilidad').value = rentabilidad;
@@ -217,6 +217,10 @@ document.getElementById('tableProductos').addEventListener('click', (ev) => {
 
 // inicializacion de datatable de productos
 var $tableProductoMateria = $('#tableProductoMateriaPrima').dataTable({
+  "scrollY": "200px",
+  "scrollCollapse": true,
+  "paging": false,
+
   language: {
     url: "/vendor/dataTables/Spanish.json"
   },
@@ -231,14 +235,14 @@ var $tableProductoMateria = $('#tableProductoMateriaPrima').dataTable({
   {
     data: 'quantity',
     render: (data, type, row) => {
-      if(parseFloat(data) < 1){
+      if (parseFloat(data) < 1) {
         let sum = 0
         for (let index = 0; index < data.toString().length; index++) {
           sum += data.toString().charAt(index) == '0' ? 1 : 0
         }
         sum += 1
         return $.number(data, sum, ',', '.')
-      }else{
+      } else {
         return $.number(data, 2, ',', '.')
       }
     }
@@ -254,7 +258,7 @@ $tableProductoMateria.on('click', 'tr', function () {
 
 $.validator.addMethod("rentabilidadInput", function (value) {
   return /^\s*-?[1-9]\d*(\.\d{1,2})?\s*$/.test(value) || value.trim() === '';
-  }, "Máximo dos decimales");
+}, "Máximo dos decimales");
 
 
 // formulario para adicionar o modificar valores de una nomina
@@ -294,14 +298,14 @@ $('#form-products').validate({
               type: 'success',
               timer: 8000
             })
-            $.notify({
+            /* $.notify({
               icon: "nc-icon nc-bell-55",
               message: "Ahora ah configurar el producto"
             }, {
               type: 'primary',
               timer: 8000
-            })
-            $('#config-color').css("color","orange")
+            }) */
+            $('#config-color').css("color", "orange")
             $tableProductos.api().ajax.reload()
             $tableProductoMateria.api().ajax.reload()
             $tableGastosMensuales.api().ajax.reload()
@@ -314,7 +318,7 @@ $('#form-products').validate({
           case 412:
             $.notify({
               icon: "nc-icon nc-bell-55",
-              message: "Por favor <b>selecciona</b> una opcion para <b>adicionar</b> o <b>modificar</b>"
+              message: "<b>Selecciona</b> una opción para <b>adicionar</b> o <b>modificar</b>"
             }, {
               type: 'warning',
               timer: 8000
@@ -323,7 +327,7 @@ $('#form-products').validate({
           case 400:
             $.notify({
               icon: "nc-icon nc-bell-55",
-              message: "Por favor <b>Completa</b> Todos los campos"
+              message: "<b>Completa</b> Todos los campos"
             }, {
               type: 'warning',
               timer: 8000
@@ -344,7 +348,7 @@ $('#form-products').validate({
           case 403:
             $.notify({
               icon: "nc-icon nc-bell-55",
-              message: "Ya no puede crear mas productos <br> Se ha alcanzado el limite de productos licenciados"
+              message: "No puede crear más productos <br> Se ha alcanzado el limite de productos licenciados, por favor, comuniquese con Teenus S.A.S"
             }, {
               type: 'danger',
               timer: 8000
@@ -355,7 +359,7 @@ $('#form-products').validate({
         $('#inputProducto').val('');
         $('#inputRentabilidad').val('');
         /// RESETEA EL VALOR DEL FORM OPTION GUARDAR/EDITAR ///
-          resetFormOptions();
+        resetFormOptions();
       })
   }
 });
@@ -563,7 +567,7 @@ $('#delete-materia-prima').click(() => {
   } else {
     $.notify({
       icon: "nc-icon nc-bell-55",
-      message: `Selecciona al menos <b>1</b> materia prima`
+      message: `Selecciona al menos <b>una</b> materia prima`
     }, {
       type: 'warning',
       timer: 8000

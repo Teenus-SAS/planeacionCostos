@@ -9,7 +9,7 @@ require_once MODEL_PATH . "Admin.php";
 /**
  * Esta clase es el DAO(Data Access Object) para Administradores
  * 
- * @author Alexis Holguin <wholguinmor@uniminuto.edu.co>
+ * @author Teenus SAS>
  * @version 1.0
  * @uses DBOperator, Company
  * @package Dao

@@ -98,7 +98,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
       height: 32px;
     }
 
-    #home input {
+    #Generales input {
       text-align: right;
     }
   </style>
@@ -121,16 +121,16 @@ include(PARTIALS_PATH . "verify_session.php") ?>
               <div class="nav-tabs-wrapper">
                 <ul class="nav nav-tabs" data-tabs="tabs">
                   <li class="nav-item">
-                    <a class="nav-link active" href="#home" data-toggle="tab">Datos Generales</a>
+                    <a class="nav-link active" href="#Generales" data-toggle="tab">Datos Generales</a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" href="#products" data-toggle="tab">Productos</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="#updates" data-toggle="tab">Materia Prima</a>
+                    <a class="nav-link" href="#materia_prima" data-toggle="tab">Materia Prima</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="#history" data-toggle="tab">Máquinas</a>
+                    <a class="nav-link" href="#maquinas" data-toggle="tab">Máquinas</a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" href="#process" data-toggle="tab">Procesos</a>
@@ -147,7 +147,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
           </div>
           <div class="card-body">
             <div class="tab-content text-center">
-              <div class="tab-pane active" id="home">
+              <div class="tab-pane active" id="Generales">
                 <form id="form-factor-prestacional">
                   <div class="row">
                     <div class="col-md-6 col-sm-12">
@@ -199,7 +199,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                   </div>
                 </form>
               </div>
-              <div class="tab-pane" id="updates">
+              <div class="tab-pane" id="materia_prima">
                 <div class="row justify-content-center align-items-center">
                   <div class="col-md-4 col-sm-12">
                     <!--<h3>Materia Prima</h3>-->
@@ -207,19 +207,21 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                       <div hidden class="form-check form-check-radio form-check-inline">
                         <label>
                           <input type="radio" name="optionMateriaPrima" id="inlineRadio1" value="option1"> Adicionar
-                         <!--  <span class="form-check-sign"></span> -->
+                          <!--  <span class="form-check-sign"></span> -->
                         </label>
                       </div>
                       <div hidden class="form-check form-check-radio form-check-inline">
                         <label>
                           <input type="radio" name="optionMateriaPrima" id="inlineRadio2" value="option2"> Modificar
-                        <!--   <span class="form-check-sign"></span> -->
+                          <!--   <span class="form-check-sign"></span> -->
                         </label>
                       </div>
                       <div class="card py-2">
                         <div class="row my-4 justify-content-center">
                           <div class="col-md-10 col-10">
                             <div class="form-group">
+                              <label for="ref-materia-prima">Referencia</label>
+                              <input id="ref-materia-prima" class="form-control mb-3" type="text" name="ref_material">
                               <label for="input-materia-prima">Materia Prima</label>
                               <input id="input-materia-prima" class="form-control" type="text" name="material">
                               <input type="hidden" name="material-description" id="material-description">
@@ -231,7 +233,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                           <div class="col-md-5 col-5">
                             <div class="form-group">
                               <label for="my-input">Unidad</label>
-                              <input id="input-unidad" class="form-control" type="text" name="unidad" >
+                              <input id="input-unidad" class="form-control" type="text" name="unidad">
                             </div>
                           </div>
                           <div class="col-md-5 col-5">
@@ -245,7 +247,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                       <div class="row justify-content-center mb-4">
                         <div class="col"></div>
                         <div class="col">
-                          <input id="material-btn" type="submit" class="btn btn-primary" value="Adicionar Material">
+                          <input id="material-btn" type="submit" class="btn btn-primary" value="Adicionar">
 
                         </div>
                         <div class="col"></div>
@@ -254,7 +256,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                       <div class="row mb-5 mt-4">
                         <div class="col-12">
                           <h5 class="pull-left">Importar Materia Prima</h5>
-                          <a href="#" id="download_materia_prima" title="Descargar hoja de Excel de ejemplo" class="pull-right btn btn-success btn-icon"><i class="fas fa-file-excel"></i></a>
+                          <a href="#" id="download_materia_prima" title="Descargar plantilla Excel para Importar/Exportar" class="pull-right btn btn-success btn-icon"><i class="fas fa-file-excel"></i></a>
                         </div>
                         <div class="custom-file">
                           <input type="file" id="fileRawMaterial" class="custom-file-input">
@@ -272,6 +274,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                         <div class="table-responsive tableFixHead">
                           <table class="table table-hover" id="table-materia-prima">
                             <thead class="text-primary">
+                              <th>Referencia</th>
                               <th>Materia Prima</th>
                               <th>Unidad</th>
                               <th>Costo</th>
@@ -286,7 +289,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                   </div>
                 </div>
               </div>
-              <div class="tab-pane" id="history">
+              <div class="tab-pane" id="maquinas">
                 <div class="row justify-content-center align-items-center">
                   <div class="col-md-5 col-sm-12">
                     <form id="form-maquinas">
@@ -297,7 +300,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                           <span class="form-check-sign"></span>
                         </label>
                       </div>
-                      <div  hidden class="form-check form-check-radio form-check-inline">
+                      <div hidden class="form-check form-check-radio form-check-inline">
                         <label class="form-check-label">
                           <input class="form-check-input" type="radio" name="optionMaquinas" id="inlineRadio2M" value="option2"> Modificar
                           <span class="form-check-sign"></span>
@@ -321,9 +324,9 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                           <div class="col-md-5 col-5">
                             <div class="form-group">
                               <label for="my-input">
-                                <a href="#" data-toggle="tooltip"  data-html="true" title="Es el monto que la entidad podría obtener en el momento presente por disponer de un activo de largo plazo, una vez alcanzada su vida útil.">
-                                Valor Residual
-                              </a>
+                                <a href="#" data-toggle="tooltip" data-html="true" title="Es el monto que la entidad podría obtener en el momento presente por disponer de un activo de largo plazo, una vez alcanzada su vida útil.">
+                                  Valor Residual
+                                </a>
                               </label>
                               <input id="input-valor-residual" class="form-control " type="text" name="valor-residual" value="0">
                             </div>
@@ -353,7 +356,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                       <div class="row mb-5 mt-4">
                         <div class="col-12">
                           <h5 class="pull-left">Importar Máquinas</h5>
-                          <a href="#" id="download_maquinas" title="Descargar hoja de Excel de ejemplo" class="pull-right btn btn-success btn-icon"><i class="fas fa-file-excel"></i></a>
+                          <a href="#" id="download_maquinas" title="Descargar plantilla Excel para Importar/Exportar" class="pull-right btn btn-success btn-icon"><i class="fas fa-file-excel"></i></a>
                         </div>
                         <div class="custom-file">
                           <input type="file" id="fileMachines" class="custom-file-input">
@@ -422,7 +425,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                       <div class="row mb-5 mt-4">
                         <div class="col-12">
                           <h5 class="pull-left">Importar Procesos</h5>
-                          <a href="javascript:generateFileProcesses()" title="Descargar hoja de Excel de ejemplo" class="pull-right btn btn-success btn-icon"><i class="fas fa-file-excel"></i></a>
+                          <a href="javascript:generateFileProcesses()" title="Descargar plantilla Excel para Importar/Exportar" class="pull-right btn btn-success btn-icon"><i class="fas fa-file-excel"></i></a>
                         </div>
                         <div class="custom-file">
                           <input type="file" id="fileProcess" class="custom-file-input">
@@ -437,7 +440,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                         <!--<h4>Procesos</h4>-->
                       </div>
                       <div class="card-body">
-                      
+
                         <div class="table-responsive tableFixHead">
                           <table class="table table-compact table-hover" id="table-procesos">
                             <thead class="text-primary">
@@ -617,7 +620,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                               <th>Cargo</th>
                               <th>Proceso</th>
                               <th>Cantidad</th>
-                           <!--    <th>Contrato</th> -->
+                              <!--    <th>Contrato</th> -->
                               <th>Salario</th>
                               <th>Salario Neto</th>
                               <th>Valor/Minuto</th>
@@ -635,7 +638,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                 <div class="row my-5">
                   <div class="col-12">
                     <h5 class="pull-left">Importar Nomina</h5>
-                    <a href="#" id="download_nomina" title="Descargar hoja de Excel de ejemplo" class="pull-right btn btn-success btn-icon"><i class="fas fa-file-excel"></i></a>
+                    <a href="#" id="download_nomina" title="Descargar plantilla Excel para Importar/Exportar" class="pull-right btn btn-success btn-icon"><i class="fas fa-file-excel"></i></a>
                   </div>
                   <div class="custom-file">
                     <input type="file" id="fileRosters" class="custom-file-input">
@@ -646,18 +649,18 @@ include(PARTIALS_PATH . "verify_session.php") ?>
 
 
               <div class="tab-pane" id="products">
-                <div class="row justify-content-center" >
+                <div class="row justify-content-center">
                   <div class="col-md-5 col-sm-12 col-12 col-xs-12 mb-5">
                     <!--<h3>Productos</h3>-->
                     <form id="form-products" novalidate>
-                  <!--<div class="form-check form-check-radio form-check-inline">
+                      <!--<div class="form-check form-check-radio form-check-inline">
                         <label class="form-check-label">
                            <input class="form-check-input" type="radio" name="optionProductos" id="inlineRadio1" value="option1">
                           Adicionar
                           <span class="form-check-sign"></span> 
                         </label>
                       </div>-->
-                  <!--     <div class="form-check form-check-radio form-check-inline" >
+                      <!--     <div class="form-check form-check-radio form-check-inline" >
                         <label class="form-check-label" id="config-color">
                           <input class="form-check-input" type="radio" name="optionProductos" id="inlineRadio2" value="option2" > Configurar
                           <span class="form-check-sign"></span>
@@ -677,7 +680,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                           <label class="col-sm-5 col-md-4 col-12 text-left col-form-label pl-4">Rentabilidad</label>
                           <div class="col-sm-6 col-md-7 px-0 col-10"><input type="text" class="form-control" id="inputRentabilidad" name="rentabilidad"></div>
                         </div>
-<!-- 
+                        <!-- 
                         <div class="form-group row my-2">
                           <label class="col-sm-4 col-md-4 col-12 text-left col-form-label pl-4">Materia</label>
                           <div class="col-md-7 px-0 col-10"><select class="custom-select" id="input-materia" name="materia">
@@ -704,7 +707,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                     <div class="row my-4">
                       <div class="col-12">
                         <h5 class="pull-left">Importar Productos</h5>
-                        <a href="#" title="Descargar hoja de Excel de ejemplo" id="download-products" class="pull-right btn btn-success btn-icon"><i class="fas fa-file-excel"></i></a>
+                        <a href="#" title="Descargar plantilla Excel para Importar/Exportar" id="download-products" class="pull-right btn btn-success btn-icon"><i class="fas fa-file-excel"></i></a>
                       </div>
                       <div class="custom-file">
                         <input type="file" id="fileProducts" class="custom-file-input" data-browse="Elegir" lang="es">
@@ -717,7 +720,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                       <div class="card-header">
                       </div>
                       <div class="card-body">
-               <!--          <button class="btn btn-danger" id="delete-materia-prima">Eliminar</button>
+                        <!--          <button class="btn btn-danger" id="delete-materia-prima">Eliminar</button>
                         <div class="table-responsive tableFixHead">
                           <table class="table" id="tableProductoMateriaPrima">
                             <thead class="text-primary">
@@ -1077,8 +1080,8 @@ include(PARTIALS_PATH . "verify_session.php") ?>
 
   <script src="/js/RedondeoDecimal.js"></script>
 
-<!--   <script src="/js/productos.js"></script>  -->
-    <script src="/js/productos-adicionar.js"></script>
+  <!--   <script src="/js/productos.js"></script>  -->
+  <script src="/js/productos-adicionar.js"></script>
 
 
   <script src="/js/gastos-generales.js"></script>

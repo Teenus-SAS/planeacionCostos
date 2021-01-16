@@ -1,8 +1,8 @@
 <?php
 
 /**
- * @author Alexis Holguin <wholguinmor@uniminuto.edu.co>
- * @github MoraHol
+ * @author Teenus SAS>
+ * @github Teenus SAS
  * Este Script Eliminar una máquina
  * Se llama por metodo 
  * @method POST 
