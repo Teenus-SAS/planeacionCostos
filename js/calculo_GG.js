@@ -60,31 +60,38 @@ $('#btn_add_74').click(function () {
 
 function calculateTotalsAccounts() {
   let sum = 0
+  total = 0
   $('#container-51 .amount').each(function () {
     sum += parseFloat($(this).val())
+    total = total + sum
   })
   $('#sum-51').html(`$ ${$.number(sum, 2, '.', ',')}`)
   sum = 0
   $('#container-52 .amount').each(function () {
     sum += parseFloat($(this).val())
+    total = total + sum
   })
   $('#sum-52').html(`$ ${$.number(sum, 2, '.', ',')}`)
   sum = 0
   $('#container-53 .amount').each(function () {
     sum += parseFloat($(this).val())
+    total = total + sum
   })
   $('#sum-53').html(`$ ${$.number(sum, 2, '.', ',')}`)
   sum = 0
   $('#container-73 .amount').each(function () {
     sum += parseFloat($(this).val())
+    total = total + sum
   })
   $('#sum-73').html(`$ ${$.number(sum, 2, '.', ',')}`)
   sum = 0
   $('#container-74 .amount').each(function () {
     sum += parseFloat($(this).val())
+    total = total + sum
   })
   $('#sum-74').html(`$ ${$.number(sum, 2, '.', ',')}`)
   sum = 0
+  $('.sum-total').html(`$ ${$.number(total, 2, '.', ',')}`)
 }
 
 // evento para guardar
@@ -184,13 +191,13 @@ function saveGE() {
   sum = 0
   $('#container-74 .row').each(function () {
     if (!isNaN(parseFloat($(this).find('.amount').val()))) {
-    sum += parseFloat($(this).find('.amount').val())
-    structure["74"].accounts.push({
-      account: $(this).find('.account').val(),
-      description: $(this).find('.description').val(),
-      amount: parseFloat($(this).find('.amount').val()),
-    })
-  }
+      sum += parseFloat($(this).find('.amount').val())
+      structure["74"].accounts.push({
+        account: $(this).find('.account').val(),
+        description: $(this).find('.description').val(),
+        amount: parseFloat($(this).find('.amount').val()),
+      })
+    }
   })
   structure["74"].value = sum
   structure.total = structure["74"].value + structure["73"].value + structure["53"].value +
@@ -337,7 +344,12 @@ function loadExpensesGE() {
     $('.amount').number(true, 2, '.', ',')
     loadMonthExpenses()
     $('.amount').keyup(calculateTotalsAccounts)
+    
   })
 }
 
+
+
+
+  
 

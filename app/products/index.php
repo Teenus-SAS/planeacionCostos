@@ -474,7 +474,13 @@ include(PARTIALS_PATH . "verify_session.php") ?>
 
               <div class="tab-pane" id="gastos">
 
-                <div class="container" style="width:950px;">
+                <div class="container mt-2" style="width:950px;">
+                  <div class="row align-content-center text-primary mb-2">
+                    <!-- <div class="col-2"><b>51</b></div> -->
+                    <div class="col-10"><b>Total Gastos</b></div>
+                    <div class="col-2 sum-total" id="sum-total">$ 0.00</div>
+                  </div>
+                  <hr>
                   <div class="row align-content-center text-primary">
                     <div class="col-2"><b>51</b></div>
                     <div class="col-8"><b>Gastos Operacionales de Administración</b></div>
