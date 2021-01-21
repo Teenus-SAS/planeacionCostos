@@ -57,7 +57,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
       <div class="content">
         <div class="row justify-content-center">
           <div class="col-12 text-center">
-            <div class="card">
+            <div class="card" id="waitMe_ex">
               <div class="card-header">
                 <h3 class="card-title">Nuevo Usuario</h3>
               </div>
@@ -89,7 +89,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                   </div>
                   <div class="row">
                     <div class="col"></div>
-                    <div class="col"><button type="submit" class="btn btn-primary"><i class="nc-icon nc-simple-add"></i> Crear</button></div>
+                    <div class="col"><button type="submit" class="btn btn-primary" onclick="crear_usuarios();"><i class="nc-icon nc-simple-add"></i> Crear</button></div>
                     <div class="col"></div>
                   </div>
                 </form>
@@ -142,14 +142,31 @@ include(PARTIALS_PATH . "verify_session.php") ?>
     $('#collapse-administrator').show();
     $('#collapseParametrizar').slideUp();
     $('#collapse-herramientas').slideUp();
-    
   </script>
+
   <script src="/vendor/jquery-confirm/jquery-confirm.min.js"></script>
   <script src="/vendor/dataTables/jquery.dataTables.min.js"></script>
   <script src="/vendor/dataTables/dataTables.bootstrap4.min.js"></script>
   <script src="/vendor/numberFormat/jquery.number.min.js"></script>
   <script src="/vendor/spinner/waitMe.min.js"></script>
   <script src="/js/app/users.js"></script>
+  <script>
+    function crear_usuarios(){
+
+    $('#waitMe_ex').waitMe({
+        effect: 'roundBounce',
+        text: 'Por favor, espere unos minutos',
+        //bg: rgba(255, 255, 255, 0.7),
+        //color: #0000,
+        //maxSize: '',
+        //waitTime: 6000,
+        textPos: 'vertical',
+        //fontSize: '',
+        //source: '',
+        onClose: function() {}
+      });
+    };
+  </script>
 </body>
 
 </html>

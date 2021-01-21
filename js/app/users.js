@@ -62,6 +62,7 @@ $('#create-user').submit(function (e) {
         $('#name-user').val('');
         $('#email-user').val('');
         $('#rol-user').val('');
+        $('#waitMe_ex').waitMe("hide");
         $tableUsers.api().ajax.reload()
         $.post('api/notify_admins.php', form.serialize(), (data, satus) => {
 
