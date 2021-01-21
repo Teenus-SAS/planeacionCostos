@@ -186,9 +186,10 @@ class ProductDao
   public function save($product)
   {
     $this->db->connect();
-    $query = "INSERT INTO `productos` (`id_producto`, `empresas_id_empresa`,
-     `ref`, `nombre`, `rentabilidad`) VALUES (NULL, '" . $product->getIdCompany() . "',
-    '" . $product->getRef() . "', '" . $product->getName() . "','" . $product->getRentabilidad() . "') ON DUPLICATE KEY UPDATE `nombre` = '" . $product->getName() . "'";
+    $query = "INSERT INTO `productos` (`id_producto`, `empresas_id_empresa`, `ref`, `nombre`, `rentabilidad`) 
+              VALUES (NULL, '" . $product->getIdCompany() . "', '" . $product->getRef() . "', '" . $product->getName() . "','" . $product->getRentabilidad() . "') 
+              ON DUPLICATE KEY UPDATE `rentabilidad` = '" . $product->getRentabilidad() . "',`nombre` = '" . $product->getName() . "'";
+
     return $this->db->consult($query);
   }
 
@@ -268,6 +269,7 @@ class ProductDao
   public function saveOrUpdateRawMaterial($product, $idMaterial, $quantity)
   {
     $productRawMaterial = $this->findOneRawMaterialByProduct($product, $idMaterial);
+
     $this->db->connect();
     if ($productRawMaterial == null) {
       $query = "INSERT INTO `materiales_has_productos` (`materiales_has_productos_id`, `materiales_id_materiales`,

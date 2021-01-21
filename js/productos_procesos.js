@@ -1,5 +1,5 @@
 /**
-* @author  Alexis Holguin
+* @author  Teenus SAS
 * @github Teenus SAS
 * logica de procesos por productos
 * permite agregar, modificar y eliminar procesos asociados un productos
@@ -27,7 +27,7 @@ function loadProductsPP() {
 
       $('#inputRefProcess').change(function () {
         let productSelected = productsInProcess.filter(product => product.id == $(this).val())[0]
-        console.log(productSelected);
+        //console.log(productSelected);
         $('#inputProductProcess').val(productSelected.id)
         $('#titleProductProcess').text(productSelected.name)
         cleanSelects()
@@ -108,7 +108,7 @@ $('#form-product-process').submit(function (e) {
 
         $.notify({
           icon: "nc-icon nc-bell-55",
-          message: "Digite Unidades/Hora"
+          message: "Ingresa las Unidades/Hora"
         }, {
           type: 'warning',
           timer: 8000
@@ -219,13 +219,21 @@ var $tableProductProcess = $('#table-product-process').dataTable({
     render: (data, type, row) => {
       return Math.round10(data, -2)
     }
-  }
+  },
+  {
+    data: 'id',
+    render: function (data) {
+      return `<a href='#'><i data-prod-id=${data} data-toggle='tooltip' title="Editar" class='nc-icon nc-refresh-69 link-editar-procesos' style='color:rgb(255, 165, 0)'></i></a> <a href='#' style="margin-left: 1rem;"><i data-prod-id=${data} class='nc-icon nc-simple-remove link-borrar-procesos' data-toggle='tooltip' title='Eliminar' style='color:rgb(255, 0, 0)'></i></a>`;
+    }
+  },
   ]
 })
+
 $tableProductProcess.width('100%')
-$tableProductProcess.on('click', 'tr', function () {
+
+/* $tableProductProcess.on('click', 'tr', function () {
   $(this).toggleClass('selected');
-})
+}) */
 
 // cargado de procesos cuando ya se encuentran creados
 
@@ -260,39 +268,110 @@ $('#selectProcess').change(function () {
   }
 })
 
-// borrado de procesos
-$('#btn-delete-process').click(() => {
-  let rows = $tableProductProcess.api().rows('.selected').data()
-  let count = 0
-  let countAux = 0
-  if (rows.length > 0) {
-    for (let index = 0; index < rows.length; index++) {
-      $.post('api/delete_product_process.php', {
-        id: rows[index].id
-      }).always(function (xhr) {
-        countAux++
-        if (xhr.status == 200) {
-          count++
-        }
-        if (countAux == rows.length) {
-          $tableProductProcess.api().ajax.reload()
-          $.notify({
-            icon: "nc-icon nc-bell-55",
-            message: `Se ${count > 1 ? 'han' : 'ha'} borrado ${count} ${count > 1 ? 'procesos' : 'proceso'}`
-          }, {
-            type: 'info',
-            timer: 8000
-          })
-        }
-      })
-    }
-  } else {
+/* Actualizar procesos y maquinas en el producto */
+
+$(document).on('click', '.link-editar-procesos', function (e) {
+  e.preventDefault();
+
+  ref = $('#inputRefProcess').val();
+
+  if (ref == null || ref == '') {
     $.notify({
       icon: "nc-icon nc-bell-55",
-      message: `Selecciona al menos <b>1</b> proceso`
+      message: `Selecciona una </b>referencia</b>`
     }, {
-      type: 'warning',
+      type: 'danger',
       timer: 8000
     })
+    return false;
   }
-})
+
+
+  proceso = $(this).parents("tr").find("td").eq(0).html();
+  maquina = $(this).parents("tr").find("td").eq(1).html();
+  unidades = $(this).parents("tr").find("td").eq(2).html();
+  tiempo = $(this).parents("tr").find("td").eq(3).html();
+
+  $(`#selectProcess option:contains(${proceso})`).attr('selected', true);
+  $(`#selectMachines option:contains(${maquina})`).attr('selected', true);
+  $('#input-unidad-hora').val(unidades);
+  $('#tiempo-seg').val(tiempo);
+  $('#btnguardarproceso').html('Actualizar');
+
+});
+
+/* Desvincular materia prima del producto */
+
+$(document).on('click', '.link-borrar-procesos', function (e) {
+  e.preventDefault();
+  const selectedElement = e.target;
+
+  element = $(this).parents("tr").find("td").eq(0).html();
+  eliminar_procesos_productos(selectedElement.dataset.prodId, element);
+
+});
+
+// borrado de procesos
+//$('#btn-delete-process').click(() => {
+function eliminar_procesos_productos(element, proceso) {
+
+  producto = $('#inputProductProcess option:selected').html()
+
+  if (producto == undefined || producto == 'Selecciona un Producto')
+    producto = '';
+
+  bootbox.confirm({
+    title: "Desvincular procesos",
+    message: `¿Desea desvincular el proceso <b>${proceso}</b> del producto <b>${producto}</b>?. Esta acción no se puede deshacer`,
+    buttons: {
+      confirm: {
+        label: '<i class="fa fa-check"></i> Si',
+        className: 'btn-danger'
+      },
+      cancel: {
+        label: '<i class="fa fa-times"></i> No',
+        className: 'btn-info'
+      }
+    },
+    callback: function (result) {
+      if (result == true) {
+        /* let rows = $tableProductProcess.api().rows('.selected').data()
+          let count = 0
+          let countAux = 0
+          if (rows.length > 0) { 
+            for (let index = 0; index < rows.length; index++) {*/
+        $.post('api/delete_product_process.php', {
+          //id: rows[index].id
+          id: element
+        }).always(function (xhr) {
+          //countAux++
+          if (xhr.status == 200) {
+            //count++
+            //}
+            //if (countAux == rows.length) {
+            $tableProductProcess.api().ajax.reload()
+            $.notify({
+              icon: "nc-icon nc-bell-55",
+              //message: `Se ${count > 1 ? 'han' : 'ha'} borrado ${count} ${count > 1 ? 'procesos' : 'proceso'}`
+              message: `Proceso <b>${proceso}</b> desvinculado del producto <b>${producto}</b>`
+            }, {
+              type: 'info',
+              timer: 8000
+            })
+          }
+        })
+        /*   }
+          } else {
+           $.notify({
+             icon: "nc-icon nc-bell-55",
+             message: `Selecciona al menos <b>1</b> proceso`
+           }, {
+             type: 'warning',
+             timer: 8000
+           })
+         } */
+        //})
+      }
+    }
+  })
+}

@@ -10,7 +10,7 @@ $data = json_decode(file_get_contents($_SERVER['DOCUMENT_ROOT'] . '/resources/yo
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <title>
-  Tutoriales | Tezlik
+    Tutoriales | Tezlik
   </title>
   <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
   <!--     Fonts and icons     -->
@@ -131,7 +131,7 @@ $data = json_decode(file_get_contents($_SERVER['DOCUMENT_ROOT'] . '/resources/yo
         <div class="card">
           <div class="card-body">
             <div class="owl-carousel owl-theme" id="cost_video">
-            <?php foreach ($data["cost"] as $key => $value) { ?>
+              <?php foreach ($data["cost"] as $key => $value) { ?>
                 <div>
                   <div class="video-responsive">
                     <iframe src="https://www.youtube.com/embed/<?= $value ?>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
@@ -167,7 +167,7 @@ $data = json_decode(file_get_contents($_SERVER['DOCUMENT_ROOT'] . '/resources/yo
   <script>
     $('#sidebar-parametrizar-item').removeClass('active')
     $('#sidebar-tutorial-item').addClass('active')
-
+    $('#collapse-herramientas').show();
     $('.owl-carousel').owlCarousel({
       loop: true,
       margin: 10,

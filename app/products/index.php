@@ -126,22 +126,21 @@ include(PARTIALS_PATH . "verify_session.php") ?>
           <div class="card-header card-header-primary">
             <!-- colors: "header-primary", "header-info", "header-success", "header-warning", "header-danger" -->
             <div class="nav-tabs-navigation">
-              <div class="nav-tabs-wrapper">
+              <div class="nav-tabs-wrapper" id="tabs">
                 <ul class="nav nav-tabs" data-tabs="tabs">
                   <li class="nav-item">
-                    <a class="nav-link active" href="#home" data-toggle="tab">Productos</a>
+                    <a class="nav-link active prod" id="tab1" href="#home" data-toggle="tab">Productos</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="#updates" data-toggle="tab">Procesos</a>
+                    <a class="nav-link" id="tab2" href="#updates" data-toggle="tab">Procesos</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="#gastos" data-toggle="tab" id="nav-gastos">Gastos
-                      Generales</a>
+                    <a class="nav-link" href="#gastos" data-toggle="tab" id="nav-gastos">Gastos Generales</a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" href="#history" data-toggle="tab">Distribución de Gastos</a>
                   </li>
-                  
+
                   <li class="nav-item">
                     <a class="nav-link" href="#lineas" data-toggle="tab" id="nav-lienas">Líneas de Productos</a>
                   </li>
@@ -152,7 +151,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
           <div class="card-body">
             <div class="tab-content text-center">
               <div class="tab-pane active" id="home">
-                <div class="row justify-content-center" >
+                <div class="row justify-content-center">
                   <div class="col-md-5 col-sm-12 col-12 col-xs-12 mb-5">
                     <form id="form-products" novalidate>
                       <!--<div class="form-check form-check-radio form-check-inline">
@@ -171,28 +170,39 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                       <div class="card py-2">
                         <div class="form-group row my-2">
                           <label class="col-sm-5 col-md-4 col-12 text-left col-form-label pl-4">Referencia</label>
-                          <div class="col-sm-6 col-md-7 px-0 col-10"><input type="text" class="form-control" id="inputRef" name="ref"></div>
+                          <div class="col-sm-6 col-md-7 px-0 col-10">
+                            <input type="text" class="form-control" id="inputRef" name="ref">
+                          </div>
                         </div>
                         <div class="form-group row my-2">
                           <label class="col-sm-5 col-md-4 col-12 text-left col-form-label pl-4">Producto</label>
-                          <div class="col-md-7 col-sm-6 px-0 col-10"><input type="text" class="form-control" id="inputProducto" name="producto"></div>
+                          <div class="col-md-7 col-sm-6 px-0 col-10">
+                            <input type="text" class="form-control" id="inputProducto" name="producto">
+                          </div>
                         </div>
 
                         <div class="form-group row my-2">
                           <label class="col-sm-5 col-md-4 col-12 text-left col-form-label pl-4">Rentabilidad</label>
-                          <div class="col-sm-6 col-md-7 px-0 col-10"><input type="text" class="form-control" id="inputRentabilidad" name="rentabilidad"></div>
+                          <div class="col-sm-6 col-md-7 px-0 col-10">
+                            <input type="text" class="form-control" id="inputRentabilidad" name="rentabilidad">
+                          </div>
                         </div>
 
                         <div class="form-group row my-2">
                           <label class="col-sm-4 col-md-4 col-12 text-left col-form-label pl-4">Materia</label>
-                          <div class="col-md-7 px-0 col-10"><select class="custom-select" id="input-materia" name="materia">
-                            </select></div>
+                          <div class="col-md-7 px-0 col-10">
+                            <select class="custom-select input-materia" id="input-materia" name="materia"></select>
+                          </div>
                         </div>
                         <div class="form-group row my-3">
                           <label class="col-md-3 col-3 col-form-label px-0 ">Cantidad</label>
-                          <div class="col-md-3 col-3 text-left px-0"><input type="number" id="input-cantidad" class="form-control" name="cantidad" step=".01"></div>
+                          <div class="col-md-3 col-3 text-left px-0">
+                            <input type="number" id="input-cantidad" min="1" class="form-control" name="cantidad" step=".01">
+                          </div>
                           <label class="col-md-2 col-2 col-form-label px-0">Unidad</label>
-                          <div class="col-md-3 col-3 text-left px-0"><input type="text" id="input-unidad" class="form-control" name="unidad" disabled></div>
+                          <div class="col-md-3 col-3 text-left px-0">
+                            <input type="text" id="input-unidad" class="form-control" name="unidad" disabled>
+                          </div>
                         </div>
                       </div>
                       <div class="row mb-4">
@@ -222,13 +232,14 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                       <div class="card-header">
                       </div>
                       <div class="card-body">
-                        <button class="btn btn-danger" id="delete-materia-prima">Eliminar</button>
+                        <!-- <button class="btn btn-danger" id="delete-materia-prima">Eliminar</button> -->
                         <div class="table-responsive tableFixHead">
                           <table class="table" id="tableProductoMateriaPrima">
                             <thead class="text-primary">
-                              <th>Materia</th>
+                              <th>Materia Prima</th>
                               <th>Cantidad</th>
                               <th>Unidad</th>
+                              <th>Acciones</th>
                             </thead>
                             <tbody>
                             </tbody>
@@ -252,8 +263,9 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                 </div>
               </div>
               <div class="tab-pane" id="updates">
-                <div class="row justify-content-center align-items-center">
-                  <div class="col-md-5 col-sm-12">
+                <div class="row justify-content-center">
+                  <!-- align-items-center -->
+                  <div class="col-md-4 col-sm-12">
                     <!--<h3>Productos por Proceso</h3>-->
                     <form id="form-product-process">
                       <div class="card py-2">
@@ -290,7 +302,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                           </div>
                         </div>
                         <div class="form-group row my-2">
-                          <label class="col-form-label col-4 text-right">Unidades/Hora</label>
+                          <label class="col-form-label col-4 text-right">Unidades Producidas Hora</label>
                           <div class="col-5">
                             <input type="number" class="form-control" step=".001" id="input-unidad-hora">
                           </div>
@@ -305,7 +317,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                       <div class="row mb-4">
                         <div class="col"></div>
                         <div class="col">
-                          <button class="btn btn-primary">Guardar</button>
+                          <button class="btn btn-primary" id="btnguardarproceso">Guardar</button>
                         </div>
                         <div class="col"></div>
                       </div>
@@ -322,13 +334,13 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                       </div>
                     </div>
                   </div>
-                  <div class="col-md-7 col-sm-12">
+                  <div class="col-md-8 col-sm-12">
                     <div class="card">
                       <div class="card-header">
                         <!--<h4 id="titleProductProcess">Procesos</h4>-->
                       </div>
                       <div class="card-body">
-                        <button class="btn btn-danger" id="btn-delete-process">Eliminar</button>
+                        <!-- <button class="btn btn-danger" id="btn-delete-process">Eliminar</button> -->
                         <div class="table-responsive tableFixHead">
                           <table class="table" id="table-product-process">
                             <thead class="text-primary">
@@ -336,6 +348,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                               <th>Máquina</th>
                               <th>Unidades/Hora</th>
                               <th>Tiempo/Min</th>
+                              <th>Acciones</th>
                             </thead>
                             <tbody>
                             </tbody>
@@ -346,6 +359,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                   </div>
                 </div>
               </div>
+
               <div class="tab-pane" id="history">
                 <div class="row justify-content-center align-items-center">
                   <div class="col-md-8">
@@ -422,7 +436,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
 
                     </form>
                   </div>
-                  <div class="col-md-10">
+                  <div class="col-md-12">
                     <div class="card">
                       <div class="card-header">
                         <h4>Distribución Gastos Generales</h4>
@@ -447,7 +461,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                   </div>
                   <div class="row my-5">
                     <div class="col-12">
-                      <h6 class="pull-left">Importar Ventas Mensuales</h6>
+                      <h6 class="pull-left">Importar Volumenes y Ventas Mensuales</h6>
                       <a href="#" title="Descargar Base de Datos de Gastos Generales" id="download-products-expenses" class="pull-right btn btn-success btn-icon"><i class="fas fa-file-excel"></i></a>
                     </div>
                     <div class="custom-file">
@@ -457,7 +471,9 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                   </div>
                 </div>
               </div>
+
               <div class="tab-pane" id="gastos">
+
                 <div class="container" style="width:950px;">
                   <div class="row align-content-center text-primary">
                     <div class="col-2"><b>51</b></div>
@@ -547,6 +563,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                       </button>
                     </div>
                   </div>
+                  <hr>
                   <div class="row mb-5">
                     <div class="col-12">
                       <h6 class="pull-left">Importar Gastos Generales</h6>
@@ -559,6 +576,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                   </div>
                 </div>
               </div>
+              <!-- tab lineas -->
               <div class="tab-pane" id="lineas">
                 <div class="row justify-content-center">
                   <div class="col-md-12 col-12 text-center">
@@ -578,7 +596,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                   <div class="col-sm-5 col-12 col-sm-offset-1">
                     <div class="input-group">
                       <select id="select-lineas" class="form-control"></select>
-                      <input type="text" id="lineas-create"  style="display: none;" placeholder="Nombre de linea" class="form-control">
+                      <input type="text" id="lineas-create" style="display: none;" placeholder="Nombre de linea" class="form-control">
                       <div class="input-group-append">
                         <a title="Agregar una linea" class="btn m-0" href="javascript:toggleCreateOrSelect();" id="btn_create_or_select_lineas"><i class="fas fa-plus"></i></a>
                       </div>
@@ -645,22 +663,28 @@ include(PARTIALS_PATH . "verify_session.php") ?>
   <script src="/vendor/file-saver/FileSaver.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
   <script src="/vendor/froala-editor/froala_editor.pkgd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>
   <script>
-    if($(window).width() < 768){
+    if ($(window).width() < 768) {
       $('#home .card .row').addClass('justify-content-center')
     }
   </script>
+  <script>
+    /* Ampliar menu */
+    $('#collapseParametrizar').show();
+    $('.productos').css('color', '#ef8157');
+    $('#collapse-herramientas').slideUp();
+    $('#collapse-administrator').slideUp();
+  </script>
+  </script>
   <script src="/js/RedondeoDecimal.js"></script>
 
-<!--   <script src="/js/productos.js"></script> -->
-    <script src="/js/productos-configurar.js"></script>
-
-
-
+  <!--   <script src="/js/productos.js"></script> -->
+  <script src="/js/productos-configurar.js"></script>
   <script src="/js/productos_procesos.js"></script>
   <script src="/js/gastos-generales.js"></script>
   <script src="/js/calculo_GG.js"></script>
-  <script src="/js/app/xlsx/xlsx_productos.js"></script>
+  <script src="/js/app/xlsx/xlsx_productos_materiaprima.js"></script>
   <script src="/js/app/xlsx/xlsx_productos_procesos.js"></script>
   <script src="/js/app/xlsx/xlsx_gastos_generales.js"></script>
   <script src="/js/app/xlsx/xlsx_calculo_GG.js"></script>

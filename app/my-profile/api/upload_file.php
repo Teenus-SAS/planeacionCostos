@@ -1,6 +1,6 @@
 <?php
 /*
-* Desarrollada por Alexis Holguin(github: MoraHol)
+* Desarrollada por Teenus SAS
 */
 $uploads_dir = $_SERVER['DOCUMENT_ROOT'] . "/upload/file";
 $host = $_SERVER["HTTP_HOST"];

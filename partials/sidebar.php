@@ -1,40 +1,39 @@
 <div class="sidebar" data-color="white" data-active-color="danger">
-  <!--
-          Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red | yellow"
-      -->
+
   <div class="logo" style="padding-left: 2rem">
-  <a class="navbar-brand"
-        href="https://teenus.com.co/tezlik/" target="_blank">
-        <img src="/favicon.ico" width="25">
-        <img src="../../upload/img/logo_tezlik.png" width="90">
-  </a>
+    <a class="navbar-brand" href="https://teenus.com.co/tezlik/" target="_blank">
+      <img src="/favicon.ico" width="25">
+      <img src="../../upload/img/logo_tezlik.png" width="90">
+    </a>
   </div>
   <div class="sidebar-wrapper">
     <ul class="nav">
       <li><a href="#"><b>Menu</b></a></li>
       <hr class="my-0">
-      <li class="active" id="sidebar-parametrizar-item">
-        <a data-toggle="collapse" href="#collapseParametrizar" role="button" aria-expanded="false" aria-controls="collapseParametrizar">
-          <i class="fa fa-wrench" aria-hidden="true"></i>
-          <p class="text-capitalize">Configurar</p>
-        </a>
-      </li>
-      <div class="collapse" id="collapseParametrizar">
-        <ul class="nav">
-          <li >
-            <a href="/app/config-general/">
-              <i class="fa fa-cogs"></i>
-              <p class="text-capitalize">General</p>
-            </a>
-          </li>
-          <li id="sidebar-products-item">
-            <a href="/app/products/">
-              <i class="fa fa-industry" aria-hidden="true"></i>
-              <p>Productos</p>
-            </a>
-        </ul>
-      </div>
+      <?php if ($user->getRolId() == 2) { ?>
+        <li class="active" id="sidebar-parametrizar-item">
+          <a data-toggle="collapse" href="#collapseParametrizar" role="button" aria-expanded="false" aria-controls="collapseParametrizar">
+            <i class="fa fa-wrench" aria-hidden="true"></i>
+            <p class="text-capitalize">Configurar</p>
+          </a>
+        </li>
 
+        <div class="collapse" id="collapseParametrizar">
+          <ul class="nav">
+            <li>
+              <a href="/app/config-general/">
+                <i class="fa fa-cogs" style="margin-left: 30px;"></i>
+                <p class="text-capitalize general">General</p>
+              </a>
+            </li>
+            <li id="sidebar-products-item">
+              <a href="/app/products/">
+                <i class="fa fa-industry" aria-hidden="true" style="margin-left: 30px;"></i>
+                <p class="text-capitalize productos">Productos</p>
+              </a>
+          </ul>
+        </div>
+      <?php } ?>
       <li id="sidebar-costear-item">
         <a href="/app/cost/">
           <i class="fa fa-check"></i>
@@ -47,7 +46,7 @@
           <p>Optimización</p>
         </a>
       </li>
-     
+
       <hr class="my-0">
       <li><a data-toggle="collapse" href="#collapse-herramientas" role="button" aria-expanded="false" aria-controls="collapse-herramientas"><b>Herramientas</b></a></li>
       <hr class="my-0">

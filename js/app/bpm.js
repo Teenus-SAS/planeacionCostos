@@ -1,5 +1,5 @@
 /**
- * @author Alexis Holguin
+ * Teenus SAS
  * @date 21/10/2019
  * @github Teenus SAS
  * @company Teenus

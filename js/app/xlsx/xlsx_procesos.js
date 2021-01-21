@@ -1,3 +1,4 @@
+
 function uploadProcesses(processes) {
   loadingSpinner()
   $.post('api/upload_processes.php', { processes: JSON.stringify(processes) }, (data, status) => {
@@ -66,7 +67,38 @@ $('#fileProcess').change(function () {
           type: 'red'
         });
       } else {
-        $.confirm({
+
+        bootbox.confirm({
+          title: "Importar procesos",
+          message: `Los datos han sido procesados y estan listos para ser cargados`,
+          buttons: {
+            confirm: {
+              label: '<i class="fa fa-check"></i> Continuar',
+              className: 'btn-success'
+            },
+            cancel: {
+              label: '<i class="fa fa-times"></i> Cancelar',
+              className: 'btn-info'
+            }
+          },
+          callback: function (result) {
+            if (result == true) {
+              uploadProcesses(processes);
+              clearFile(inputFile);
+            } else {
+              $.notify({
+                icon: "nc-icon nc-bell-55",
+                message: `Proceso cancelado`
+              }, {
+                type: 'info',
+                timer: 8000
+              });
+              clearFile(inputFile);
+            }
+          }
+        })
+
+        /* $.confirm({
           title: 'Tezlik',
           content: 'Los datos han sido procesados y estan listo para ser cargados',
           type: 'green',
@@ -80,7 +112,7 @@ $('#fileProcess').change(function () {
               clearFile(inputFile)
             }
           }
-        })
+        }) */
       }
     } else {
       $.alert({

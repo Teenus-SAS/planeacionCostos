@@ -18,7 +18,7 @@ function completeSpinner() {
 
 var $tableProductos = $('#tableProductos').dataTable({
 
-  "scrollY": "500px",
+  "scrollY": "300px",
   "scrollCollapse": true,
   "paging": false,
 
@@ -52,35 +52,96 @@ var $tableProductos = $('#tableProductos').dataTable({
   reponsive: true
 })
 
+//redimensiona la tabla para no desfigurar el encabezado con respecto al cuerpo de la tabla
+
 $tableProductos.width('100%');
 
+
+/* $(window).on('resize', function() {
+  $('#tableProductos').css('width', '100%');
+  table.draw(true);
+}); */
 
 
 $.validator.addMethod("rentabilidadInput", function (value) {
   return /^\s*-?[1-9]\d*(\.\d{1,2})?\s*$/.test(value) || value.trim() === '';
-}, "Máximo dos decimales");
+}/* , "Ingrese áximo dos decimales" */);
 
 
-// formulario para adicionar o modificar valores de una nomina
+// formulario para adicionar o modificar valores de una producto
 
 $('#form-products').validate({
-  rules: {
-    rentabilidad: 'rentabilidadInput'
-  },
-  messages: {
-    rentabilidad: "Máximo dos decimales"
-  },
+  /*  rules: {
+     rentabilidad: 'rentabilidadInput'
+   },
+   messages: {
+     rentabilidad: "Ingrese máximo dos decimales"
+   }, */
   submitHandler: function (form) {
+
     let request = $(form).serialize()
     request += '&optionProductos=option1';
+
+    ref = $('#inputRef').val();
+    producto = $('#inputProducto').val();
+
+    if (ref == undefined || ref == '' || producto == undefined || producto == '') {
+      $.notify({
+        icon: "nc-icon nc-bell-55",
+        message: `Ingrese todos los datos`
+      }, {
+        type: 'danger',
+        timer: 8000
+      })
+
+      return false;
+    }
+
     /*   console.log(productExists(document.getElementById('inputRef').value)); */
-    console.log(document.getElementById('form-product-btn').textContent);
+    //console.log(document.getElementById('form-product-btn').textContent);
     if (productExists(document.getElementById('inputRef').value) &&
       document.getElementById('form-product-btn').textContent.toLowerCase() === 'guardar') {
 
-      $.confirm({
+      $.notify({
+        icon: "nc-icon nc-bell-55",
+        message: `La referencia ${document.getElementById('inputRef').value} ya existe. Ingrese otra referencia`
+      }, {
+        type: 'danger',
+        timer: 8000
+      })
+
+      /* bootbox.confirm({
+        title: "Crear productos",
+        message: `La referencia ${document.getElementById('inputRef').value} ya existe. Ingrese otra referencia`,
+        size: 'small',
+        buttons: {
+          cancel: {
+            label: '<i class="fa fa-times"></i> No',
+            className: 'btn-dark'
+          },
+          confirm: {
+            label: '<i class="fa fa-check"></i> Si',
+            className: 'btn-success'
+          }
+        },
+        callback: function (result) {
+          if (result == true) {
+            //sendRequest(request);
+            return;
+          } else {
+            resetFormOptions();
+            resetFormProducts();
+            return;
+          }
+
+        }
+      }); */
+
+
+
+      /* $.confirm({
         title: 'Tezlik',
-        content: `${document.getElementById('inputRef').value} ya existe, ¿desea actualizarlo?`,
+        content: `La referencia ${document.getElementById('inputRef').value} ya existe ¿Desea actualizarla?`,
         buttons: {
           SI: function () {
             sendRequest(request);
@@ -92,7 +153,7 @@ $('#form-products').validate({
             return;
           }
         }
-      })
+      }) */
 
     } else {
       sendRequest(request);
@@ -111,7 +172,7 @@ function sendRequest(request) {
         case 200:
           $.notify({
             icon: "nc-icon nc-bell-55",
-            message: "El producto ha sido <b>Actualizado</b> Correctamente"
+            message: "Producto <b>Actualizado</b> Correctamente"
           }, {
             type: 'primary',
             timer: 8000
@@ -124,18 +185,18 @@ function sendRequest(request) {
         case 201:
           $.notify({
             icon: "nc-icon nc-bell-55",
-            message: "El producto ha sido <b>Creado</b> Correctamente"
+            message: "Producto <b>Creado</b> Correctamente"
           }, {
             type: 'success',
             timer: 8000
           })
-          $.notify({
+          /* $.notify({
             icon: "nc-icon nc-bell-55",
             message: "Ahora ah configurar el producto"
           }, {
             type: 'primary',
             timer: 8000
-          })
+          }) */
           $('#config-color').css("color", "orange")
           $tableProductos.api().ajax.reload()
           /*       $tableProductoMateria.api().ajax.reload() */
@@ -179,7 +240,7 @@ function sendRequest(request) {
         case 403:
           $.notify({
             icon: "nc-icon nc-bell-55",
-            message: "Ya no puede crear mas productos <br> Se ha alcanzado el limite de productos licenciados"
+            message: "No puede crear más productos <br> Se ha alcanzado el limite de productos licenciados"
           }, {
             type: 'danger',
             timer: 8000
@@ -198,7 +259,7 @@ function sendRequest(request) {
 
 
 
-/* FUNCIONALIDAD EDITAR / ELIMINAR PRODUCTOS */
+/* Editar o eliminar productos */
 
 document.getElementById('tableProductos').addEventListener('click', (ev) => {
 
@@ -227,29 +288,76 @@ document.getElementById('tableProductos').addEventListener('click', (ev) => {
 
 });
 
+/* Eliminar productos */
 
 function deleteProduct(prodId) {
-  $.post('api/delete_product.php', {
-    id: prodId
-  }).always(function (xhr) {
-    loadingSpinner()
-    if (xhr.status == 200) {
-      $tableProductos.api().ajax.reload()
-      loadProductsGG()
-      loadProductsPP()
-      loadProductsInProcess()
-      loadProductsInXLSX()
-      $.notify({
-        icon: "nc-icon nc-bell-55",
-        message: `Se ha borrado 1 producto`,
-      }, {
-        type: 'info',
-        timer: 8000
-      })
-      completeSpinner()
+
+  bootbox.confirm({
+    title: "Eliminar productos",
+    message: `${document.getElementById('inputRef').value} ¿Está seguro de eliminar este producto?.  Esta acción no se puede deshacer`,
+    buttons: {
+      confirm: {
+        label: '<i class="fa fa-check"></i> Si',
+        className: 'btn-danger'
+      },
+      cancel: {
+        label: '<i class="fa fa-times"></i> No',
+        className: 'btn-info'
+      }
+    },
+    callback: function (result) {
+      if (result == true) {
+        $.post('api/delete_product.php', {
+          id: prodId
+        }).always(function (xhr) {
+          loadingSpinner()
+          if (xhr.status == 200) {
+            $tableProductos.api().ajax.reload()
+            loadProductsGG()
+            loadProductsPP()
+            loadProductsInProcess()
+            loadProductsInXLSX()
+            $.notify({
+              icon: "nc-icon nc-bell-55",
+              message: `Producto Eliminado`,
+            }, {
+              type: 'info',
+              timer: 8000
+            })
+            completeSpinner()
+          }
+        })
+        return;
+      } else {
+        resetFormOptions();
+        resetFormProducts();
+        return;
+      }
+
     }
-  })
+  });
+
+
+  /* $.confirm({
+    title: 'Tezlik',
+    content: `${document.getElementById('inputRef').value} ¿Está seguro de eliminar este producto?.  Esta acción no se puede deshacer`,
+    buttons: {
+      SI: function () {
+
+      },
+      No: function () {
+        resetFormOptions();
+        resetFormProducts();
+        return;
+      }
+    }
+  }) */
+
+
 }
+
+
+
 
 
 /// resetea opciones de guardar editar/////

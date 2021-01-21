@@ -1,6 +1,12 @@
 <?php
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
-include(PARTIALS_PATH . "verify_session.php") ?>
+include(PARTIALS_PATH . "verify_session.php"); 
+/* do{
+	echo key($_SESSION);
+	echo current($_SESSION);
+} while(next($_SESSION)) */
+
+?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -24,6 +30,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
   <link rel="stylesheet" href="/vendor/dataTables/dataTables.bootstrap4.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
   <link rel="stylesheet" href="/vendor/froala-editor/froala_editor.pkgd.min.css">
+
   <style>
     .tableFixHead {
       overflow-y: auto;
@@ -100,6 +107,12 @@ include(PARTIALS_PATH . "verify_session.php") ?>
 
     #Generales input {
       text-align: right;
+    }
+
+    .dataTables_scrollHeadInner {
+      margin: 0
+        /* auto */
+      ;
     }
   </style>
 
@@ -291,7 +304,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
               </div>
               <div class="tab-pane" id="maquinas">
                 <div class="row justify-content-center align-items-center">
-                  <div class="col-md-5 col-sm-12">
+                  <div class="col-md-4 col-sm-12">
                     <form id="form-maquinas">
                       <!--<h3>Máquinas</h3>-->
                       <div hidden class="form-check form-check-radio form-check-inline">
@@ -341,7 +354,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                           </div>
                           <div class="col-md-5 col-5">
                             <div class="form-group">
-                              <label for="my-input">Depreciación/Min</label>
+                              <label for="my-input">Depreciación por Minuto </label>
                               <input style="text-align: center" id="input-depreciation-machine" class="form-control disabled" type="number" disabled name="depreciation" step=".01">
                             </div>
                           </div>
@@ -365,7 +378,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                       </div>
                     </form>
                   </div>
-                  <div class="col-md-7 col-sm-12">
+                  <div class="col-md-8 col-sm-12">
                     <div class="card">
                       <div class="card-header">
                         <!--<h4>Máquinas</h4>-->
@@ -374,7 +387,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                         <div class="table-responsive tableFixHead">
                           <table class="table table-compact table-hover" id="table-maquinas">
                             <thead class="text-primary">
-                              <th>Máquinas</th>
+                              <th>Máquina</th>
                               <th>P. Compra</th>
                               <th>Depreciación*Min</th>
                               <th>Acciones</th>
@@ -561,7 +574,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                           <div class="col-md-12 text-left px-5 py-2">
                             <div class="form-check">
                               <label class="form-check-label">
-                                <input class="form-check-input" type="checkbox" value="" id="checkboxCalculadoManualFP">
+                                <input class="form-check-input checkboxCalculadoManualFP" type="checkbox" value="" id="checkboxCalculadoManualFP">
                                 Calcular Factor Prestacional Manualmente
                                 <span class="form-check-sign">
                                   <span class="check"></span>
@@ -629,6 +642,14 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                             <tbody>
 
                             </tbody>
+                            <tfoot>
+                              <tr>
+                                <th colspan="4" style="text-align:right">Total Nómina:</th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                              </tr>
+                            </tfoot>
                           </table>
                         </div>
                       </div>
@@ -749,8 +770,6 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                   </div>
                 </div>
               </div>
-
-
 
             </div>
           </div>
@@ -1077,7 +1096,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
   <script src="/vendor/xlsx-js/xlsx.full.min.js"></script>
   <script src="/vendor/file-saver/FileSaver.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>
   <script src="/js/RedondeoDecimal.js"></script>
 
   <!--   <script src="/js/productos.js"></script>  -->
@@ -1100,7 +1119,8 @@ include(PARTIALS_PATH . "verify_session.php") ?>
   <script src="/js/app/xlsx/xlsx_maquinas.js"></script>
   <script src="/js/app/xlsx/xlsx_nomina.js"></script>
   <script src="/js/horas_extra.js"> </script>
-  <script src="/js/app/bpm.js">
+  <script src="/js/app/bpm.js"></script>
+  <script src="/js/menu.js"></script>
 
   </script>
   <script>
@@ -1109,6 +1129,13 @@ include(PARTIALS_PATH . "verify_session.php") ?>
         html: true
       })
     })
+  </script>
+  <script>
+    /* Ampliar menu */
+    $('#collapseParametrizar').show();
+    $('.general').css('color', '#ef8157');
+    $('#collapse-herramientas').slideUp();
+    $('#collapse-administrator').slideUp();
   </script>
 </body>
 

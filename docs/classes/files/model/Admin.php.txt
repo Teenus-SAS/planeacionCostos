@@ -3,7 +3,7 @@
  * Clase modelo de administrador
  * 
  * 
- * @author Alexis Holguin <wholginmor@uniminunto.edu.co>
+ * Teenus SAS
  * @github Teenus SAS
  * @package model 
  * 

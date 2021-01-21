@@ -54,11 +54,14 @@ $('#create-user').submit(function (e) {
       if (data.status) {
         $.notify({
           icon: "nc-icon nc-bell-55",
-          message: `Usuario <b>Creado</b>`
+          message: `Usuario <b>Creado</b> Correctamente`
         }, {
           type: 'success',
           timer: 8000
         })
+        $('#name-user').val('');
+        $('#email-user').val('');
+        $('#rol-user').val('');
         $tableUsers.api().ajax.reload()
         $.post('api/notify_admins.php', form.serialize(), (data, satus) => {
 

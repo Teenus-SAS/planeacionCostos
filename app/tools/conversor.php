@@ -117,6 +117,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
   <script>
     $('#sidebar-parametrizar-item').removeClass('active')
     $('#sidebar-conversor-item').addClass('active')
+    $('#collapse-herramientas').show();
   </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/6.2.1/math.min.js"></script>

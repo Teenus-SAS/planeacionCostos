@@ -4,7 +4,7 @@ $(document).ready(function(){
     $.get('/app/config-general/api/get_processes.php', (_processes, status, xhr) => {   
         $('#selectProcess').append(`<option selected disabled>Selecciona un proceso</option>`)
         processesJSON = _processes
-        console.log(processesJSON)
+        //console.log(processesJSON)
         _processes.forEach((process) => {
         $('#input-procesosA').append(`<option value="${process.id}">${process.name}</option>`)
         })

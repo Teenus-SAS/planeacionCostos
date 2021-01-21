@@ -95,7 +95,7 @@ class MaterialDao
     }
   }
 
-  
+
 
   /**
    * Crea un material en la base de datos
@@ -108,7 +108,7 @@ class MaterialDao
     $this->db->connect();
     $query = "INSERT INTO `materiales` (`id_materiales`, `empresas_id_empresa`, `referencia`, `descripcion`, `unidad`, `costo`) 
               VALUES (NULL, '" . $material->getIdCompany() . "', '" . $material->getReferencia() . "', '" . $material->getDescription() . "', '" . $material->getUnit() . "', '" . $material->getCost() . "') 
-              ON DUPLICATE KEY UPDATE `costo` = '" . $material->getCost() . "', `unidad` = '" . $material->getUnit() . "'";
+              ON DUPLICATE KEY UPDATE `referencia` = '" . $material->getReferencia() . "',`costo` = '" . $material->getCost() . "', `unidad` = '" . $material->getUnit() . "'";
     return $this->db->consult($query);
   }
 

@@ -12,11 +12,40 @@ $('#fileMachines').change(function () {
     if (errorsMachines.length == 0 && workbook.Sheets['Maquinas'] != undefined) {
       if (machines.length == 0) {
         $.alert({
-          title: 'Peligro',
+          title: 'Tezlik',
           content: 'Este Archivo Esta vacio',
         });
       } else {
-        $.confirm({
+        bootbox.confirm({
+          title: "Importar máquinas",
+          message: `Los datos han sido procesados y estan listos para ser cargados`,
+          buttons: {
+            confirm: {
+              label: '<i class="fa fa-check"></i> Continuar',
+              className: 'btn-success'
+            },
+            cancel: {
+              label: '<i class="fa fa-times"></i> Cancelar',
+              className: 'btn-info'
+            }
+          },
+          callback: function (result) {
+            if (result == true) {
+              uploadMachines(machines);
+            } else {
+              $.notify({
+                icon: "nc-icon nc-bell-55",
+                message: `Proceso cancelado`
+              }, {
+                type: 'info',
+                timer: 8000
+              })
+            }
+          }
+        })
+
+
+        /* $.confirm({
           title: 'Tezlik',
           content: 'Los datos han sido procesados y estan listo para ser cargados',
           type: 'green',
@@ -28,7 +57,7 @@ $('#fileMachines').change(function () {
               $.alert('Cancelado');
             }
           }
-        });
+        }); */
       }
       $('#form-maquinas')[0].reset()
       clearFile(fileInput)
@@ -67,7 +96,7 @@ function verifyErrorsMachines(jsonObj) {
     if (machine.Precio == undefined) {
       errors.push({ type: 'El precio no puede ser vacio', row: (machine.__rowNum__ + 1) })
     } else if (isNaN(parseFloat(machine.Precio))) {
-      errors.push({ type: 'El precio de la máquina debe ser Numérico', row: (machine.__rowNum__ + 1) })
+      errors.push({ type: 'El precio de la máquina debe ser numérico', row: (machine.__rowNum__ + 1) })
     }
     if (machine["Años"] == undefined) {
       errors.push({ type: 'Los años de depreciación no puede ser vacio', row: (machine.__rowNum__ + 1) })
@@ -134,7 +163,7 @@ function generateFileMachines() {
   var wb = XLSX.utils.book_new()
   // configuración de del libro
   wb.Props = {
-    Title: "Maquinas de Cotizador",
+    Title: "Maquinas",
     Subject: "Tezlik",
     Author: "Tezlik",
     CreatedDate: new Date()
@@ -161,12 +190,10 @@ function generateFileMachines() {
       var ws = XLSX.utils.json_to_sheet(ws_data)
       // asignacion de hojas de excel
       wb.Sheets["Maquinas"] = ws
-
       var wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'binary' })
-
       var wopts = { bookType: 'xlsx', bookSST: false, type: 'array' }
-
       var wbout = XLSX.write(wb, wopts)
+
       saveAs(new Blob([wbout], { type: "application/octet-stream" }), 'Maquinas.xlsx')
     }
     completeSpinner()

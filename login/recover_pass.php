@@ -4,7 +4,8 @@ require_once DAO_PATH . "UserDao.php";
 if (isset($_GET["id"]) && isset($_GET["token"])) {
   $userDao = new UserDao();
   $user = $userDao->findById($_GET["id"]);
-  if ($user->getTokenPass() == $_GET["token"]) { } else {
+  if ($user->getTokenPass() == $_GET["token"]) {
+  } else {
     header("Location: error_token.html");
   }
 } else {
@@ -45,41 +46,52 @@ if (isset($_GET["id"]) && isset($_GET["token"])) {
 <body>
   <div class="limiter">
     <div class="container-login100">
-      <div class="wrap-login100">
+      <div class="" style="width: 365px;">
         <div class="login100-form-title" style="background-image: url();">
           <span class="login100-form-title-1">
-            <img src="../upload/img/logo_tezlik.png" alt="">
+            <img src="../upload/img/logo_tezlik.png" width="50%" alt="tezlik">
+            <div>
+              <img src="../upload/img/cyber-security.png" width="20%" alt="tezlik">
+
+            </div>
           </span>
         </div>
 
-        <form class="login100-form validate-form" id="form-login">
+        <form class="  validate-form" id="form-login">
 
-          <div class="wrap-input100 validate-input m-b-18 m-l-15" data-validate="Contraseña es necesaria">
-            <span class="label-input100">Contraseña</span>
-            <input class="input100" type="password" id="pass" name="password" placeholder="Ingresa tu nueva contraseña">
+          <div class="validate-input m-b-18 m-l-15" data-validate="Contraseña es necesaria">
+            <span class="labeltz">Contraseña</span>
+            <input class="form-control input-correo" type="password" id="pass" name="password" data-toggle="password">
             <span class="focus-input100"></span>
           </div>
 
-          <div class="wrap-input100 validate-input m-b-18 m-l-15" data-validate="Repite tu contraseña">
-            <span class="label-input100">Repetir Contraseña</span>
-            <input class="input100" type="password" name="repeat_password" placeholder="Repite tu nueva contraseña">
+          <div class="labeltz validate-input m-b-18 m-l-15" data-validate="Repite tu contraseña">
+            <span class="">Repetir Contraseña</span>
+            <input class="form-control input-correo" type="password" name="repeat_password" data-toggle="password">
             <span class="focus-input100"></span>
           </div>
 
           <div class="container-login100-form-btn">
-            <button class="login100-form-btn">
-              Cambiar Contraseña
-            </button>
+            <button class="btn btn-info">Cambiar Contraseña</button>
           </div>
 
         </form>
+        <footer class="copyright">
+          ©2021 Teenus SAS, Todos los derechos reservados.
+        </footer>
       </div>
-      <div class="container-fluid img-teenus">
+      <div class="container-fluid">
         <img class="" src="../upload/img/logo-teenus.png" width="180" alt="logo teenus">
       </div>
     </div>
   </div>
-
+  <div class="alert alert-info container-fluid img-teenus" style="font-size: 14px;" role="alert">
+    <span><b>Contraseñas Seguras:</b></span>
+    <span><b>*</b> Usa al menos ocho caracteres</span>
+    <span><b>*</b> Usa un carácter en minúscula</span>
+    <span><b>*</b> Usa un carácter en mayúscula</span>
+    <span><b>*</b> Usa un número, símbolo o carácter de espacio en blanco</span>
+  </div>
 
   <script src="https://kit.fontawesome.com/58e9d196f8.js"></script>
 
@@ -92,6 +104,7 @@ if (isset($_GET["id"]) && isset($_GET["token"])) {
   <script src="/vendor/daterangepicker/daterangepicker.js"></script>
   <script src="/vendor/countdowntime/countdowntime.js"></script>
   <script src="/js/main.js"></script>
+  <script src="https://unpkg.com/bootstrap-show-password@1.2.1/dist/bootstrap-show-password.min.js"></script>
   <script>
     $('#form-login').submit(function(e) {
       e.preventDefault()

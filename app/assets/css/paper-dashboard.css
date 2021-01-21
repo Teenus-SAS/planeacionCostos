@@ -684,7 +684,7 @@ Copyright (c) 2015 Daniel Eden
 }
 
 .btn-danger:hover, .btn-danger:focus, .btn-danger:active, .btn-danger.active, .btn-danger:active:focus, .btn-danger:active:hover, .btn-danger.active:focus, .btn-danger.active:hover, .show>.btn-danger.dropdown-toggle, .show>.btn-danger.dropdown-toggle:focus, .show>.btn-danger.dropdown-toggle:hover {
-  background-color: #eb6532 !important;
+  background-color: #dc3545 !important;
   color: #FFFFFF !important;
   box-shadow: none !important;
 }

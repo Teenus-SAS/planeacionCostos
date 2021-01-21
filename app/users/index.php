@@ -20,9 +20,10 @@ include(PARTIALS_PATH . "verify_session.php") ?>
   <link rel="stylesheet" href="/vendor/dataTables/jquery.dataTables.min.css">
   <link rel="stylesheet" href="/vendor/dataTables/dataTables.bootstrap4.min.css">
   <!-- CSS Just for demo purpose, don't include it in your project -->
-  <link href="/app/assets/demo/demo.css" rel="stylesheet" />
+  <!-- <link href="/app/assets/demo/demo.css" rel="stylesheet" /> -->
   <link rel="stylesheet" href="/vendor/jquery-confirm/jquery-confirm.min.css">
   <link rel="stylesheet" href="/vendor/froala-editor/froala_editor.pkgd.min.css">
+  <link rel="stylesheet" href="/vendor/spinner/waitMe.min.css">
   <style>
     .tableFixHead thead th {
       position: sticky;
@@ -138,11 +139,16 @@ include(PARTIALS_PATH . "verify_session.php") ?>
   <script>
     $('#sidebar-parametrizar-item').removeClass('active')
     $('#sidebar-users-item').addClass('active')
+    $('#collapse-administrator').show();
+    $('#collapseParametrizar').slideUp();
+    $('#collapse-herramientas').slideUp();
+    
   </script>
   <script src="/vendor/jquery-confirm/jquery-confirm.min.js"></script>
   <script src="/vendor/dataTables/jquery.dataTables.min.js"></script>
   <script src="/vendor/dataTables/dataTables.bootstrap4.min.js"></script>
   <script src="/vendor/numberFormat/jquery.number.min.js"></script>
+  <script src="/vendor/spinner/waitMe.min.js"></script>
   <script src="/js/app/users.js"></script>
 </body>
 

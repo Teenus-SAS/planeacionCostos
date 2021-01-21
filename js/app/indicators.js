@@ -1,5 +1,5 @@
 /**
-* @author Alexis Holguin
+* Teenus SAS
 * @github Teenus SAS
 * 
 * Funcionalidad para crear graficos de indicadores

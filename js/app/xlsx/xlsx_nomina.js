@@ -1,5 +1,5 @@
 /**
-* @author Alexis Holguin
+* Teenus SAS
 * @github Teenus SAS
 * logica para trabajar con excel
 * importacion de datos 
@@ -66,7 +66,41 @@ function loadedFileRosters(reader, inputFileProducts) {
 
     // validacion de los productos
     if (errorsRosters.length == 0 && workbook.Sheets['Nominas'] != undefined) {
-      $.confirm({
+      bootbox.confirm({
+        title: "Importar nómina",
+        message: `Los datos han sido procesados y estan listos para ser cargados`,
+        buttons: {
+          confirm: {
+            label: '<i class="fa fa-check"></i> Continuar',
+            className: 'btn-success'
+          },
+          cancel: {
+            label: '<i class="fa fa-times"></i> Cancelar',
+            className: 'btn-info'
+          }
+        },
+        callback: function (result) {
+          if (result == true) {
+            rosters.forEach(roster => {
+              roster.Proceso = processesInRostersJSON.filter((process) => process.name.trim().toLowerCase() == roster.Proceso.trim().toLowerCase())[0].id
+            })
+            uploadRosters(rosters);
+            clearFile(inputFileProducts);
+          } else {
+            $.notify({
+              icon: "nc-icon nc-bell-55",
+              message: `Proceso cancelado`
+            }, {
+              type: 'info',
+              timer: 8000
+            });
+            clearFile(inputFileProducts);
+          }
+        }
+      })
+      
+      
+      /* $.confirm({
         title: 'Tezlik',
         type: 'green',
         content: 'Los datos han sido procesados y estan listo para ser cargados',
@@ -83,10 +117,10 @@ function loadedFileRosters(reader, inputFileProducts) {
             clearFile(inputFileProducts)
           }
         }
-      })
+      }) */
     } else {
       $.dialog({
-        title: 'Peligro',
+        title: 'Tezlik',
         type: 'red',
         icon: 'fas fa-warning',
         content: 'Este Archivo no cumple los formatos indicados <br>' + bugsToString(errorsRosters),

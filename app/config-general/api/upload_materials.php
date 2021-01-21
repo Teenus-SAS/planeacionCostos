@@ -30,15 +30,19 @@ if (isset($_SESSION["user"])) {
   $user = unserialize($_SESSION["user"]);
   $materialDao = new MaterialDao();
   $materialsJSON = json_decode($_POST["materials"]);
+
   $responses = [];
   foreach ($materialsJSON as $materialJSON) {
     $material = new Material();
-    $material->setCost($materialJSON->Costo);
-    $material->setDescription(trim($materialJSON->Descripcion));
     $material->setIdCompany($user->getCompany()->getId());
+    $material->setReferencia($materialJSON->Referencia);
+    $material->setDescription(trim($materialJSON->Descripcion));
     $material->setUnit($materialJSON->Unidad);
+    $material->setCost($materialJSON->Costo);
+    
     array_push($responses, $materialDao->save($material) > 0 ? true : false);
   }
+
   http_response_code(200);
   echo json_encode($responses);
 } else {

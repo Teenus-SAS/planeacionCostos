@@ -10,7 +10,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
   <title>
-  Tezlik
+    Tezlik
   </title>
 
   <!--     Fonts and icons     -->
@@ -39,9 +39,11 @@ include(PARTIALS_PATH . "verify_session.php") ?>
       <ul class="nav navbar-nav mr-auto">
       </ul>
       <ul class="nav navbar-nav ">
-        <li class="nav-item ">
-          <a class="nav-link nav-bar-item" href="/app/config-general">Iniciar</a>
-        </li>
+        <?php if ($user->getRolId() == 2) { ?>
+          <li class="nav-item ">
+            <a class="nav-link nav-bar-item" href="/app/config-general">Iniciar</a>
+          </li>
+        <?php } ?>
         <li class="nav-item">
           <a class="nav-link nav-bar-item" href="javascript:logout()">Cerrar Sesión</a>
         </li>

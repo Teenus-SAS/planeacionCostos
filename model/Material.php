@@ -2,7 +2,7 @@
 /**
  * Clase modelo de material
  * 
- * @author Alexis Holguin <wholguinmor@uniminuto.edu.co>
+ * Teenus SAS <info@teenus.com.co>
  * @package model
  * @github MoraHol
  */
@@ -23,7 +23,7 @@ class Material implements JsonSerializable
    */
   private $IdCompany;
    /**
-   * referencia de del material
+   * referencia del material
    *
    * @access private
    * @var integer
@@ -160,7 +160,7 @@ class Material implements JsonSerializable
    * Cambia el costo del material
    *
    * @access public
-   * @param double $cost nuevo consto del material
+   * @param double $cost nuevo costo del material
    * @return void
    */
   public function setCost($cost)
@@ -192,7 +192,7 @@ class Material implements JsonSerializable
   }
 
   /**
-   * Covierte a un objeto JSON esta clase
+   * Convierte a un objeto JSON esta clase
    *
    * @access public
    * @return mixed

@@ -4,7 +4,7 @@
  * Clase modelo de Empresa
  * 
  * 
- * @author Alexis Holguin <wholginmor@uniminunto.edu.co>
+ * Teenus SAS
  * @github Teenus SAS
  * @package model
  */

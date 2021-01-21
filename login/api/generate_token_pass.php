@@ -73,7 +73,7 @@ if (isset($_POST["username"])) {
 
     if (!$mail->send()) {
       http_response_code(500);
-      $response->message = "No se ha podido enviar el Mensaje Por Favor intentalo de nuevo";
+      $response->message = "No se ha podido enviar el mensaje. Intentalo de nuevo";
       $response->errorEmail = $mail->ErrorInfo;
     } else {
       http_response_code(200);
@@ -83,7 +83,7 @@ if (isset($_POST["username"])) {
   } else {
     $response->status = false;
     $response->typeError = "user";
-    $response->message = "El usuario no existe";
+    $response->message = "El email ingresado no existe. Intentalo nuevamente";
   }
 } else {
   http_response_code(400);

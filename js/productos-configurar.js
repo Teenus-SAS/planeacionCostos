@@ -1,3 +1,7 @@
+
+
+let tab;
+
 function loadingSpinner() {
   $('#spinnerAjax').removeClass('fade')
 }
@@ -12,7 +16,7 @@ var $tableProductoMateria = $('#tableProductoMateriaPrima').dataTable({
   "scrollY": "500px",
   "scrollCollapse": true,
   "paging": false,
-  
+
   language: {
     url: "/vendor/dataTables/Spanish.json"
   },
@@ -40,18 +44,19 @@ var $tableProductoMateria = $('#tableProductoMateriaPrima').dataTable({
     }
   }, {
     data: 'material.unit'
-  }
+  },
+  {
+    data: 'id',
+    render: function (data) {
+      return `<a href='#'><i data-prod-id=${data} data-toggle='tooltip' title="Editar" class='nc-icon nc-refresh-69 link-editar' style='color:rgb(255, 165, 0)'></i></a> <a href='#' style="margin-left: 1rem;"><i data-prod-id=${data} class='nc-icon nc-simple-remove link-borrar' data-toggle='tooltip' title='Eliminar' style='color:rgb(255, 0, 0)'></i></a>`;
+    }
+  },
   ]
 })
 $tableProductoMateria.width('100%')
-$tableProductoMateria.on('click', 'tr', function () {
+/* $tableProductoMateria.on('click', 'tr', function () {
   $(this).toggleClass('selected');
-})
-
-
-
-
-
+}) */
 
 
 //RESETEA OPCIONES DE GUARDAR EDITAR
@@ -67,12 +72,13 @@ $('#input-cantidad').attr('disabled', false)
 $('#input-materia').parent().parent().fadeIn()
 $('#input-cantidad').parent().parent().fadeIn()
 $('#input-unidad').parent().parent().fadeIn()
+
 $('#delete-producto').fadeOut(400, () => {
-
-
   $('#delete-materia-prima').fadeIn();
 });
+
 loadingSpinner()
+
 let $selectRef = $('<select id="inputRef" class="custom-select" name="ref"></select>')
 let $selectProduct = $('<select id="inputProducto" class="custom-select" name="producto">')
 // se agregan todos los productos en un input select
@@ -84,7 +90,7 @@ $.get('api/get_products.php?materials', (data, status, xhr) => {
   productsJSON = data
 
 
-  // se consulta los productos de esa empresa
+  // se consulta los productos de la empresa
   if (status == 'success') {
     data.forEach((product) => {
       $selectRef.append(`<option value="${product.id}">${product.ref}</option>`)
@@ -119,6 +125,7 @@ $.get('api/get_products.php?materials', (data, status, xhr) => {
 
     // cambio de material
     $('#input-materia').change(function () {
+      $('#form-product-btn').html('Guardar');
       let productSelected = data.filter(product => product.id == $('#inputProducto').val())[0]
       let materialSelected = materialsJSON.filter(material => material.id == $(this).val())[0]
       let materialInProduct
@@ -148,26 +155,40 @@ $.get('/app/config-general/api/get_materials.php', (_materials) => {
   })
 })
 
-
-
-
 $.validator.addMethod("rentabilidadInput", function (value) {
   return /^\s*-?[1-9]\d*(\.\d{1,2})?\s*$/.test(value) || value.trim() === '';
 }, "Máximo dos decimales");
 
 
-// formulario para adicionar o modificar valores de una nomina
+$(document).on('click', '.link-editar', function (ev) {
+  const selectedElement = ev.target;
+
+  materia_prima = $(this).parents("tr").find("td").eq(0).html();
+  cantidad = $(this).parents("tr").find("td").eq(1).html();
+  unidad = $(this).parents("tr").find("td").eq(2).html();
+
+  cantidad = parseInt(cantidad.replace('.', ''));
+
+  $(`#input-materia option:contains(${materia_prima})`).attr('selected', true);
+  $('#input-cantidad').val(cantidad);
+  $('#input-unidad').val(unidad);
+  $('#form-product-btn').html('Actualizar');
+
+});
+
+// formulario para adicionar o modificar materia prima de un producto
 
 $('#form-products').validate({
-  rules: {
+  /* rules: {
     rentabilidad: 'rentabilidadInput'
   },
   messages: {
     rentabilidad: "Máximo dos decimales"
-  },
+  }, */
   submitHandler: function (form) {
     let request = $(form).serialize()
     request += '&optionProductos=option2';
+
     $.post('api/add_modify_products.php', request, (_data, _status, xhr) => {
     })
       .always(function (xhr) {
@@ -175,7 +196,7 @@ $('#form-products').validate({
           case 200:
             $.notify({
               icon: "nc-icon nc-bell-55",
-              message: "El producto ha sido <b>Actualizado</b> Correctamente"
+              message: "Producto <b>Actualizado</b> Correctamente"
             }, {
               type: 'primary',
               timer: 8000
@@ -188,18 +209,18 @@ $('#form-products').validate({
           case 201:
             $.notify({
               icon: "nc-icon nc-bell-55",
-              message: "El producto ha sido <b>Creado</b> Correctamente"
+              message: "Producto <b>Creado</b> Correctamente"
             }, {
               type: 'success',
               timer: 8000
             })
-            $.notify({
+            /* $.notify({
               icon: "nc-icon nc-bell-55",
               message: "Ahora ah configurar el producto"
             }, {
               type: 'primary',
               timer: 8000
-            })
+            }) */
             $('#config-color').css("color", "orange")
             /* $tableProductos.api().ajax.reload() */
             $tableProductoMateria.api().ajax.reload()
@@ -222,7 +243,7 @@ $('#form-products').validate({
           case 400:
             $.notify({
               icon: "nc-icon nc-bell-55",
-              message: "Por favor <b>Completa</b> Todos los campos"
+              message: "<b>Completa</b> Todos los campos"
             }, {
               type: 'warning',
               timer: 8000
@@ -243,7 +264,7 @@ $('#form-products').validate({
           case 403:
             $.notify({
               icon: "nc-icon nc-bell-55",
-              message: "Ya no puede crear mas productos <br> Se ha alcanzado el limite de productos licenciados"
+              message: "No puede crear más productos <br> Se ha alcanzado el limite de productos licenciados"
             }, {
               type: 'danger',
               timer: 8000
@@ -251,69 +272,113 @@ $('#form-products').validate({
             break
         }
 
-        $('#inputRef').val('');
+        /* $('#inputRef').val('');
         $('#inputProducto').val('');
-        $('#inputRentabilidad').val('');
+        $('#inputRentabilidad').val(''); */
         /// RESETEA EL VALOR DEL FORM OPTION GUARDAR/EDITAR ///
-        resetFormOptions();
+        //resetFormOptions();
       })
   }
 });
 
 
+/* Desvincular materia prima del producto */
+
+$(document).on('click', '.link-borrar', function (e) {
+  e.preventDefault();
+  const selectedElement = e.target;
+
+  //if (selectedElement.classList.contains('link-borrar')) {
+  //deleteProduct(selectedElement.dataset.prodId);
+  element = $(this).parents("tr").find("td").eq(0).html();
+  eliminar_materiaprima_productos(selectedElement.dataset.prodId, element);
+
+});
+
+
 //borrado de materia prima
-$('#delete-materia-prima').click(() => {
-  let rows = $tableProductoMateria.api().rows('.selected').data()
-  let count = 0
-  let countAux = 0
-  if (rows.length > 0) {
-    loadingSpinner()
-    for (let index = 0; index < rows.length; index++) {
-      $.post('api/delete_raw_material.php', {
-        id: rows[index].id
-      }).always(function (xhr) {
-        countAux++
-        if (xhr.status == 200) {
-          count++
-        }
-        if (countAux == rows.length) {
-          $tableProductoMateria.api().ajax.reload()
+//$('#delete-materia-prima').click(() => {
+function eliminar_materiaprima_productos(element, materiaprima) {
+
+  producto = $('#inputProducto option:selected').html()
+
+  if (producto == undefined)
+    producto = '';
+
+  bootbox.confirm({
+    title: "Desvincular materias primas",
+    message: `¿Desea desvincular la materia prima <b>${materiaprima}</b> del producto <b>${producto}</b>?. Esta acción no se puede deshacer`,
+    buttons: {
+      confirm: {
+        label: '<i class="fa fa-check"></i> Si',
+        className: 'btn-danger'
+      },
+      cancel: {
+        label: '<i class="fa fa-times"></i> No',
+        className: 'btn-info'
+      }
+    },
+    callback: function (result) {
+      if (result == true) {
+        //let rows = $tableProductoMateria.api().rows('.selected').data()
+        //let count = 0
+        //let countAux = 0
+        //if (rows.length > 0) {
+        loadingSpinner()
+        // for (let index = 0; index < rows.length; index++) {
+        $.post('api/delete_raw_material.php', {
+          //id: rows[index].id
+          id: element
+        }).always(function (xhr) {
+          //countAux++
+          if (xhr.status == 200) {
+            // count++
+            //}
+            //if (countAux == rows.length) {
+            $tableProductoMateria.api().ajax.reload()
+
+            $.notify({
+              icon: "nc-icon nc-bell-55",
+              //message: `Se ${count > 1 ? 'han' : 'ha'} borrado ${count} ${count > 1 ? 'materias primas' : 'materia prima'}`
+              message: `Materia prima <b>desvinculada</b> del producto`
+            }, {
+              type: 'info',
+              timer: 8000
+            })
+
+          }
+          completeSpinner();
+        })
+        // }
+        /* } else {
           $.notify({
             icon: "nc-icon nc-bell-55",
-            message: `Se ${count > 1 ? 'han' : 'ha'} borrado ${count} ${count > 1 ? 'materias primas' : 'materia prima'}`
+            message: `Selecciona al menos <b>1</b> materia prima`
           }, {
-            type: 'info',
+            type: 'warning',
             timer: 8000
           })
-          completeSpinner()
-        }
-      })
+        } */
+        //})
+
+      }
     }
-  } else {
-    $.notify({
-      icon: "nc-icon nc-bell-55",
-      message: `Selecciona al menos <b>1</b> materia prima`
-    }, {
-      type: 'warning',
-      timer: 8000
-    })
-  }
-})
-
-
-
-
-
-
-
-
+  })
+}
 
 /// resetea opciones de guardar editar/////
 function resetFormOptions() {
   const formOption = document.getElementById('formOption');
-  if (formOption.value == 1) {
-    document.getElementById('form-product-btn').textContent = 'Guardar';
-    document.getElementById('prodId').value = '-1';
-    formOption.value = 0;
-  }
+  //if (formOption.value == 1) {
+  document.getElementById('form-product-btn').textContent = 'Guardar';
+  document.getElementById('prodId').value = '-1';
+  formOption.value = 0;
+  $('#input-materia').val('');
+  $('#input-cantidad').val('');
+  $('#input-unidad').val('');
+  /* document.getElementById('input-materia').textContent = '';
+  document.getElementById('input-cantidad').textContent = '';
+  document.getElementById('input-unidad').textContent = ''; */
+
+  // }
 }

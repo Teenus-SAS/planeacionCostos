@@ -7,22 +7,22 @@
 
 @font-face {
   font-family: Poppins-Regular;
-  src: url('/fonts/poppins/Poppins-Regular.ttf');
+  src: url("/fonts/poppins/Poppins-Regular.ttf");
 }
 
 @font-face {
   font-family: Poppins-Medium;
-  src: url('/fonts/poppins/Poppins-Medium.ttf');
+  src: url("/fonts/poppins/Poppins-Medium.ttf");
 }
 
 @font-face {
   font-family: Poppins-Bold;
-  src: url('/fonts/poppins/Poppins-Bold.ttf');
+  src: url("/fonts/poppins/Poppins-Bold.ttf");
 }
 
 @font-face {
   font-family: Poppins-SemiBold;
-  src: url('/fonts/poppins/Poppins-SemiBold.ttf');
+  src: url("/fonts/poppins/Poppins-SemiBold.ttf");
 }
 
 /*//////////////////////////////////////////////////////////////////
@@ -34,11 +34,11 @@
   box-sizing: border-box;
 }
 
-
-body, html {
+body,
+html {
   height: 100%;
   font-family: Poppins-Regular, sans-serif;
-  background: #ebeeef;
+  background: white;
 }
 
 @media (max-width: 400px) {
@@ -48,7 +48,7 @@ body, html {
   .img-teenus {
     position: initial;
   }
-  .img-teenus img{
+  .img-teenus img {
     width: 100px;
   }
   .container-login100 {
@@ -77,6 +77,42 @@ body, html {
   padding: 5px;
 }
 
+.titulo_pass {
+  font-size: 32px;
+  font-weight: 700;
+  color: #14223b;
+  text-align: center;
+}
+
+.input-correo{
+  border: 1px solid #cbd6e2;
+  background-color: #f5f8fa;
+}
+
+.label-pass{
+  font-size: 14px;
+  font-weight: 500;
+  color: #33475b;
+}
+
+.titulo-volver{
+  text-align: center;
+  margin: 10px;
+  font-size: small;
+}
+
+.labeltz{
+  font-size: 14px;
+  color: #14223b;
+}
+
+.copyright{
+  font-size: 14px;
+  text-align: center;
+  font-weight: 500;
+  margin-top: 50px;
+}
+
 @media (min-width: 600px) {
   .container-login100 {
     width: 100%;
@@ -90,7 +126,7 @@ body, html {
     justify-content: center;
     align-items: center;
     padding: 55px;
-    background: #ebeeef;
+    background: white;
   }
 }
 
@@ -126,7 +162,12 @@ a:hover {
 
 /*---------------------------------------------*/
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   margin: 0px;
 }
 
@@ -138,7 +179,8 @@ p {
   margin: 0px;
 }
 
-ul, li {
+ul,
+li {
   margin: 0px;
   list-style-type: none;
 }
@@ -156,7 +198,8 @@ input[type="number"] {
   -webkit-appearance: none;
 }
 
-input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin-button {
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
   -webkit-appearance: none;
 }
 
@@ -165,7 +208,8 @@ textarea {
   border: none;
 }
 
-textarea:focus, input:focus {
+textarea:focus,
+input:focus {
   border-color: transparent !important;
 }
 
@@ -404,11 +448,11 @@ input.input100 {
   height: 45px;
 }
 
-.input100:focus+.focus-input100::before {
+.input100:focus + .focus-input100::before {
   width: 100%;
 }
 
-.has-val.input100+.focus-input100::before {
+.has-val.input100 + .focus-input100::before {
   width: 100%;
 }
 
@@ -457,7 +501,7 @@ input.input100 {
   transform: translateY(-50%);
 }
 
-.input-checkbox100:checked+.label-checkbox100::before {
+.input-checkbox100:checked + .label-checkbox100::before {
   color: #185075;
 }
 

@@ -54,7 +54,7 @@ $('#fileProductsMaterials').change(function () {
   var inputFileProducts = this
   $(this).siblings('label').text(file.name)
   reader.onloadend = function () {
-    loadedFileProducts(reader, inputFileProducts)
+    loadedFileProductsMaterials(reader, inputFileProducts)
   }
   if (file) {
     reader.readAsArrayBuffer(file)
@@ -152,14 +152,14 @@ function loadedFileProductsMaterials(reader, inputFileProducts) {
 
     // cargado de datos en JSON
     //let products = XLSX.utils.sheet_to_json(workbook.Sheets['Productos'])
-    let rawMaterials = XLSX.utils.sheet_to_json(workbook.Sheets['Materia Prima'])
+    let rawMaterials = XLSX.utils.sheet_to_json(workbook.Sheets['Configuracion productos'])
     // cargado de errores del formato
     //let errorsProducts = verifyErrorsProducts(products)
     let errosRawMaterials = verifyErrorsRawMaterials(rawMaterials/* , products */)
 
 
     // validacion de los productos
-    if (/* errorsProducts.length == 0 && */ errosRawMaterials.length == 0 /* && workbook.Sheets['Productos'] != undefined  */ && workbook.Sheets['Materia Prima'] != undefined) {
+    if (/* errorsProducts.length == 0 && */ errosRawMaterials.length == 0 /* && workbook.Sheets['Productos'] != undefined  */ && workbook.Sheets['Configuracion productos'] != undefined) {
       $.confirm({
         title: 'Tezlik',
         type: 'green',
@@ -177,10 +177,10 @@ function loadedFileProductsMaterials(reader, inputFileProducts) {
       })
     } else {
       $.dialog({
-        title: 'Alerta',
+        title: 'Tezlik',
         type: 'red',
         icon: 'fas fa-warning',
-        content: 'Este Archivo no cumple los formatos indicados <br>' + bugsToString(errorsProducts) + bugsToString(errosRawMaterials),
+        content: 'Este archivo no cumple los formatos indicados <br>' + /* bugsToString(errorsProducts) + */ bugsToString(errosRawMaterials),
       });
       clearFile(inputFileProducts)
     }
@@ -198,13 +198,13 @@ function loadedFileProductsMaterials(reader, inputFileProducts) {
  * @param {*} jsonObj Este objeto contiene los materiales generados en el excel
  * @returns un arreglo de errores con tipo y fila del error
  */
-function verifyErrorsRawMaterials(jsonObj, jsonProductObj) {
+function verifyErrorsRawMaterials(jsonObj/* , jsonProductObj */) {
   let errors = []
   for (let index = 0; index < jsonObj.length; index++) {
     let rawMaterial = jsonObj[index]
     if (rawMaterial.Referencia != undefined) {
       if (productsJSON.filter((product) => product.ref == rawMaterial.Referencia)[0] == undefined
-        && jsonProductObj.filter((product) => product.Referencia == rawMaterial.Referencia)[0] == undefined) {
+        /* && jsonProductObj.filter((product) => product.Referencia == rawMaterial.Referencia)[0] == undefined */) {
         errors.push({ type: 'Este Producto no existe', row: (rawMaterial.__rowNum__ + 1) })
       }
     } else {
@@ -518,7 +518,8 @@ function generateFileProductsMaterials() {
     }
     // agregado de los nombres de las hojas del libro
     //wb.SheetNames.push('Productos')
-    wb.SheetNames.push('Productos vs Materia Prima')
+    //wb.SheetNames.push('Productos vs Materia Prima')
+    wb.SheetNames.push('Configuracion productos')
     // creacion de variables para cargar la información de los productos
     //let ws_data = []
     let ws_data_2 = []
@@ -548,7 +549,7 @@ function generateFileProductsMaterials() {
       var ws_2 = XLSX.utils.json_to_sheet(ws_data_2)
       // asignacion de hojas de excel
       //wb.Sheets["Productos"] = ws;
-      wb.Sheets["Materia Prima"] = ws_2;
+      wb.Sheets["Configuracion productos"] = ws_2;
 
       var wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'binary' })
       var wopts = { bookType: 'xlsx', bookSST: false, type: 'array' }

@@ -4,6 +4,8 @@
 logica de materia prima
 */
 
+let flag = false;
+
 document.querySelector('a[href$="materia_prima"]')
   .addEventListener('click', () => { resetFormMaterials(); elById('inlineRadio1').click(); });
 
@@ -77,6 +79,8 @@ $('input[name=optionMateriaPrima]').change(function () {
     elById('input-materia-prima').readOnly = false;
   }
 })
+
+/* Autocompletar el input de unidad de acuerdo con lo almacenado */
 $("#input-unidad").autocomplete({
   source: function (request, response) {
     $.get('api/get_unidades.php', (data, status) => {
@@ -85,9 +89,9 @@ $("#input-unidad").autocomplete({
   }
 })
 
-// inicializacion de datatable
+// inicializacion de datatable Materia prima
 var $tableMateriaPrima = $('#table-materia-prima').dataTable({
-  "scrollY": "500px",
+  "scrollY": "300px",
   "scrollCollapse": true,
   "paging": false,
 
@@ -131,6 +135,7 @@ $('#input-costo').number(true, 2)
 
 $('#form-materia-prima').submit(function (e) {
   e.preventDefault()
+
   if (materialsMateriaPrima != undefined) {
     let m = $('#input-materia-prima').val()
     let materialSel = materialsMateriaPrima.filter(material => material.description.trim().toLowerCase() == m.trim().toLowerCase())[0];
@@ -186,6 +191,7 @@ $('#form-materia-prima').submit(function (e) {
   }
 
 })
+
 function submitFormMaterials(updated = false, repeated = false) {
   elById('material-description').value = elById('input-materia-prima').value.trim();
 
@@ -204,45 +210,48 @@ function submitFormMaterials(updated = false, repeated = false) {
         case 200:
           $.notify({
             icon: "nc-icon nc-bell-55",
-            message: "La materia prima ha sido <b>Actualizada</b> Correctamente"
+            message: "Materia prima <b>Actualizada</b> Correctamente"
           }, {
             type: 'primary',
             timer: 8000
           })
           $tableMateriaPrima.api().ajax.reload()
           $('.cost').parent().addClass('text-right')
+          flag = true;
           break
         case 201:
           if (updated) {
             $.notify({
               icon: "nc-icon nc-bell-55",
-              message: "La materia prima ha sido <b>Actualizado</b> Correctamente"
+              message: "Materia prima <b>Actualizada</b> Correctamente"
             }, {
               type: 'primary',
               timer: 8000
             })
+            flag = true;
           } else {
             $.notify({
               icon: "nc-icon nc-bell-55",
-              message: "La materia prima ha sido <b>Creado</b> Correctamente"
+              message: "Materia prima <b>Creada</b> Correctamente"
             }, {
               type: 'success',
               timer: 8000
             })
+            flag = true;
           }
 
           $tableMateriaPrima.api().ajax.reload()
           $('#form-materia-prima')[0].reset()
           break
-        case 412:
-          $.notify({
-            icon: "nc-icon nc-bell-55",
-            message: "<b>Selecciona</b> una opción para <b>adicionar</b> o <b>modificar</b>"
-          }, {
-            type: 'warning',
-            timer: 8000
-          })
-          break
+        /*  case 412:
+           $.notify({
+             icon: "nc-icon nc-bell-55",
+             message: "<b>Selecciona</b> una opción para <b>adicionar</b> o <b>modificar</b>"
+           }, {
+             type: 'warning',
+             timer: 8000
+           })
+           break */
         case 400:
           $.notify({
             icon: "nc-icon nc-bell-55",
@@ -255,7 +264,7 @@ function submitFormMaterials(updated = false, repeated = false) {
         case 500:
           $.notify({
             icon: "nc-icon nc-bell-55",
-            message: "Ha ocurrido un error mientras se creaba el material"
+            message: "Ocurrió un error mientras se creaba la Materia prima"
           }, {
             type: 'danger',
             timer: 8000
@@ -274,14 +283,17 @@ function submitFormMaterials(updated = false, repeated = false) {
           })
           break
       }
-      resetFormMaterials();
-      elById('inlineRadio1').click();
+      if (flag == true) {
+        resetFormMaterials();
+        elById('inlineRadio1').click();
+      }
     })
 }
 
 $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
   e.target // newly activated tab
   e.relatedTarget // previous active tab
+  $tableProductos.api().ajax.reload()
   $tableMateriaPrima.api().ajax.reload()
   $tableNominas.api().ajax.reload()
   $tableProcesos.api().ajax.reload()
@@ -304,14 +316,12 @@ document.getElementById('table-materia-prima').addEventListener('click', (ev) =>
   else if (target.classList.contains('link-editar')) {
 
     const closestTr = target.closest('tr');
-
     const referencia = closestTr.cells[0].textContent.trim();
     const description = closestTr.cells[1].textContent.trim();
     const unidad = closestTr.cells[2].textContent.trim();
     const costo = closestTr.cells[3].textContent.replace('$', '').trim();
 
     elById('material-firstname').value = description;
-
     elById('ref-materia-prima').value = referencia;
     elById('input-materia-prima').value = description;
     elById('input-unidad').value = unidad;
@@ -325,32 +335,51 @@ document.getElementById('table-materia-prima').addEventListener('click', (ev) =>
 });
 
 
-/// elimina material por id ///
+/*  Elimina la materia prima por id  */
+
 function deleteMaterial(id, description) {
 
-  $.post('api/delete_material.php', {
-    id: id
-  }).always(function (xhr) {
-    if (xhr.status == 200) {
-      $tableMateriaPrima.api().ajax.reload()
-      $.notify({
-        icon: "nc-icon nc-bell-55",
-        message: `Se ha eliminado la materia prima seleccionada`
-      }, {
-        type: 'info',
-        timer: 8000
-      })
-    } else {
-      $.notify({
-        icon: "nc-icon nc-bell-55",
-        message: `la materia prima <b>${description}</b> esta asociado a uno o más productos`
-      }, {
-        type: 'danger',
-        timer: 8000
-      })
+  bootbox.confirm({
+    title: "Eliminar Materia Prima",
+    message: `${document.getElementById('inputRef').value} ¿Está seguro de eliminar esta Materia Prima?.  Esta acción no se puede deshacer`,
+    buttons: {
+      confirm: {
+        label: '<i class="fa fa-check"></i> Si',
+        className: 'btn-danger'
+      },
+      cancel: {
+        label: '<i class="fa fa-times"></i> No',
+        className: 'btn-secondary'
+      }
+    },
+    callback: function (result) {
+      if (result == true) {
+
+        $.post('api/delete_material.php', {
+          id: id
+        }).always(function (xhr) {
+          if (xhr.status == 200) {
+            $tableMateriaPrima.api().ajax.reload()
+            $.notify({
+              icon: "nc-icon nc-bell-55",
+              message: `Materia prima <b>eliminada<b> Correctamente`
+            }, {
+              type: 'info',
+              timer: 8000
+            })
+          } else {
+            $.notify({
+              icon: "nc-icon nc-bell-55",
+              message: `No se puedes eliminar la Materia prima referencia <b>${description}</b>. Esta asociada a uno o más productos`
+            }, {
+              type: 'danger',
+              timer: 8000
+            })
+          }
+        })
+      }
     }
   })
-
 }
 
 

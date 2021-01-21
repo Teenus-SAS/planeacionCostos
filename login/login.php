@@ -35,74 +35,80 @@ if (!isset($_SESSION)) {
       font-size: 16px;
       font-family: Poppins-Regular, sans-serif;
       color: #808080;
-      
+
     }
+
     .login,
-      .image {
-           min-height: 100vh;
+    .image {
+      min-height: 100vh;
     }
 
     .bg-image {
-        /**background-image: url('https://res.cloudinary.com/mhmd/image/upload/v1555917661/art-colorful-contemporary-2047905_dxtao7.jpg');**/
-        background-image: url('../upload/img/consulting_teenus.jpg');
-        background-size: cover;
-        background-position: center center;
+      /**background-image: url('https://res.cloudinary.com/mhmd/image/upload/v1555917661/art-colorful-contemporary-2047905_dxtao7.jpg');**/
+      background-image: url('../upload/img/consulting_teenus.jpg');
+      background-size: cover;
+      background-position: center center;
     }
   </style>
 </head>
 
 <body>
-<div class="container-fluid">
-            <div class="row no-gutter">
-                <!-- The image half -->
-                <div class="col-md-6 d-none d-md-flex bg-image"></div>
-                <!-- The content half -->
-                <div class="col-md-6" style="background:white;">
-                    <div class="login d-flex align-items-center py-5">
-        
-                        <!-- Demo content-->
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-lg-10 col-xl-7 mx-auto">
-                                <div class="login100-form-title mb-3" style="background-image: url();">
-                                    <span class="login100-form-title-1 ">
-                                      <img src="../upload/img/logo_tezlik.png" alt="logo tezlik" style="width:70%">
-                                    </span>
-                                    </div>
-                                    <form id="form-login">
-                                        <div class="form-group mb-3">
-                                          <span class="label-input100"></span>
-                                          <input class="input100" type="text" id="username-input" name="username" placeholder="Usuario" style="background: ghostwhite;" value="<?= isset($_COOKIE["username_remember_me"]) ? $_COOKIE["username_remember_me"] : "" ?>">
-                                          <span class="focus-input100"></span>
-                                        </div>
-                                        <div class="form-group mb-3">
-                                          <span class="label-input100"></span>
-                                          <input class="input100" type="password" id="pass" name="password" placeholder="Contraseña" style="background: ghostwhite;">
-                                        <span class="focus-input100"></span>
-                                        </div>
-                                        <div class="custom-control custom-checkbox mb-3">
-                                            <input id="ckb1" type="checkbox" checked class="custom-control-input">
-                                            <label for="ckb1" class="custom-control-label" style="font-size: 13px; font-family: 'Poppins-Regular';">Recordarme</label>
-                                        </div>
-                                        <button type="submit" class="btn btn-primary btn-block text-uppercase mb-2 rounded-pill shadow-sm">Ingresar</button>
-                                        <div class="text-center d-flex justify-content-between mt-4"> <a href="remember_pass.php" id="text-recover-pass" class="txt1 pull-right">
-                                          ¿Olvidaste tu usuario o contraseña?
-                                        </a> </div>
-                                        
-                                        <div id="alert">
+  <div class="container-fluid">
+    <div class="row no-gutter">
+      <!-- The image half -->
+      <div class="col-md-6 d-none d-md-flex bg-image"></div>
+      <!-- The content half -->
+      <div class="col-md-6" style="background:white;">
+        <div class="login d-flex align-items-center py-5">
 
-                                        </div>
-                                        <div class="mt-5">
-                                        <p style="text-align: center;">Un producto de <strong>Teenus SAS</strong></p>    
-                                    </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div><!-- End -->
-                    </div>
-                </div><!-- End -->
+          <!-- Demo content-->
+          <div class="container">
+            <div class="row">
+              <div class="col-lg-10 col-xl-7 mx-auto">
+                <div class="login100-form-title mb-5" style="background-image: url();">
+                  <span class="login100-form-title-1 ">
+                    <img src="../upload/img/logo_tezlik.png" alt="logo tezlik" style="width:60%">
+                  </span>
+                </div>
+                <form id="form-login">
+                  <div class="form-group mb-3">
+                    <span class="label-input100"></span>
+                    <label for="" style="font-size:14px">Usuario:</label>
+                    <input class="form-control input-correo" type="text" id="username-input" name="username" value="<?= isset($_COOKIE["username_remember_me"]) ? $_COOKIE["username_remember_me"] : "" ?>">
+                    <span class="focus-input100"></span>
+                  </div>
+                  <div class="form-group mb-3">
+                    <span class="label-input100"></span>
+                    <label for="" style="font-size:14px">Contraseña:</label>
+                    <input class="form-control input-correo" type="password" id="pass" name="password">
+                    <span class="focus-input100"></span>
+                  </div>
+                  <div class="custom-control custom-checkbox mb-3">
+                    <input id="ckb1" type="checkbox" checked class="custom-control-input">
+                    <label for="ckb1" class="custom-control-label" style="font-size: 13px; font-family: 'Poppins-Regular';">Recordarme</label>
+                  </div>
+                  <button type="submit" class="btn btn-info btn-block text-uppercase mb-2 shadow-sm">Ingresar</button>
+                  <div class="text-center d-flex justify-content-between mt-4">
+                    <a href="remember_pass.php" id="text-recover-pass" class="txt1 pull-right" style="text-align: center;">
+                    <!-- <a data-toggle="modal" data-target="#exampleModal" id="text-recover-pass" class="txt1 pull-right">-->
+                      ¿Olvidé mi usuario o contraseña?
+                    </a> 
+                  </div>
+
+                  <div id="alert">
+
+                  </div>
+                  <div class="mt-5">
+                    <p style="text-align: center;">Un producto de <strong>Teenus SAS</strong></p>
+                  </div>
+                </form>
+              </div>
             </div>
+          </div><!-- End -->
         </div>
+      </div><!-- End -->
+    </div>
+  </div>
   <script src="/vendor/jquery/jquery-3.2.1.min.js"></script>
   <script src="/vendor/animsition/js/animsition.min.js"></script>
   <script src="/vendor/bootstrap/js/popper.js"></script>
@@ -111,23 +117,23 @@ if (!isset($_SESSION)) {
   <script src="/vendor/daterangepicker/moment.min.js"></script>
   <script src="/vendor/daterangepicker/daterangepicker.js"></script>
   <script src="/vendor/countdowntime/countdowntime.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" ></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
   <script src="/js/main.js"></script>
   <script>
+    if (localStorage.getItem('usersLogins')) {
+      const storedUsers = JSON.parse(localStorage.getItem('usersLogins'));
 
-if(localStorage.getItem('usersLogins')) {
-  const storedUsers = JSON.parse(localStorage.getItem('usersLogins'));
-    
-    const lastLoggedUser = storedUsers[storedUsers.length - 1];
+      const lastLoggedUser = storedUsers[storedUsers.length - 1];
 
-    $.ajax({
-      url: '/partials/DeactivateUser.php',
-      type: 'POST',
-      data: { lastUser: lastLoggedUser },
-      success: function(data, status) {
-      }
-    });
-}
+      $.ajax({
+        url: '/partials/DeactivateUser.php',
+        type: 'POST',
+        data: {
+          lastUser: lastLoggedUser
+        },
+        success: function(data, status) {}
+      });
+    }
 
 
 
@@ -153,15 +159,15 @@ if(localStorage.getItem('usersLogins')) {
               if (data.typeError == 'user') {
                 $('#username-input').parent().attr('data-validate', data.message)
                 //showValidate($('#username-input'))
-               toastr.error(data.message, 'Error de login',{
-                 "progressBar":true
-                
-               })
+                toastr.error(data.message, 'Error de login', {
+                  "progressBar": true
+
+                })
               } else if (data.typeError == 'password') {
                 $('#pass').parent().attr('data-validate', data.message)
                 //showValidate($('#pass'))
-                toastr.error(data.message, 'Error de login',{
-                  "progressBar":true
+                toastr.error(data.message, 'Error de login', {
+                  "progressBar": true
                 })
               } else {
                 $('#alert').html(`<div class="alert alert-danger alert-dismissible fade show" role="alert" style="display:none" id="alert-user-active">

@@ -10,7 +10,37 @@ $('#fileRawMaterial').change(function () {
     let materials = XLSX.utils.sheet_to_json(workSheet)
     let errors = verifyErrorsRawMaterials(materials)
     if (errors.length == 0 && workSheet != undefined) {
-      $.confirm({
+      bootbox.confirm({
+        title: "Importar máquinas",
+        message: `Los datos han sido procesados y estan listos para ser cargados`,
+        buttons: {
+          confirm: {
+            label: '<i class="fa fa-check"></i> Continuar',
+            className: 'btn-success'
+          },
+          cancel: {
+            label: '<i class="fa fa-times"></i> Cancelar',
+            className: 'btn-info'
+          }
+        },
+        callback: function (result) {
+          if (result == true) {
+            uploadMaterials(materials);
+            clearFile(fileInput);
+          } else {
+            $.notify({
+              icon: "nc-icon nc-bell-55",
+              message: `Proceso cancelado`
+            }, {
+              type: 'info',
+              timer: 8000
+            })
+            clearFile(fileInput);
+          }
+        }
+      })
+
+      /* $.confirm({
         title: 'Tezlik',
         content: 'Los datos han sido procesados y estan listo para ser cargados',
         type: 'green',
@@ -24,12 +54,12 @@ $('#fileRawMaterial').change(function () {
             clearFile(fileInput)
           }
         }
-      })
+      }) */
       clearFormMaterials()
       $('#form-materia-prima')[0].reset()
     } else {
       $.alert({
-        title: 'Peligro',
+        title: 'Tezlik',
         content: 'Este Archivo no cumple los formatos indicados <br>' + bugsToString(errors),
         type: 'red',
       })
@@ -92,7 +122,7 @@ function uploadMaterials(materials) {
       }
       $.notify({
         icon: "nc-icon nc-bell-55",
-        message: `Se han cargado ${countSuccess} materiales`
+        message: `Se han cargado ${countSuccess} materias primas`
       }, {
         type: 'success',
         timer: 8000
@@ -110,7 +140,7 @@ function generateFileRawMaterials() {
   var wb = XLSX.utils.book_new()
   // configuración de del libro
   wb.Props = {
-    Title: "Materia Prima de Cotizador",
+    Title: "Materia Prima",
     Subject: "Tezlik",
     Author: "Tezlik",
     CreatedDate: new Date()
@@ -123,6 +153,7 @@ function generateFileRawMaterials() {
     // cargado de de productos con referencias
     data.forEach((material) => {
       ws_data.push({
+        Referencia: material.referencia,
         "Materia Prima": material.description,
         Unidad: material.unit,
         Costo: material.cost
@@ -136,12 +167,10 @@ function generateFileRawMaterials() {
       var ws = XLSX.utils.json_to_sheet(ws_data)
       // asignacion de hojas de excel
       wb.Sheets["Materiales"] = ws
-
       var wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'binary' })
-
       var wopts = { bookType: 'xlsx', bookSST: false, type: 'array' }
-
       var wbout = XLSX.write(wb, wopts)
+
       saveAs(new Blob([wbout], { type: "application/octet-stream" }), 'Materia Prima.xlsx')
     }
 

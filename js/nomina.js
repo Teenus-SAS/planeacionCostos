@@ -1,20 +1,23 @@
 
 /**
-* @author Alexis Holguin
+* Teenus SAS
 * @github Teenus SAS
 * logica de máquinas
 */
 
-elById('inlineRadioNom1').click();
-document.querySelector('a[href$="maquinas"]').addEventListener('click', () => { resetFormMaquinas(); elById('inlineRadio1M').click(); });
+elById('inlineRadio1M').click();
+document.querySelector('a[href$="nomina-nav"]').addEventListener('click', () => { resetFieldsRoster(); elById('inlineRadio1M').click(); });
 
 // cargado de procesos de la base de datos
-$.get('api/get_processes.php', (processes, status) => {
-  processes.forEach((process) => {
-    $('#select-proceso').append(`<option value="${process.id}">${process.name}</option>`)
+recargar_select();
+function recargar_select() {
+  $('#select-proceso').empty();
+  $.get('api/get_processes.php', (processes, status) => {
+    processes.forEach((process) => {
+      $('#select-proceso').append(`<option value="${process.id}">${process.name}</option>`)
+    })
   })
-})
-
+}
 // cambio a formato numero
 $('#input-bonificacion').number(true, 2)
 $('#input-salario').number(true, 2)
@@ -104,16 +107,16 @@ function loadModalSalary(quantity) {
 
     for (let index = 0; index < quantity; index++) {
       $('#form-salary-employees').append(`
-      <div class="row">
-      <div class="form-group col-md-3 col-6">
-    <label for="recipient-name" >Salario trabajador ${index + 1}:</label>
-    <div class="input-group">
-    <div class="input-group-prepend">
-    <span class="input-group-text">$</span>
-    </div>
-    <input type="text" class="form-control money-salary" required value="0"> 
-    <div class="input-group-append">
-    <div class="input-group-text">
+        <div class="row">
+          <div class="form-group col-md-3 col-6">
+            <label for="recipient-name" >Salario trabajador ${index + 1}:</label>
+            <div class="input-group">
+            <div class="input-group-prepend">
+            <span class="input-group-text">$</span>
+          </div>
+        <input type="text" class="form-control money-salary" required value="0"> 
+        <div class="input-group-append">
+        <div class="input-group-text">
       <input type="checkbox" title="Sumar subsidio de transporte" class="transport-option">
     </div>
     </div>
@@ -286,7 +289,7 @@ $('input[name=optionFactorPrestacional]').change(function () {
       } else {
         $.notify({
           icon: "nc-icon nc-bell-55",
-          message: "Por favor registra una cantidad de empleados para este cargo"
+          message: "Registra una cantidad de empleados para este cargo"
         }, {
           type: 'warning',
           timer: 8000
@@ -361,14 +364,61 @@ var $tableNominas = $('#tableNominas').dataTable({
         return `<a href='#'><i data-nomina-id=${data.id} data-toggle='tooltip' title="Editar" class='nc-icon nc-refresh-69 link-editar' style='color:rgb(255, 165, 0)'></i></a><a href='#' style="margin-left: 1rem;"><i data-nomina-id=${data.id} class='nc-icon nc-simple-remove link-borrar' data-toggle='tooltip' title='Eliminar' style='color:rgb(255, 0, 0)'></i></a>`;
       }
     }
-  ]
+  ],
+
+  "footerCallback": function (row, data, start, end, display) {
+    var api = this.api(), data;
+
+    // Remove the formatting to get integer data for summation
+    var intVal = function (i) {
+      return typeof i === 'string' ?
+        i.replace(/[\$,]/g, '') * 1 :
+        typeof i === 'number' ?
+          i : 0;
+    };
+
+    // Total over all pages
+    total = api
+      .column(4)
+      .data()
+      .reduce(function (a, b) {
+        return intVal(a) + intVal(b);
+      }, 0);
+
+    // Total over this page
+    pageTotal = api
+      .column(4, { page: 'current' })
+      .data()
+      .reduce(function (a, b) {
+        return intVal(a) + intVal(b);
+      }, 0);
+
+    // Update footer
+    $(api.column(4).footer()).html(
+      //'$ '+pageTotal,
+
+      `$ ${$.number(pageTotal, 2, '.', ',')}`
+
+
+    );
+  }
+
+
 })
 $tableNominas.width('100%')
 /* $tableNominas.on('click', 'tr', function () {
   $(this).toggleClass('selected');
 }) */
 
+/* Borrar seleccion de tipos de contrato si se ha seleccionado manualmente */
 
+/* $('#checkboxCalculadoManualFP').click(function (e) {
+  e.preventDefault();
+  $('#inlineRadioTipoContrato1').prop("checked", false);
+  $('#inlineRadioTipoContrato2').prop("checked", false);
+  $('.checkboxCalculadoManualFP').prop("checked", true);
+
+}); */
 
 $('#form-nomina').validate({
   rules: {
@@ -400,9 +450,9 @@ $('#form-nomina').validate({
     salario: '',
     horasTrabajo: {
       required: 'Ingrese las horas de trabajo',
-      min: 'El número de horas minimo es 1',
-      max: 'El número de horas maximo es de 18',
-      decimalInput: 'máximo dos decimales'
+      min: 'El número mínimo de horas es uno (1)',
+      max: 'El número máximo de horas es 18',
+      //decimalInput: 'máximo dos decimales'
     },
     diasMes: {
       required: 'Ingrese los días de trabajo',
@@ -412,7 +462,7 @@ $('#form-nomina').validate({
     optionFactorPrestacional: '',
     factorPrestacional: {
       required: 'Ingrese el factor prestacional',
-      decimalInput: 'máximo dos decimales'
+      //decimalInput: 'máximo dos decimales'
     }
   },
   submitHandler: function (form) {
@@ -424,7 +474,7 @@ $('#form-nomina').validate({
           case 200:
             $.notify({
               icon: "nc-icon nc-bell-55",
-              message: "La Nomina ha sido <b>Actualizada</b> Correctamente"
+              message: "Nómina <b>Actualizada</b> Correctamente"
             }, {
               type: 'primary',
               timer: 8000
@@ -441,7 +491,7 @@ $('#form-nomina').validate({
           case 201:
             $.notify({
               icon: "nc-icon nc-bell-55",
-              message: "La Nomina ha sido <b>Creada</b> Correctamente"
+              message: "Nómina <b>Creada</b> Correctamente"
             }, {
               type: 'success',
               timer: 8000
@@ -461,7 +511,7 @@ $('#form-nomina').validate({
           case 400:
             $.notify({
               icon: "nc-icon nc-bell-55",
-              message: "Por favor <b>Completa</b> Todos los campos"
+              message: "<b>Completa</b> Todos los campos"
             }, {
               type: 'warning',
               timer: 8000
@@ -470,7 +520,7 @@ $('#form-nomina').validate({
           case 500:
             $.notify({
               icon: "nc-icon nc-bell-55",
-              message: "No se puede Asignar dos nominas al mismo proceso"
+              message: "No se puede <b>Asignar</b> dos cargos de nómina al mismo proceso"
             }, {
               type: 'danger',
               timer: 8000
@@ -520,7 +570,7 @@ $('#delete-nomina').click(() => {
   } else {
     $.notify({
       icon: "nc-icon nc-bell-55",
-      message: `Selecciona al menos <b>1</b> nomina`
+      message: `Selecciona mínimo<b>un registro</b> de la nómina`
     }, {
       type: 'warning',
       timer: 8000
@@ -530,46 +580,67 @@ $('#delete-nomina').click(() => {
 
 function deleteNomina(id) {
 
-  /*   let rows = $tableNominas.api().rows('.selected').data()
-    let count = 0, countAux = 0
-    if (rows.length > 0) {
-      for (let index = 0; index < rows.length; index++) { */
-  $.post('api/delete_roster.php', {
-    id: id
-  }).always(function (xhr) {
-    /*   countAux++ */
-    if (xhr.status == 200) {
-      /*   count++ */
-      $tableNominas.api().ajax.reload()
-      $.notify({
-        icon: "nc-icon nc-bell-55",
-        message: `Se ha eliminado una nomina`
-      }, {
-        type: 'info',
-        timer: 8000
-      })
+  bootbox.confirm({
+    title: "Eliminar registros nómina",
+    message: `¿Está seguro de eliminar este registro?.  Esta acción no se puede deshacer`,
+    buttons: {
+      confirm: {
+        label: '<i class="fa fa-check"></i> Si',
+        className: 'btn-danger'
+      },
+      cancel: {
+        label: '<i class="fa fa-times"></i> No',
+        className: 'btn-info'
+      }
+    },
+    callback: function (result) {
+      if (result == true) {
+        /*   let rows = $tableNominas.api().rows('.selected').data()
+         let count = 0, countAux = 0
+         if (rows.length > 0) {
+           for (let index = 0; index < rows.length; index++) { */
+
+        $.post('api/delete_roster.php', {
+          id: id
+        }).always(function (xhr) {
+          /*   countAux++ */
+          if (xhr.status == 200) {
+            /*   count++ */
+            $tableNominas.api().ajax.reload()
+            $.notify({
+              icon: "nc-icon nc-bell-55",
+              message: `Registro de nómina <b>eliminado</b> correctamente`
+            }, {
+              type: 'info',
+              timer: 8000
+            })
+          }
+          /*         if (countAux == rows.length) {
+                    $tableNominas.api().ajax.reload()
+                    $.notify({
+                      icon: "nc-icon nc-bell-55",
+                      message: `Se ${count > 1 ? 'han' : 'ha'} borrado ${count} ${count > 1 ? 'nominas' : 'nomina'}`
+                    }, {
+                      type: 'info',
+                      timer: 8000
+                    })
+                  } */
+        })
+        /*   } */
+        /*   } else {
+            $.notify({
+              icon: "nc-icon nc-bell-55",
+              message: `Selecciona al menos <b>1</b> nomina`
+            }, {
+              type: 'warning',
+              timer: 8000
+            })
+          } */
+
+
+      }
     }
-    /*         if (countAux == rows.length) {
-              $tableNominas.api().ajax.reload()
-              $.notify({
-                icon: "nc-icon nc-bell-55",
-                message: `Se ${count > 1 ? 'han' : 'ha'} borrado ${count} ${count > 1 ? 'nominas' : 'nomina'}`
-              }, {
-                type: 'info',
-                timer: 8000
-              })
-            } */
   })
-  /*   } */
-  /*   } else {
-      $.notify({
-        icon: "nc-icon nc-bell-55",
-        message: `Selecciona al menos <b>1</b> nomina`
-      }, {
-        type: 'warning',
-        timer: 8000
-      })
-    } */
 }
 
 function clearFieldsRoster() {
