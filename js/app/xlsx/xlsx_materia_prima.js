@@ -11,7 +11,7 @@ $('#fileRawMaterial').change(function () {
     let errors = verifyErrorsRawMaterials(materials)
     if (errors.length == 0 && workSheet != undefined) {
       bootbox.confirm({
-        title: "Importar máquinas",
+        title: "Importar Materia prima",
         message: `Los datos han sido procesados y estan listos para ser cargados`,
         buttons: {
           confirm: {
