@@ -474,7 +474,8 @@ function generateFileProducts() {
       }) */
     })
     if (ws_data.length <= 0) {
-      saveAs('/formatos/formato-productos.xlsx', 'formato-productos.xlsx')
+      /* saveAs('/formatos/formato-productos.xlsx', 'formato-productos.xlsx') */
+      saveAs('/formatos/Productos vs Materia prima.xlsx', 'Productos vs Materia prima.xlsx')
     } else {
       // parseo de objetos a las hojas de excel
       var ws = XLSX.utils.json_to_sheet(ws_data)

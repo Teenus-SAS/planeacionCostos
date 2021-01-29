@@ -474,7 +474,8 @@ function generateFileProducts() {
       }) */
     })
     if (ws_data.length <= 0) {
-      saveAs('/formatos/formato-productos.xlsx', 'formato-productos.xlsx')
+      /* saveAs('/formatos/formato-productos.xlsx', 'formato-productos.xlsx') */
+      saveAs('/formatos/Productos.xlsx', 'Productos.xlsx')
     } else {
       // parseo de objetos a las hojas de excel
       var ws = XLSX.utils.json_to_sheet(ws_data)
@@ -497,7 +498,7 @@ function generateFileProducts() {
  * Genera un archivo excel con todos los datos de productos y sus materias primas
  */
 
-$('#download-products-materials').click(function (e) {
+$('#  ').click(function (e) {
   e.preventDefault();
   generateFileProductsMaterials()
 });
