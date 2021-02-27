@@ -14,11 +14,11 @@ $.validator.addMethod("decimalInput", function (value) {
     rules: {
       'SalesCommission': {
         required: true,
-        decimalInput: true,
+        /* decimalInput: true, */
       },
       'workHours': {
         required: true,
-        decimalInput: true
+        /* decimalInput: true */
       },
       'BussinesDayMonth': {
         required: true,
@@ -27,17 +27,17 @@ $.validator.addMethod("decimalInput", function (value) {
       },
       'ProfitabilityMargin': {
         required: true,
-        decimalInput: true
+       /*  decimalInput: true */
       }
     },
     messages: {
       'SalesCommission': {
         required: 'campo requerido',
-        decimalInput: 'máximo dos decimales'
+        /* decimalInput: 'máximo dos decimales' */
       },
       'workHours': {
         required:'campo required',
-        decimalInput: 'máximo dos decimales',
+        /* decimalInput: 'máximo dos decimales', */
       },
       'BussinesDayMonth': {
         required: 'campo requerido',
@@ -46,7 +46,7 @@ $.validator.addMethod("decimalInput", function (value) {
       },
       'ProfitabilityMargin': {
         required: 'campo requerido',
-        decimalInput: 'máximo dos decimales'
+        /* decimalInput: 'máximo dos decimales' */
       }
     },
     errorPlacement: function (error, element) {  
