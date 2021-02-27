@@ -26,11 +26,11 @@ if (isset($_SESSION["user"])) {
     foreach ($product->getProcesses() as $process) {
       $roster = $rosterDao->findByProcess($process->getProcess());
       if ($roster != null) {
-        $response->laborCost += ($process->getTimeProcess() * $roster->getValueMinute()); /* / $roster->getNumberEmployees();*/
-        array_push($response->ManoObra, array("tiempo" => $process->getTimeProcess(), "valor" => $roster->getValueMinute(), "costo" => $process->getTimeProcess() * $roster->getValueMinute()));
+        $response->laborCost += ($process->getTimeAlistamiento() * $roster->getValueMinute());
+        array_push($response->ManoObra, array("tiempo" => $process->getTimeAlistamiento(), "valor" => $roster->getValueMinute(), "costo" => $process->getTimeAlistamiento() * $roster->getValueMinute()));
       }
       if ($process->getMachine() != null) {
-        $response->indirectExpenses += $process->getTimeProcess() * $process->getMachine()->getDepreciation();
+        $response->indirectExpenses += $process->getTimeOperacion() * $process->getMachine()->getDepreciation();
       }
     }
   }

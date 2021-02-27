@@ -148,7 +148,7 @@ class Machine implements JsonSerializable
    * obtiene la depreciacio  de la maquina
    *
    * @access public
-   * @return double
+   * @return float
    */
   public function getDepreciation()
   {
@@ -159,7 +159,7 @@ class Machine implements JsonSerializable
    * Cambia la depreciacion de la maquina
    *
    * @access public
-   * @param double $depreciation nueva depreciacion de la maquina
+   * @param float $depreciation nueva depreciacion de la maquina
    * @return void
    */
   public function setDepreciation($depreciation)

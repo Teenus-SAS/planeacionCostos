@@ -302,15 +302,25 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                           </div>
                         </div>
                         <div class="form-group row my-2">
-                          <label class="col-form-label col-4 text-right">Unidades Producidas Hora</label>
+                          <label class="col-form-label col-4 text-right">Tiempo de Alistamiento (Min)</label>
+                          <!-- <label class="col-form-label col-4 text-right">Unidades Producidas Hora</label> -->
                           <div class="col-5">
-                            <input type="number" class="form-control" step=".001" id="input-unidad-hora">
+                            <input type="number" min="0" class="form-control" step=".001" id="input-tiempo-alistamiento" name="tiempo-alistamiento">
+                            <!-- <input type="number" class="form-control" step=".001" id="input-unidad-hora"> -->
                           </div>
                         </div>
                         <div class="form-group row my-2">
-                          <label class="col-form-label col-4 text-right">Minutos * Unidad</label>
+                          <label class="col-form-label col-4 text-right">Tiempo de Operación (Min)</label>
+                          <!-- <label class="col-form-label col-4 text-right">Minutos * Unidad</label> -->
                           <div class="col-5">
-                            <input type="text" disabled class="form-control" id="tiempo-seg">
+                            <input type="number" min="0" class="form-control" id="input-tiempo-operacion" name="tiempo-operacion">
+                            <!-- <input type="text" disabled class="form-control" id="tiempo-seg"> -->
+                          </div>
+                        </div>
+                        <div class="form-group row my-2">
+                          <label class="col-form-label col-4 text-right">Tiempo de Total</label>
+                          <div class="col-5">
+                            <input type="number" disabled class="form-control" id="input-tiempo-total" name="tiempo-total">
                           </div>
                         </div>
                       </div>
@@ -343,11 +353,12 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                         <!-- <button class="btn btn-danger" id="btn-delete-process">Eliminar</button> -->
                         <div class="table-responsive tableFixHead">
                           <table class="table" id="table-product-process">
+                            <label class="text-primary" id="titleProductProcess"></label>
                             <thead class="text-primary">
                               <th>Proceso</th>
                               <th>Máquina</th>
-                              <th>Unidades/Hora</th>
-                              <th>Tiempo/Min</th>
+                              <th>Tiempo Alistamiento (Min)</th>
+                              <th>Tiempo Operación (Min)</th>
                               <th>Acciones</th>
                             </thead>
                             <tbody>

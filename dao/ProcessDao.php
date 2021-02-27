@@ -70,14 +70,15 @@ class ProcessDao
     $this->db->connect();
     $query = "SELECT * FROM `tiempo_proceso` WHERE `id_tiempo_proceso` = $id";
     $productProcessDB = $this->db->consult($query, "yes");
-
+    
     $productProcessDB = $productProcessDB[0];
     $productProcess = new ProductProcess();
     $productProcess->setId($productProcessDB["id_tiempo_proceso"]);
     $productProcess->setIdProduct($productProcessDB["productos_id_producto"]);
     $productProcess->setIdCompany($productProcessDB["productos_empresas_id_empresa"]);
     $productProcess->setMachine($this->machineDao->findById($productProcessDB["maquinas_id_maquinas"]));
-    $productProcess->setTimeProcess($productProcessDB["tiempo_proceso"]);
+    $productProcess->setTimeAlistamiento($productProcessDB["tiempo_alistamiento"]);
+    $productProcess->setTimeOperacion($productProcessDB["tiempo_operacion"]);
     $productProcess->setProcess($this->findById($productProcessDB["procesos_id_procesos"]));
 
     /* $this->db->close(); */
@@ -116,22 +117,22 @@ class ProcessDao
    * @return mixed un objeto con el numero de tuplas afectadas 
    * y un mensaje si fue actualizaado o creado el proceso del producto
    */
-  public function saveOrUpdateProductProcess($product, $idMachine, $idProcess, $timeProcess)
+  public function saveOrUpdateProductProcess($product, $idMachine, $idProcess, /* $timeProcess */ $tiempoAlistamiento, $tiempoOperacion )
   {
 
     $productProcess = $this->findOneProductProcessByProduct($product, $idProcess);
     if ($productProcess == null) {
       $this->db->connect();
       $query = "INSERT INTO `tiempo_proceso` (`id_tiempo_proceso`, `productos_id_producto`,
-      `productos_empresas_id_empresa`, `procesos_id_procesos`, `maquinas_id_maquinas`, `tiempo_proceso`) 
-      VALUES (NULL, '" . $product->getId() . "', '" . $product->getIdCompany() . "', '$idProcess', $idMachine, '$timeProcess')";
+      `productos_empresas_id_empresa`, `procesos_id_procesos`, `maquinas_id_maquinas`, `tiempo_alistamiento`, `tiempo_operacion`) 
+      VALUES (NULL, '" . $product->getId() . "', '" . $product->getIdCompany() . "', '$idProcess', $idMachine, '$tiempoAlistamiento', '$tiempoOperacion')";
       $reponse = new stdClass();
       $reponse->status = $this->db->consult($query);
       $reponse->mode = "created";
       return $reponse;
     } else {
       $this->db->connect();
-      $query = "UPDATE `tiempo_proceso` SET `tiempo_proceso` = '$timeProcess', `maquinas_id_maquinas` = $idMachine WHERE `tiempo_proceso`.`id_tiempo_proceso` = " . $productProcess->getId();
+      $query = "UPDATE `tiempo_proceso` SET `tiempo_alistamiento` = '$tiempoAlistamiento', `tiempo_operacion` = '$tiempoOperacion', `maquinas_id_maquinas` = $idMachine WHERE `tiempo_proceso`.`id_tiempo_proceso` = " . $productProcess->getId();
       $reponse = new stdClass();
       $reponse->status = $this->db->consult($query);
       $reponse->mode = "updated";

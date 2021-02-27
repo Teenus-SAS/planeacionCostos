@@ -59,7 +59,7 @@ class Roster implements JsonSerializable
   /**
    * hoaras de trabajo al día
    *
-   * @var double
+   * @var float
    */
   private $workHours;
   /**
@@ -69,7 +69,7 @@ class Roster implements JsonSerializable
    */
   private $bussinesDaysMonth;
   /**
-   * porecntaje de factor prestacional 
+   * porcentaje de factor prestacional 
    *
    * @var double
    */
@@ -90,7 +90,7 @@ class Roster implements JsonSerializable
   /**
    * valor por minuto que tiene esta nomina
    *
-   * @var double
+   * @var float
    */
   private $minuteValue;
   /**

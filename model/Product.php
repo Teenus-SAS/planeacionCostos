@@ -162,7 +162,7 @@ class Product implements JsonSerializable
    * obtiene la rentabilidad del producto o en su defecto la rentablidad general
    *
    * @access public
-   * @return decimal
+   * @return float
    */
   public function getRentabilidad()
   {

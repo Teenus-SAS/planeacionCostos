@@ -41,15 +41,23 @@ class ProductProcess implements JsonSerializable
    * tiempo que toma hacer este proceso
    *
    * @access private
-   * @var double
+   * @var float
    */
-  private $timeProcess;
+  private $timeAlistamiento;
+  /**
+   * Proceso que tiene asignado
+   *
+   * @access private
+   * @var float
+   */
+  private $timeOperacion;
   /**
    * Proceso que tiene asignado
    *
    * @access private
    * @var Process
    */
+
   private $process;
 
   // --------------------------------------------------------------------------
@@ -130,7 +138,7 @@ class ProductProcess implements JsonSerializable
   }
 
   /**
-   * Cambia la maquina asociada al preoceso del  producto
+   * Cambia la maquina asociada al proceso del  producto
    *
    * @param Machine $machine maquina que sera asignada
    * @return void
@@ -143,23 +151,40 @@ class ProductProcess implements JsonSerializable
   /**
    * obtiene el tiempo del proceso
    *
-   * @return double
+   * @return float
    */
-  public function getTimeProcess()
+  public function getTimeAlistamiento()
   {
-    return $this->timeProcess;
+    return $this->timeAlistamiento;
   }
 
   /**
    * Cambia el tiempo del proceso de un producto
    *
-   * @param double $timeProcess nuevo tiempo del proceso para el producto
+   * @param float $timeAlistamiento nuevo tiempo del proceso para el producto
    * @return void
    */
-  public function setTimeProcess($timeProcess)
+  public function setTimeAlistamiento($timeAlistamiento)
   {
-    $this->timeProcess = $timeProcess;
+    $this->timeAlistamiento = $timeAlistamiento;
   }
+
+  public function getTimeOperacion()
+  {
+    return $this->timeOperacion;
+  }
+
+  /**
+   * Cambia el tiempo del proceso de un producto
+   *
+   * @param float $timeOperacion nuevo tiempo del proceso para el producto
+   * @return void
+   */
+  public function setTimeOperacion($timeOperacion)
+  {
+    $this->timeOperacion = $timeOperacion;
+  }
+
 
   /**
    * Obtiene el proceso asignado
@@ -172,7 +197,7 @@ class ProductProcess implements JsonSerializable
   }
 
   /**
-   * Cambia el pre¿oceso asignaddo
+   * Cambia el proceso asignado
    *
    * @param Process $process Proceso que se desea asignar
    * @return void
