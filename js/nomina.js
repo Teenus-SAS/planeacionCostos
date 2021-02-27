@@ -440,7 +440,7 @@ $('#form-nomina').validate({
     optionFactorPrestacional: 'required',
     factorPrestacional: {
       required: true,
-      decimalInput: true
+      /*decimalInput: true*/
     }
   },
   messages: {
