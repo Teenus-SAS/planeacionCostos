@@ -23,7 +23,9 @@ if (isset($_SESSION["user"])) {
       $product,
       $productProcessJSON->Maquina,
       $productProcessJSON->Proceso,
-      60 / $productProcessJSON->unidad
+      $productProcessJSON->TiempoAlistamiento,
+      $productProcessJSON->TiempoOperacion,
+      /* 60 / $productProcessJSON->unidad */
     )->status > 0 ? true : false);
   }
   http_response_code(200);

@@ -117,7 +117,7 @@ class ProcessDao
    * @return mixed un objeto con el numero de tuplas afectadas 
    * y un mensaje si fue actualizaado o creado el proceso del producto
    */
-  public function saveOrUpdateProductProcess($product, $idMachine, $idProcess, /* $timeProcess */ $tiempoAlistamiento, $tiempoOperacion )
+  public function saveOrUpdateProductProcess($product, $idMachine, $idProcess, $tiempoAlistamiento, $tiempoOperacion )
   {
 
     $productProcess = $this->findOneProductProcessByProduct($product, $idProcess);
