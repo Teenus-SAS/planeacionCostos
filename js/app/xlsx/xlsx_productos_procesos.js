@@ -259,24 +259,24 @@ function verifyErrorsProductsProcesses(jsonObj) {
     } else if (isNaN(parseFloat(productsProcess.unidad))) {
       errors.push({ type: 'Las Unidades/Hora debe ser un valor numérico', row: (productsProcess.__rowNum__ + 1) })
     } */
-    if (productsProcess.TiempoAlistamiento == "") {
+    /* if (productsProcess.TiempoAlistamiento == "") {
       errors.push({
         type: "El tiempo de alistamiento no puede estar vacio",
         row: productsProcess.__rowNum__ + 1,
       });
-    } else if (isNaN(parseFloat(productsProcess.TiempoAlistamiento))) {
+    } else */ if (isNaN(parseFloat(productsProcess.TiempoAlistamiento))) {
       errors.push({
         type: "El tiempo de Alistamiento debe ser un valor numérico",
         row: productsProcess.__rowNum__ + 1,
       });
     }
 
-    if (productsProcess.TiempoOperacion == "") {
+    /* if (productsProcess.TiempoOperacion == "") {
       errors.push({
         type: "El tiempo de operación no puede estar vacio",
         row: productsProcess.__rowNum__ + 1,
       });
-    } else if (isNaN(parseFloat(productsProcess.TiempoAlistamiento))) {
+    } else */ if (isNaN(parseFloat(productsProcess.TiempoAlistamiento))) {
       errors.push({
         type: "El tiempo de Operación debe ser un valor numérico",
         row: productsProcess.__rowNum__ + 1,
