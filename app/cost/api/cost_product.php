@@ -26,8 +26,8 @@ if (isset($_SESSION["user"])) {
     foreach ($product->getProcesses() as $process) {
       $roster = $rosterDao->findByProcess($process->getProcess());
       if ($roster != null) {
-        $response->laborCost += ($process->getTimeAlistamiento() * $roster->getValueMinute());
-        array_push($response->ManoObra, array("tiempo" => $process->getTimeAlistamiento(), "valor" => $roster->getValueMinute(), "costo" => $process->getTimeAlistamiento() * $roster->getValueMinute()));
+        $response->laborCost += ($process->getTimeAlistamiento() + $process->getTimeOperacion() * $roster->getValueMinute());
+        array_push($response->ManoObra, array("tiempo" => $process->getTimeAlistamiento() + $process->getTimeOperacion(), "valor" => $roster->getValueMinute(), "costo" => $process->getTimeAlistamiento() * $roster->getValueMinute()));
       }
       if ($process->getMachine() != null) {
         $response->indirectExpenses += $process->getTimeOperacion() * $process->getMachine()->getDepreciation();
@@ -47,10 +47,10 @@ if (isset($_SESSION["user"])) {
 
   if (isset($_GET["consolidated"])) {
     $response->salePrice = $response->totalCost / (1 - ($user->getCompany()->getProfitabilityMargin() / 100) - ($user->getCompany()->getSalesCommission() / 100));
-  $response->profitability = ($user->getCompany()->getProfitabilityMargin() / 100) * $response->salePrice;
+    $response->profitability = ($user->getCompany()->getProfitabilityMargin() / 100) * $response->salePrice;
   } else {
     $response->salePrice = $response->totalCost / (1 - ($product->getRentabilidad() / 100) - ($user->getCompany()->getSalesCommission() / 100));
-      $response->profitability = ($product->getRentabilidad() / 100) * $response->salePrice;
+    $response->profitability = ($product->getRentabilidad() / 100) * $response->salePrice;
   }
 
 
@@ -58,7 +58,7 @@ if (isset($_SESSION["user"])) {
 
   $response->productProfitability = $product->getRentabilidad();
   $response->profitabilityMargin = $user->getCompany()->getProfitabilityMargin();
-  
+
   /* $response->salesCommission = ($user->getCompany()->getSalesCommission() / 100) * $response->salePrice; */
   $response->salesCommission = $user->getCompany()->getSalesCommission();
   echo json_encode($response);
