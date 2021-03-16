@@ -1,6 +1,6 @@
 <?php
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
-include(PARTIALS_PATH . "verify_session.php"); 
+include(PARTIALS_PATH . "verify_session.php");
 /* do{
 	echo key($_SESSION);
 	echo current($_SESSION);
@@ -213,7 +213,12 @@ include(PARTIALS_PATH . "verify_session.php");
                 </form>
               </div>
               <div class="tab-pane" id="materia_prima">
-                <div class="row justify-content-center align-items-center">
+                <div class="row">
+                  <!-- justify-content-center align-items-center -->
+                  <!-- <div>
+                    <button class="button btn btn-primary ml-4">Crear Materia Prima</button>
+                    <button class="button btn btn-info ml-2">Importar Materia Prima</button>
+                  </div> -->
                   <div class="col-md-4 col-sm-12">
                     <!--<h3>Materia Prima</h3>-->
                     <form id="form-materia-prima">
@@ -302,6 +307,7 @@ include(PARTIALS_PATH . "verify_session.php");
                   </div>
                 </div>
               </div>
+
               <div class="tab-pane" id="maquinas">
                 <div class="row justify-content-center align-items-center">
                   <div class="col-md-4 col-sm-12">
@@ -480,8 +486,24 @@ include(PARTIALS_PATH . "verify_session.php");
                 </div>
               </div>
               <div class="tab-pane" id="nomina-nav">
+                <div>
+                  <button class="button btn btn-primary ml-4" id="btnCrearNomina">Crear Nómina</button>
+                  <button class="button btn btn-info ml-2" id="btnImportarNomina">Importar Nómina</button>
+                </div>
+                <div class="row my-5" id="panelImportarNomina">
+                  <div class="card col-6">
+                    <!-- <h5 class="pull-left">Importar Nomina</h5> -->
+                    <div class="mt-3 mb-3" style="display:flex">
+                      <a href="#" id="download_nomina" title="Descargar plantilla Excel para Importar/Exportar">1. Descargar plantilla Excel para Importar/Exportar</a> <!-- <i class="fas fa-file-excel"></i> -->
+                    </div>
+                    <div class="custom-file mb-5 col-10">
+                      <input type="file" id="fileRosters" class="custom-file-input">
+                      <label for="fileRosters" class="custom-file-label" data-browse="Elegir">Importar Nómina</label>
+                    </div>
+                  </div>
+                </div>
                 <div class="row justify-content-center align-items-center">
-                  <div class="col-md-6 mb-3">
+                  <div class="col-md-6 mb-3" id="panelCrearNomina">
                     <!--<h4>Nómina</h4>-->
                     <form id="form-nomina">
                       <div hidden class="form-check form-check-radio form-check-inline">
@@ -621,6 +643,7 @@ include(PARTIALS_PATH . "verify_session.php");
                       </div>
                     </form>
                   </div>
+
                   <div class="col-md-12">
                     <div class="card">
                       <div class="card-header">
@@ -656,16 +679,7 @@ include(PARTIALS_PATH . "verify_session.php");
                     </div>
                   </div>
                 </div>
-                <div class="row my-5">
-                  <div class="col-12">
-                    <h5 class="pull-left">Importar Nomina</h5>
-                    <a href="#" id="download_nomina" title="Descargar plantilla Excel para Importar/Exportar" class="pull-right btn btn-success btn-icon"><i class="fas fa-file-excel"></i></a>
-                  </div>
-                  <div class="custom-file">
-                    <input type="file" id="fileRosters" class="custom-file-input">
-                    <label for="fileRosters" class="custom-file-label" data-browse="Elegir">Iniciar importación</label>
-                  </div>
-                </div>
+
               </div>
 
 
@@ -1120,7 +1134,7 @@ include(PARTIALS_PATH . "verify_session.php");
   <script src="/js/app/xlsx/xlsx_nomina.js"></script>
   <script src="/js/horas_extra.js"> </script>
   <script src="/js/app/bpm.js"></script>
-  <script src="/js/menu.js"></script>
+  <!-- <script src="/js/menu.js"></script> -->
 
   </script>
   <script>

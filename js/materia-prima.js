@@ -6,49 +6,55 @@ logica de materia prima
 
 let flag = false;
 
-document.querySelector('a[href$="materia_prima"]')
-  .addEventListener('click', () => { resetFormMaterials(); elById('inlineRadio1').click(); });
+document
+  .querySelector('a[href$="materia_prima"]')
+  .addEventListener("click", () => {
+    resetFormMaterials();
+    elById("inlineRadio1").click();
+  });
 
 function clearFormMaterials() {
-  if ($('#input-materia-prima')[0].tagName == 'SELECT') {
-    let $formGroupParent = $('#input-materia-prima').parent()
-    $('#input-materia-prima').fadeOut()
-    $('#input-unidad').val('')
-    $('#input-costo').val('')
-    $formGroupParent.append(`<input id="input-materia-prima" class="form-control" type="text" name="material"> `)
-    $('#input-materia-prima').remove()
+  if ($("#input-materia-prima")[0].tagName == "SELECT") {
+    let $formGroupParent = $("#input-materia-prima").parent();
+    $("#input-materia-prima").fadeOut();
+    $("#input-unidad").val("");
+    $("#input-costo").val("");
+    $formGroupParent.append(
+      `<input id="input-materia-prima" class="form-control" type="text" name="material"> `
+    );
+    $("#input-materia-prima").remove();
   }
 }
 
-elById('inlineRadio1').click();
+elById("inlineRadio1").click();
 
 let materialSeletedByEdit = {
   description: null,
   id: null,
 };
-var materialsMateriaPrima
-$.get('api/get_materials.php', (data, status, xhr) => {
-  materialsMateriaPrima = data
-})
+var materialsMateriaPrima;
+$.get("api/get_materials.php", (data, status, xhr) => {
+  materialsMateriaPrima = data;
+});
 
 // logica de materia prima
-$('input[name=optionMateriaPrima]').change(function () {
-  $tableMateriaPrima.api().search('').draw();
-  if ($(this).val() == 'option2') {
-    elById('material-btn').value = 'Modificar';
+$("input[name=optionMateriaPrima]").change(function () {
+  $tableMateriaPrima.api().search("").draw();
+  if ($(this).val() == "option2") {
+    elById("material-btn").value = "Modificar";
     // desaparece el input
     /* $('#input-materia-prima').fadeOut() */
     // guarda el padre del input
     /*     let $formGroupParent = $('#input-materia-prima').parent() */
     /*     loadingSpinner() */
-    $.get('api/get_materials.php', (data, status, xhr) => {
+    $.get("api/get_materials.php", (data, status, xhr) => {
       /*     completeSpinner() */
       // se consulta los materiales de esa empresa
-      if (status == 'success') {
+      if (status == "success") {
         // se agregan todos los materiales en un input select
         /*    let string = `<select id="input-materia-prima" class="form-control" name="material"><option selected disabled>Seleccione un material</option>` */
         /*    let string = `<select readonly id="input-materia-prima" class="form-control" name="material">` */
-        materialsMateriaPrima = data
+        materialsMateriaPrima = data;
         /*     data.forEach((material) => {
               if (material.description === materialSeletedByEdit.description) {
                 string += `<option selected value="${material.id}">${material.description}</option>`
@@ -70,106 +76,121 @@ $('input[name=optionMateriaPrima]').change(function () {
                   $tableMateriaPrima.api().search(materialSelected.description).draw();
                 }) */
       } else {
-        location = '/login'
+        location = "/login";
       }
-    })
+    });
   } else {
-    elById('material-btn').value = 'Adicionar';
+    elById("material-btn").value = "Adicionar";
     resetFormMaterials();
-    elById('input-materia-prima').readOnly = false;
+    elById("input-materia-prima").readOnly = false;
   }
-})
+});
 
 /* Autocompletar el input de unidad de acuerdo con lo almacenado */
 $("#input-unidad").autocomplete({
   source: function (request, response) {
-    $.get('api/get_unidades.php', (data, status) => {
-      response(data.filter(country => country.trim().toLowerCase().includes(request.term.trim().toLowerCase())))
-    })
-  }
-})
+    $.get("api/get_unidades.php", (data, status) => {
+      response(
+        data.filter((country) =>
+          country
+            .trim()
+            .toLowerCase()
+            .includes(request.term.trim().toLowerCase())
+        )
+      );
+    });
+  },
+});
 
 // inicializacion de datatable Materia prima
-var $tableMateriaPrima = $('#table-materia-prima').dataTable({
-  "scrollY": "300px",
-  "scrollCollapse": true,
-  "paging": false,
+var $tableMateriaPrima = $("#table-materia-prima").dataTable({
+  scrollY: "300px",
+  scrollCollapse: true,
+  paging: false,
 
   language: {
-    url: "/vendor/dataTables/Spanish.json"
+    url: "/vendor/dataTables/Spanish.json",
   },
   ajax: {
-    url: 'api/get_materials.php?dataTable=true',
-    dataSrc: 'data'
+    url: "api/get_materials.php?dataTable=true",
+    dataSrc: "data",
   },
   columnDefs: [
     /*  {targets: 0,className: 'text-left'}, */
   ],
   columns: [
-    { "data": 'referencia' },
-    { "data": 'description' },
-    { "data": 'unit' },
+    { data: "referencia" },
+    { data: "description" },
+    { data: "unit" },
     {
-      "data": 'cost',
+      data: "cost",
       render: (data, type, row) => {
-        $('.cost').parent().addClass('text-right')
-        return `<span class="cost">$ ${$.number(data, 2, '.', ',')}</span>`
-      }
+        $(".cost").parent().addClass("text-right");
+        return `<span class="cost">$ ${$.number(data, 2, ".", ",")}</span>`;
+      },
     },
     {
-      "data": 'id',
+      data: "id",
       render: (data) => {
         return `<a  href='#'><i data-material-id=${data} data-toggle='tooltip' title="Editar" class='nc-icon nc-refresh-69 link-editar' style='color:rgb(255, 165, 0)'></i></a><a href='#' style="margin-left: 1rem;"><i data-material-id=${data} class='nc-icon nc-simple-remove link-borrar' data-toggle='tooltip' title='Eliminar' style='color:rgb(255, 0, 0)'></i></a>`;
-      }
-    }
+      },
+    },
   ],
-  reponsive: true
-})
-$tableMateriaPrima.width('100%')
+  reponsive: true,
+});
+$tableMateriaPrima.width("100%");
 /* $tableMateriaPrima.on('click', 'tr', function () {
   $(this).toggleClass('selected');
 }) */
 
 // manejo de costo como precio
-$('#input-costo').number(true, 2)
+$("#input-costo").number(true, 2);
 
-$('#form-materia-prima').submit(function (e) {
-  e.preventDefault()
+$("#form-materia-prima").submit(function (e) {
+  e.preventDefault();
 
   if (materialsMateriaPrima != undefined) {
-    let m = $('#input-materia-prima').val()
-    let materialSel = materialsMateriaPrima.filter(material => material.description.trim().toLowerCase() == m.trim().toLowerCase())[0];
+    let m = $("#input-materia-prima").val();
+    let materialSel = materialsMateriaPrima.filter(
+      (material) =>
+        material.description.trim().toLowerCase() == m.trim().toLowerCase()
+    )[0];
 
-    if (!materialSel && elById('material-btn').value.trim().toLowerCase() === 'modificar') {
+    if (
+      !materialSel &&
+      elById("material-btn").value.trim().toLowerCase() === "modificar"
+    ) {
       submitFormMaterials(true);
       return;
     }
 
-    if (materialSel && elById('material-btn').value.trim().toLowerCase() === 'modificar') {
+    if (
+      materialSel &&
+      elById("material-btn").value.trim().toLowerCase() === "modificar"
+    ) {
       submitFormMaterials(true);
       return;
     }
 
     //console.log(existsMateriaPrma(elById('input-materia-prima').value));
 
-    if (existsMateriaPrma(elById('input-materia-prima').value)) {
+    if (existsMateriaPrma(elById("input-materia-prima").value)) {
       $.confirm({
-        title: 'Tezlik',
-        content: '¿Desea Actualizar la materia prima?',
+        title: "Tezlik",
+        content: "¿Desea Actualizar la materia prima?",
         buttons: {
           SI: function () {
-            submitFormMaterials(true)
+            submitFormMaterials(true);
             return;
           },
           No: function () {
             resetFormMaterials();
             return;
-          }
-        }
-      })
-    }
-    else {
-      submitFormMaterials()
+          },
+        },
+      });
+    } else {
+      submitFormMaterials();
     }
 
     /*     if (materialSel != undefined) {
@@ -189,61 +210,78 @@ $('#form-materia-prima').submit(function (e) {
           submitFormMaterials()
         } */
   }
-
-})
+});
 
 function submitFormMaterials(updated = false, repeated = false) {
-  elById('material-description').value = elById('input-materia-prima').value.trim();
+  elById("material-description").value = elById(
+    "input-materia-prima"
+  ).value.trim();
 
-  if (updated && elById('inlineRadio1').checked) {
-  }
-  else if (updated && elById('material-firstname').value !== elById('input-materia-prima').value) {
-    elById('input-materia-prima').value = elById('input-materia-prima').getAttribute('value');
-  }
-  else if (updated) {
-    elById('input-materia-prima').value = elById('input-materia-prima').getAttribute('value');
+  if (updated && elById("inlineRadio1").checked) {
+  } else if (
+    updated &&
+    elById("material-firstname").value !== elById("input-materia-prima").value
+  ) {
+    elById("input-materia-prima").value = elById(
+      "input-materia-prima"
+    ).getAttribute("value");
+  } else if (updated) {
+    elById("input-materia-prima").value = elById(
+      "input-materia-prima"
+    ).getAttribute("value");
   }
 
-  $.post('api/add_modify_materials.php', $('#form-materia-prima').serialize())
-    .always(function (xhr) {
-      switch (xhr.status) {
-        case 200:
-          $.notify({
+  $.post(
+    "api/add_modify_materials.php",
+    $("#form-materia-prima").serialize()
+  ).always(function (xhr) {
+    switch (xhr.status) {
+      case 200:
+        $.notify(
+          {
             icon: "nc-icon nc-bell-55",
-            message: "Materia prima <b>Actualizada</b> Correctamente"
-          }, {
-            type: 'primary',
-            timer: 8000
-          })
-          $tableMateriaPrima.api().ajax.reload()
-          $('.cost').parent().addClass('text-right')
-          flag = true;
-          break
-        case 201:
-          if (updated) {
-            $.notify({
-              icon: "nc-icon nc-bell-55",
-              message: "Materia prima <b>Actualizada</b> Correctamente"
-            }, {
-              type: 'primary',
-              timer: 8000
-            })
-            flag = true;
-          } else {
-            $.notify({
-              icon: "nc-icon nc-bell-55",
-              message: "Materia prima <b>Creada</b> Correctamente"
-            }, {
-              type: 'success',
-              timer: 8000
-            })
-            flag = true;
+            message: "Materia prima <b>Actualizada</b> Correctamente",
+          },
+          {
+            type: "primary",
+            timer: 8000,
           }
+        );
+        $tableMateriaPrima.api().ajax.reload();
+        $(".cost").parent().addClass("text-right");
+        flag = true;
+        break;
+      case 201:
+        if (updated) {
+          $.notify(
+            {
+              icon: "nc-icon nc-bell-55",
+              message: "Materia prima <b>Actualizada</b> Correctamente",
+            },
+            {
+              type: "primary",
+              timer: 8000,
+            }
+          );
+          flag = true;
+        } else {
+          $.notify(
+            {
+              icon: "nc-icon nc-bell-55",
+              message: "Materia prima <b>Creada</b> Correctamente",
+            },
+            {
+              type: "success",
+              timer: 8000,
+            }
+          );
+          flag = true;
+        }
 
-          $tableMateriaPrima.api().ajax.reload()
-          $('#form-materia-prima')[0].reset()
-          break
-        /*  case 412:
+        $tableMateriaPrima.api().ajax.reload();
+        $("#form-materia-prima")[0].reset();
+        break;
+      /*  case 412:
            $.notify({
              icon: "nc-icon nc-bell-55",
              message: "<b>Selecciona</b> una opción para <b>adicionar</b> o <b>modificar</b>"
@@ -252,154 +290,174 @@ function submitFormMaterials(updated = false, repeated = false) {
              timer: 8000
            })
            break */
-        case 400:
-          $.notify({
+      case 400:
+        $.notify(
+          {
             icon: "nc-icon nc-bell-55",
-            message: "<b>Completa</b> Todos los campos"
-          }, {
-            type: 'warning',
-            timer: 8000
-          })
-          break
-        case 500:
-          $.notify({
+            message: "<b>Completa</b> Todos los campos",
+          },
+          {
+            type: "warning",
+            timer: 8000,
+          }
+        );
+        break;
+      case 500:
+        $.notify(
+          {
             icon: "nc-icon nc-bell-55",
-            message: "Ocurrió un error mientras se creaba la Materia prima"
-          }, {
-            type: 'danger',
-            timer: 8000
-          })
-          break
-        case 401:
-          location.href = "/login"
-          break
-        case 501:
-          $.notify({
+            message: "Ocurrió un error mientras se creaba la Materia prima",
+          },
+          {
+            type: "danger",
+            timer: 8000,
+          }
+        );
+        break;
+      case 401:
+        location.href = "/login";
+        break;
+      case 501:
+        $.notify(
+          {
             icon: "nc-icon nc-bell-55",
-            message: "El costo debe de ser mayor a cero"
-          }, {
-            type: 'danger',
-            timer: 8000
-          })
-          break
-      }
-      if (flag == true) {
-        resetFormMaterials();
-        elById('inlineRadio1').click();
-      }
-    })
+            message: "El costo debe de ser mayor a cero",
+          },
+          {
+            type: "danger",
+            timer: 8000,
+          }
+        );
+        break;
+    }
+    if (flag == true) {
+      resetFormMaterials();
+      elById("inlineRadio1").click();
+    }
+  });
 }
 
-$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-  e.target // newly activated tab
-  e.relatedTarget // previous active tab
-  $tableProductos.api().ajax.reload()
-  $tableMateriaPrima.api().ajax.reload()
-  $tableNominas.api().ajax.reload()
-  $tableProcesos.api().ajax.reload()
-  $tableMaquinas.api().ajax.reload()
-})
+$('a[data-toggle="tab"]').on("shown.bs.tab", function (e) {
+  e.target; // newly activated tab
+  e.relatedTarget; // previous active tab
+  $tableProductos.api().ajax.reload();
+  $tableMateriaPrima.api().ajax.reload();
+  $tableNominas.api().ajax.reload();
+  $tableProcesos.api().ajax.reload();
+  $tableMaquinas.api().ajax.reload();
+});
 
 function alphaOnly(event) {
   var key = event.keyCode;
-  return ((key >= 65 && key <= 90) || key == 8 || key == 9);
+  return (key >= 65 && key <= 90) || key == 8 || key == 9;
 }
 
+document
+  .getElementById("table-materia-prima")
+  .addEventListener("click", (ev) => {
+    const target = ev.target;
 
-document.getElementById('table-materia-prima').addEventListener('click', (ev) => {
+    if (target.classList.contains("link-borrar")) {
+      deleteMaterial(
+        target.dataset.materialId,
+        target.closest("tr").cells[0].textContent
+      );
+    } else if (target.classList.contains("link-editar")) {
+      const closestTr = target.closest("tr");
+      const referencia = closestTr.cells[0].textContent.trim();
+      const description = closestTr.cells[1].textContent.trim();
+      const unidad = closestTr.cells[2].textContent.trim();
+      const costo = closestTr.cells[3].textContent.replace("$", "").trim();
 
-  const target = ev.target;
+      elById("material-firstname").value = description;
+      elById("ref-materia-prima").value = referencia;
+      elById("input-materia-prima").value = description;
+      elById("input-unidad").value = unidad;
+      elById("input-costo").value = costo;
 
-  if (target.classList.contains('link-borrar')) {
-    deleteMaterial(target.dataset.materialId, target.closest('tr').cells[0].textContent);
-  }
-  else if (target.classList.contains('link-editar')) {
-
-    const closestTr = target.closest('tr');
-    const referencia = closestTr.cells[0].textContent.trim();
-    const description = closestTr.cells[1].textContent.trim();
-    const unidad = closestTr.cells[2].textContent.trim();
-    const costo = closestTr.cells[3].textContent.replace('$', '').trim();
-
-    elById('material-firstname').value = description;
-    elById('ref-materia-prima').value = referencia;
-    elById('input-materia-prima').value = description;
-    elById('input-unidad').value = unidad;
-    elById('input-costo').value = costo;
-
-    materialSeletedByEdit.description = description;
-    materialSeletedByEdit.id = target.dataset.materialId;
-    elById('input-materia-prima').setAttribute('value', materialSeletedByEdit.id);
-    elById('inlineRadio2').click();
-  }
-});
-
+      materialSeletedByEdit.description = description;
+      materialSeletedByEdit.id = target.dataset.materialId;
+      elById("input-materia-prima").setAttribute(
+        "value",
+        materialSeletedByEdit.id
+      );
+      elById("inlineRadio2").click();
+    }
+  });
 
 /*  Elimina la materia prima por id  */
 
 function deleteMaterial(id, description) {
-
   bootbox.confirm({
     title: "Eliminar Materia Prima",
-    message: `${document.getElementById('inputRef').value} ¿Está seguro de eliminar esta Materia Prima?.  Esta acción no se puede deshacer`,
+    message: `${
+      document.getElementById("inputRef").value
+    } ¿Está seguro de eliminar esta Materia Prima?.  Esta acción no se puede deshacer`,
     buttons: {
       confirm: {
         label: '<i class="fa fa-check"></i> Si',
-        className: 'btn-danger'
+        className: "btn-danger",
       },
       cancel: {
         label: '<i class="fa fa-times"></i> No',
-        className: 'btn-secondary'
-      }
+        className: "btn-secondary",
+      },
     },
     callback: function (result) {
       if (result == true) {
-
-        $.post('api/delete_material.php', {
-          id: id
+        $.post("api/delete_material.php", {
+          id: id,
         }).always(function (xhr) {
           if (xhr.status == 200) {
-            $tableMateriaPrima.api().ajax.reload()
-            $.notify({
-              icon: "nc-icon nc-bell-55",
-              message: `Materia prima <b>eliminada<b> Correctamente`
-            }, {
-              type: 'info',
-              timer: 8000
-            })
+            $tableMateriaPrima.api().ajax.reload();
+            $.notify(
+              {
+                icon: "nc-icon nc-bell-55",
+                message: `Materia prima <b>eliminada<b> Correctamente`,
+              },
+              {
+                type: "info",
+                timer: 8000,
+              }
+            );
           } else {
-            $.notify({
-              icon: "nc-icon nc-bell-55",
-              message: `No se puedes eliminar la Materia prima referencia <b>${description}</b>. Esta asociada a uno o más productos`
-            }, {
-              type: 'danger',
-              timer: 8000
-            })
+            $.notify(
+              {
+                icon: "nc-icon nc-bell-55",
+                message: `No se puedes eliminar la Materia prima referencia <b>${description}</b>. Esta asociada a uno o más productos`,
+              },
+              {
+                type: "danger",
+                timer: 8000,
+              }
+            );
           }
-        })
+        });
       }
-    }
-  })
+    },
+  });
 }
-
 
 function elById(id) {
   return document.getElementById(id);
 }
 
 function existsMateriaPrma(matPrimaName) {
-
-  const tableRows = Array.from(elById('table-materia-prima').tBodies[0].rows);
-  return tableRows.some(row => row.cells[0].textContent.trim().toLowerCase() === matPrimaName.trim().toLowerCase()); s
-
+  const tableRows = Array.from(elById("table-materia-prima").tBodies[0].rows);
+  return tableRows.some(
+    (row) =>
+      row.cells[0].textContent.trim().toLowerCase() ===
+      matPrimaName.trim().toLowerCase()
+  );
+  s;
 }
 
 /* Limpiar campos de materia prima */
 
 function resetFormMaterials() {
-  elById('input-materia-prima').value = '';
-  elById('ref-materia-prima').value = '';
-  elById('input-materia-prima').readOnly = false;
-  elById('input-unidad').value = '';
-  elById('input-costo').value = '';
+  elById("input-materia-prima").value = "";
+  elById("ref-materia-prima").value = "";
+  elById("input-materia-prima").readOnly = false;
+  elById("input-unidad").value = "";
+  elById("input-costo").value = "";
 }

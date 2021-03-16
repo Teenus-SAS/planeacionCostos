@@ -138,14 +138,14 @@ class RosterDao
   {
     $this->db->connect();
     $query = "INSERT INTO `nominas` (`id_nominas`, `empresas_id_empresa`, `cargo`,
-     `procesos_id_procesos`, `n_empleados`, `salario`, `bonificacion`, `dotacion`,
+      `procesos_id_procesos`, `n_empleados`, `salario`, `bonificacion`, `dotacion`,
       `dias_trabajo_mes`, `horas_dia`, `factor_prestacional`, `salario_neto`,`contrato`,`horas_extra`) 
     VALUES (NULL, '" . $roster->getIdCompany() . "', '" . $roster->getPosition() . "',
-    '" . $roster->getProcess()->getId() . "', '" . $roster->getNumberEmployees() . "',
-    '" . $roster->getSalary() . "', '" . $roster->getBonus() . "',
-    '" . $roster->getEndowment() . "', '" . $roster->getBussinesDaysMonth() . "',
-    '" . $roster->getWorkHours() . "', '" . $roster->getPerformaceFactor() . "',
-    '" . $roster->getNetSalary() . "', '" . $roster->getContract() . "','" . $roster->getExtraHours() . "')";
+      '" . $roster->getProcess()->getId() . "', '" . $roster->getNumberEmployees() . "',
+      '" . $roster->getSalary() . "', '" . $roster->getBonus() . "',
+      '" . $roster->getEndowment() . "', '" . $roster->getBussinesDaysMonth() . "',
+      '" . $roster->getWorkHours() . "', '" . $roster->getPerformaceFactor() . "',
+      '" . $roster->getNetSalary() . "', '" . $roster->getContract() . "','" . $roster->getExtraHours() . "')";
     return $this->db->consult($query);
   }
 
