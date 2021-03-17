@@ -549,7 +549,7 @@ $("#form-nomina").validate({
             {
               icon: "nc-icon nc-bell-55",
               message:
-                "Por favor <b>selecciona</b> una opción para <b>adicionar</b> o <b>modificar</b>",
+                "<b>selecciona</b> una opción para <b>adicionar</b> o <b>modificar</b>",
             },
             {
               type: "warning",
