@@ -359,9 +359,10 @@ if ($(window).width() > 800) {
 
 // inicializacion de datatable
 var $tableNominas = $("#tableNominas").dataTable({
-  scrollY: "500px",
+  //scrollY: "700px",
   scrollCollapse: true,
-  paging: false,
+  pageLength: 25,
+  //paging: false,
 
   language: {
     url: "/vendor/dataTables/Spanish.json",

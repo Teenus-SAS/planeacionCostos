@@ -77,7 +77,7 @@ $.get(
 
 $.get("/app/config-general/api/get_machines.php", (_machines, status, xhr) => {
   $("#selectMachines").append(
-    `<option selected disabled>Selecciona un maquina</option><option value="NULL">Ninguna</option>`
+    `<option selected disabled>Selecciona un máquina</option><option value="NULL">Ninguna</option>`
   );
   machinesJSON = _machines;
   _machines.forEach((machine) => {

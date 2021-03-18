@@ -1,18 +1,37 @@
 /* 
 @Author: Teenus SAS
 @github: Teenus-SAS
-logica de maquinas
+logica de carga fabril
 */
 
-flag = false;
+/* flag = false;
 
 elById("inlineRadioNom1").click();
 document.querySelector('a[href$="maquinas"]').addEventListener("click", () => {
   resetFormMaquinas();
   elById("inlineRadio1M").click();
+}); */
+
+$(document).ready(function () {
+  // cargado de maquinas
+  debugger;
+  $.get(
+    "/app/config-general/api/get_machines.php",
+    (_machines, status, xhr) => {
+      $("#cfmaquinas").append(
+        `<option selected disabled>Selecciona un máquina</option>`
+      );
+      machinesJSON = _machines;
+      _machines.forEach((machine) => {
+        $("#cfmaquinas").append(
+          `<option value="${machine.id}">${machine.name}</option>`
+        );
+      });
+    }
+  );
 });
 
-function clearformMachines() {
+/* function clearformMachines() {
   if ($("#input-maquinas")[0].tagName == "SELECT") {
     let $formGroupParent = $("#input-maquinas").parent();
     $("#input-maquinas").fadeOut();
@@ -26,56 +45,22 @@ function clearformMachines() {
 }
 function clearFile(input) {
   $(input).val("");
-}
+} */
 
-$("input[name=optionMaquinas]").change(function () {
+/* $("input[name=optionMaquinas]").change(function () {
   $tableMaquinas.api().search("").draw();
   if ($(this).val() == "option2") {
-    // desaparece el input
-    /*  $('#input-maquinas').fadeOut() */
-    // guarda el padre del input
-    /*  let $formGroupParent = $('#input-maquinas').parent()
-     $.get('api/get_machines.php', (data, status, xhr) => { */
-    // se consulta las maquinas de esa empresa
-    /*       if (status == 'success') { */
-    // se agregan todas las maquinas en un input select
-    /*        let string = `<select id="input-maquinas" class="form-control" name="machine">
-           <option selected disabled>Seleccione una maquina</option>`
-           machines = data
-           data.forEach((machine) => {
-             string += `<option value="${machine.id}">${machine.name}</option>`
-           })
-           string += '</select>'
-           $formGroupParent.append(string) */
-    // se quita el input de tipo de texto
-    /*         $('#input-maquinas').remove()
-    
-            $('#input-maquinas').change(function () {
-              let machineSelected = data.filter(machine => machine.id == $(this).val())[0]
-              $('#input-price-machine').val(machineSelected.price)
-              $('#input-depreciation-machine').val(parseFloat(machineSelected.depreciation))
-              $('#input-years-depreciation').val(machineSelected.yearsDepreciation)
-              $('#input-valor-residual').val(machineSelected.residualValue)
-              $tableMaquinas.api().search(machineSelected.name).draw();
-            })
-          } else {
-            location = '/login'
-          } */
-    /*     }) */
   } else {
     clearformMachines();
     elById("maquinas-btn").value = "ADICIONAR";
     elById("maquinas-btn").textContent = "ADICIONAR";
   }
-});
+}); */
 
-// inicializacion de datatable para maquinas
+// inicializacion de datatable para la carga Fabril
 
-// inicializacion de datatable
-var $tableMaquinas = $("#table-maquinas").dataTable({
-  //"scrollY": "300px",
+var $tableMaquinas = $("#table-cargaFabril").dataTable({
   scrollCollapse: true,
-  //"paging": false,
   pageLength: 25,
 
   language: {
@@ -138,10 +123,10 @@ $tableMaquinas.width("100%");
 }) */
 
 // formulario para adicionar o modificar valores de una maquina
-$("#form-maquinas").submit(submitForm);
+/* $("#form-maquinas").submit(submitForm); */
 
 // calcular depreciacion con el cambio de precio
-$("#input-price-machine").keyup(calulateDepreciation);
+/* $("#input-price-machine").keyup(calulateDepreciation);
 $("#input-years-depreciation").keyup(calulateDepreciation);
 $("#input-years-depreciation").change(calulateDepreciation);
 $("#input-valor-residual").keyup(calulateDepreciation);
@@ -182,9 +167,9 @@ function calulateDepreciation() {
       location.href = "/login";
     }
   });
-}
+} */
 // agreado de formato al input de precio
-$("#input-price-machine").number(true, 2);
+/* $("#input-price-machine").number(true, 2);
 $("#input-valor-residual").number(true, 2);
 
 function loadingSpinner() {
@@ -258,15 +243,15 @@ function submitForm(e, option, maquina) {
       }
     );
     return false;
-  }
+  } */
 
-  let request = $(this).serialize();
+/* let request = $(this).serialize();
   request += `&depreciation=${$("#input-depreciation-machine").val()}`;
   const maquinaExists = checkIfMaquinaExists(
     elById("input-maquinas").value.trim()
-  );
-  //console.log(request);
-  if (elById("inlineRadio1M").checked && !maquinaExists) {
+  ); */
+//console.log(request);
+/* if (elById("inlineRadio1M").checked && !maquinaExists) {
     sendData(request);
   } else if (elById("inlineRadio2M").checked) {
     sendData(request);
@@ -294,9 +279,9 @@ function submitForm(e, option, maquina) {
           return;
         }
       },
-    });
+    }); */
 
-    /*  $.confirm({
+/*  $.confirm({
       title: 'Tezlik',
       content: `La Máquina ${elById('input-maquinas').value} ya existe, ¿Desea actualizarla?`,
       buttons: {
@@ -309,10 +294,10 @@ function submitForm(e, option, maquina) {
         }
       }
     }) */
-  }
-}
+/*  }
+} */
 
-function sendData(request) {
+/* function sendData(request) {
   $.post("api/add_modify_machines.php", request).always(function (xhr) {
     flag = false;
     switch (xhr.status) {
@@ -474,4 +459,4 @@ function checkIfMaquinaExists(name) {
   return Array.from(elById("table-maquinas").tBodies[0].rows).some(
     (row) => row.cells[0].textContent.trim() === name.trim()
   );
-}
+} */

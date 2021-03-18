@@ -146,14 +146,17 @@ include(PARTIALS_PATH . "verify_session.php");
                     <a class="nav-link" href="#maquinas" data-toggle="tab">Máquinas</a>
                   </li>
                   <li class="nav-item">
+                    <a class="nav-link" href="#carga-fabril" data-toggle="tab">Carga Fabril</a>
+                  </li>
+                  <li class="nav-item">
                     <a class="nav-link" href="#process" data-toggle="tab">Procesos</a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" href="#nomina-nav" data-toggle="tab">Nómina</a>
                   </li>
-                  <li class="nav-item">
+                  <!-- <li class="nav-item">
                     <a href="#bpm-nav" data-toggle="tab" class="nav-link">BPM</a>
-                  </li>
+                  </li> -->
                 </ul>
               </div>
             </div>
@@ -307,7 +310,9 @@ include(PARTIALS_PATH . "verify_session.php");
                   </div>
                 </div>
               </div>
+              <!-- Fin  Materia Prima -->
 
+              <!-- Inicio Maquina -->
               <div class="tab-pane" id="maquinas">
                 <div class="row justify-content-center align-items-center">
                   <div class="col-md-4 col-sm-12">
@@ -407,6 +412,102 @@ include(PARTIALS_PATH . "verify_session.php");
                   </div>
                 </div>
               </div>
+              <!-- Fin Maquinas -->
+
+              <!-- Inicio Carga Fabril -->
+              <div class="tab-pane" id="carga-fabril">
+                <div class="row justify-content-center align-items-center">
+                  <div class="col-md-4 col-sm-12">
+                    <form id="form-cargafabril">
+                      <!--<h3>Máquinas</h3>-->
+                      <div hidden class="form-check form-check-radio form-check-inline">
+                        <label class="form-check-label">
+                          <input class="form-check-input" type="radio" name="optionCargaFabril" id="inlineRadio1M" value="option1"> Adicionar
+                          <span class="form-check-sign"></span>
+                        </label>
+                      </div>
+                      <div hidden class="form-check form-check-radio form-check-inline">
+                        <label class="form-check-label">
+                          <input class="form-check-input" type="radio" name="optionCargaFabril" id="inlineRadio2M" value="option2"> Modificar
+                          <span class="form-check-sign"></span>
+                        </label>
+                      </div>
+                      <div class="card py-2">
+                        <div class="row my-2 justify-content-center">
+                          <div class="col-md-10 col-10">
+                            <div class="form-group">
+                              <label for="cfmaquina">Máquina</label>
+                              <select name="cfmaquinas" id="cfmaquinas" class="form-control">
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col-md-10 col-10">
+                            <div class="form-group">
+                              <label for="my-input">Insumo</label>
+                              <input id="insumo" class="form-control" type="text" name="insumo" />
+                            </div>
+                          </div>
+
+                        </div>
+                        <div class="row justify-content-center">
+                          <div class="col-md-5 col-6">
+                            <div class="form-group">
+                              <label for="my-input">Costo</label>
+                              <input id="costoCargaFabril" class="form-control" type="number" name="costoCargaFabril" />
+                            </div>
+                          </div>
+                          <div class="col-md-5 col-5">
+                            <div class="form-group">
+                              <label for="my-input">Costo por Minuto </label>
+                              <input style="text-align: center" id="minutoCargaFabril" class="form-control disabled" type="number" disabled name="minutoCargaFabril" step=".01">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row mb-4">
+                        <div class="col"></div>
+                        <div class="col"><button id="cargaFabril-btn" class="btn btn-primary" type="submit" value="ADICIONAR">ADICIONAR</button></div>
+                        <div class="col"></div>
+                      </div>
+                      <hr>
+                      <div class="row mb-5 mt-4">
+                        <div class="col-12">
+                          <h5 class="pull-left">Importar Carga Fabril</h5>
+                          <a href="#" id="download_cargaFabril" title="Descargar plantilla Excel para Importar/Exportar" class="pull-right btn btn-success btn-icon"><i class="fas fa-file-excel"></i></a>
+                        </div>
+                        <div class="custom-file">
+                          <input type="file" id="filecargaFabril" class="custom-file-input">
+                          <label for="filecargaFabril" class="custom-file-label" data-browse="Elegir">Iniciar importación</label>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                  <div class="col-md-8 col-sm-12">
+                    <div class="card">
+                      <div class="card-header">
+                        <!--<h4>Carga Fabril</h4>-->
+                      </div>
+                      <div class="card-body">
+                        <div class="table-responsive tableFixHead">
+                          <table class="table table-compact table-hover" id="table-cargaFabril">
+                            <thead class="text-primary">
+                              <th>Máquina</th>
+                              <th>Insumo</th>
+                              <th>Costo*Min</th>
+                              <th>Acciones</th>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Fin Carga Fabril -->
+
+              <!-- Incio Proceso -->
               <div class="tab-pane" id="process">
                 <div class="row justify-content-center">
                   <div class="col-md-4 col-sm-12">
@@ -1125,6 +1226,7 @@ include(PARTIALS_PATH . "verify_session.php");
   <script src="/js/materia-prima.js"></script>
   <script src="/js/factor-prestacional.js"></script>
   <script src="/js/maquinas.js"></script>
+  <script src="/js/carga-fabril.js"></script>
   <script src="/js/procesos.js"></script>
   <script src="/js/nomina.js"></script>
   <script src="/js/app/xlsx/xlsx_productos.js"></script>

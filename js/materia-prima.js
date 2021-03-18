@@ -104,9 +104,10 @@ $("#input-unidad").autocomplete({
 
 // inicializacion de datatable Materia prima
 var $tableMateriaPrima = $("#table-materia-prima").dataTable({
-  scrollY: "300px",
+  //scrollY: "300px",
   scrollCollapse: true,
-  paging: false,
+  //paging: false,
+  pageLength: 25,
 
   language: {
     url: "/vendor/dataTables/Spanish.json",
