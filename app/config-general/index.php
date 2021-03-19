@@ -459,7 +459,7 @@ include(PARTIALS_PATH . "verify_session.php");
                           <div class="col-md-5 col-5">
                             <div class="form-group">
                               <label for="my-input">Costo por Minuto </label>
-                              <input style="text-align: center" id="minutoCargaFabril" class="form-control disabled" type="number" disabled name="minutoCargaFabril" step=".01">
+                              <input style="text-align: center" id="minutoCargaFabril" class="form-control disabled" type="number" readonly name="minutoCargaFabril" step=".01">
                             </div>
                           </div>
                         </div>
