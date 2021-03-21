@@ -20,12 +20,11 @@ $.get('api/get_bpm.php', (data, status) => {
 // subir imagen de bpm 
 $('#input-file-img-bpm').change(function () {
   let file = this.files[0]
-  console.log(file)
+  
   var reader = new FileReader();
   reader.onload = function (e) {
     let src = e.target.result
-    console.log(e)
-
+    
     let formData = new FormData()
     formData.append('bpm', file)
     $.ajax({

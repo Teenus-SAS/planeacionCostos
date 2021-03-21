@@ -33,7 +33,7 @@ function loadProductsPP() {
         let productSelected = productsInProcess.filter(
           (product) => product.id == $(this).val()
         )[0];
-        //console.log(productSelected);
+        
         $("#inputProductProcess").val(productSelected.id);
         //$("#titleProductProcess").text(productSelected.name);
         cleanSelects();

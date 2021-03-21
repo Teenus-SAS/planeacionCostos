@@ -101,7 +101,7 @@ function updateDetailsUser(idUser){
         btnClass: 'btn-blue',
         action: function () {
           var email = this.$content.find('.email-user').val();
-          console.log(email)
+          
           if (!email) {
             $.alert('Ingresa el correo electronico');
             return false;

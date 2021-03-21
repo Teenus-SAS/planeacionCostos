@@ -91,7 +91,7 @@ function verifyErrorsExpenses(jsonObj) {
     let expense = jsonObj[index]
     if (expense.Cuenta != undefined) {
       let parentAccount = expense.Cuenta.toString().substring(0, 2)
-      console.log(parentAccount != '53')
+      
       if (parentAccount != '51' && parentAccount != '52' && parentAccount != '53'
         && parentAccount != '71' && parentAccount != '72' && parentAccount != '73'
         && parentAccount != '74') {
@@ -255,7 +255,7 @@ function generateFileExpensesGE() {
   let ws_data = []
   $.get('api/get_expenses_description.php', (data, status) => {
     // cargado de de productos con referencias
-    console.log(data)
+    
     if ( data != null) {
       data["51"].accounts.forEach((account) => {
         ws_data.push({

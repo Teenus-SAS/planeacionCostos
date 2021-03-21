@@ -80,14 +80,14 @@
            
             const timeStamp = (newNow - now) / 1000;
             now = newNow;
-            console.log(timeStamp);
+            
             if(timeStamp > 15) {
               $.ajax({
                 url:"/partials/verify.php",
                 type: "post",
                 dataType: 'text',
                 success:function(result, status){ */
-                  /* console.log(result, status); */
+                  
           /*       }
             });
             }
@@ -96,7 +96,7 @@
 document.addEventListener('click',evHandler); */
 
 /* document.cookie = 'user=hello; path=/'; */
-/* console.log(document.cookie);
+/* 
 
 window.setInterval(function (){
 
@@ -118,7 +118,7 @@ window.setInterval(function (){
                   type: 'post',
                   data: { usuario : firstTime},
                   success: function (data, status) {
-                    console.log(data, status);
+                    
                     location.href = "/login";
                   }
                 }).always(function () {

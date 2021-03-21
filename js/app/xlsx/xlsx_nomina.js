@@ -259,7 +259,7 @@ function uploadRosters(rosters) {
         if (data[index]) {
           countSuccess++
         } else {
-          console.log(rosters[index])
+          
           $.notify({
             icon: "nc-icon nc-bell-55",
             message: `Algo ha salido mal con el producto ${rosters[index].Cargo}`

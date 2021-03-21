@@ -181,7 +181,7 @@ $('#downloaad-pdf').click(() => {
 
   doc.addImage(charCostPdf.toBase64Image(), 'PNG', 150, doc.autoTable.previous.finalY + 40, 300, 200)
   let count = 0
-  console.log(productsReq)
+  
   productsReq.forEach((productReq, indexProduct) => {
     $.ajax({
       async: false,
@@ -195,7 +195,7 @@ $('#downloaad-pdf').click(() => {
         doc.addPage()
         let product = products.filter(product => product.id == productReq.id)[0]
         doc.setFontSize(16)
-        console.log(indexProduct)
+        
         if (indexProduct == 0) {
           doc.text('Detalle de Costeo por Producto e indicadores', 300, 80, {
             align: 'center'
@@ -429,7 +429,7 @@ $('#downloaad-pdf').click(() => {
               })
             }
           })
-          console.log(doc)
+          
         }
       }
     })

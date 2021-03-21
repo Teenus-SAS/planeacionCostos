@@ -25,7 +25,16 @@ $(document).ready(function () {
   );
 });
 
-/* Limpia  */
+/* Limpia campos si se cambia seleccion de maquina */
+
+$("#cfmaquinas").change(function (e) {
+  e.preventDefault();
+  $("#cfmaquinas").val("");
+  $("#insumo").val("");
+  $("#costoCargaFabril").val("");
+  $("#minutoCargaFabril").val("");
+  $("#cargaFabril-btn").html("Adicionar");
+});
 
 // inicializacion de datatable para la carga Fabril
 
@@ -97,7 +106,7 @@ $tableCargaFabril.width("100%");
 // formulario para adicionar o modificar valores de una maquina
 $("#form-cargafabril").submit(submitForm);
 
-// calcular depreciacion con el cambio de precio
+// calcular Carga fabril con el cambio de costo
 $("#costoCargaFabril").keyup(calulateCostxMin);
 elById("costoCargaFabril").oninput = calulateCostxMin;
 
@@ -144,33 +153,7 @@ function completeSpinner() {
   $("#spinnerAjax").addClass("fade");
 }
 
-/* document.getElementById("table-maquinas").addEventListener("click", (ev) => {
-  const selectedElement = ev.target;
-  const closestTr = selectedElement.closest("tr");
-  const maquina = closestTr.cells[0].textContent;
-
-  if (selectedElement.classList.contains("link-borrar")) {
-    deleteMachine(selectedElement.dataset.maquinaId, maquina);
-  } else if (selectedElement.classList.contains("link-editar")) {
-    elById("inlineRadio2M").click();
-
-    elById("maquinas-btn").value = "MODIFICAR";
-    elById("maquinas-btn").textContent = "MODIFICAR";
-    const pCompra = closestTr.cells[1].textContent.replace("$", "").trim();
-    const depreciacion = closestTr.cells[2].textContent.trim().replace(",", "");
-    console.log(depreciacion);
-    const yearsDepreciation = selectedElement.dataset.maquinaYearsDeprec;
-    const valorResidual = selectedElement.dataset.maquinaResidual;
-    const idMaquina = selectedElement.dataset.maquinaId;
-
-    elById("input-price-machine").value = pCompra;
-    elById("input-valor-residual").value = parseFloat(valorResidual);
-    elById("input-years-depreciation").value = yearsDepreciation;
-    elById("costoCargaFabril").value = depreciacion;
-    elById("input-maquinas").value = maquina;
-    elById("machine-id").value = idMaquina;
-  }
-}); */
+/* Envio de formulario */
 
 function submitForm(e, option, maquina) {
   e.preventDefault();
@@ -290,10 +273,38 @@ function sendData(request) {
   });
 }
 
+/* Actualizar carga fabril */
+
+$(document).on("click", ".link-editar", function (event) {
+  event.preventDefault();
+
+  $("#idCargaFabril").val(this.id);
+  maquina = $(this).parents("tr").find("td").eq(0).text();
+  insumo = $(this).parents("tr").find("td").eq(1).text();
+  costo = parseInt(
+    $(this)
+      .parents("tr")
+      .find("td")
+      .eq(2)
+      .html()
+      .replace("$", "")
+      .replace(",", "")
+  );
+
+  $(`#cfmaquinas option:contains(${maquina})`).prop("selected", true);
+  $("#insumo").val(insumo);
+  $("#costoCargaFabril").val(costo);
+  $("#cargaFabril-btn").html("Actualizar");
+  calulateCostxMin();
+});
+
 /* Eliminar carga fabril */
 
 $(document).on("click", ".link-borrar", function (event) {
+  event.preventDefault();
+
   let id = this.id;
+
   bootbox.confirm({
     title: "Eliminar Carga Fabril",
     message: `¿Está seguro de eliminar la carga fabril para esta máquina?.  Esta acción no se puede deshacer`,

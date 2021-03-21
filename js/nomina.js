@@ -268,9 +268,7 @@ $("#btn-calculate-salary").click(function () {
       return false;
     } else {
       this.setCustomValidity("");
-      console.log(this.validity);
-      console.log(this.validity.valid);
-      console.log(this.validity.customError);
+      
     }
   });
 
@@ -372,7 +370,6 @@ var $tableNominas = $("#tableNominas").dataTable({
     url: "api/get_rosters.php?dataTable=true",
     /*   dataSrc: 'data' */
     dataSrc: function (json) {
-      //console.log(json.data);
       nominasInfo = json.data;
       return json.data;
     },
@@ -508,7 +505,7 @@ $("#form-nomina").validate({
   },
   submitHandler: function (form) {
     let request = $(form).serialize();
-    console.log(request);
+    
     $.post("api/add_modify_rosters.php", request).always(function (xhr) {
       switch (xhr.status) {
         case 200:
@@ -742,10 +739,9 @@ elById("tableNominas").addEventListener("click", (ev) => {
   if (selectedEl.classList.contains("link-borrar")) {
     deleteNomina(selectedEl.dataset.nominaId);
   } else if (selectedEl.classList.contains("link-editar")) {
-    /* 
-        console.log(new FormData(elById('form-nomina'))); */
+    
     const rowInfo = $tableNominas.fnGetData(selectedEl.closest("tr"));
-    console.log($tableNominas.fnGetData(selectedEl.closest("tr")));
+    
     const { process: proceso } = rowInfo;
 
     elById("input-cargo").value = rowInfo.position;

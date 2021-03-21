@@ -92,9 +92,18 @@ class CargaFabrilDao
   public function saveOrUpdate($carga)
   {
     $this->db->connect();
-    $query = "INSERT INTO `carga_fabril` (`id_carga`, `id_maquina`, `id_empresa`, `insumo`,
-      `costo`, `costo_por_minuto`) VALUES (NULL, '" . $carga->getIdMaquina() . "', '" . $carga->getIdEmpresa() . "',
-      '" . $carga->getInsumo() . "', '" . $carga->getCosto() . "','" . $carga->getCostoPorMinuto() . "')";
+    $id = $this->findById($carga);
+
+    if ($id) {
+      $query = "UPDATE `carga_fabril` SET `id_carga` = NULL, `insumo` = '" . $carga->getInsumo() . "', `costo` = '" . $carga->getCosto() . "', 
+                        `costo_por_minuto`='" . $carga->getCostoPorMinuto() . "' 
+                WHERE `id_maquina` = '" . $carga->getIdMaquina() . "', `id_empresa`='" . $carga->getIdEmpresa() . "' ";
+    } else {
+      $query = "INSERT INTO `carga_fabril` (`id_carga`, `id_maquina`, `id_empresa`, `insumo`,
+                         `costo`, `costo_por_minuto`) 
+                VALUES (NULL, '" . $carga->getIdMaquina() . "', '" . $carga->getIdEmpresa() . "', '" . $carga->getInsumo() . "', 
+                          '" . $carga->getCosto() . "','" . $carga->getCostoPorMinuto() . "')";
+    }
     return  $this->db->consult($query);
   }
 

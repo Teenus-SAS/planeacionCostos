@@ -209,7 +209,7 @@ document.getElementById("table-maquinas").addEventListener("click", (ev) => {
     elById("maquinas-btn").textContent = "MODIFICAR";
     const pCompra = closestTr.cells[1].textContent.replace("$", "").trim();
     const depreciacion = closestTr.cells[2].textContent.trim().replace(",", "");
-    console.log(depreciacion);
+    
     const yearsDepreciation = selectedElement.dataset.maquinaYearsDeprec;
     const valorResidual = selectedElement.dataset.maquinaResidual;
     const idMaquina = selectedElement.dataset.maquinaId;
@@ -265,7 +265,7 @@ function submitForm(e, option, maquina) {
   const maquinaExists = checkIfMaquinaExists(
     elById("input-maquinas").value.trim()
   );
-  //console.log(request);
+  
   if (elById("inlineRadio1M").checked && !maquinaExists) {
     sendData(request);
   } else if (elById("inlineRadio2M").checked) {

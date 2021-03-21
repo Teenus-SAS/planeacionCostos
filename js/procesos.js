@@ -108,7 +108,7 @@ $tableProcesos.width('100%')
 $('#form-procesos').submit(function (e) {
   e.preventDefault()
   let request = $(this).serialize()
-  console.log(request);
+  
   $.post('api/add_modify_processes.php', request)
     .always(function (xhr) {
       switch (xhr.status) {

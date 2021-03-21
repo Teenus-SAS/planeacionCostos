@@ -173,8 +173,6 @@ $("#form-materia-prima").submit(function (e) {
       return;
     }
 
-    //console.log(existsMateriaPrma(elById('input-materia-prima').value));
-
     if (existsMateriaPrma(elById("input-materia-prima").value)) {
       $.confirm({
         title: "Tezlik",

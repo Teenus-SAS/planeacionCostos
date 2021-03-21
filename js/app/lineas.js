@@ -140,7 +140,7 @@ $('.remove').click(function () {
     choice.prop("checked", false);
     choice.parent().appendTo("#list1");
     choice.siblings('.quantity').remove()
-    console.log(choice.siblings('.quantity'))
+    
   });
   if (items.length == 0) {
     $.alert(
