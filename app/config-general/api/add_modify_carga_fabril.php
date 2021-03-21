@@ -37,6 +37,7 @@ if (isset($_SESSION["user"])) {
     if ($_POST["insumo"] != "" || $_POST["costoCargaFabril"] != "" || $_POST["minutoCargaFabril"] != "") {
       if ($_POST["costoCargaFabril"] > 0) {
         $carga = new CargaFabril();
+        $carga->setId($_POST["idCargaFabril"]);
         $carga->setInsumo($_POST["insumo"]);
         $carga->setIdEmpresa($user->getCompany()->getId());
         $carga->setIdMaquina($_POST["cfmaquinas"]);

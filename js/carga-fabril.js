@@ -29,7 +29,6 @@ $(document).ready(function () {
 
 $("#cfmaquinas").change(function (e) {
   e.preventDefault();
-  $("#cfmaquinas").val("");
   $("#insumo").val("");
   $("#costoCargaFabril").val("");
   $("#minutoCargaFabril").val("");
@@ -267,7 +266,7 @@ function sendData(request) {
     if (flag == false) {
       elById("cargaFabril-btn").value = "ADICIONAR";
       elById("cargaFabril-btn").textContent = "ADICIONAR";
-      elById("inlineRadio1CF").click();
+      //elById("inlineRadio1CF").click();
       resetFormCargaFabril();
     }
   });

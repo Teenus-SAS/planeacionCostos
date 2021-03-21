@@ -92,12 +92,15 @@ class CargaFabrilDao
   public function saveOrUpdate($carga)
   {
     $this->db->connect();
-    $id = $this->findById($carga);
+    //$id = $this->findById($carga->getId());
+    $query = "SELECT * FROM `carga_fabril`
+              WHERE `id_carga` = '" . $carga->getId() . "' ";
+    $cargasDB = $this->db->consult($query, "yes");
 
-    if ($id) {
-      $query = "UPDATE `carga_fabril` SET `id_carga` = NULL, `insumo` = '" . $carga->getInsumo() . "', `costo` = '" . $carga->getCosto() . "', 
+    if ($cargasDB) {
+      $query = "UPDATE `carga_fabril` SET `insumo` = '" . $carga->getInsumo() . "', `costo` = '" . $carga->getCosto() . "', 
                         `costo_por_minuto`='" . $carga->getCostoPorMinuto() . "' 
-                WHERE `id_maquina` = '" . $carga->getIdMaquina() . "', `id_empresa`='" . $carga->getIdEmpresa() . "' ";
+                WHERE `id_carga` = '" . $carga->getId() . "' ";
     } else {
       $query = "INSERT INTO `carga_fabril` (`id_carga`, `id_maquina`, `id_empresa`, `insumo`,
                          `costo`, `costo_por_minuto`) 

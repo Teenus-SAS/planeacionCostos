@@ -47,6 +47,7 @@ $("#btnCrearNomina").click(function (e) {
   e.preventDefault();
   $("#panelCrearNomina").toggle(1000);
   $("#panelImportarNomina").slideUp();
+  resetFieldsRoster();
 });
 
 $("#btnImportarNomina").click(function (e) {
@@ -268,7 +269,6 @@ $("#btn-calculate-salary").click(function () {
       return false;
     } else {
       this.setCustomValidity("");
-      
     }
   });
 
@@ -505,7 +505,7 @@ $("#form-nomina").validate({
   },
   submitHandler: function (form) {
     let request = $(form).serialize();
-    
+
     $.post("api/add_modify_rosters.php", request).always(function (xhr) {
       switch (xhr.status) {
         case 200:
@@ -739,9 +739,9 @@ elById("tableNominas").addEventListener("click", (ev) => {
   if (selectedEl.classList.contains("link-borrar")) {
     deleteNomina(selectedEl.dataset.nominaId);
   } else if (selectedEl.classList.contains("link-editar")) {
-    
+    $("#btnCrearNomina").click();
     const rowInfo = $tableNominas.fnGetData(selectedEl.closest("tr"));
-    
+
     const { process: proceso } = rowInfo;
 
     elById("input-cargo").value = rowInfo.position;
@@ -781,6 +781,7 @@ elById("tableNominas").addEventListener("click", (ev) => {
 
 function resetFieldsRoster() {
   elById("input-cargo").value = "";
+  $("#select-proceso").val("");
   elById("input-quantity-employees").value = "";
   elById("input-salario").value = "0.0";
   elById("input-bonificacion").value = "0.0";
