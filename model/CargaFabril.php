@@ -1,11 +1,14 @@
 <?php
 
-class CargaFabril implements JsonSerializable {
+class CargaFabril implements JsonSerializable
+{
     // Id de la carga fabril
     private $id;
     // Id de la maquina
     private $idMaquina;
-    // Id de la empresa
+    // nombre de la maquina
+    private $nombreMaquina;
+    // id de la empresa
     private $idEmpresa;
     // Insumo
     private $insumo;
@@ -14,51 +17,73 @@ class CargaFabril implements JsonSerializable {
     // Costo del insumo por minuto
     private $costoPorMinuto;
 
-    public function setId($id) {
+    public function setId($id)
+    {
         $this->id = $id;
     }
 
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
-    public function setIdMaquina($idMaquina) {
+    public function setIdMaquina($idMaquina)
+    {
         $this->idMaquina = $idMaquina;
     }
 
-    public function getIdMaquina() {
+    public function getIdMaquina()
+    {
         return $this->idMaquina;
     }
 
-    public function setIdEmpresa($idEmpresa) {
+    public function setnombreMaquina($nombreMaquina)
+    {
+        $this->nombreMaquina = $nombreMaquina;
+    }
+
+    public function getnombreMaquina()
+    {
+        return $this->nombreMaquina;
+    }
+
+    public function setIdEmpresa($idEmpresa)
+    {
         $this->idEmpresa = $idEmpresa;
     }
 
-    public function getIdEmpresa() {
+    public function getIdEmpresa()
+    {
         return $this->idEmpresa;
     }
 
-    public function getInsumo() {
+    public function getInsumo()
+    {
         return $this->insumo;
     }
 
-    public function setInsumo($insumo) {
+    public function setInsumo($insumo)
+    {
         $this->insumo = $insumo;
     }
 
-    public function getCosto() {
+    public function getCosto()
+    {
         return $this->costo;
     }
 
-    public function setCosto($costo) {
+    public function setCosto($costo)
+    {
         $this->costo = $costo;
     }
 
-    public function getCostoPorMinuto() {
+    public function getCostoPorMinuto()
+    {
         return $this->costoPorMinuto;
     }
 
-    public function setCostoPorMinuto($costoPorMinuto) {
+    public function setCostoPorMinuto($costoPorMinuto)
+    {
         $this->costoPorMinuto = $costoPorMinuto;
     }
 

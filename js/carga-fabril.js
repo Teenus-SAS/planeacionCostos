@@ -4,17 +4,11 @@
 logica de carga fabril
 */
 
-/* flag = false;
+/* Cambiar puntero */
+$(".link-borrar").css("cursor", "pointer");
 
-elById("inlineRadioNom1").click();
-document.querySelector('a[href$="maquinas"]').addEventListener("click", () => {
-  resetFormMaquinas();
-  elById("inlineRadio1M").click();
-}); */
-
+// cargar select maquinas
 $(document).ready(function () {
-  // cargado de maquinas
-  debugger;
   $.get(
     "/app/config-general/api/get_machines.php",
     (_machines, status, xhr) => {
@@ -31,35 +25,11 @@ $(document).ready(function () {
   );
 });
 
-/* function clearformMachines() {
-  if ($("#input-maquinas")[0].tagName == "SELECT") {
-    let $formGroupParent = $("#input-maquinas").parent();
-    $("#input-maquinas").fadeOut();
-    $("#input-price-machine").val("");
-    $("#costoCargaFabril").val("");
-    $formGroupParent.append(
-      `<input id="input-maquinas" class="form-control" type="text" name="machine"> `
-    );
-    $("#input-maquinas").remove();
-  }
-}
-function clearFile(input) {
-  $(input).val("");
-} */
-
-/* $("input[name=optionMaquinas]").change(function () {
-  $tableMaquinas.api().search("").draw();
-  if ($(this).val() == "option2") {
-  } else {
-    clearformMachines();
-    elById("maquinas-btn").value = "ADICIONAR";
-    elById("maquinas-btn").textContent = "ADICIONAR";
-  }
-}); */
+/* Limpia  */
 
 // inicializacion de datatable para la carga Fabril
 
-var $tableMaquinas = $("#table-cargaFabril").dataTable({
+var $tableCargaFabril = $("#table-cargaFabril").dataTable({
   scrollCollapse: true,
   pageLength: 25,
 
@@ -76,15 +46,17 @@ var $tableMaquinas = $("#table-cargaFabril").dataTable({
       className: "text-left",
     },
     {
-      targets: 1,
+      targets: 2,
       className: "text-right",
     },
-    /*   {
-        targets: -2,
-        className: 'text-right'
-      } */
   ],
   columns: [
+    {
+      data: "nombreMaquina",
+      render: (data, type, row) => {
+        return `<span class="name-left">${data}</span>`;
+      },
+    },
     {
       data: "insumo",
       render: (data, type, row) => {
@@ -104,20 +76,20 @@ var $tableMaquinas = $("#table-cargaFabril").dataTable({
           /* return data */
           return $.number(data, 2, ".", ",");
         } else {
-          return $.number(data, 2, ".", ",");  
+          return $.number(data, 2, ".", ",");
         }
       },
     },
-    /*{
+    {
       data: null,
       render: function (data) {
-        return `<a href='#'><i data-maquina-id=${data.id} data-toggle='tooltip' title="Editar" class='nc-icon nc-refresh-69 link-editar' style='color:rgb(255, 165, 0)'></i></a><a href='#' style="margin-left: 1rem;"><i data-maquina-id=${data.id} class='nc-icon nc-simple-remove link-borrar' data-toggle='tooltip' title='Eliminar' style='color:rgb(255, 0, 0)'></i></a>`;
+        return `<a href='#'><i id=${data.id} data-toggle='tooltip' title="Editar" class='nc-icon nc-refresh-69 link-editar' style='color:rgb(255, 165, 0)'></i></a><a href='#' style="margin-left: 1rem;"><i id=${data.id} class='nc-icon nc-simple-remove link-borrar' data-toggle='tooltip' title='Eliminar' style='color:rgb(255, 0, 0)'></i></a>`;
       },
-    },*/
+    },
   ],
   reponsive: true,
 });
-$tableMaquinas.width("100%");
+$tableCargaFabril.width("100%");
 /* $tableMaquinas.on('click', 'tr', function () {
   $(this).toggleClass('selected');
 }) */
@@ -126,14 +98,13 @@ $tableMaquinas.width("100%");
 $("#form-cargafabril").submit(submitForm);
 
 // calcular depreciacion con el cambio de precio
-$("#costoCargaFabril").keyup(calulateDepreciation);
-elById("costoCargaFabril").oninput = calulateDepreciation;
+$("#costoCargaFabril").keyup(calulateCostxMin);
+elById("costoCargaFabril").oninput = calulateCostxMin;
 
-function calulateDepreciation() {
+function calulateCostxMin() {
   "use strict";
-  debugger;
   let request = {
-    price: $("#costoCargaFabril").val()
+    price: $("#costoCargaFabril").val(),
   };
   $.get("api/get_costo_por_minuto.php", request, (data, status) => {
     if (status == "success") {
@@ -173,7 +144,7 @@ function completeSpinner() {
   $("#spinnerAjax").addClass("fade");
 }
 
-document.getElementById("table-maquinas").addEventListener("click", (ev) => {
+/* document.getElementById("table-maquinas").addEventListener("click", (ev) => {
   const selectedElement = ev.target;
   const closestTr = selectedElement.closest("tr");
   const maquina = closestTr.cells[0].textContent;
@@ -199,48 +170,60 @@ document.getElementById("table-maquinas").addEventListener("click", (ev) => {
     elById("input-maquinas").value = maquina;
     elById("machine-id").value = idMaquina;
   }
-});
-
-
+}); */
 
 function submitForm(e, option, maquina) {
   e.preventDefault();
+  maquina = $("#cfmaquinas").val();
+  let insumo = $("#insumo").val();
+  let costo = $("#costoCargaFabril").val();
 
-let request = $(this).serialize();
-console.log(request);
-    sendData(request);
+  if (maquina === null || insumo === "" || costo === "") {
+    return $.notify(
+      {
+        icon: "nc-icon nc-bell-55",
+        message: "Ingrese <b>Todos</b> los campos",
+      },
+      {
+        type: "danger",
+        timer: 8000,
+      }
+    );
+  }
+
+  let request = $(this).serialize();
+  sendData(request);
 }
 
 function sendData(request) {
-  console.log(request);
-  $.post("api/add_carga_fabril.php", request).always(function (xhr) {
+  $.post("api/add_modify_carga_fabril.php", request).always(function (xhr) {
     flag = false;
     switch (xhr.status) {
       case 200:
         $.notify(
           {
             icon: "nc-icon nc-bell-55",
-            message: "Maquina <b>Actualizada</b>",
+            message: "Carga Fabril <b>Actualizada</b>",
           },
           {
             type: "primary",
             timer: 8000,
           }
         );
-        $tableMaquinas.api().ajax.reload();
+        $tableCargaFabril.api().ajax.reload();
         break;
       case 201:
         $.notify(
           {
             icon: "nc-icon nc-bell-55",
-            message: "Máquina <b>Creada</b> Correctamente",
+            message: "Carga Fabril <b>Creada</b> Correctamente",
           },
           {
             type: "success",
             timer: 8000,
           }
         );
-        $tableMaquinas.api().ajax.reload();
+        $tableCargaFabril.api().ajax.reload();
         $("#form-cargafabril")[0].reset();
         break;
       case 412:
@@ -273,7 +256,7 @@ function sendData(request) {
         $.notify(
           {
             icon: "nc-icon nc-bell-55",
-            message: "Ocurrió un error mientras se creaba la máquina",
+            message: "Ocurrió un error mientras se creaba la carga fabril",
           },
           {
             type: "danger",
@@ -289,7 +272,7 @@ function sendData(request) {
         $.notify(
           {
             icon: "nc-icon nc-bell-55",
-            message: "El precio no puede ser 0 cero",
+            message: "El costo no puede ser 0 cero",
           },
           {
             type: "danger",
@@ -299,18 +282,21 @@ function sendData(request) {
         break;
     }
     if (flag == false) {
-      elById("maquinas-btn").value = "ADICIONAR";
-      elById("maquinas-btn").textContent = "ADICIONAR";
-      elById("inlineRadio1M").click();
-      resetFormMaquinas();
+      elById("cargaFabril-btn").value = "ADICIONAR";
+      elById("cargaFabril-btn").textContent = "ADICIONAR";
+      elById("inlineRadio1CF").click();
+      resetFormCargaFabril();
     }
   });
 }
-/*
-function deleteMachine(id, maquina) {
+
+/* Eliminar carga fabril */
+
+$(document).on("click", ".link-borrar", function (event) {
+  let id = this.id;
   bootbox.confirm({
-    title: "Eliminar Máquinas",
-    message: `¿Está seguro de eliminar esta máquina?.  Esta acción no se puede deshacer`,
+    title: "Eliminar Carga Fabril",
+    message: `¿Está seguro de eliminar la carga fabril para esta máquina?.  Esta acción no se puede deshacer`,
     buttons: {
       confirm: {
         label: '<i class="fa fa-check"></i> Si',
@@ -323,21 +309,21 @@ function deleteMachine(id, maquina) {
     },
     callback: function (result) {
       if (result == true) {
-        $.post("api/delete_machine.php", {
+        $.post("api/delete_cargaFabril.php", {
           id: id,
         }).always(function (xhr) {
           if (xhr.status == 200) {
             $.notify(
               {
                 icon: "nc-icon nc-bell-55",
-                message: "Se ha borrado una máquina",
+                message: "Se eliminó la carga fabril asociada a esa máquina",
               },
               {
                 type: "info",
                 timer: 8000,
               }
             );
-            $tableMaquinas.api().ajax.reload();
+            $tableCargaFabril.api().ajax.reload();
           } else {
             $.notify(
               {
@@ -352,24 +338,26 @@ function deleteMachine(id, maquina) {
           }
         });
       } else {
-        resetFormMaquinas();
+        resetFormCargaFabril();
         return;
       }
     },
   });
-}*/
+});
+
+function deleteCargaFabril(id, maquina) {}
 
 function formatCurrency(resultadoFloat) {
   return $.number(resultadoFloat, 2, ",", ".");
 }
-/*
-function resetFormMaquinas() {
-  elById("input-maquinas").value = "";
-  elById("input-price-machine").value = "";
-  elById("input-valor-residual").value = "";
-  elById("costoCargaFabril").value = "";
-}
 
+function resetFormCargaFabril() {
+  elById("cfmaquinas").value = "";
+  elById("insumo").value = "";
+  elById("costoCargaFabril").value = "";
+  elById("minutoCargaFabril").value = "";
+}
+/*
 function checkIfMaquinaExists(name) {
   return Array.from(elById("table-maquinas").tBodies[0].rows).some(
     (row) => row.cells[0].textContent.trim() === name.trim()

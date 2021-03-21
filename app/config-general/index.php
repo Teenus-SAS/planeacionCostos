@@ -420,23 +420,24 @@ include(PARTIALS_PATH . "verify_session.php");
                   <div class="col-md-4 col-sm-12">
                     <form id="form-cargafabril">
                       <!--<h3>Máquinas</h3>-->
-                      <div hidden class="form-check form-check-radio form-check-inline">
+                      <!-- <div hidden class="form-check form-check-radio form-check-inline">
                         <label class="form-check-label">
-                          <input class="form-check-input" type="radio" name="optionCargaFabril" id="inlineRadio1M" value="option1"> Adicionar
+                          <input class="form-check-input" type="radio" name="optionCargaFabril" id="inlineRadio1CF" value="option1"> Adicionar
                           <span class="form-check-sign"></span>
                         </label>
                       </div>
                       <div hidden class="form-check form-check-radio form-check-inline">
                         <label class="form-check-label">
-                          <input class="form-check-input" type="radio" name="optionCargaFabril" id="inlineRadio2M" value="option2"> Modificar
+                          <input class="form-check-input" type="radio" name="optionCargaFabril" id="inlineRadio2CF" value="option2"> Modificar
                           <span class="form-check-sign"></span>
                         </label>
-                      </div>
+                      </div> -->
                       <div class="card py-2">
                         <div class="row my-2 justify-content-center">
                           <div class="col-md-10 col-10">
                             <div class="form-group">
                               <label for="cfmaquina">Máquina</label>
+                              <input id="idCargaFabril" class="form-control" type="text" name="idCargaFabril" hidden/>
                               <select name="cfmaquinas" id="cfmaquinas" class="form-control">
                               </select>
                             </div>
@@ -493,6 +494,7 @@ include(PARTIALS_PATH . "verify_session.php");
                             <thead class="text-primary">
                               <th>Máquina</th>
                               <th>Insumo</th>
+                              <th>Costo</th>
                               <th>Costo*Min</th>
                               <th>Acciones</th>
                             </thead>

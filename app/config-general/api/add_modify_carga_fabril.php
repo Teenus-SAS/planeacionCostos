@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author Teenus SAS>
  * @github Teenus SAS
@@ -32,28 +33,29 @@ header("Content-Type: application/json");
 if (isset($_SESSION["user"])) {
   $user = unserialize($_SESSION["user"]);
   $cargaFabrilDao = new CargaFabrilDao();
-    if (isset($_POST["insumo"]) && isset($_POST["costoCargaFabril"]) && isset($_POST["minutoCargaFabril"])) {
-      if ($_POST["insumo"] != "" || $_POST["costoCargaFabril"] != "" || $_POST["minutoCargaFabril"] != "") {
-        if ($_POST["costoCargaFabril"] > 0) {
-            $carga = new CargaFabril();
-            $carga->setInsumo($_POST["insumo"]);
-            $carga->setIdEmpresa($user->getCompany()->getId());
-            $carga->setCosto($_POST["costoCargaFabril"]);
-            $carga->setCostoPorMinuto($_POST["minutoCargaFabril"]);
-            if ($cargaFabrilDao->save($carga) > 0) {
-              http_response_code(201);
-            } else {
-              http_response_code(500);
-            }
+  if (isset($_POST["insumo"]) && isset($_POST["costoCargaFabril"]) && isset($_POST["minutoCargaFabril"])) {
+    if ($_POST["insumo"] != "" || $_POST["costoCargaFabril"] != "" || $_POST["minutoCargaFabril"] != "") {
+      if ($_POST["costoCargaFabril"] > 0) {
+        $carga = new CargaFabril();
+        $carga->setInsumo($_POST["insumo"]);
+        $carga->setIdEmpresa($user->getCompany()->getId());
+        $carga->setIdMaquina($_POST["cfmaquinas"]);
+        $carga->setCosto($_POST["costoCargaFabril"]);
+        $carga->setCostoPorMinuto($_POST["minutoCargaFabril"]);
+        if ($cargaFabrilDao->saveOrUpdate($carga) > 0) {
+          http_response_code(201);
         } else {
-          http_response_code(501);
+          http_response_code(500);
         }
       } else {
-        http_response_code(400);
+        http_response_code(501);
       }
     } else {
       http_response_code(400);
     }
+  } else {
+    http_response_code(400);
+  }
 } else {
   http_response_code(401);
   exit;
