@@ -45,6 +45,12 @@ class Roster implements JsonSerializable
    */
   private $salary;
   /**
+   * transporte de la nomina 
+   *
+   * @var double
+   */
+  private $transporte;
+  /**
    * bonificacion de la nomina
    *
    * @var double
@@ -158,6 +164,16 @@ class Roster implements JsonSerializable
   public function setSalary($salary)
   {
     $this->salary = $salary;
+  }
+
+  public function getTransporte()
+  {
+    return $this->transporte;
+  }
+
+  public function setTransporte($transporte)
+  {
+    $this->transporte = $transporte;
   }
 
   public function getBonus()

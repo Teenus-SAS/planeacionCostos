@@ -53,8 +53,9 @@ class RosterDao
     $roster->setIdCompany($rosterDB["empresas_id_empresa"]);
     $roster->setProcess($this->processDao->findById($rosterDB["procesos_id_procesos"]));
     $roster->setPosition($rosterDB["cargo"]);
-    $roster->setNumberEmployees($rosterDB["n_empleados"]);
+    //$roster->setNumberEmployees($rosterDB["n_empleados"]);
     $roster->setSalary($rosterDB["salario"]);
+    $roster->setTransporte($rosterDB["transporte"]);
     $roster->setBonus($rosterDB["bonificacion"]);
     $roster->setEndowment($rosterDB["dotacion"]);
     $roster->setWorkHours($rosterDB["horas_dia"]);
@@ -138,11 +139,11 @@ class RosterDao
   {
     $this->db->connect();
     $query = "INSERT INTO `nominas` (`id_nominas`, `empresas_id_empresa`, `cargo`,
-      `procesos_id_procesos`, `n_empleados`, `salario`, `bonificacion`, `dotacion`,
+      `procesos_id_procesos`, `n_empleados`, `salario`, `transporte`,`bonificacion`, `dotacion`,
       `dias_trabajo_mes`, `horas_dia`, `factor_prestacional`, `salario_neto`,`contrato`,`horas_extra`) 
     VALUES (NULL, '" . $roster->getIdCompany() . "', '" . $roster->getPosition() . "',
       '" . $roster->getProcess()->getId() . "', '" . $roster->getNumberEmployees() . "',
-      '" . $roster->getSalary() . "', '" . $roster->getBonus() . "',
+      '" . $roster->getSalary() . "', '" . $roster->getTransporte() . "','" . $roster->getBonus() . "',
       '" . $roster->getEndowment() . "', '" . $roster->getBussinesDaysMonth() . "',
       '" . $roster->getWorkHours() . "', '" . $roster->getPerformaceFactor() . "',
       '" . $roster->getNetSalary() . "', '" . $roster->getContract() . "','" . $roster->getExtraHours() . "')";
@@ -158,16 +159,20 @@ class RosterDao
   public function update($roster)
   {
     $this->db->connect();
-    $query = "UPDATE `nominas` SET `cargo` = '" . $roster->getPosition() . "',
-    `procesos_id_procesos` = '" . $roster->getProcess()->getId() . "',
-    `n_empleados` = '" . $roster->getNumberEmployees() . "', `salario` = '" . $roster->getSalary() . "',
-    `bonificacion` = '" . $roster->getBonus() . "', `dotacion` = '" . $roster->getEndowment() . "',
-    `dias_trabajo_mes` = '" . $roster->getBussinesDaysMonth() . "',
-    `horas_dia` = '" . $roster->getWorkHours() . "',
-    `factor_prestacional` = '" . $roster->getPerformaceFactor() . "',
-    `salario_neto` = '" . $roster->getNetSalary() . "',
-    `contrato` = '" . $roster->getContract() . "', `horas_extra` = '" . $roster->getExtraHours() . "'
-     WHERE `nominas`.`id_nominas` = " . $roster->getId();
+    $query = "UPDATE `nominas` 
+            SET `cargo` = '" . $roster->getPosition() . "',
+            `procesos_id_procesos` = '" . $roster->getProcess()->getId() . "',
+            `n_empleados` = '" . $roster->getNumberEmployees() . "', 
+            `salario` = '" . $roster->getSalary() . "',
+            `transporte` = '" . $roster->getTransporte() . "',
+            `bonificacion` = '" . $roster->getBonus() . "', 
+            `dotacion` = '" . $roster->getEndowment() . "',
+            `dias_trabajo_mes` = '" . $roster->getBussinesDaysMonth() . "',
+            `horas_dia` = '" . $roster->getWorkHours() . "',
+            `factor_prestacional` = '" . $roster->getPerformaceFactor() . "',
+            `salario_neto` = '" . $roster->getNetSalary() . "',
+            `contrato` = '" . $roster->getContract() . "', `horas_extra` = '" . $roster->getExtraHours() . "'
+            WHERE `nominas`.`id_nominas` = " . $roster->getId();
     return $this->db->consult($query);
   }
 

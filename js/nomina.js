@@ -33,6 +33,7 @@ function recargar_select() {
   });
 }
 // cambio a formato numero
+
 $("#input-bonificacion").number(true, 2);
 $("#input-salario").number(true, 2);
 $("#input-dotacion").number(true, 2);
@@ -47,7 +48,8 @@ $.validator.addMethod(
   "Máximo dos decimales"
 );
 
-//toggle
+// Toggle para crear Nomina
+
 $("#panelCrearNomina").slideUp();
 $("#panelImportarNomina").slideUp();
 
@@ -312,7 +314,9 @@ $("#btn-calculate-salary").click(function () {
     $("#form-salary-employees-form").submit();
   }
 });
+
 //cargado de salario desde json externo
+
 var minSalary;
 var transport;
 $.get("api/salary_min.json", (data, status) => {
@@ -321,39 +325,6 @@ $.get("api/salary_min.json", (data, status) => {
 });
 
 //Calcular factor prestacional
-
-/* $("input[name=optionFactorPrestacional]").change(function () {
-  // si se quiere realizar el calculo manual
-  if (!$("#checkboxCalculadoManualFP").prop("checked")) {
-    // si el tipo de contrato es por nomina
-    if ($(this).val() == "nomina") {
-      if ($("#input-quantity-employees").val().length > 0) {
-        if ($("#input-quantity-employees").val() == 1) {
-          $("#inputFP").val(
-            parseFloat($(this).val()) > minSalary * 10 ? 46.85 : 38.35
-          );
-        } else {
-          $("#inputFP").val(!flagPerformanceFactor ? 38.35 : 46.85);
-        }
-      } else {
-        $.notify(
-          {
-            icon: "nc-icon nc-bell-55",
-            message: "Registra una cantidad de empleados para este cargo",
-          },
-          {
-            type: "warning",
-            timer: 8000,
-          }
-        );
-      }
-    } else {
-      $("#inputFP").val(0);
-    }
-  } else {
-    $("#inputFP").val("");
-  }
-}); */
 
 $("input[name=fpRadioB]").click(function () {
   idradio = this.id;
@@ -405,6 +376,7 @@ if ($(window).width() > 800) {
 }
 
 // inicializacion de datatable
+
 var $tableNominas = $("#tableNominas").dataTable({
   //scrollY: "700px",
   scrollCollapse: true,
@@ -513,16 +485,6 @@ $tableNominas.width("100%");
 /* $tableNominas.on('click', 'tr', function () {
   $(this).toggleClass('selected');
 }) */
-
-/* Borrar seleccion de tipos de contrato si se ha seleccionado manualmente */
-
-/* $('#checkboxCalculadoManualFP').click(function (e) {
-  e.preventDefault();
-  $('#inlineRadioTipoContrato1').prop("checked", false);
-  $('#inlineRadioTipoContrato2').prop("checked", false);
-  $('.checkboxCalculadoManualFP').prop("checked", true);
-
-}); */
 
 $("#form-nomina").validate({
   rules: {
@@ -658,7 +620,8 @@ $("#form-nomina").validate({
   validClass: "is-valid",
 });
 
-// borrado de procesos
+// borrado de Nomina
+
 $("#delete-nomina").click(() => {
   let rows = $tableNominas.api().rows(".selected").data();
   let count = 0,
@@ -703,7 +666,99 @@ $("#delete-nomina").click(() => {
   }
 });
 
+function clearFieldsRoster() {
+  $("#inputHorasTrabajo").val("");
+  $("#inputDiasMes").val("");
+  $("#input-dotacion").val("");
+  $("#input-bonificacion").val("");
+  $("#input-horas-extra").val("");
+  $("#input-salario").val("");
+  $("#inputFP").val("");
+  $("#input-quantity-employees").val("");
+}
+
+/**
+ * Cuando se selecciona un checkbox de transporte
+ * Este se le sumara o se le restara
+ * El valor del subsidio de transporte
+ */
+/* function addListenerTrasportOption() {
+  $(".transport-option").off("click");
+  $(".transport-option").click(function () {
+    let $input = $(this).parent().parent().siblings("input");
+
+    if ($(this).is(":checked")) {
+      $input.val(parseFloat($input.val()) + transport);
+    } else {
+      $input.val(parseFloat($input.val()) - transport);
+    }
+  });
+} */
+
+/* Validar Btn seleccionado */
+
+elById("tableNominas").addEventListener("click", (ev) => {
+  const selectedEl = ev.target;
+
+  if (selectedEl.classList.contains("link-borrar")) {
+    deleteNomina(selectedEl.dataset.nominaId);
+  } else if (selectedEl.classList.contains("link-editar")) {
+    $("#btnCrearNomina").click();
+    const rowInfo = $tableNominas.fnGetData(selectedEl.closest("tr"));
+    ActualizarNomina(rowInfo);
+  }
+
+  /* Actualizacion Nomina */
+
+  function ActualizarNomina(rowInfo) {
+    const { process: proceso } = rowInfo;
+
+    elById("input-cargo").value = rowInfo.position;
+    //elById("input-quantity-employees").value = rowInfo.numberEmployees;
+
+    elById("input-salario").value = parseFloat(rowInfo.salary);
+    $("#input-salario").number(true, 2);
+
+    elById("input-transporte").value = parseFloat(rowInfo.transporte);
+    $("#input-transporte").number(true, 2);
+
+    elById("input-bonificacion").value = rowInfo.bonus;
+    $("#input-bonificacion").number(true, 2);
+
+    elById("input-dotacion").value = rowInfo.endowment;
+    $("#input-dotacion").number(true, 2);
+
+    elById("input-horas-extra").value = rowInfo.extraHours;
+    $("#input-horas-extra").number(true, 2);
+
+    elById("inputHorasTrabajo").value = rowInfo.workHours;
+    elById("inputDiasMes").value = rowInfo.bussinesDaysMonth;
+    elById("inputFP").value = rowInfo.performaceFactor;
+    elById("cargo-id").value = rowInfo.id;
+
+    if (rowInfo.contract.trim() === "nomina") elById("fpNomina").checked = true;
+    else if (rowInfo.contract.trim() === "servicios")
+      elById("fpServicios").checked = true;
+    else elById("fpManual").checked = true;
+
+    Array.from(elById("select-proceso")).forEach((option) => {
+      if (option.textContent.trim() === proceso.name) {
+        option.selected = true;
+        return true;
+      } else {
+        return false;
+      }
+    });
+
+    //elById("inlineRadioNom2").click();
+    elById("nomina-btn").value = "Actualizar";
+  }
+});
+
+/* Eliminar registro Nomina seleccionado  */
+
 function deleteNomina(id) {
+  
   bootbox.confirm({
     title: "Eliminar registros nómina",
     message: `¿Está seguro de eliminar este registro?.  Esta acción no se puede deshacer`,
@@ -767,81 +822,6 @@ function deleteNomina(id) {
     },
   });
 }
-
-function clearFieldsRoster() {
-  $("#inputHorasTrabajo").val("");
-  $("#inputDiasMes").val("");
-  $("#input-dotacion").val("");
-  $("#input-bonificacion").val("");
-  $("#input-horas-extra").val("");
-  $("#input-salario").val("");
-  $("#inputFP").val("");
-  $("#input-quantity-employees").val("");
-}
-
-/**
- * Cuando se selecciona un checkbox de transporte
- * Este se le sumara o se le restara
- * El valor del subsidio de transporte
- */
-function addListenerTrasportOption() {
-  $(".transport-option").off("click");
-  $(".transport-option").click(function () {
-    let $input = $(this).parent().parent().siblings("input");
-
-    if ($(this).is(":checked")) {
-      $input.val(parseFloat($input.val()) + transport);
-    } else {
-      $input.val(parseFloat($input.val()) - transport);
-    }
-  });
-}
-
-elById("tableNominas").addEventListener("click", (ev) => {
-  const selectedEl = ev.target;
-
-  if (selectedEl.classList.contains("link-borrar")) {
-    deleteNomina(selectedEl.dataset.nominaId);
-  } else if (selectedEl.classList.contains("link-editar")) {
-    $("#btnCrearNomina").click();
-    const rowInfo = $tableNominas.fnGetData(selectedEl.closest("tr"));
-
-    const { process: proceso } = rowInfo;
-
-    elById("input-cargo").value = rowInfo.position;
-    elById("input-quantity-employees").value = rowInfo.numberEmployees;
-    elById("input-salario").value = parseFloat(rowInfo.salary);
-    $("#input-salario").number(true, 2);
-    elById("input-bonificacion").value = rowInfo.bonus;
-    $("#input-bonificacion").number(true, 2);
-    elById("input-dotacion").value = rowInfo.endowment;
-    $("#input-dotacion").number(true, 2);
-    elById("input-horas-extra").value = rowInfo.extraHours;
-    $("#input-horas-extra").number(true, 2);
-    elById("inputHorasTrabajo").value = rowInfo.workHours;
-    elById("inputDiasMes").value = rowInfo.bussinesDaysMonth;
-    elById("inputFP").value = rowInfo.performaceFactor;
-    elById("cargo-id").value = rowInfo.id;
-
-    if (rowInfo.contract.trim() === "nomina") {
-      elById("inlineRadioTipoContrato1").checked = true;
-    } else {
-      elById("inlineRadioTipoContrato2").checked = true;
-    }
-
-    Array.from(elById("select-proceso")).forEach((option) => {
-      if (option.textContent.trim() === proceso.name) {
-        option.selected = true;
-        return true;
-      } else {
-        return false;
-      }
-    });
-
-    elById("inlineRadioNom2").click();
-    elById("nomina-btn").value = "Modificar";
-  }
-});
 
 function resetFieldsRoster() {
   elById("input-cargo").value = "";

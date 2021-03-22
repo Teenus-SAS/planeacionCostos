@@ -64,6 +64,7 @@ if (isset($_SESSION["user"])) {
         $roster->setPosition($_POST["cargo"]);
         //$roster->setNumberEmployees($_POST["Numeroempleados"]);
         $roster->setSalary($_POST["salario"]);
+        $roster->setTransporte($_POST['transporte']);
         $roster->setBonus($_POST["bonificacion"]);
         $roster->setEndowment($_POST["dotacion"]);
         $roster->setWorkHours($_POST["horasTrabajo"]);
@@ -87,6 +88,7 @@ if (isset($_SESSION["user"])) {
         $roster->setPosition($_POST["cargo"]);
         //$roster->setNumberEmployees($_POST["Numeroempleados"]);
         $roster->setSalary($_POST["salario"]);
+        $roster->setTransporte($_POST['transporte']);
         $roster->setBonus($_POST["bonificacion"]);
         $roster->setEndowment($_POST["dotacion"]);
         $roster->setWorkHours($_POST["horasTrabajo"]);
