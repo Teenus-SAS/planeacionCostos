@@ -228,7 +228,7 @@ class Roster implements JsonSerializable
   public function setNetSalary($netSalary)
   {
     $this->netSalary = $netSalary;
-    $this->minuteValue = ($this->netSalary / $this->bussinesDaysMonth / $this->workHours / 60)/$this->numberEmployees;
+    $this->minuteValue = ($this->netSalary / $this->bussinesDaysMonth / $this->workHours / 60)/* /$this->numberEmployees */;
   }
 
   public function getContract()

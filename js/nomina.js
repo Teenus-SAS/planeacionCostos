@@ -4,6 +4,10 @@
  * logica de máquinas
  */
 
+/* deshabilitar input fp */
+
+$("#inputFP").prop("readonly", true);
+
 elById("inlineRadio1M").click();
 document
   .querySelector('a[href$="nomina-nav"]')
@@ -13,10 +17,14 @@ document
   });
 
 // cargado de procesos de la base de datos
+
 recargar_select();
 function recargar_select() {
   $("#select-proceso").empty();
   $.get("api/get_processes.php", (processes, status) => {
+    $("#select-proceso").append(
+      `<option value="0" selected="true" disabled>Seleccione un proceso</option>`
+    );
     processes.forEach((process) => {
       $("#select-proceso").append(
         `<option value="${process.id}">${process.name}</option>`
@@ -312,8 +320,9 @@ $.get("api/salary_min.json", (data, status) => {
   transport = data.transport;
 });
 
-//calcular factor prestacional
-$("input[name=optionFactorPrestacional]").change(function () {
+//Calcular factor prestacional
+
+/* $("input[name=optionFactorPrestacional]").change(function () {
   // si se quiere realizar el calculo manual
   if (!$("#checkboxCalculadoManualFP").prop("checked")) {
     // si el tipo de contrato es por nomina
@@ -344,9 +353,49 @@ $("input[name=optionFactorPrestacional]").change(function () {
   } else {
     $("#inputFP").val("");
   }
+}); */
+
+$("input[name=fpRadioB]").click(function () {
+  idradio = this.id;
+
+  let salario = $("#input-salario").val();
+
+  if (salario === undefined || salario == 0) {
+    $("#fpNomina").prop("checked", false);
+    $("#fpServicios").prop("checked", false);
+    $("#fpManual").prop("checked", false);
+
+    return $.notify(
+      {
+        icon: "nc-icon nc-bell-55",
+        message: "El salario no puede ser cero",
+      },
+      {
+        type: "danger",
+        timer: 4000,
+      }
+    );
+  }
+
+  if (idradio === "fpNomina") {
+    $("#inputFP").val(parseFloat(salario) > minSalary * 10 ? 46.85 : 38.35);
+    $("#optionFactorPrestacional").val("nomina");
+    $("#inputFP").prop("readonly", true);
+  }
+
+  if (idradio === "fpServicios") {
+    $("#inputFP").val(0);
+    $("#optionFactorPrestacional").val("servicios");
+    $("#inputFP").prop("readonly", true);
+  }
+
+  if (idradio === "fpManual") {
+    $("#optionFactorPrestacional").val("manual");
+    $("#inputFP").prop("readonly", false);
+  }
 });
 
-// eliminacion de clases de paddind para algunos inputs cuando hay cambios en pantalla
+// eliminacion de clases de padding para algunos inputs cuando hay cambios en pantalla
 if ($(window).width() > 800) {
   $("#input-salario").parent().parent().addClass("pl-0");
   $("#input-quantity-employees").parent().addClass("pr-0");
@@ -378,7 +427,7 @@ var $tableNominas = $("#tableNominas").dataTable({
   columns: [
     { data: "position" },
     { data: "process.name" },
-    { data: "numberEmployees" },
+    /* { data: "numberEmployees" }, */
     /*   {data: 'contract'}, */
     {
       data: "salary",
@@ -421,6 +470,27 @@ var $tableNominas = $("#tableNominas").dataTable({
 
     // Total over all pages
     total = api
+      .column(3)
+      .data()
+      .reduce(function (a, b) {
+        return intVal(a) + intVal(b);
+      }, 0);
+
+    // Total over this page
+    pageTotal = api
+      .column(3, { page: "current" })
+      .data()
+      .reduce(function (a, b) {
+        return intVal(a) + intVal(b);
+      }, 0);
+
+    // Update footer
+    $(api.column(3).footer()).html(
+      `Total Nómina $ ${$.number(pageTotal, 2, ".", ",")}`
+    );
+
+    // Total over all pages
+    total = api
       .column(4)
       .data()
       .reduce(function (a, b) {
@@ -436,11 +506,7 @@ var $tableNominas = $("#tableNominas").dataTable({
       }, 0);
 
     // Update footer
-    $(api.column(4).footer()).html(
-      //'$ '+pageTotal,
-
-      `$ ${$.number(pageTotal, 2, ".", ",")}`
-    );
+    $(api.column(4).footer()).html(`$ ${$.number(pageTotal, 2, ".", ",")}`);
   },
 });
 $tableNominas.width("100%");
@@ -462,7 +528,7 @@ $("#form-nomina").validate({
   rules: {
     cargo: "required",
     proceso: "required",
-    Numeroempleados: "required",
+    //Numeroempleados: "required",
     salario: "required",
     horasTrabajo: {
       required: true,
@@ -482,25 +548,23 @@ $("#form-nomina").validate({
     },
   },
   messages: {
-    cargo: "Ingrese un cargo",
-    proceso: "Ingrese un proceso",
-    Numeroempleados: "Ingrese el numero de empleados",
-    salario: "",
+    cargo: "Ingrese el nombre o cargo del empleado",
+    proceso: "Seleccione un proceso",
+    //Numeroempleados: "Ingrese el numero de empleados",
+    salario: "Ingrese el salario",
     horasTrabajo: {
-      required: "Ingrese las horas de trabajo",
+      required: "<b>Ingrese las horas de trabajo</b>",
       min: "El número mínimo de horas es uno (1)",
       max: "El número máximo de horas es 18",
-      //decimalInput: 'máximo dos decimales'
     },
     diasMes: {
       required: "Ingrese los días de trabajo",
-      min: "El número de horas minimo es 1",
-      max: "El número de horas maximo es de 31",
+      min: "El número mínimo de días es 1",
+      max: "El número máximo de días es de 31",
     },
     optionFactorPrestacional: "",
     factorPrestacional: {
       required: "Ingrese el factor prestacional",
-      //decimalInput: 'máximo dos decimales'
     },
   },
   submitHandler: function (form) {
@@ -781,8 +845,8 @@ elById("tableNominas").addEventListener("click", (ev) => {
 
 function resetFieldsRoster() {
   elById("input-cargo").value = "";
-  $("#select-proceso").val("");
-  elById("input-quantity-employees").value = "";
+  //$("#select-proceso").val("");
+  //elById("input-quantity-employees").value = "";
   elById("input-salario").value = "0.0";
   elById("input-bonificacion").value = "0.0";
   elById("input-dotacion").value = "0.0";

@@ -6,11 +6,11 @@ logica de maquinas
 
 flag = false;
 
-elById("inlineRadioNom1").click();
+/* elById("inlineRadioNom1").click();
 document.querySelector('a[href$="maquinas"]').addEventListener("click", () => {
   resetFormMaquinas();
   elById("inlineRadio1M").click();
-});
+}); */
 
 function clearformMachines() {
   if ($("#input-maquinas")[0].tagName == "SELECT") {

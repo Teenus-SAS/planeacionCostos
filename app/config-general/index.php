@@ -13,8 +13,9 @@ include(PARTIALS_PATH . "verify_session.php");
 <head>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>
-    Parametrización General | Tezlik
+    Configuración General | Tezlik
   </title>
   <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
   <!--     Fonts and icons     -->
@@ -24,97 +25,13 @@ include(PARTIALS_PATH . "verify_session.php");
   <link href="/app/assets/css/bootstrap.min.css" rel="stylesheet" />
   <link href="/app/assets/css/paper-dashboard.css?v=2.0.0" rel="stylesheet" />
   <!-- CSS Just for demo purpose, don't include it in your project -->
-  <link href="/app/assets/demo/demo.css" rel="stylesheet" />
+  <!-- <link href="/app/assets/demo/demo.css" rel="stylesheet" /> -->
+  <link rel="stylesheet" href="../../css/conf-general/conf-general.css">
   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   <link rel="stylesheet" href="/vendor/dataTables/jquery.dataTables.min.css">
   <link rel="stylesheet" href="/vendor/dataTables/dataTables.bootstrap4.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
   <link rel="stylesheet" href="/vendor/froala-editor/froala_editor.pkgd.min.css">
-
-  <style>
-    .tableFixHead {
-      overflow-y: auto;
-      /* height: 400px; */
-    }
-
-    .custom-file-label::after {
-      content: "Cargar";
-    }
-
-    .tableFixHead thead th {
-      position: sticky;
-      top: 0;
-    }
-
-    /* Just common table stuff. Really. */
-    table {
-      border-collapse: collapse;
-      width: 100%;
-    }
-
-    th,
-    td {
-      padding: 8px 16px;
-    }
-
-    th {
-      background: #eee;
-    }
-
-    .dataTables_wrapper,
-    .dt-bootstrap4,
-    .no-footer {
-      width: 96%;
-    }
-
-    i.fa.fa-cog.fa-spin.fa-3x.fa-fw.fade {
-      position: fixed;
-      right: 10px;
-      z-index: 10000;
-      bottom: 10px;
-    }
-
-    i.fa.fa-cog.fa-spin.fa-3x.fa-fw {
-      position: fixed;
-      right: 10px;
-      z-index: 10000;
-      bottom: 10px;
-    }
-
-    #form-salary-employees label {
-      font-size: 0.7em;
-      margin-bottom: 5px;
-      color: #9A9A9A;
-    }
-
-    #form-salary-employees input {
-      font-size: 0.8em;
-    }
-
-    #modalFactorPrestacional input {
-      text-align: center;
-    }
-
-    #modalFactorPrestacional .input-group .form-control {
-      padding: 6px;
-      height: 32px;
-    }
-
-    #modalFactorPrestacional .input-group .form-control+.input-group-append .input-group-text {
-      padding: 6px;
-      height: 32px;
-    }
-
-    #Generales input {
-      text-align: right;
-    }
-
-    .dataTables_scrollHeadInner {
-      margin: 0
-        /* auto */
-      ;
-    }
-  </style>
 
 </head>
 
@@ -564,6 +481,9 @@ include(PARTIALS_PATH . "verify_session.php");
                   </div>
                 </div>
               </div>
+              <!-- FIn procesos -->
+
+              <!-- Inicio BPM -->
               <div class="tab-pane" id="bpm-nav">
                 <div class="row">
                   <div class="col-12"><img src="/img/img.jpg" id="img-proccess"></div>
@@ -574,10 +494,13 @@ include(PARTIALS_PATH . "verify_session.php");
                   <div class="col"></div>
                 </div>
               </div>
+              <!-- Fin BPM -->
+
+              <!-- Incio Nomina -->
               <div class="tab-pane" id="nomina-nav">
-                <div>
-                  <button class="button btn btn-primary ml-4" id="btnCrearNomina">Crear Nómina</button>
-                  <button class="button btn btn-info ml-2" id="btnImportarNomina">Importar Nómina</button>
+                <div style="display: flex; justify-content:flex-end">
+                  <button class="button btn btn-primary ml-4" id="btnCrearNomina"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                  <button class="button btn btn-info ml-2" id="btnImportarNomina"><i class="fa fa-download" aria-hidden="true"></i></button>
                 </div>
                 <div class="row my-5" id="panelImportarNomina">
                   <div class="card col-6">
@@ -592,10 +515,10 @@ include(PARTIALS_PATH . "verify_session.php");
                   </div>
                 </div>
                 <div class="row justify-content-center align-items-center">
-                  <div class="col-md-6 mb-3" id="panelCrearNomina">
+                  <div class="col-md-11 mb-3" id="panelCrearNomina">
                     <!--<h4>Nómina</h4>-->
                     <form id="form-nomina">
-                      <div hidden class="form-check form-check-radio form-check-inline">
+                      <!-- <div hidden class="form-check form-check-radio form-check-inline">
                         <label class="form-check-label">
                           <input class="form-check-input" type="radio" name="optionNomina" id="inlineRadioNom1" value="option1"> Adicionar
                           <span class="form-check-sign"></span>
@@ -606,111 +529,166 @@ include(PARTIALS_PATH . "verify_session.php");
                           <input class="form-check-input" type="radio" name="optionNomina" id="inlineRadioNom2" value="option2"> Modificar
                           <span class="form-check-sign"></span>
                         </label>
-                      </div>
+                      </div> -->
                       <div class="card my-1">
-                        <div class="form-group row mt-2">
-                          <label for="input-cargo" class="col-sm-3 col-3 col-form-label">Cargo</label>
-                          <div class="col-sm-8 col-8">
-                            <input type="text" name="cargo" class="form-control" id="input-cargo">
-                            <input id="cargo-id" type="hidden" name="cargo-id">
-                          </div>
+                        <div class="mt-3 tituloId">
+                          <p style="margin-top: 0px;margin-bottom:0px;padding:5px">Descripción</p>
                         </div>
-                        <div class="form-group row">
-                          <label for="select-proceso" class="col-sm-3 col-3 col-form-label">Proceso</label>
-                          <div class="col-sm-8 col-8">
-                            <select class="custom-select" id="select-proceso" name="proceso">
-                              <option selected disabled>Seleccione el proceso</option>
-                            </select>
-                          </div>
-                        </div>
-                        <div class="form-group row align-items-center">
-                          <label for="input-quantity-employees" class="col-md-3 col-4 col-sm-3 col-form-label ">N° Empleados</label>
-                          <div class="col-md-2 col-sm-2 col-7 pr-0 my-2">
-                            <input type="number" class="form-control" id="input-quantity-employees" name="Numeroempleados">
+                        <div class="mt-3" id="identificacionNomina">
+                          <!-- <label for="input-cargo">Nombre</label>
+                          <label for="select-proceso">Proceso</label> -->
+
+                          <input id="cargo-id" type="hidden" name="cargo-id">
+
+                          <div class="form-group" class="">
+                            <div class="input-group">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-user" aria-hidden="true"></i></span>
+                              </div>
+                              <input type="text" name="cargo" class="form-control" id="input-cargo" placeholder="Nombre o Cargo" required>
+                            </div>
                           </div>
 
-                          <label for="input-salario" class="col-md-2 col-sm-2 col-4 col-form-label">Salario</label>
-                          <div class="col-sm-4 col-7 col-md-4 pl-0 mt-2">
+                          <div class="form-group" class="">
+                            <div class="input-group">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-cog" aria-hidden="true"></i></span>
+                              </div>
+                              <select class="custom-select" id="select-proceso" name="proceso">
+                                <option value="0" selected="true" disabled>Seleccione un proceso</option>
+                                <!-- <option selected disabled>Seleccione el proceso</option> -->
+                              </select>
+                            </div>
+                          </div>
+
+                        </div>
+                        <div class="titulo mt-3">
+                          <p class="captionTitulo">Devengado</p>
+                          <p class="captionTitulo">Jornada</pss=>
+                        </div>
+                        <div class="form-group row align-items-center mt-3" id="contenedor-devengado">
+                          <!-- <label for="input-quantity-employees" class="col-md-3 col-4 col-sm-3 col-form-label ">N° Empleados</label>
+                          <div class="col-md-2 col-sm-2 col-7 pr-0 my-2">
+                            <input type="number" class="form-control" id="input-quantity-employees" name="Numeroempleados">
+                          </div> -->
+
+                          <div class="form-group">
+                            <label for="input-salario">Salario</label>
                             <div class="input-group">
                               <div class="input-group-prepend">
                                 <span class="input-group-text">$</span>
                               </div>
-                              <input type="text" class="form-control" id="input-salario" name="salario" value="0">
+                              <input type="text" class="form-control derecha" id="input-salario" name="salario" value="0" required>
                             </div>
+                          </div>
+                          <div class="form-group" class="">
+                            <label for="input-transporte">Transporte</label>
+                            <div class="input-group">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-bus" aria-hidden="true"></i></span>
+                              </div>
+                              <input type="text" class="form-control derecha" id="input-transporte" name="transporte" value="0" required>
+                            </div>
+                          </div>
 
-                          </div>
-                        </div>
-                        <div class="form-group row mb-2">
-                          <label for="inputPassword" class="col-sm-3 col-4 col-form-label">Bonificación</label>
-                          <div class="col-sm-8 col-7 input-group mb-0">
-                            <div class="input-group-prepend">
-                              <span class="input-group-text">$</span>
+                          <div class="form-group jornada" id="horasTrabajo">
+                            <label for="inputPassword">Horas de Trabajo x Día</label>
+                            <div class="input-group">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-clock" aria-hidden="true"></i></span>
+                              </div>
+                              <input type="text" class="form-control centrado" id="inputHorasTrabajo" name="horasTrabajo" min="1" max="18">
                             </div>
-                            <input type="text" class="form-control" id="input-bonificacion" name="bonificacion" value="0">
                           </div>
                         </div>
-                        <div class="form-group row mb-2">
-                          <label for="inputPassword" class="col-sm-3 col-4 col-form-label">Dotación</label>
-                          <div class="col-sm-8 col-7 input-group mb-0">
-                            <div class="input-group-prepend">
-                              <span class="input-group-text">$</span>
+
+                        <div id="contenedor-jornada" class="mb-3">
+                          <div class="form-group">
+                            <label for="inputPassword">Bonificación</label>
+                            <div class="input-group">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-trophy" aria-hidden="true"></i></span>
+                              </div>
+                              <input type="text" class="form-control derecha" id="input-bonificacion" name="bonificacion" value="0">
                             </div>
-                            <input type="text" class="form-control" id="input-dotacion" name="dotacion" value="0">
                           </div>
-                        </div>
-                        <div class="form-group row mb-2">
-                          <label for="inputPassword" class="col-sm-3 col-4 col-form-label">Horas Extras</label>
-                          <div class="col-sm-8 col-7 input-group mb-0">
-                            <div class="input-group-prepend">
-                              <span class="input-group-text">$</span>
+                          <div class="form-group">
+                            <label for="input-dotacion">Dotación</label>
+                            <div class="input-group">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-male" aria-hidden="true"></i></span>
+                              </div>
+                              <input type="text" class="form-control derecha" id="input-dotacion" name="dotacion" value="0">
                             </div>
-                            <input type="text" class="form-control" id="input-horas-extra" name="horasExtra" value="0">
                           </div>
-                        </div>
-                        <div class="form-group row">
-                          <label for="inputPassword" class="col-sm-5 col-5 col-form-label">Horas de Trabajo dia / empleado</label>
-                          <div class="col-sm-6 col-6">
-                            <input type="text" class="form-control" id="inputHorasTrabajo" name="horasTrabajo" min="1" max="18">
+
+                          <div class="form-group">
+                            <label for="input-horas-extra">Horas Extra</label>
+                            <div class="input-group">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-sun" aria-hidden="true"></i></span>
+                              </div>
+                              <input type="text" class="form-control derecha" id="input-horas-extra" name="horasExtra" value="0">
+                            </div>
                           </div>
-                        </div>
-                        <div class="form-group row">
-                          <label for="inputPassword" class="col-sm-5 col-5 col-form-label">Dias laborales/Mes</label>
-                          <div class="col-sm-6 col-6">
-                            <input type="number" class="form-control" id="inputDiasMes" name="diasMes" min="1" max="31">
+
+                          <div class="form-group jornada" id="diasLaborales">
+                            <label for="inputDiasMes">Dias laborales/Mes</label>
+                            <div class="input-group">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-calendar" aria-hidden="true"></i></span>
+                              </div>
+                              <input type="number" class="form-control centrado" id="inputDiasMes" name="diasMes" min="1" max="31">
+                            </div>
                           </div>
                         </div>
                       </div>
+
                       <div class="card my-1">
-                        <div class="row">
-                          <div class="col-md-12 text-left px-5 py-2">
-                            <div class="form-check">
-                              <label class="form-check-label">
-                                <input class="form-check-input checkboxCalculadoManualFP" type="checkbox" value="" id="checkboxCalculadoManualFP">
-                                Calcular Factor Prestacional Manualmente
-                                <span class="form-check-sign">
-                                  <span class="check"></span>
-                                </span>
-                              </label>
-                            </div>
-                          </div>
+                        <div class="mt-3 tituloId">
+                          <p style="margin-top: 0px;margin-bottom:0px;padding:5px">Factor Prestacional</p>
                         </div>
-                        <div class="form-group row">
-                          <label class="col-form-label col-md-5" for="optionFactorPrestacional">Tipo de Contrato:</label>
-                          <div class="col-md-6">
-                            <div class="form-check form-check-radio form-check-inline">
-                              <label class="form-check-label">
-                                <input class="form-check-input" type="radio" name="optionFactorPrestacional" id="inlineRadioTipoContrato1" value="nomina"> Nomina
-                                <span class="form-check-sign"></span>
-                              </label>
-                            </div>
-                            <div class="form-check form-check-radio form-check-inline">
-                              <label class="form-check-label">
-                                <input class="form-check-input" type="radio" name="optionFactorPrestacional" id="inlineRadioTipoContrato2" value="servicios"> Servicios
-                                <span class="form-check-sign"></span>
-                              </label>
-                            </div>
+
+                        <div id="factor">
+                          <div class="form-check" id="fpNominas">
+                            <label class="form-check-label" for="fpNomina" style="padding-right: 35px;">Nómina</label>
+                            <input class="form-check-input" type="radio" name="fpRadioB" id="fpNomina">
                           </div>
+                          <div class="form-check">
+                            <label class="form-check-label" for="fpServicios" style="padding-right: 35px;">Servicios</label>
+                            <input class="form-check-input" type="radio" name="fpRadioB" id="fpServicios">
+                          </div>
+
+                          <div class="form-check">
+                            <label class="form-check-label" for="fpManual" style="padding-right: 35px;">Manual</label>
+                            <input class="form-check-input" type="radio" name="fpRadioB" id="fpManual">
+                          </div>
+                          <input type="text" class="form-control" id="optionFactorPrestacional" name="optionFactorPrestacional" hidden>
+                          <!-- <div class="form-check">
+                            <label class="form-check-label">
+                              <input class="form-check-input checkboxCalculadoManualFP" type="checkbox" value="" id="checkboxCalculadoManualFP">
+                              Calcular Factor Prestacional Manualmente
+                              <span class="form-check-sign">
+                                <span class="check"></span>
+                              </span>
+                            </label>
+                          </div> -->
                         </div>
+
+                        <!-- <label class="col-form-label col-md-5" for="optionFactorPrestacional">Tipo de Contrato:</label>
+
+                        <div class="form-check form-check-radio form-check-inline">
+                          <label class="form-check-label">
+                            <input class="form-check-input" type="radio" name="optionFactorPrestacional" id="inlineRadioTipoContrato1" value="nomina"> Nomina
+                            <span class="form-check-sign"></span>
+                          </label>
+                        </div>
+                        <div class="form-check form-check-radio form-check-inline">
+                          <label class="form-check-label">
+                            <input class="form-check-input" type="radio" name="optionFactorPrestacional" id="inlineRadioTipoContrato2" value="servicios"> Servicios
+                            <span class="form-check-sign"></span>
+                          </label>
+                        </div> -->
 
                         <div class="form-group row align-items-center justify-content-center">
                           <label for="factor-prestacional" class="col-form-label col-md-5 col-5">Factor Prestacional</label>
@@ -724,7 +702,9 @@ include(PARTIALS_PATH . "verify_session.php");
                             <button class="btn btn-info" type="button" data-toggle="modal" data-target="#modalFactorPrestacional">></button>
                           </div>
                         </div>
+
                       </div>
+
                       <div class="row justify-content-center">
                         <div class="col"></div>
                         <div class="col"><input id="nomina-btn" type="submit" class="btn btn-primary" value="Adicionar"></div>
@@ -742,13 +722,13 @@ include(PARTIALS_PATH . "verify_session.php");
                         <div class="table-responsive table-hover tableFixHead">
                           <table class="table" id="tableNominas">
                             <thead class="text-primary">
-                              <th>Cargo</th>
+                              <th>Nombre / Cargo</th>
                               <th>Proceso</th>
-                              <th>Cantidad</th>
+                              <!-- <th>Cantidad</th> -->
                               <!--    <th>Contrato</th> -->
                               <th>Salario</th>
                               <th>Salario Neto</th>
-                              <th>Valor/Minuto</th>
+                              <th>Minuto</th>
                               <th>Acciones</th>
                             </thead>
                             <tbody>

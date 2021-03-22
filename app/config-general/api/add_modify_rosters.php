@@ -41,73 +41,75 @@ if (isset($_SESSION["user"])) {
   $user = unserialize($_SESSION["user"]);
   $rosterDao = new RosterDao();
   $processDao = new ProcessDao();
-  if (isset($_POST["optionNomina"])) {
+  /* if (isset($_POST["optionNomina"])) { */
+  if (
+    isset($_POST["cargo"]) /* && isset($_POST["Numeroempleados"]) */ && isset($_POST["proceso"])
+    && isset($_POST["salario"]) && isset($_POST["bonificacion"]) && isset($_POST["dotacion"])
+    && isset($_POST["horasTrabajo"]) && isset($_POST["diasMes"]) && isset($_POST["optionFactorPrestacional"])
+    && isset($_POST["factorPrestacional"])
+  ) {
     if (
-      isset($_POST["cargo"]) && isset($_POST["Numeroempleados"]) && isset($_POST["proceso"])
-      && isset($_POST["salario"]) && isset($_POST["bonificacion"]) && isset($_POST["dotacion"])
-      && isset($_POST["horasTrabajo"]) && isset($_POST["diasMes"]) && isset($_POST["optionFactorPrestacional"])
-      && isset($_POST["factorPrestacional"])
+      $_POST["cargo"] != "" || /* $_POST["Numeroempleados"] != "" || */ $_POST["proceso"] != ""
+      || $_POST["salario"] != "" || $_POST["bonificacion"] != "" || $_POST["dotacion"] != ""
+      || $_POST["horasTrabajo"] != "" || $_POST["diasMes"] != "" || $_POST["optionFactorPrestacional"] != ""
+      || $_POST["factorPrestacional"] != ""
     ) {
-      if (
-        $_POST["cargo"] != "" || $_POST["Numeroempleados"] != "" || $_POST["proceso"] != ""
-        || $_POST["salario"] != "" || $_POST["bonificacion"] != "" || $_POST["dotacion"] != ""
-        || $_POST["horasTrabajo"] != "" || $_POST["diasMes"] != "" || $_POST["optionFactorPrestacional"] != ""
-        || $_POST["factorPrestacional"] != ""
-      ) {
-        $salary = $_POST["salario"] + $_POST["horasExtra"];
-        $netSalary = $salary + ($salary * ($_POST["factorPrestacional"] / 100)) + $_POST["bonificacion"] + $_POST["dotacion"];
-        if ($_POST["optionNomina"] == "option1") {
-          $roster = new Roster();
-          // calculo de salario neto
-          $roster->setIdCompany($user->getCompany()->getId());
-          $roster->setProcess($processDao->findById($_POST["proceso"]));
-          $roster->setPosition($_POST["cargo"]);
-          $roster->setNumberEmployees($_POST["Numeroempleados"]);
-          $roster->setSalary($_POST["salario"]);
-          $roster->setBonus($_POST["bonificacion"]);
-          $roster->setEndowment($_POST["dotacion"]);
-          $roster->setWorkHours($_POST["horasTrabajo"]);
-          $roster->setBussinesDaysMonth($_POST["diasMes"]);
-          $roster->setPerformaceFactor($_POST["factorPrestacional"]);
-          $roster->setNetSalary($netSalary);
-          $roster->setContract($_POST["optionFactorPrestacional"]);
-          $roster->setExtraHours($_POST["horasExtra"]);
-          if ($rosterDao->save($roster) > 0) {
-            http_response_code(201);
-          } else {
-            http_response_code(500);
-          }
+      $salary = $_POST["salario"] + $_POST["horasExtra"];
+      $netSalary = $salary + ($salary * ($_POST["factorPrestacional"] / 100)) + $_POST["bonificacion"] + $_POST["dotacion"];
+
+      /* if ($_POST["optionNomina"] == "option1") { */
+      if ($_POST["cargo-id"]) {
+        $roster = $rosterDao->findById($_POST["cargo-id"]);
+        $roster->setProcess($processDao->findById($_POST["proceso"]));
+        $roster->setPosition($_POST["cargo"]);
+        //$roster->setNumberEmployees($_POST["Numeroempleados"]);
+        $roster->setSalary($_POST["salario"]);
+        $roster->setBonus($_POST["bonificacion"]);
+        $roster->setEndowment($_POST["dotacion"]);
+        $roster->setWorkHours($_POST["horasTrabajo"]);
+        $roster->setBussinesDaysMonth($_POST["diasMes"]);
+        $roster->setPerformaceFactor($_POST["factorPrestacional"]);
+        $roster->setNetSalary($netSalary);
+        $roster->setContract($_POST["optionFactorPrestacional"]);
+        $roster->setExtraHours($_POST["horasExtra"]);
+        if ($rosterDao->update($roster) > 0) {
+          http_response_code(200);
         } else {
-          if (isset($_POST["cargo-id"])) {
-          $roster = $rosterDao->findById($_POST["cargo-id"]);
-          $roster->setProcess($processDao->findById($_POST["proceso"]));
-          $roster->setPosition($_POST["cargo"]);
-          $roster->setNumberEmployees($_POST["Numeroempleados"]);
-          $roster->setSalary($_POST["salario"]);
-          $roster->setBonus($_POST["bonificacion"]);
-          $roster->setEndowment($_POST["dotacion"]);
-          $roster->setWorkHours($_POST["horasTrabajo"]);
-          $roster->setBussinesDaysMonth($_POST["diasMes"]);
-          $roster->setPerformaceFactor($_POST["factorPrestacional"]);
-          $roster->setNetSalary($netSalary);
-          $roster->setContract($_POST["optionFactorPrestacional"]);
-          $roster->setExtraHours($_POST["horasExtra"]);
-          if ($rosterDao->update($roster) > 0) {
-            http_response_code(200);
-          } else {
-            http_response_code(500);
-          }
+          http_response_code(500);
         }
-        }
+        /* } */
       } else {
-        http_response_code(400);
+
+        $roster = new Roster();
+        // calculo de salario neto
+        $roster->setIdCompany($user->getCompany()->getId());
+        $roster->setProcess($processDao->findById($_POST["proceso"]));
+        $roster->setPosition($_POST["cargo"]);
+        //$roster->setNumberEmployees($_POST["Numeroempleados"]);
+        $roster->setSalary($_POST["salario"]);
+        $roster->setBonus($_POST["bonificacion"]);
+        $roster->setEndowment($_POST["dotacion"]);
+        $roster->setWorkHours($_POST["horasTrabajo"]);
+        $roster->setBussinesDaysMonth($_POST["diasMes"]);
+        $roster->setPerformaceFactor($_POST["factorPrestacional"]);
+        $roster->setNetSalary($netSalary);
+        $roster->setContract($_POST["optionFactorPrestacional"]);
+        $roster->setExtraHours($_POST["horasExtra"]);
+        if ($rosterDao->save($roster) > 0) {
+          http_response_code(201);
+        } else {
+          http_response_code(500);
+        }
       }
     } else {
       http_response_code(400);
     }
   } else {
-    http_response_code(412);
+    http_response_code(400);
   }
+  /* } else {
+    http_response_code(412);
+  } */
 } else {
   http_response_code(401);
   exit;
