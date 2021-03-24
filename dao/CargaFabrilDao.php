@@ -89,6 +89,7 @@ class CargaFabrilDao
    * @param CargaFabril $carga Carga que se quiere guardar
    * @return integer número de tuplas afectadas 
    */
+  
   public function saveOrUpdate($carga)
   {
     $this->db->connect();

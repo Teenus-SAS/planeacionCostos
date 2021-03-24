@@ -71,6 +71,9 @@ include(PARTIALS_PATH . "verify_session.php");
                   <li class="nav-item">
                     <a class="nav-link" href="#nomina-nav" data-toggle="tab">Nómina</a>
                   </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#gastos" data-toggle="tab" id="nav-gastos">Gastos Generales</a>
+                  </li>
                   <!-- <li class="nav-item">
                     <a href="#bpm-nav" data-toggle="tab" class="nav-link">BPM</a>
                   </li> -->
@@ -752,6 +755,117 @@ include(PARTIALS_PATH . "verify_session.php");
               </div>
 
 
+              <div class="tab-pane" id="gastos">
+
+                <div class="container mt-2" style="width:950px;">
+                  <div class="row align-content-center text-primary mb-2">
+                    <!-- <div class="col-2"><b>51</b></div> -->
+                    <div class="col-10"><b>Total Gastos</b></div>
+                    <div class="col-2 sum-total" id="sum-total">$ 0.00</div>
+                  </div>
+                  <hr>
+                  <div class="row align-content-center text-primary">
+                    <div class="col-2"><b>51</b></div>
+                    <div class="col-8"><b>Gastos Operacionales de Administración</b></div>
+                    <div class="col-2" id="sum-51">$ 0.00</div>
+                  </div>
+                  <div class="container" id="container-51">
+
+                  </div>
+                  <div class="row align-content-center justify-content-center">
+                    <div class="col"></div>
+                    <div class="col text-center">
+                      <button class="btn btn-primary btn-round btn-icon" id="btn_add_51"><i class="fas fa-plus"></i></button>
+                    </div>
+                    <div class="col"></div>
+                  </div>
+                  <!-- siguiendo grupo de cuenta -->
+                  <div class="row align-content-center text-primary">
+                    <div class="col-2"><b>52</b></div>
+                    <div class="col-8"><b>Gastos Operacionales de Ventas</b></div>
+                    <div class="col-2" id="sum-52">$ 0.00</div>
+                  </div>
+                  <div class="container" id="container-52">
+
+                  </div>
+                  <div class="row align-content-center justify-content-center">
+                    <div class="col"></div>
+                    <div class="col text-center">
+                      <button class="btn btn-primary btn-round btn-icon" id="btn_add_52"><i class="fas fa-plus"></i></button>
+                    </div>
+                    <div class="col"></div>
+                  </div>
+                  <!-- siguiendo grupo de cuenta -->
+                  <div class="row align-content-center text-primary">
+                    <div class="col-2"><b>53</b></div>
+                    <div class="col-8"><b>Gastos No operacionales</b></div>
+                    <div class="col-2" id="sum-53">$ 0.00</div>
+                  </div>
+                  <div class="container" id="container-53">
+
+                  </div>
+                  <div class="row align-content-center justify-content-center">
+                    <div class="col"></div>
+                    <div class="col text-center">
+                      <button class="btn btn-primary btn-round btn-icon" id="btn_add_53"><i class="fas fa-plus"></i></button>
+                    </div>
+                    <div class="col"></div>
+                  </div>
+                  <!-- siguiendo grupo de cuenta -->
+                  <div class="row align-content-center text-primary">
+                    <div class="col-2"><b>73</b></div>
+                    <div class="col-8"><b>Costos indirectos de fabricación</b></div>
+                    <div class="col-2" id="sum-73">$ 0.00</div>
+                  </div>
+                  <div class="container" id="container-73">
+
+                  </div>
+                  <div class="row align-content-center justify-content-center">
+                    <div class="col"></div>
+                    <div class="col text-center">
+                      <button class="btn btn-primary btn-round btn-icon" id="btn_add_73"><i class="fas fa-plus"></i></button>
+                    </div>
+                    <div class="col"></div>
+                  </div>
+                  <!-- siguiendo grupo de cuenta -->
+                  <div class="row align-content-center text-primary">
+                    <div class="col-2"><b>74</b></div>
+                    <div class="col-8"><b>Contrato de servicios</b></div>
+                    <div class="col-2" id="sum-74">$ 0.00</div>
+                  </div>
+                  <div class="container" id="container-74">
+
+                  </div>
+                  <div class="row align-content-center justify-content-center">
+                    <div class="col"></div>
+                    <div class="col text-center">
+                      <button class="btn btn-primary btn-round btn-icon" id="btn_add_74"><i class="fas fa-plus"></i></button>
+                    </div>
+                    <div class="col"></div>
+                  </div>
+                  <div class="row align-content-center justify-content-center">
+                    <div class="col"></div>
+                    <div class="col"></div>
+                    <div class="col text-right">
+                      <button class="btn btn-success" id="btn_submit_GE"><i class="fas fa-save"></i>
+                        Guardar
+                      </button>
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row mb-5">
+                    <div class="col-12">
+                      <h6 class="pull-left">Importar Gastos Generales</h6>
+                      <a href="#" title="Descargar Archivo Gastos Generales ejemplo" id="download-description-expenses" class="pull-right btn btn-success btn-icon"><i class="fas fa-file-excel"></i></a>
+                    </div>
+                    <div class="custom-file">
+                      <input type="file" id="fileExpensesDescription" class="custom-file-input">
+                      <label for="fileExpensesDescription" class="custom-file-label" data-browse="Elegir">Iniciar Importación</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
               <div class="tab-pane" id="products">
                 <div class="row justify-content-center">
                   <div class="col-md-5 col-sm-12 col-12 col-xs-12 mb-5">
@@ -1185,6 +1299,9 @@ include(PARTIALS_PATH . "verify_session.php");
   <!--   <script src="/js/productos.js"></script>  -->
   <script src="/js/productos-adicionar.js"></script>
 
+  <script src="/js/productos-configurar.js"></script>
+  <script src="/js/productos_procesos.js"></script>
+  <script src="/js/calculo_GG.js"></script>
 
   <script src="/js/gastos-generales.js"></script>
   <script src="/js/productos_procesos.js"></script>
