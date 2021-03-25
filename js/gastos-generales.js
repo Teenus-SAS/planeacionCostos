@@ -8,7 +8,7 @@ loadProductsGG()
 // cargado de productos la empresa
 function loadProductsGG() {
   loadingSpinner()
-  $.get('/app/products/api/get_products.php?expenses', (_products, status, xhr) => {
+  $.get('api/get_products.php?expenses', (_products, status, xhr) => {
     completeSpinner()
     // se consulta los productos de esa empresa
     if (status == 'success') {
@@ -42,7 +42,7 @@ loadMonthExpenses()
 
 // cargado de valor de gastos mensuales
 function loadMonthExpenses() {
-  $.get('/app/products/api/get_total_month_expenses.php', (data, status) => {
+  $.get('api/get_total_month_expenses.php', (data, status) => {
     if (status == 'success') {
       $('#inputGastosGenerales').val(data.totalMonthExpenses)
       // formato de numero 
@@ -75,7 +75,7 @@ var $tableGastosMensuales = $('#tableGastosMensuales').dataTable({
     url: "/vendor/dataTables/Spanish.json"
   },
   ajax: {
-    url: '/app/products/api/get_products.php?dataTable=true&expenses',
+    url: 'api/get_products.php?dataTable=true&expenses',
     dataSrc: 'data'
   },
   columnDefs: [{
@@ -124,7 +124,7 @@ $('#formGastosMensuales').submit(function (e) {
   loadingSpinner()
   e.preventDefault()
   let request = $(this).serialize()
-  $.post('/app/products/api/modify_expenses_product.php', request, (_data, _status, xhr) => {
+  $.post('api/modify_expenses_product.php', request, (_data, _status, xhr) => {
   })
     .always(function (xhr) {
       completeSpinner()

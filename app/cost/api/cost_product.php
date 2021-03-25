@@ -2,20 +2,24 @@
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
 require_once DAO_PATH . "UserDao.php";
 require_once DAO_PATH . "MachineDao.php";
+require_once DAO_PATH . "CargaFabrilDao.php";
 require_once DAO_PATH . "ProductDao.php";
 require_once DAO_PATH . "RosterDao.php";
+
 
 $response = new stdClass();
 // revisar si existe session
 session_start();
 header("Content-Type: application/json");
 
-if (isset($_SESSION["user"])) {
+if (isset($_SESSION["user"])) { 
   $user = unserialize($_SESSION["user"]);
   $rosterDao = new RosterDao();
   $machineDao = new MachineDao();
+  $cargaFabrilDao = new CargaFabrilDao();
   $productDao = new ProductDao();
   $rosterDao = new RosterDao();
+
   $product = $productDao->findById($_GET["id"], true, true, true);
   $response->laborCost = 0;
   $response->indirectExpenses = 0;
@@ -30,7 +34,15 @@ if (isset($_SESSION["user"])) {
         array_push($response->ManoObra, array("tiempo" => $process->getTimeAlistamiento() + $process->getTimeOperacion(), "valor" => $roster->getValueMinute(), "costo" => $process->getTimeAlistamiento() * $roster->getValueMinute()));
       }
       if ($process->getMachine() != null) {
-        $response->indirectExpenses += $process->getTimeOperacion() * $process->getMachine()->getDepreciation();
+        $machineId = $process->getMachine()->getId();
+        
+        $cargasMachine = $cargaFabrilDao->findByMachineId($machineId);
+        $totalCargasMaquina = 0;
+
+        foreach($cargasMachine as $carga) {
+            $totalCargasMaquina += $carga->getCostoPorMinuto();
+        }
+        $response->indirectExpenses += $process->getTimeOperacion() * ($process->getMachine()->getDepreciation() + $totalCargasMaquina);
       }
     }
   }

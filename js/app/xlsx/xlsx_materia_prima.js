@@ -104,6 +104,7 @@ function uploadMaterials(materials) {
   materials.forEach(material => {
     material.Descripcion = material["Materia Prima"].trim()
   })
+  console.log({materials});
   $.post('api/upload_materials.php', { materials: JSON.stringify(materials) }, (data, status) => {
     if (status == 'success') {
       let countSuccess = 0

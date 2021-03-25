@@ -18,19 +18,23 @@ if (isset($_SESSION["user"])) {
     && isset($_POST["maquina"]) /* && isset($_POST["timeProcess"]) */ && isset($_POST["tiempo-alistamiento"]) && isset($_POST["tiempo-operacion"])
   ) {
     if (
-      $_POST["ref"] != "" || $_POST["producto"] != "" || $_POST["proceso"] != ""
-      || $_POST["maquina"] != "" /* || $_POST["timeProcess"] != "" */ || $_POST["tiempo-alistamiento"] != "" || $_POST["tiempo-operacion"] != ""
+      ($_POST["ref"] != "" || $_POST["producto"] != "" || $_POST["proceso"] != ""
+      || $_POST["maquina"] != "" /* || $_POST["timeProcess"] != "" */ || $_POST["tiempo-alistamiento"] != "" || $_POST["tiempo-operacion"] != "")
     ) {
-      $product = $productDao->findById($_POST["producto"]);
-      $resquest = $processDao->saveOrUpdateProductProcess($product, $_POST["maquina"], $_POST["proceso"], /* $_POST["timeProcess"] */ $_POST["tiempo-alistamiento"], $_POST["tiempo-operacion"]);
-      if ($resquest->status > 0) {
-        if ($resquest->mode == "created") {
-          http_response_code(201);
+      if (floatval($_POST["tiempo-alistamiento"]) != 0 && floatval($_POST["tiempo-operacion"] != 0)) {
+        $product = $productDao->findById($_POST["producto"]);
+        $resquest = $processDao->saveOrUpdateProductProcess($product, $_POST["maquina"], $_POST["proceso"], /* $_POST["timeProcess"] */ $_POST["tiempo-alistamiento"], $_POST["tiempo-operacion"]);
+        if ($resquest->status > 0) {
+          if ($resquest->mode == "created") {
+            http_response_code(201);
+          } else {
+            http_response_code(200);
+          }
         } else {
-          http_response_code(200);
+          http_response_code(500);
         }
       } else {
-        http_response_code(500);
+        http_response_code(400);
       }
     }
   } else {

@@ -58,36 +58,36 @@ $("#btn_add_74").click(function () {
 
 function calculateTotalsAccounts() {
   let sum = 0;
-  total = 0;
+  let total = 0;
   $("#container-51 .amount").each(function () {
-    sum += parseFloat($(this).val());
-    total = total + sum;
+    sum += parseFloat($(this).val() || 0);
   });
   $("#sum-51").html(`$ ${$.number(sum, 2, ".", ",")}`);
+  total = total + sum;
   sum = 0;
   $("#container-52 .amount").each(function () {
-    sum += parseFloat($(this).val());
-    total = total + sum;
+    sum += parseFloat($(this).val() || 0);
   });
   $("#sum-52").html(`$ ${$.number(sum, 2, ".", ",")}`);
+  total = total + sum;
   sum = 0;
   $("#container-53 .amount").each(function () {
-    sum += parseFloat($(this).val());
-    total = total + sum;
+    sum += parseFloat($(this).val() || 0);
   });
   $("#sum-53").html(`$ ${$.number(sum, 2, ".", ",")}`);
+  total = total + sum;
   sum = 0;
   $("#container-73 .amount").each(function () {
-    sum += parseFloat($(this).val());
-    total = total + sum;
+    sum += parseFloat($(this).val() || 0);
   });
   $("#sum-73").html(`$ ${$.number(sum, 2, ".", ",")}`);
+  total = total + sum;
   sum = 0;
   $("#container-74 .amount").each(function () {
-    sum += parseFloat($(this).val());
-    total = total + sum;
+    sum += parseFloat($(this).val() || 0);
   });
   $("#sum-74").html(`$ ${$.number(sum, 2, ".", ",")}`);
+  total = total + sum;
   sum = 0;
   $(".sum-total").html(`$ ${$.number(total, 2, ".", ",")}`);
 }

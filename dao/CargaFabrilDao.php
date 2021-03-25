@@ -84,6 +84,29 @@ class CargaFabrilDao
   }
 
   /**
+   * Encuentra todas las cargas fabriles relacionadas a una máquina
+   *
+   * @param integer $idMachine Id de la máquina
+   * @return CargaFabril[]|null
+   */
+
+  public function findByMachineId($idMachine)
+  {
+    $this->db->connect();
+    $query = "SELECT `id_carga` FROM `carga_fabril` WHERE `id_maquina` = '$idMachine'";
+    $cargasDB = $this->db->consult($query, "yes");
+    $cargas = [];
+    if ($cargasDB !== false) {
+      foreach ($cargasDB as $cargaDB) {
+        array_push($cargas, $this->findById($cargaDB["id_carga"]));
+      }
+      return $cargas;
+    } else {
+      return null;
+    }
+  }
+
+  /**
    * Crear o guardar una carga en la base de datos
    *
    * @param CargaFabril $carga Carga que se quiere guardar

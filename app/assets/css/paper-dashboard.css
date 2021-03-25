@@ -4708,10 +4708,10 @@ License - nucleoapp.com/license/
   }
   .button-dropdown {
     display: none;
-  }
+  }/*
   #minimizeSidebar {
     display: none;
-  }
+  }*/
   .navbar .container-fluid {
     padding-right: 15px;
     padding-left: 15px;
@@ -5191,7 +5191,7 @@ License - nucleoapp.com/license/
     padding-right: 15px;
   }
 }
-
+/*
 @media screen and (min-width: 992px) {
   .navbar-collapse {
     background: none !important;
@@ -5241,7 +5241,7 @@ License - nucleoapp.com/license/
     top: 0;
   }
 }
-
+*/
 @media screen and (max-width: 768px) {
   .card-stats [class*="col-"] .statistics::after {
     display: none;

@@ -143,33 +143,33 @@ $("#form-product-process").submit(function (e) {
     "api/add_modify_product_process.php",
     request,
     (_data, _status, xhr) => {}
-  ).always(function (xhr) {
-    /* if ($("#input-unidad-hora").val().length <= 0) {
-      $.notify(
-        {
-          icon: "nc-icon nc-bell-55",
-          message: "Ingresa las Unidades/Hora",
-        },
-        {
-          type: "warning",
-          timer: 8000,
-        }
-      );
-    } else if (parseFloat($("#input-unidad-hora").val()) == 0) {
-      $.notify(
-        {
-          icon: "nc-icon nc-bell-55",
-          message: "Unidades/Hora deben ser mayor a 0",
-        },
-        {
-          type: "warning",
-          timer: 8000,
-        }
-      );
-    } else { */
-    switch (xhr.status) {
-      case 200:
+    ).always(function (xhr) {
+      /* if ($("#input-unidad-hora").val().length <= 0) {
         $.notify(
+          {
+            icon: "nc-icon nc-bell-55",
+            message: "Ingresa las Unidades/Hora",
+          },
+          {
+            type: "warning",
+            timer: 8000,
+          }
+          );
+        } else if (parseFloat($("#input-unidad-hora").val()) == 0) {
+          $.notify(
+            {
+              icon: "nc-icon nc-bell-55",
+              message: "Unidades/Hora deben ser mayor a 0",
+            },
+            {
+              type: "warning",
+              timer: 8000,
+            }
+            );
+          } else { */
+            switch (xhr.status) {
+              case 200:
+                $.notify(
           {
             icon: "nc-icon nc-bell-55",
             message: "El Proceso ha sido <b>Actualizado</b> Correctamente",
@@ -215,18 +215,18 @@ $("#form-product-process").submit(function (e) {
           }
         );
         break;
-      case 400:
-        $.notify(
-          {
-            icon: "nc-icon nc-bell-55",
-            message: "<b>Completa</b> Todos los campos",
-          },
-          {
-            type: "warning",
-            timer: 8000,
-          }
-        );
-        break;
+        case 400:
+          $.notify(
+            {
+              icon: "nc-icon nc-bell-55",
+              message: "<b>Completa</b> Todos los campos",
+            },
+            {
+              type: "warning",
+              timer: 8000,
+            }
+          );
+          break;
       case 500:
         $.notify(
           {

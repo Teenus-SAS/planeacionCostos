@@ -5,6 +5,9 @@
       <img src="/favicon.ico" width="25">
       <img src="../../upload/img/logo_tezlik.png" width="90">
     </a>
+    <button class="mt-2" id="sidebar-btn-hide" style="float: right; border: none; background-color: white; font-size: 1.2rem;">
+      <i class="fa fa-bars"></i>
+    </button>
   </div>
   <div class="sidebar-wrapper">
     <ul class="nav">
