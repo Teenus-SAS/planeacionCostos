@@ -69,5 +69,3 @@ function hideValidate(input) {
 
   $(thisAlert).removeClass('alert-validate');
 }
-
-function 

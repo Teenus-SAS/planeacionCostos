@@ -16,7 +16,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
   <!-- CSS Files -->
   <link href="/app/assets/css/bootstrap.min.css" rel="stylesheet" />
-  <link href="/app/assets/css/paper-dashboard.css?v=2.0.0" rel="stylesheet" />
+  <link href="/app/assets/css/paper-dashboard.css" rel="stylesheet" />
   <link rel="stylesheet" href="/vendor/dataTables/jquery.dataTables.min.css">
   <link rel="stylesheet" href="/vendor/dataTables/dataTables.bootstrap4.min.css">
   <!-- CSS Just for demo purpose, don't include it in your project -->

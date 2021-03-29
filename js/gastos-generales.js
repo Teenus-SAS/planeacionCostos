@@ -63,10 +63,8 @@ function loadfields(expenses) {
   $('#inputUnidadesVendidas').number(true, 0)
 }
 
-
 // inicializacion de datatable de gastos generales
 var $tableGastosMensuales = $('#tableGastosMensuales').dataTable({
-
   "scrollY": "500px",
   "scrollCollapse": true,
   "paging": false,
@@ -79,7 +77,7 @@ var $tableGastosMensuales = $('#tableGastosMensuales').dataTable({
     dataSrc: 'data'
   },
   columnDefs: [{
-    targets: [2, 3, 4, 5],
+    targets: [2, 3, 4],
     className: 'text-right'
   }],
   columns: [
@@ -98,12 +96,6 @@ var $tableGastosMensuales = $('#tableGastosMensuales').dataTable({
       }
     },
     {
-      data: 'expenses.indirectExpenses',
-      render: function (data, type, row) {
-        return `$ ${$.number(data, 2, ',', '.')}`
-      }
-    },
-    {
       data: 'expenses.unitAssignableExpense',
       render: function (data, type, row) {
         return `$ ${$.number(data, 2, ',', '.')}`
@@ -117,9 +109,7 @@ $tableGastosMensuales.on('click', 'tr', function () {
   $(this).toggleClass('selected');
 })
 
-
 // formulario para actulizar gastos de productos
-
 $('#formGastosMensuales').submit(function (e) {
   loadingSpinner()
   e.preventDefault()

@@ -25,7 +25,7 @@ if (isset($_GET["id"]) && isset($_GET["token"])) {
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
   <!-- CSS Files -->
   <link href="/app/assets/css/bootstrap.min.css" rel="stylesheet" />
-  <link href="/app/assets/css/paper-dashboard.css?v=2.0.0" rel="stylesheet" />
+  <link href="/app/assets/css/paper-dashboard.css" rel="stylesheet" />
   <!-- CSS Just for demo purpose, don't include it in your project -->
   <link href="/app/assets/demo/demo.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
