@@ -5,6 +5,7 @@ require_once DAO_PATH . "MachineDao.php";
 require_once DAO_PATH . "CargaFabrilDao.php";
 require_once DAO_PATH . "ProductDao.php";
 require_once DAO_PATH . "RosterDao.php";
+require_once DAO_PATH . "ProcessDao.php";
 
 
 $response = new stdClass();
@@ -19,6 +20,7 @@ if (isset($_SESSION["user"])) {
   $cargaFabrilDao = new CargaFabrilDao();
   $productDao = new ProductDao();
   $rosterDao = new RosterDao();
+  $processDao = new ProcessDao();
 
   $product = $productDao->findById($_GET["id"], true, true, true);
   $response->laborCost = 0;
@@ -33,6 +35,7 @@ if (isset($_SESSION["user"])) {
         $response->laborCost += ($process->getTimeAlistamiento() + $process->getTimeOperacion() * $roster->getValueMinute());
         array_push($response->ManoObra, array("tiempo" => $process->getTimeAlistamiento() + $process->getTimeOperacion(), "valor" => $roster->getValueMinute(), "costo" => $process->getTimeAlistamiento() * $roster->getValueMinute()));
       }
+
       if ($process->getMachine() != null) {
         $machineId = $process->getMachine()->getId();
         

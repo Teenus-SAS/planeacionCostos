@@ -120,7 +120,7 @@ class ProcessDao
   public function saveOrUpdateProductProcess($product, $idMachine, $idProcess, $tiempoAlistamiento, $tiempoOperacion )
   {
 
-    $productProcess = $this->findOneProductProcessByProduct($product, $idProcess);
+    $productProcess = $this->findOneProductProcessByProductAndMachine($product, $idProcess, $idMachine);
     if ($productProcess == null) {
       $this->db->connect();
       $query = "INSERT INTO `tiempo_proceso` (`id_tiempo_proceso`, `productos_id_producto`,
@@ -140,15 +140,35 @@ class ProcessDao
     }
   }
 
-
   /**
-   * Encuentra un proceso de un producto
+   * Encuentra un proceso de un producto y una máquina específica
    *
    * @param Product $product producto en el cual se quiere buscar
    * @param integer $idProcess id del proceso que se quiere buscar
    * @return ProductProcess|null El proceso del producto que se busca
    */
-  public function findOneProductProcessByProduct($product, $idProcess)
+  public function findOneProductProcessByProductAndMachine($product, $idProcess, $idMachine)
+  {
+    $this->db->connect();
+    $query = "SELECT `id_tiempo_proceso` FROM `tiempo_proceso` WHERE `productos_id_producto` = " . $product->getId() . " AND `procesos_id_procesos` = $idProcess AND `maquinas_id_maquinas` = $idMachine";
+    $id = $this->db->consult($query, "yes");
+    if (count($id) > 0) {
+      $id = $id[0]["id_tiempo_proceso"];
+      return $this->findProductProcessById($id);
+    } else {
+      return null;
+    }
+  }
+
+
+  /**
+   * Encuentra todos los procesos de un producto
+   *
+   * @param Product $product producto en el cual se quiere buscar
+   * @param integer $idProcess id del proceso que se quiere buscar
+   * @return ProductProcess[]|null El proceso del producto que se busca
+   */
+  public function findProductProcessesByProcess($product, $idProcess)
   {
     $this->db->connect();
     $query = "SELECT `id_tiempo_proceso` FROM `tiempo_proceso` WHERE `productos_id_producto` = " . $product->getId() . " AND `procesos_id_procesos` = $idProcess";
@@ -161,7 +181,7 @@ class ProcessDao
     }
   }
 
-  /**
+ /**
    * Encuentra todos los procesos creados por una empresa
    *
    * @param integer $idCompany id de la empresa 
@@ -182,6 +202,7 @@ class ProcessDao
       return null;
     }
   }
+
 
   /**
    * Crea un proceso en la base de datos

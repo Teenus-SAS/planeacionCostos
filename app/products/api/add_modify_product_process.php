@@ -21,7 +21,7 @@ if (isset($_SESSION["user"])) {
       ($_POST["ref"] != "" || $_POST["producto"] != "" || $_POST["proceso"] != ""
       || $_POST["maquina"] != "" /* || $_POST["timeProcess"] != "" */ || $_POST["tiempo-alistamiento"] != "" || $_POST["tiempo-operacion"] != "")
     ) {
-      if (floatval($_POST["tiempo-alistamiento"]) != 0 && floatval($_POST["tiempo-operacion"] != 0)) {
+      if (floatval($_POST["tiempo-alistamiento"]) + floatval($_POST["tiempo-operacion"] != 0)) {
         $product = $productDao->findById($_POST["producto"]);
         $resquest = $processDao->saveOrUpdateProductProcess($product, $_POST["maquina"], $_POST["proceso"], /* $_POST["timeProcess"] */ $_POST["tiempo-alistamiento"], $_POST["tiempo-operacion"]);
         if ($resquest->status > 0) {
