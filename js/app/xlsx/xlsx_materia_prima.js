@@ -89,29 +89,29 @@ function verifyErrorsRawMaterials(jsonObj) {
     if (material["Materia Prima"] == undefined) {
       errors.push({
         type: "La Materia Prima no puede ser vacia",
-        row: productExpenses.__rowNum__ + 1,
+        row: material.__rowNum__ + 1,
       });
     }
     if (material.Costo == undefined) {
       errors.push({
         type: "El Costo no puede ser vacia",
-        row: productExpenses.__rowNum__ + 1,
+        row: material.__rowNum__ + 1,
       });
     } else if (isNaN(parseFloat(material.Costo))) {
       errors.push({
         type: "El Costo debe ser un valor numérico",
-        row: productExpenses.__rowNum__ + 1,
+        row: material.__rowNum__ + 1,
       });
     }
     if (material.Unidad == undefined) {
       errors.push({
         type: "La unidad no puede ser vacia",
-        row: productExpenses.__rowNum__ + 1,
+        row: material.__rowNum__ + 1,
       });
     } else if (isNaN(parseFloat(material.Costo))) {
       errors.push({
         type: "La unidad debe ser un valor numérico",
-        row: productExpenses.__rowNum__ + 1,
+        row: material.__rowNum__ + 1,
       });
     }
   }

@@ -134,8 +134,7 @@ function loadedFileProducts(reader, inputFileProducts) {
         icon: "fas fa-warning",
         content:
           "Este Archivo no cumple los formatos indicados <br>" +
-          bugsToString(errorsProducts) +
-          bugsToString(errosRawMaterials),
+          bugsToString(errorsProducts),
       });
       clearFile(inputFileProducts);
     }
