@@ -306,7 +306,7 @@ $("#form-products").validate({
   },
   submitHandler: function (form) {
     let request = $(form).serialize();
-    
+
     productExists();
     $.post(
       "api/add_modify_products.php",
@@ -521,10 +521,10 @@ function resetFormOptions() {
 }) */
 
 function deleteProduct(prodId) {
+  loadingSpinner();
   $.post("api/delete_product.php", {
     id: prodId,
   }).always(function (xhr) {
-    loadingSpinner();
     if (xhr.status == 200) {
       $tableProductos.api().ajax.reload();
       loadProductsGG();
@@ -541,8 +541,8 @@ function deleteProduct(prodId) {
           timer: 8000,
         }
       );
-      completeSpinner();
     }
+    completeSpinner();
   });
 }
 
@@ -620,8 +620,8 @@ $("#delete-materia-prima").click(() => {
               timer: 8000,
             }
           );
-          completeSpinner();
         }
+        completeSpinner();
       });
     }
   } else {

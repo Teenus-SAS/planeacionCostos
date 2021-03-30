@@ -14,8 +14,8 @@ function loadProductsInProcess() {
   loadingSpinner();
   // cargado de productos de base de datos
   $.get("api/get_products.php?process", (data, status, xhr) => {
-    completeSpinner();
     productsJSONInprocess = data;
+    completeSpinner();
   });
 }
 loadProductsInProcess();
@@ -98,6 +98,7 @@ function generateFileProductProcesses() {
     loadingSpinner();
     setTimeout(generateFileProductProcesses, 2000);
   }
+  completeSpinner();
 }
 
 // evento al hacer click en el boton para descargar el archivo
@@ -185,11 +186,11 @@ function loadedFilePP(reader, inputFile) {
       });
       clearFile(inputFile);
     }
-    completeSpinner();
   } else {
     loadingSpinner();
     setTimeout(loadedFilePP(reader, inputFile), 2000);
   }
+  completeSpinner();
 }
 /**
  * Validara que se cumpla el formato y dara una lista de errores en el formato
@@ -264,7 +265,9 @@ function verifyErrorsProductsProcesses(jsonObj) {
         type: "El tiempo de alistamiento no puede estar vacio",
         row: productsProcess.__rowNum__ + 1,
       });
-    } else */ if (isNaN(parseFloat(productsProcess.TiempoAlistamiento))) {
+    } else */ if (
+      isNaN(parseFloat(productsProcess.TiempoAlistamiento))
+    ) {
       errors.push({
         type: "El tiempo de Alistamiento debe ser un valor numérico",
         row: productsProcess.__rowNum__ + 1,
@@ -276,7 +279,9 @@ function verifyErrorsProductsProcesses(jsonObj) {
         type: "El tiempo de operación no puede estar vacio",
         row: productsProcess.__rowNum__ + 1,
       });
-    } else */ if (isNaN(parseFloat(productsProcess.TiempoAlistamiento))) {
+    } else */ if (
+      isNaN(parseFloat(productsProcess.TiempoAlistamiento))
+    ) {
       errors.push({
         type: "El tiempo de Operación debe ser un valor numérico",
         row: productsProcess.__rowNum__ + 1,
@@ -347,11 +352,11 @@ function uploadProductsProcess(productsProcess) {
           }
         );
       }
-      completeSpinner();
       loadProductsPP();
       $("#inputRefProcess").change();
     }
   );
+  completeSpinner();
 }
 
 function bugsToString(bugs) {

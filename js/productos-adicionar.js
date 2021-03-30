@@ -329,10 +329,10 @@ function deleteProduct(prodId) {
     },
     callback: function (result) {
       if (result == true) {
+        loadingSpinner();
         $.post("api/delete_product.php", {
           id: prodId,
         }).always(function (xhr) {
-          loadingSpinner();
           if (xhr.status == 200) {
             $tableProductos.api().ajax.reload();
             loadProductsGG();
@@ -349,9 +349,9 @@ function deleteProduct(prodId) {
                 timer: 8000,
               }
             );
-            completeSpinner();
           }
         });
+        completeSpinner();
         return;
       } else {
         resetFormOptions();

@@ -77,7 +77,6 @@ $("input[name=optionNomina]").change(function () {
     /*   let $formGroupParent = $('#input-cargo').parent() */
     loadingSpinner();
     $.get("api/get_rosters.php", (data, status, xhr) => {
-      completeSpinner();
       // se consulta las maquinas de esa empresa
       if (status == "success") {
         // se agregan todas las maquinas en un input select
@@ -107,6 +106,7 @@ $("input[name=optionNomina]").change(function () {
         location = "/login";
       }
     });
+    completeSpinner();
   } else {
     /* if ($('#input-cargo')[0].tagName == 'SELECT') { */
     /*      let $formGroupParent = $('#input-cargo').parent()
@@ -758,7 +758,6 @@ elById("tableNominas").addEventListener("click", (ev) => {
 /* Eliminar registro Nomina seleccionado  */
 
 function deleteNomina(id) {
-  
   bootbox.confirm({
     title: "Eliminar registros nómina",
     message: `¿Está seguro de eliminar este registro?.  Esta acción no se puede deshacer`,

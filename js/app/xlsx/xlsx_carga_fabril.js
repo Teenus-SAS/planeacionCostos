@@ -252,8 +252,8 @@ function generateFileCargasF() {
         "CargasFabriles.xlsx"
       );
     }
-    completeSpinner();
   });
+  completeSpinner();
 }
 
 $("#download_cargaFabril").click(generateFileCargasF);

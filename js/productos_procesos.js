@@ -13,12 +13,15 @@ function loadProductsPP() {
   // cargado de productos la empresa
   loadingSpinner();
   $.get("api/get_products.php?process", (_products, status, xhr) => {
-    completeSpinner();
     // se consulta los productos de esa empresa
     if (status == "success") {
       // se agregan todos los productos en un input select
-      $("#inputRefProcess").html("<option disabled selected>Selecciona una Referencia</option>");
-      $("#inputProductProcess").html("<option disabled selected>Selecciona un Producto</option>");
+      $("#inputRefProcess").html(
+        "<option disabled selected>Selecciona una Referencia</option>"
+      );
+      $("#inputProductProcess").html(
+        "<option disabled selected>Selecciona un Producto</option>"
+      );
       productsInProcess = _products;
       productsInProcess.forEach((product) => {
         $("#inputRefProcess").append(
@@ -33,7 +36,7 @@ function loadProductsPP() {
         let productSelected = productsInProcess.filter(
           (product) => product.id == $(this).val()
         )[0];
-        
+
         $("#inputProductProcess").val(productSelected.id);
         //$("#titleProductProcess").text(productSelected.name);
         cleanSelects();
@@ -54,6 +57,7 @@ function loadProductsPP() {
             }) */
     }
   });
+  completeSpinner();
 }
 
 // cargado de procesos
@@ -143,8 +147,8 @@ $("#form-product-process").submit(function (e) {
     "api/add_modify_product_process.php",
     request,
     (_data, _status, xhr) => {}
-    ).always(function (xhr) {
-      /* if ($("#input-unidad-hora").val().length <= 0) {
+  ).always(function (xhr) {
+    /* if ($("#input-unidad-hora").val().length <= 0) {
         $.notify(
           {
             icon: "nc-icon nc-bell-55",
@@ -167,9 +171,9 @@ $("#form-product-process").submit(function (e) {
             }
             );
           } else { */
-            switch (xhr.status) {
-              case 200:
-                $.notify(
+    switch (xhr.status) {
+      case 200:
+        $.notify(
           {
             icon: "nc-icon nc-bell-55",
             message: "El Proceso ha sido <b>Actualizado</b> Correctamente",
@@ -215,18 +219,18 @@ $("#form-product-process").submit(function (e) {
           }
         );
         break;
-        case 400:
-          $.notify(
-            {
-              icon: "nc-icon nc-bell-55",
-              message: "<b>Completa</b> Todos los campos",
-            },
-            {
-              type: "warning",
-              timer: 8000,
-            }
-          );
-          break;
+      case 400:
+        $.notify(
+          {
+            icon: "nc-icon nc-bell-55",
+            message: "<b>Completa</b> Todos los campos",
+          },
+          {
+            type: "warning",
+            timer: 8000,
+          }
+        );
+        break;
       case 500:
         $.notify(
           {
@@ -366,7 +370,7 @@ $(document).on("click", ".link-editar-procesos", function (e) {
   tiempoOperacion = $(this).parents("tr").find("td").eq(3).html();
 
   $(`#selectProcess option:contains(${proceso})`).prop("selected", true);
-  
+
   if (maquina == "N/A")
     $(`#selectMachines option:contains('Ninguna')`).prop("selected", true);
   else $(`#selectMachines option:contains(${maquina})`).prop("selected", true);
