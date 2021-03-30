@@ -159,7 +159,7 @@ function submitForm(e) {
   let maquina = $("#cfmaquinas").val();
   let insumo = $("#insumo").val();
   let costo = $("#costoCargaFabril").val();
-  
+
   if (maquina === null || insumo === "" || costo === "") {
     return $.notify(
       {
