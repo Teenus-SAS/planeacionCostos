@@ -18,6 +18,7 @@ set_time_limit(300);
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
 require_once DAO_PATH . "UserDao.php";
 require_once DAO_PATH . "CargaFabrilDao.php";
+require_once DAO_PATH . "MachineDao.php";
 
 // revisar si existe session
 session_start();
@@ -26,6 +27,7 @@ header("Content-Type: application/json");
 if (isset($_SESSION["user"])) {
   $user = unserialize($_SESSION["user"]);
   $cargasFDao = new CargaFabrilDao();
+  $maquinasDao = new MachineDao();
   $cargasFJSON = json_decode($_POST["cargasFabriles"]);
   $responses = [];
   foreach ($cargasFJSON as $cargaJSON) {
@@ -33,8 +35,8 @@ if (isset($_SESSION["user"])) {
     $carga->setIdEmpresa($user->getCompany()->getId());
     $carga->setIdMaquina($cargaJSON->Maquina);
     $carga->setInsumo($cargaJSON->Insumo);
-    $carga->setCosto($cargaJSON->Precio);
-    $costoPorMinuto = ($cargaJSON->Precio/$user->getCompany()->getBussinesDaysMonth()/$user->getCompany()->getWorkHours() / 60);
+    $carga->setCosto($cargaJSON->Costo);
+    $costoPorMinuto = ($cargaJSON->Costo/$user->getCompany()->getBussinesDaysMonth()/$user->getCompany()->getWorkHours() / 60);
     $carga->setCostoPorMinuto($costoPorMinuto);
     array_push($responses, $cargasFDao->saveOrUpdate($carga) > 0 ? true : false);
   }

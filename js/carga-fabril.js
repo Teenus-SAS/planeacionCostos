@@ -154,12 +154,12 @@ function completeSpinner() {
 
 /* Envio de formulario */
 
-function submitForm(e, option, maquina) {
+function submitForm(e) {
   e.preventDefault();
-  maquina = $("#cfmaquinas").val();
+  let maquina = $("#cfmaquinas").val();
   let insumo = $("#insumo").val();
   let costo = $("#costoCargaFabril").val();
-
+  
   if (maquina === null || insumo === "" || costo === "") {
     return $.notify(
       {

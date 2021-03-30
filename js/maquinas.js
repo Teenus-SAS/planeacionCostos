@@ -138,7 +138,7 @@ $tableMaquinas.width("100%");
 }) */
 
 // formulario para adicionar o modificar valores de una maquina
-$("#form-maquinas").submit(submitForm);
+$("#form-maquinas").submit(submitMaquinasForm);
 
 // calcular depreciacion con el cambio de precio
 $("#input-price-machine").keyup(calulateDepreciation);
@@ -209,7 +209,7 @@ document.getElementById("table-maquinas").addEventListener("click", (ev) => {
     elById("maquinas-btn").textContent = "MODIFICAR";
     const pCompra = closestTr.cells[1].textContent.replace("$", "").trim();
     const depreciacion = closestTr.cells[2].textContent.trim().replace(",", "");
-    
+
     const yearsDepreciation = selectedElement.dataset.maquinaYearsDeprec;
     const valorResidual = selectedElement.dataset.maquinaResidual;
     const idMaquina = selectedElement.dataset.maquinaId;
@@ -223,7 +223,7 @@ document.getElementById("table-maquinas").addEventListener("click", (ev) => {
   }
 });
 
-function submitForm(e, option, maquina) {
+function submitMaquinasForm(e, option, maquina) {
   e.preventDefault();
 
   let precio_maquina = $("#input-price-machine").val();
@@ -265,11 +265,11 @@ function submitForm(e, option, maquina) {
   const maquinaExists = checkIfMaquinaExists(
     elById("input-maquinas").value.trim()
   );
-  
+
   if (elById("inlineRadio1M").checked && !maquinaExists) {
-    sendData(request);
+    sendDataMachine(request);
   } else if (elById("inlineRadio2M").checked) {
-    sendData(request);
+    sendDataMachine(request);
   } else if (elById("inlineRadio1M").checked && maquinaExists) {
     bootbox.confirm({
       title: "Crear Máquinas",
@@ -288,7 +288,7 @@ function submitForm(e, option, maquina) {
       },
       callback: function (result) {
         if (result == true) {
-          sendData(request);
+          sendDataMachine(request);
         } else {
           resetFormMaquinas();
           return;
@@ -301,7 +301,7 @@ function submitForm(e, option, maquina) {
       content: `La Máquina ${elById('input-maquinas').value} ya existe, ¿Desea actualizarla?`,
       buttons: {
         SI: function () {
-          sendData(request);
+          sendDataMachine(request);
         },
         No: function () {
           resetFormMaquinas();
@@ -312,7 +312,7 @@ function submitForm(e, option, maquina) {
   }
 }
 
-function sendData(request) {
+function sendDataMachine(request) {
   $.post("api/add_modify_machines.php", request).always(function (xhr) {
     flag = false;
     switch (xhr.status) {
