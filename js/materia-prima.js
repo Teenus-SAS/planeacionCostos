@@ -152,9 +152,11 @@ $("#form-materia-prima").submit(function (e) {
 
   if (materialsMateriaPrima != undefined) {
     let m = $("#input-materia-prima").val();
+    let ref = $("#ref-materia-prima").val();
     let materialSel = materialsMateriaPrima.filter(
       (material) =>
-        material.description.trim().toLowerCase() == m.trim().toLowerCase()
+        material.description.trim().toLowerCase() == m.trim().toLowerCase() ||
+        material.referencia.trim().toLowerCase() == ref.trim().toLowerCase()
     )[0];
 
     if (
@@ -173,7 +175,10 @@ $("#form-materia-prima").submit(function (e) {
       return;
     }
 
-    if (existsMateriaPrma(elById("input-materia-prima").value)) {
+    if (
+      existsMateriaPrimaByName(elById("input-materia-prima").value) ||
+      existsMateriaPrimaByRef(elById("ref-materia-prima").value)
+    ) {
       $.confirm({
         title: "Tezlik",
         content: "¿Desea Actualizar la materia prima?",
@@ -211,25 +216,7 @@ $("#form-materia-prima").submit(function (e) {
   }
 });
 
-function submitFormMaterials(updated = false, repeated = false) {
-  elById("material-description").value = elById(
-    "input-materia-prima"
-  ).value.trim();
-
-  if (updated && elById("inlineRadio1").checked) {
-  } else if (
-    updated &&
-    elById("material-firstname").value !== elById("input-materia-prima").value
-  ) {
-    elById("input-materia-prima").value = elById(
-      "input-materia-prima"
-    ).getAttribute("value");
-  } else if (updated) {
-    elById("input-materia-prima").value = elById(
-      "input-materia-prima"
-    ).getAttribute("value");
-  }
-
+function submitFormMaterials(updated = false) {
   $.post(
     "api/add_modify_materials.php",
     $("#form-materia-prima").serialize()
@@ -441,14 +428,24 @@ function elById(id) {
   return document.getElementById(id);
 }
 
-function existsMateriaPrma(matPrimaName) {
+function existsMateriaPrimaByName(matPrimaName) {
   const tableRows = Array.from(elById("table-materia-prima").tBodies[0].rows);
-  return tableRows.some(
-    (row) =>
-      row.cells[0].textContent.trim().toLowerCase() ===
+  return tableRows.some((row) => {
+    return (
+      row.cells[1].textContent.trim().toLowerCase() ===
       matPrimaName.trim().toLowerCase()
-  );
-  s;
+    );
+  });
+}
+
+function existsMateriaPrimaByRef(matPrimaRef) {
+  const tableRows = Array.from(elById("table-materia-prima").tBodies[0].rows);
+  return tableRows.some((row) => {
+    return (
+      row.cells[0].textContent.trim().toLowerCase() ===
+      matPrimaRef.trim().toLowerCase()
+    );
+  });
 }
 
 /* Limpiar campos de materia prima */
