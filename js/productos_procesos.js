@@ -143,6 +143,19 @@ $("#form-product-process").submit(function (e) {
 
   let request = $(this).serialize();
   //request += `&timeProcess=${60 / $("#input-unidad-hora").val()}`;
+  if (!totalTiempoProceso()) {
+    $.notify(
+      {
+        icon: "nc-icon nc-bell-55",
+        message: "El <b>Tiempo Total</b> no puede ser cero (0)",
+      },
+      {
+        type: "danger",
+        timer: 8000,
+      }
+    );
+    return;
+  }
   $.post(
     "api/add_modify_product_process.php",
     request,
