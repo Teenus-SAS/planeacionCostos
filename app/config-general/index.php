@@ -234,7 +234,7 @@ include(PARTIALS_PATH . "verify_session.php");
 
               <!-- Inicio Maquina -->
               <div class="tab-pane" id="maquinas">
-                <div class="row justify-content-center align-items-center">
+                <div class="row justify-content-center">
                   <div class="col-md-4 col-sm-12">
                     <form id="form-maquinas">
                       <!--<h3>Máquinas</h3>-->
