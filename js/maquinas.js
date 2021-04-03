@@ -151,11 +151,16 @@ elById("input-valor-residual").oninput = calulateDepreciation;
 function calulateDepreciation() {
   "use strict";
 
+  if (!$("#input-valor-residual").val()) {
+    $("#input-valor-residual").val(0);
+  }
+
   let request = {
     price: $("#input-price-machine").val(),
     years: $("#input-years-depreciation").val(),
     residualValue: $("#input-valor-residual").val(),
   };
+  console.log(request);
   $.get("api/get_depreciation.php", request, (data, status) => {
     if (status == "success") {
       if (parseFloat(data.depreciation) < 1) {
@@ -207,16 +212,23 @@ document.getElementById("table-maquinas").addEventListener("click", (ev) => {
 
     elById("maquinas-btn").value = "MODIFICAR";
     elById("maquinas-btn").textContent = "MODIFICAR";
-    const pCompra = closestTr.cells[1].textContent.replace("$", "").trim();
-    const depreciacion = closestTr.cells[2].textContent.trim().replace(",", "");
 
-    const yearsDepreciation = selectedElement.dataset.maquinaYearsDeprec;
-    const valorResidual = selectedElement.dataset.maquinaResidual;
     const idMaquina = selectedElement.dataset.maquinaId;
 
+    const pCompra = parseFloat(
+      closestTr.cells[1].textContent.trim().replace("$", "").replaceAll(",", "")
+    );
+    const yearsDepreciation = parseFloat(
+      selectedElement.dataset.maquinaYearsDeprec
+    );
+    const valorResidual = parseFloat(selectedElement.dataset.maquinaResidual);
+    console.log(valorResidual);
     elById("input-price-machine").value = pCompra;
-    elById("input-valor-residual").value = parseFloat(valorResidual);
     elById("input-years-depreciation").value = yearsDepreciation;
+    elById("input-valor-residual").value = valorResidual;
+
+    const depreciacion = calulateDepreciation();
+
     elById("input-depreciation-machine").value = depreciacion;
     elById("input-maquinas").value = maquina;
     elById("machine-id").value = idMaquina;
@@ -246,7 +258,7 @@ function submitMaquinasForm(e, option, maquina) {
     return false;
   }
 
-  if (valor_residual == 0) {
+  if (Number.isNaN(valor_residual)) {
     $.notify(
       {
         icon: "nc-icon nc-bell-55",
