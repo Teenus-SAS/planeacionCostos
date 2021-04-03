@@ -143,7 +143,8 @@ $("#form-product-process").submit(function (e) {
 
   let request = $(this).serialize();
   //request += `&timeProcess=${60 / $("#input-unidad-hora").val()}`;
-  if (!totalTiempoProceso()) {
+  totalTiempoProceso();
+  if (!$("#input-tiempo-total").val()) {
     $.notify(
       {
         icon: "nc-icon nc-bell-55",
@@ -161,29 +162,6 @@ $("#form-product-process").submit(function (e) {
     request,
     (_data, _status, xhr) => {}
   ).always(function (xhr) {
-    /* if ($("#input-unidad-hora").val().length <= 0) {
-        $.notify(
-          {
-            icon: "nc-icon nc-bell-55",
-            message: "Ingresa las Unidades/Hora",
-          },
-          {
-            type: "warning",
-            timer: 8000,
-          }
-          );
-        } else if (parseFloat($("#input-unidad-hora").val()) == 0) {
-          $.notify(
-            {
-              icon: "nc-icon nc-bell-55",
-              message: "Unidades/Hora deben ser mayor a 0",
-            },
-            {
-              type: "warning",
-              timer: 8000,
-            }
-            );
-          } else { */
     switch (xhr.status) {
       case 200:
         $.notify(
@@ -197,8 +175,7 @@ $("#form-product-process").submit(function (e) {
           }
         );
         $tableProductProcess.api().ajax.reload();
-        loadProductsPP();
-        $("#selectProcess").val("");
+        cleanSelects();
         $("#selectMachines").val("");
         $("#input-tiempo-alistamiento").val("");
         $("#input-tiempo-operacion").val("");
@@ -216,8 +193,7 @@ $("#form-product-process").submit(function (e) {
           }
         );
         $tableProductProcess.api().ajax.reload();
-        $("#form-product-process")[0].reset();
-        //loadProductsPP();
+        cleanSelects();
         break;
       case 412:
         $.notify(
