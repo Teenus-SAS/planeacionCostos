@@ -23,6 +23,20 @@ class User implements JsonSerializable
    */
   private $username;
   /**
+   * nombres del usuario
+   *
+   * @access private
+   * @var string
+   */
+  private $firstname;
+  /**
+   * apellidos del usuario
+   *
+   * @access private
+   * @var string
+   */
+  private $lastname;
+  /**
    * Email del usuario
    *
    * @access private
@@ -125,6 +139,26 @@ class User implements JsonSerializable
   public function setUsername($username)
   {
     $this->username = $username;
+  }
+
+  public function getFirstname()
+  {
+    return $this->firstname;
+  }
+
+  public function setFirstname($firstname)
+  {
+    $this->firstname = $firstname;
+  }
+
+  public function getLastname()
+  {
+    return $this->lastname;
+  }
+
+  public function setLastname($lastname)
+  {
+    $this->lastname = $lastname;
   }
 
   /**

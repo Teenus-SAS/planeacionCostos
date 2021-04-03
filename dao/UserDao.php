@@ -50,6 +50,8 @@ class UserDao
     $user = new User();
     $user->setId($userDB["id_user"]);
     $user->setUsername($userDB["username"]);
+    $user->setFirstname($userDB["firstname"]);
+    $user->setLastname($userDB["lastname"]);
     $user->setEmail($userDB["email"]);
     $user->setPassword($userDB["password"]);
     $user->setCompany($this->companyDao->findById($userDB["empresas_id_empresa"]));
@@ -129,7 +131,7 @@ class UserDao
   public function update($user)
   {
     $this->db->connect();
-    $query = "UPDATE `users` SET `email` = '" . $user->getEmail() . "', `password` = '" . $user->getPassword() . "',
+    $query = "UPDATE `users` SET `email` = '" . $user->getEmail() . "', `firstname` = '" . $user->getFirstName() . "', `lastname` = '" . $user->getLastname() . "', `password` = '" . $user->getPassword() . "',
       `token_pass` = '" . $user->getTokenPass() . "', 
       `roles_users_idroles_users` = '" . $user->getRolId() . "',
       `active` = '" . (int) $user->getActive() . "'
@@ -147,10 +149,11 @@ class UserDao
   public function save($user)
   {
     $this->db->connect();
-    $query = "INSERT INTO `users` (`id_user`, `username`, `email`, `password`,
+    $query = "INSERT INTO `users` (`id_user`, `username`, `firstname`, `lastname`, `email`, `password`,
       `created_at`, `empresas_id_empresa`, `token_pass`, 
       `roles_users_idroles_users`, `session_active`, `active`) 
-      VALUES (NULL, '" . $user->getUsername() . "', '" . $user->getEmail() . "',
+      VALUES (NULL, '" . $user->getUsername() . "', '" . $user->getFirstname() . "',
+      '" . $user->getLastname() . "', '" . $user->getEmail() . "',
       '" . $user->getPassword() . "', current_timestamp(),
       '" . $user->getCompany()->getId() . "', 'asasas', '" . $user->getRolId() . "',
       '0', '" . $user->getActive() . "')";

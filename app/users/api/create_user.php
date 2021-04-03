@@ -7,13 +7,16 @@ require_once DAO_PATH . "UserDao.php";
 session_start();
 header("Content-Type: application/json");
 $response = new stdClass();
-if(isset($_POST["email"]) && isset($_POST["username"]) && isset($_POST["rol"])){
+if(isset($_POST["email"]) && isset($_POST["username"])  && isset($_POST["firstname"])  && isset($_POST["lastname"]) && isset($_POST["rol"])){
   if (isset($_SESSION["user"])) {
     $user = unserialize($_SESSION["user"]);
     $userDao = new UserDao();
     $newUser = new User();
+
     $newUser->setEmail($_POST["email"]);
     $newUser->setUsername($_POST["username"]);
+    $newUser->setFirstname($_POST["firstname"]);
+    $newUser->setLastname($_POST["lastname"]);
     $password = generar_password_complejo(10);
     $newUser->setPassword(hash("sha256", $password));
     $newUser->setActive(false);
@@ -21,7 +24,6 @@ if(isset($_POST["email"]) && isset($_POST["username"]) && isset($_POST["rol"])){
     $newUser->setRolId($_POST["rol"]);
     if ($userDao->save($newUser) > 0) {
       $response->status = true;
-  
       // abrimos la sesión cURL
       $ch = curl_init();
       $protocol =  isset($_SERVER["HTTPS"]) ? 'https' : 'http';
@@ -30,7 +32,7 @@ if(isset($_POST["email"]) && isset($_POST["username"]) && isset($_POST["rol"])){
       // indicamos el tipo de petición: POST
       curl_setopt($ch, CURLOPT_POST, TRUE);
       // definimos cada uno de los parámetros
-      curl_setopt($ch, CURLOPT_POSTFIELDS, "username=" . $newUser->getUsername() . "&password=" . $password);
+      curl_setopt($ch, CURLOPT_POSTFIELDS, "username=" . $newUser->getUsername() . "&fisrtname=" . $newUser->getUsername() . "&lastname=" . $newUser->getUsername() . "&password=" . $password);
   
       // recibimos la respuesta y la guardamos en una variable
       curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);

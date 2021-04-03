@@ -63,6 +63,21 @@ include(PARTIALS_PATH . "verify_session.php") ?>
               </div>
               <div class="card-body">
                 <form id="create-user">
+                <div class="row">
+                    <div class="col-6 col-sm-6 order-2 order-md-1">
+                      <div class="form-group">
+                        <label for="firstname-user">Nombres</label>
+                        <input id="firstname-user" class="form-control" type="text" name="firstname" required>
+                      </div>
+                    </div>
+                    
+                    <div class="col-6 col-sm-6 order-2 order-md-1">
+                      <div class="form-group">
+                        <label for="lastname-user">Apellidos</label>
+                        <input id="lastname-user" class="form-control" type="text" name="lastname" required>
+                      </div>
+                    </div>
+                </div>
                   <div class="row aling-items-center">
                     <div class="col-6 col-sm-4 order-2 order-md-1">
                       <div class="form-group">
