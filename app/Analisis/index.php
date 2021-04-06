@@ -209,11 +209,12 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                   <div class="card py-2">
                     <h3 class="card-title bg-primary text-white text-left" style="padding:2% ">Ahorro</h5>
                       <div class="table-responsive">
-                        <table class="table" id="tableAnalisisMateriaPrimaAM">
+                        <table class="table tableAnalisisMateriaPrimaAM" id="tableAnalisisMateriaPrimaAM">
                           <thead class="text-primary">
                             <th>Materia Prima</th>
                             <th>Precio Actual</th>
                             <th>Precio a Negociar</th>
+                            <th>Porcentaje a Negociar</th>
                             <th>Costo total</th>
                             <th>Costo mes </th>
                             <th>Costo proyectado </th>

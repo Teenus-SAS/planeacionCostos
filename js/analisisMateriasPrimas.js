@@ -35,7 +35,7 @@ $(document).ready(function () {
         $("#tableAnalisisMateriaPrimaAM").empty();
         $("#tableAnalisisMateriaPrimaAM").append(
           '<thead class="text-primary"><th>Materia</th><th>Precio Actual</th>' +
-            "<th>Precio Negociar</th><th>Costo total</th><th>Costo mes </th><th>Costo proyectado </th></br></thead><tr></tr>" +
+            "<th>Precio Negociar</th><th>Porcentaje a Negociar</th><th>Costo total</th><th>Costo mes </th><th>Costo proyectado </th></br></thead><tr></tr>" +
             "<tbody></tbody>"
         );
       }
@@ -106,7 +106,6 @@ $(document).ready(function () {
                 if (sumatoria >= porcentaje) break;
               }
             }
-
             $tableProductoMateriaAM = $(
               "#tableAnalisisMateriaPrimaAM"
             ).dataTable({
@@ -144,9 +143,16 @@ $(document).ready(function () {
                   },
                 },
                 {
-                  data: "0",
+                  data: "2",
                   render: (data, type, row) => {
-                    return formatCurrency("es-CO", "COP", 2, data);
+                    if (data) {
+                      const precio = parseFloat(
+                        $(`#input-${row[3]}`).val() || 0
+                      );
+                      const porcentaje = 100 - precio / data;
+                      return `${porcentaje}%`;
+                    }
+                    return 0;
                   },
                 },
                 {
@@ -163,12 +169,27 @@ $(document).ready(function () {
                   },
                 },
                 {
+                  data: "0",
+                  render: (data, type, row) => {
+                    if (data != null) {
+                      return formatCurrency(
+                        "es-CO",
+                        "COP",
+                        2,
+                        data * $("#input-UnidadesFMes").val()
+                      );
+                    }
+                  },
+                  className: "text-danger",
+                },
+                {
                   data: "1",
                   render: (data, type, row) => {
                     if (data != null) {
                       return formatCurrency("es-CO", "COP", 2, 0);
                     }
                   },
+                  className: "text-danger",
                 },
               ],
             });
@@ -201,10 +222,11 @@ $(document).ready(function () {
       $("#tableAnalisisMateriaPrimaAM").empty();
       $("#tableAnalisisMateriaPrimaAM").append(
         '<thead class="text-primary"><th>Materia</th><th>Precio Actual</th>' +
-          "<th>Precio Negociar</th><th>Costo total</th><th>Costo mes </th><th>Costo proyectado </th></br></thead><tr></tr>" +
+          "<th>Precio Negociar</th></th><th>Porcentaje a Negociar</th><th>Costo total</th><th>Costo mes </th><th>Costo proyectado </th></br></thead><tr></tr>" +
           "<tbody></tbody> "
       );
 
+      console.log(arr2);
       $tableProductoMateriaAM = $("#tableAnalisisMateriaPrimaAM").dataTable({
         bFilter: false,
         bInfo: false,
@@ -240,6 +262,18 @@ $(document).ready(function () {
             },
           },
           {
+            data: "2",
+            render: (data, type, row) => {
+              if (data) {
+                const precio = parseFloat(row[5]);
+                const precioActual = parseFloat(data || 0);
+                const porcentaje = (1 - precio / precioActual) * 100;
+                console.log({ row: row[3], precio, precioActual, porcentaje });
+                return `${$.number(porcentaje, 2, ",", ".")}%`;
+              }
+            },
+          },
+          {
             data: "0",
             render: (data, type, row) => {
               return formatCurrency("es-CO", "COP", 2, data);
@@ -257,6 +291,7 @@ $(document).ready(function () {
                 );
               }
             },
+            className: "text-danger",
           },
           {
             data: "5",
@@ -268,6 +303,7 @@ $(document).ready(function () {
                 data * row[4] * $("#input-UnidadesFMes").val()
               );
             },
+            className: "text-danger",
           },
         ],
       });
