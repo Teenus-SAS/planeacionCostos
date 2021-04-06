@@ -131,6 +131,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
   <!-- Paper Dashboard DEMO methods, don't include it in your project! -->
   <script src="/app/assets/demo/demo.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+  <script src="/js/toggleSidebar.js"></script>
   <script>
     $('#sidebar-parametrizar-item').removeClass('active')
     $('#sidebar-analisis-item').removeClass('active')

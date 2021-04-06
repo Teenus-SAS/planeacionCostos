@@ -567,6 +567,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
   <script src="/vendor/froala-editor/froala_editor.pkgd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>
+  <script src="/js/toggleSidebar.js"></script>
   <script>
     if ($(window).width() < 768) {
       $('#home .card .row').addClass('justify-content-center')

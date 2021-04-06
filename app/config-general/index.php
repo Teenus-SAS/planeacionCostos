@@ -1318,19 +1318,11 @@ include(PARTIALS_PATH . "verify_session.php");
   <script src="/js/app/xlsx/xlsx_nomina.js"></script>
   <script src="/js/horas_extra.js"> </script>
   <script src="/js/app/bpm.js"></script>
+  <script src="/js/toggleSidebar.js"></script>
   <!-- <script src="/js/menu.js"></script> -->
 
   </script>
   <script>
-  
-
-    $("#sidebar-btn-hide").on("click", function () {
-      console.log("click");
-      $('#sidebarhidebtn').trigger('click')
-      $(".sidebar").toggleClass("hideSidebar-sidebar");
-      $(".main-panel").toggleClass("hideSidebar-body");
-      $("#sidebar-btn-hide").toggleClass("hideSidebar-btn");
-    });
 
     $(function() {
       $('[data-toggle="tooltip"]').tooltip({

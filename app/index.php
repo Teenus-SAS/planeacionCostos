@@ -85,7 +85,6 @@ include(PARTIALS_PATH . "verify_session.php") ?>
   <script src="./../js/toggleSidebar.js"></script>
   <script>
     $(document).ready(function() {
-
       $("#sidebar").mCustomScrollbar({
         theme: "minimal"
       });
