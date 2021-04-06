@@ -3,6 +3,9 @@
   <div class="container-fluid">
     <div class="navbar-wrapper">
       <div class="navbar-toggle">
+      <button id="sidebar-btn-hide" style="float: right; border: none; background-color: white; font-size: 1.2rem;">
+        <i class="fa fa-bars"></i>
+      </button>
         <button type="button" class="navbar-toggler" id="sidebarhidebtn">
           <span class="navbar-toggler-bar bar1"></span>
           <span class="navbar-toggler-bar bar2"></span>

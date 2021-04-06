@@ -234,7 +234,7 @@ include(PARTIALS_PATH . "verify_session.php");
 
               <!-- Inicio Maquina -->
               <div class="tab-pane" id="maquinas">
-                <div class="row justify-content-center">
+                <div class="row justify-content-center"> 
                   <div class="col-md-4 col-sm-12">
                     <form id="form-maquinas">
                       <!--<h3>Máquinas</h3>-->
@@ -1322,6 +1322,16 @@ include(PARTIALS_PATH . "verify_session.php");
 
   </script>
   <script>
+  
+
+    $("#sidebar-btn-hide").on("click", function () {
+      console.log("click");
+      $('#sidebarhidebtn').trigger('click')
+      $(".sidebar").toggleClass("hideSidebar-sidebar");
+      $(".main-panel").toggleClass("hideSidebar-body");
+      $("#sidebar-btn-hide").toggleClass("hideSidebar-btn");
+    });
+
     $(function() {
       $('[data-toggle="tooltip"]').tooltip({
         html: true
