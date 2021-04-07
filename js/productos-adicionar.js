@@ -223,8 +223,7 @@ function sendRequest(request) {
           }
         );
         $tableProductos.api().ajax.reload();
-        /*     $tableProductoMateria.api().ajax.reload() */
-        $tableGastosMensuales.api().ajax.reload();
+        resetFormProducts();
         loadProductsInProcess();
         break;
       case 201:
@@ -238,22 +237,14 @@ function sendRequest(request) {
             timer: 8000,
           }
         );
-        /* $.notify({
-            icon: "nc-icon nc-bell-55",
-            message: "Ahora ah configurar el producto"
-          }, {
-            type: 'primary',
-            timer: 8000
-          }) */
         $("#config-color").css("color", "orange");
         $tableProductos.api().ajax.reload();
-        /*       $tableProductoMateria.api().ajax.reload() */
-        $tableGastosMensuales.api().ajax.reload();
-        $("#form-products")[0].reset();
+        resetFormProducts();
         loadProductsGG();
         loadProductsPP();
         loadProductsInProcess();
         loadProductsInXLSX();
+
         break;
       case 412:
         $.notify(
@@ -309,10 +300,6 @@ function sendRequest(request) {
         );
         break;
     }
-
-    $("#inputRef").val("");
-    $("#inputProducto").val("");
-    $("#inputRentabilidad").val("");
     /// RESETEA EL VALOR DEL FORM OPTION GUARDAR/EDITAR ///
     resetFormOptions();
   });
@@ -370,7 +357,6 @@ function deleteProduct(prodId) {
           completeSpinner();
           if (xhr.status == 200) {
             $tableProductos.api().ajax.reload();
-            loadProductsGG();
             loadProductsPP();
             loadProductsInProcess();
             loadProductsInXLSX();
@@ -422,9 +408,10 @@ function resetFormOptions() {
 }
 
 function resetFormProducts() {
-  document.getElementById("inputRef").value = "";
-  document.getElementById("inputProducto").value = "";
-  document.getElementById("inputRentabilidad").value = "";
+  console.log("reset");
+  $("#inputRef").val("");
+  $("#inputProducto").val("");
+  $("#inputRentabilidad").val("");
 }
 
 function productReferenceExists(prodRef) {

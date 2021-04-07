@@ -299,7 +299,6 @@ $(document).on("click", ".link-editar", function (event) {
 });
 
 /* Eliminar carga fabril */
-
 $(document).on("click", ".link-borrar-carga-fabril", function (event) {
   event.preventDefault();
 
