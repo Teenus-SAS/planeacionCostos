@@ -5,7 +5,7 @@ logica de carga fabril
 */
 
 /* Cambiar puntero */
-$(".link-borrar").css("cursor", "pointer");
+$(".link-borrar-carga-fabril").css("cursor", "pointer");
 
 // cargar select maquinas
 $(document).ready(function () {
@@ -91,7 +91,7 @@ var $tableCargaFabril = $("#table-cargaFabril").dataTable({
     {
       data: null,
       render: function (data) {
-        return `<a href='#'><i id=${data.id} data-toggle='tooltip' title="Editar" class='nc-icon nc-refresh-69 link-editar' style='color:rgb(255, 165, 0)'></i></a><a href='#' style="margin-left: 1rem;"><i id=${data.id} class='nc-icon nc-simple-remove link-borrar' data-toggle='tooltip' title='Eliminar' style='color:rgb(255, 0, 0)'></i></a>`;
+        return `<a href='#'><i id=${data.id} data-toggle='tooltip' title="Editar" class='nc-icon nc-refresh-69 link-editar' style='color:rgb(255, 165, 0)'></i></a><a href='#' style="margin-left: 1rem;"><i id=${data.id} class='nc-icon nc-simple-remove link-borrar-carga-fabril' data-toggle='tooltip' title='Eliminar' style='color:rgb(255, 0, 0)'></i></a>`;
       },
     },
   ],
@@ -300,7 +300,7 @@ $(document).on("click", ".link-editar", function (event) {
 
 /* Eliminar carga fabril */
 
-$(document).on("click", ".link-borrar", function (event) {
+$(document).on("click", ".link-borrar-carga-fabril", function (event) {
   event.preventDefault();
 
   let id = this.id;

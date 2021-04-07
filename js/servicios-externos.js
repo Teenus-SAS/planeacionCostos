@@ -24,15 +24,6 @@ $(document).ready(function () {
   );
 });
 
-/* Limpia campos si se cambia seleccion de maquina */
-
-$("#cfproductos").change(function (e) {
-  e.preventDefault();
-  $("#servicioexterno").val("");
-  $("#costoServicioExterno").val("");
-  $("#serviciosExternos-btn").html("Adicionar");
-});
-
 // inicializacion de datatable para servicios externos
 
 var $tableServiciosExternos = $("#table-serviciosExternos").dataTable({
@@ -42,7 +33,7 @@ var $tableServiciosExternos = $("#table-serviciosExternos").dataTable({
     url: "/vendor/dataTables/Spanish.json",
   },
   ajax: {
-    url: "api/get_servicios_externos.php?dataTable=true",
+    url: "api/get_servicio_externo_by_product_id.php?dataTable=true",
     dataSrc: "data",
   },
   columnDefs: [
@@ -51,19 +42,13 @@ var $tableServiciosExternos = $("#table-serviciosExternos").dataTable({
       className: "text-left",
     },
     {
-      targets: 2,
+      targets: 1,
       className: "text-right",
     },
   ],
   columns: [
     {
       data: "nombreServicio",
-      render: (data, type, row) => {
-        return `<span class="name-left">${data}</span>`;
-      },
-    },
-    {
-      data: "nombreProducto",
       render: (data, type, row) => {
         return `<span class="name-left">${data}</span>`;
       },
@@ -82,6 +67,25 @@ var $tableServiciosExternos = $("#table-serviciosExternos").dataTable({
     },
   ],
   reponsive: true,
+});
+
+/* Limpia campos y cargar servicios si se cambia seleccion de producto */
+
+$("#cfproductos").change(function (e) {
+  e.preventDefault();
+
+  $tableServiciosExternos
+    .api()
+    .ajax.url(
+      `api/get_servicio_externo_by_product_id.php?dataTable=true&id=${$(
+        "#cfproductos"
+      ).val()}`
+    );
+
+  $tableServiciosExternos.api().ajax.reload();
+  $("#servicioexterno").val("");
+  $("#costoServicioExterno").val("");
+  $("#serviciosExternos-btn").html("Adicionar");
 });
 $tableServiciosExternos.width("100%");
 /* $tableMaquinas.on('click', 'tr', function () {
@@ -142,7 +146,7 @@ function sendData(request) {
           }
         );
         $tableServiciosExternos.api().ajax.reload();
-        $("#form-serviciosExternos")[0].reset();
+        resetFormServiciosExternos();
         break;
       case 201:
         $.notify(
@@ -156,7 +160,7 @@ function sendData(request) {
           }
         );
         $tableServiciosExternos.api().ajax.reload();
-        $("#form-serviciosExternos")[0].reset();
+        resetFormServiciosExternos();
         break;
       case 412:
         $.notify(
@@ -222,19 +226,16 @@ $(document).on("click", ".link-editar-servicio-externo", function (event) {
   event.preventDefault();
 
   $("#idServicioExterno").val(this.id);
-  const producto = $(this).parents("tr").find("td").eq(1).text();
   const nombre = $(this).parents("tr").find("td").eq(0).text();
   const costo = parseInt(
     $(this)
       .parents("tr")
       .find("td")
-      .eq(2)
+      .eq(1)
       .html()
       .replace("$", "")
       .replace(",", "")
   );
-
-  $(`#cfproductos option:contains(${producto})`).prop("selected", true);
   $("#servicioexterno").val(nombre);
   $("#costoServicioExterno").val(costo);
 });
@@ -292,13 +293,7 @@ function formatCurrency(resultadoFloat) {
 }
 
 function resetFormServiciosExternos() {
-  elById("cfproductos").value = "";
-  elById("servicioexterno").value = "";
-  elById("costoServicioExterno").value = "";
+  $("#servicioexterno").val("");
+  $("#costoServicioExterno").val("");
+  $("#idServicioExterno").val("");
 }
-/*
-function checkIfMaquinaExists(name) {
-  return Array.from(elById("table-maquinas").tBodies[0].rows).some(
-    (row) => row.cells[0].textContent.trim() === name.trim()
-  );
-} */

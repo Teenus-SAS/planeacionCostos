@@ -375,7 +375,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
 
               <!-- Inicio Servicios Externos -->
               <div class="tab-pane" id="servicios-externos">
-                <div class="row justify-content-center align-items-center">
+                <div class="row justify-content-center">
                   <div class="col-md-4 col-sm-12">
                     <form id="form-serviciosExternos">
                       <div class="card py-2">
@@ -432,7 +432,6 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                           <table class="table table-compact table-hover" id="table-serviciosExternos">
                             <thead class="text-primary">
                               <th>Servicio</th>
-                              <th>Producto</th>
                               <th>Costo</th>
                               <th>Acciones</th>
                             </thead>
