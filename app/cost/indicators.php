@@ -98,6 +98,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
 
   <!-- <script src="/js/app/indicators.js"></script> -->
   <script src="/js/app/indicators2.js"></script>
+  <script src="/js/toggleSidebar.js"></script>
 </body>
 
 </html>

@@ -361,7 +361,7 @@ include(PARTIALS_PATH . "verify_session.php");
                           <div class="col-md-5 col-6">
                             <div class="form-group">
                               <label for="my-input">Costo</label>
-                              <input id="costoCargaFabril" class="form-control" type="number" name="costoCargaFabril" />
+                              <input id="costoCargaFabril" class="form-control" name="costoCargaFabril" />
                             </div>
                           </div>
                           <div class="col-md-5 col-5">

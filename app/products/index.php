@@ -135,6 +135,9 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                     <a class="nav-link" id="tab2" href="#updates" data-toggle="tab">Procesos</a>
                   </li>
                   <li class="nav-item">
+                    <a class="nav-link" href="#servicios-externos" data-toggle="tab">Servicios Externos</a>
+                  </li>
+                  <li class="nav-item">
                     <a class="nav-link" href="#history" data-toggle="tab">Distribución de Gastos</a>
                   </li>
 
@@ -368,6 +371,82 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                 </div>
               </div>
 
+              
+
+              <!-- Inicio Servicios Externos -->
+              <div class="tab-pane" id="servicios-externos">
+                <div class="row justify-content-center align-items-center">
+                  <div class="col-md-4 col-sm-12">
+                    <form id="form-serviciosExternos">
+                      <div class="card py-2">
+                        <div class="row my-2 justify-content-center">
+                          <div class="col-md-10 col-10">
+                            <div class="form-group">
+                              <label for="cfproductos">Producto</label>
+                              <input id="idServicioExterno" class="form-control" type="text" name="idServicioExterno" hidden />
+                              <select name="cfproductos" id="cfproductos" class="form-control">
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col-md-10 col-10">
+                            <div class="form-group">
+                              <label for="servicioexterno">Servicio Externo</label>
+                              <input id="servicioexterno" class="form-control" type="text" name="servicioexterno" />
+                            </div>
+                          </div>
+
+                        </div>
+                        <div class="row justify-content-center">
+                          <div class="col-md-10 col-10">
+                            <div class="form-group">
+                              <label for="my-input">Costo</label>
+                              <input id="costoServicioExterno" class="form-control" name="costoServicioExterno" />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row mb-4">
+                        <div class="col"></div>
+                        <div class="col"><button id="serviciosExternos-btn" class="btn btn-primary" type="submit" value="ADICIONAR">ADICIONAR</button></div>
+                        <div class="col"></div>
+                      </div>
+                      <hr>
+                      <div class="row mb-5 mt-4">
+                        <div class="col-12">
+                          <h5 class="pull-left">Importar Servicios Externos</h5>
+                          <a href="#" id="download_serviciosExternos" title="Descargar plantilla Excel para Importar/Exportar" class="pull-right btn btn-success btn-icon"><i class="fas fa-file-excel"></i></a>
+                        </div>
+                        <div class="custom-file">
+                          <input type="file" id="fileserviciosExternos" class="custom-file-input">
+                          <label for="fileserviciosExternos" class="custom-file-label" data-browse="Elegir">Iniciar importación</label>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                  <div class="col-md-8 col-sm-12">
+                    <div class="card">
+                      <div class="card-header">
+                      </div>
+                      <div class="card-body">
+                        <div class="table-responsive tableFixHead">
+                          <table class="table table-compact table-hover" id="table-serviciosExternos">
+                            <thead class="text-primary">
+                              <th>Servicio</th>
+                              <th>Producto</th>
+                              <th>Costo</th>
+                              <th>Acciones</th>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Fin Servicios Externos -->
+
               <div class="tab-pane" id="history">
                 <div class="row justify-content-center align-items-center">
                   <div class="col-md-8">
@@ -567,6 +646,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
   <script src="/vendor/froala-editor/froala_editor.pkgd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>
+  <script src="/js/servicios-externos.js"></script>
   <script src="/js/toggleSidebar.js"></script>
   <script>
     if ($(window).width() < 768) {

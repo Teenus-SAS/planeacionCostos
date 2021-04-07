@@ -107,12 +107,13 @@ $("#form-cargafabril").submit(submitForm);
 
 // calcular Carga fabril con el cambio de costo
 $("#costoCargaFabril").keyup(calulateCostxMin);
-elById("costoCargaFabril").oninput = calulateCostxMin;
 
 function calulateCostxMin() {
   "use strict";
+  const costo = $("#costoCargaFabril").val();
+  $("#costoCargaFabril").val($.number(parseFloat(costo), 0));
   let request = {
-    price: $("#costoCargaFabril").val(),
+    price: costo,
   };
   $.get("api/get_costo_por_minuto.php", request, (data, status) => {
     if (status == "success") {

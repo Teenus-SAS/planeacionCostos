@@ -1,0 +1,304 @@
+/* 
+@Author: Teenus SAS
+@github: Teenus-SAS
+logica de servicios externos
+*/
+
+/* Cambiar puntero */
+$(".link-borrar-servicio-externo").css("cursor", "pointer");
+
+// cargar select productos
+$(document).ready(function () {
+  $.get(
+    "/app/config-general/api/get_products.php",
+    (_products, status, xhr) => {
+      $("#cfproductos").append(
+        `<option selected disabled>Selecciona un producto</option>`
+      );
+      _products.forEach((product) => {
+        $("#cfproductos").append(
+          `<option value="${product.id}">${product.name}</option>`
+        );
+      });
+    }
+  );
+});
+
+/* Limpia campos si se cambia seleccion de maquina */
+
+$("#cfproductos").change(function (e) {
+  e.preventDefault();
+  $("#servicioexterno").val("");
+  $("#costoServicioExterno").val("");
+  $("#serviciosExternos-btn").html("Adicionar");
+});
+
+// inicializacion de datatable para servicios externos
+
+var $tableServiciosExternos = $("#table-serviciosExternos").dataTable({
+  scrollCollapse: true,
+  pageLength: 25,
+  language: {
+    url: "/vendor/dataTables/Spanish.json",
+  },
+  ajax: {
+    url: "api/get_servicios_externos.php?dataTable=true",
+    dataSrc: "data",
+  },
+  columnDefs: [
+    {
+      targets: 0,
+      className: "text-left",
+    },
+    {
+      targets: 2,
+      className: "text-right",
+    },
+  ],
+  columns: [
+    {
+      data: "nombreServicio",
+      render: (data, type, row) => {
+        return `<span class="name-left">${data}</span>`;
+      },
+    },
+    {
+      data: "nombreProducto",
+      render: (data, type, row) => {
+        return `<span class="name-left">${data}</span>`;
+      },
+    },
+    {
+      data: "costo",
+      render: function (data, type, row) {
+        return `$ ${$.number(data, 0, ".", ",")}`;
+      },
+    },
+    {
+      data: null,
+      render: function (data) {
+        return `<a href='#'><i id=${data.id} data-toggle='tooltip' title="Editar" class='nc-icon nc-refresh-69 link-editar-servicio-externo' style='color:rgb(255, 165, 0)'></i></a><a href='#' style="margin-left: 1rem;"><i id=${data.id} class='nc-icon nc-simple-remove link-borrar-servicio-externo' data-toggle='tooltip' title='Eliminar' style='color:rgb(255, 0, 0)'></i></a>`;
+      },
+    },
+  ],
+  reponsive: true,
+});
+$tableServiciosExternos.width("100%");
+/* $tableMaquinas.on('click', 'tr', function () {
+  $(this).toggleClass('selected');
+}) */
+
+$("#form-serviciosExternos").submit(submitForm);
+
+// agreado de formato al input de precio
+$("#costoServicioExterno").number(true, 2);
+
+function loadingSpinner() {
+  $("#spinnerAjax").removeClass("fade");
+}
+
+function completeSpinner() {
+  $("#spinnerAjax").addClass("fade");
+}
+
+/* Envio de formulario */
+
+function submitForm(e) {
+  e.preventDefault();
+  const producto = $("#cfproductos").val();
+  const nombre = $("#servicioexterno").val();
+  const costo = $("#costoServicioExterno").val();
+
+  if (!producto || !nombre || !costo) {
+    return $.notify(
+      {
+        icon: "nc-icon nc-bell-55",
+        message: "Ingrese <b>Todos</b> los campos",
+      },
+      {
+        type: "danger",
+        timer: 8000,
+      }
+    );
+  }
+
+  let request = $(this).serialize();
+  sendData(request);
+}
+
+function sendData(request) {
+  $.post("api/add_modify_servicio_externo.php", request).always(function (xhr) {
+    flag = false;
+    switch (xhr.status) {
+      case 200:
+        $.notify(
+          {
+            icon: "nc-icon nc-bell-55",
+            message: "Servicio Externo <b>Actualizado</b>",
+          },
+          {
+            type: "primary",
+            timer: 8000,
+          }
+        );
+        $tableServiciosExternos.api().ajax.reload();
+        $("#form-serviciosExternos")[0].reset();
+        break;
+      case 201:
+        $.notify(
+          {
+            icon: "nc-icon nc-bell-55",
+            message: "Servicio Externo <b>Creado</b> Correctamente",
+          },
+          {
+            type: "success",
+            timer: 8000,
+          }
+        );
+        $tableServiciosExternos.api().ajax.reload();
+        $("#form-serviciosExternos")[0].reset();
+        break;
+      case 412:
+        $.notify(
+          {
+            icon: "nc-icon nc-bell-55",
+            message:
+              "<b>Selecciona</b> una opción para <b>adicionar</b> o <b>modificar</b>",
+          },
+          {
+            type: "warning",
+            timer: 8000,
+          }
+        );
+        break;
+      case 400:
+        flag = true;
+        $.notify(
+          {
+            icon: "nc-icon nc-bell-55",
+            message: "<b>Completa</b> Todos los campos",
+          },
+          {
+            type: "warning",
+            timer: 8000,
+          }
+        );
+        break;
+      case 500:
+        $.notify(
+          {
+            icon: "nc-icon nc-bell-55",
+            message: "Ocurrió un error mientras se creaba el servicio externo",
+          },
+          {
+            type: "danger",
+            timer: 8000,
+          }
+        );
+        break;
+      case 401:
+        location.href = "/login";
+        break;
+      case 501:
+        flag = true;
+        $.notify(
+          {
+            icon: "nc-icon nc-bell-55",
+            message: "El costo no puede ser 0 cero",
+          },
+          {
+            type: "danger",
+            timer: 8000,
+          }
+        );
+        break;
+    }
+  });
+}
+
+/* Actualizar servicio externo */
+
+$(document).on("click", ".link-editar-servicio-externo", function (event) {
+  event.preventDefault();
+
+  $("#idServicioExterno").val(this.id);
+  const producto = $(this).parents("tr").find("td").eq(1).text();
+  const nombre = $(this).parents("tr").find("td").eq(0).text();
+  const costo = parseInt(
+    $(this)
+      .parents("tr")
+      .find("td")
+      .eq(2)
+      .html()
+      .replace("$", "")
+      .replace(",", "")
+  );
+
+  $(`#cfproductos option:contains(${producto})`).prop("selected", true);
+  $("#servicioexterno").val(nombre);
+  $("#costoServicioExterno").val(costo);
+});
+
+/* Eliminar servicio externo */
+
+$(document).on("click", ".link-borrar-servicio-externo", function (event) {
+  event.preventDefault();
+
+  let id = this.id;
+
+  bootbox.confirm({
+    title: "Eliminar Servicio Externo",
+    message: `¿Está seguro de eliminar el Servicio Externo para este producto?.  Esta acción no se puede deshacer`,
+    buttons: {
+      confirm: {
+        label: '<i class="fa fa-check"></i> Si',
+        className: "btn-danger",
+      },
+      cancel: {
+        label: '<i class="fa fa-times"></i> No',
+        className: "btn-info",
+      },
+    },
+    callback: function (result) {
+      if (result == true) {
+        $.post("api/delete_servicio_externo.php", {
+          id: id,
+        }).always(function (xhr) {
+          if (xhr.status == 200) {
+            $.notify(
+              {
+                icon: "nc-icon nc-bell-55",
+                message:
+                  "Se eliminó el Servicio Externo asociado a ese producto",
+              },
+              {
+                type: "info",
+                timer: 8000,
+              }
+            );
+            $tableServiciosExternos.api().ajax.reload();
+          }
+        });
+      } else {
+        resetFormServiciosExternos();
+        return;
+      }
+    },
+  });
+});
+
+function formatCurrency(resultadoFloat) {
+  return $.number(resultadoFloat, 2, ",", ".");
+}
+
+function resetFormServiciosExternos() {
+  elById("cfproductos").value = "";
+  elById("servicioexterno").value = "";
+  elById("costoServicioExterno").value = "";
+}
+/*
+function checkIfMaquinaExists(name) {
+  return Array.from(elById("table-maquinas").tBodies[0].rows).some(
+    (row) => row.cells[0].textContent.trim() === name.trim()
+  );
+} */

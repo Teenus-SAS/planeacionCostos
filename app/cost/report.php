@@ -327,6 +327,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
   <script src="/js/reporte.js"></script>
   <script src="/js/app/indicators_report.js"></script>
   <script src="/js/app/reportPdf.js"></script>
+  <script src="/js/toggleSidebar.js"></script>
 </body>
 
 </html>
