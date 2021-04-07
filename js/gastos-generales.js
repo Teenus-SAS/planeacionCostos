@@ -182,3 +182,23 @@ $("#formGastosMensuales").submit(function (e) {
 function goGG() {
   $("#nav-gastos").trigger("click");
 }
+
+function selectDistribution(distribution) {
+  const distributions = [".distribucion-directa", ".distribucion-volumen"];
+
+  const index = distributions.indexOf(distribution);
+  const indexOtro = index === 0 ? 1 : 0;
+
+  $(distributions[index]).attr("hidden", false);
+  $(distributions[indexOtro]).attr("hidden", true);
+}
+
+$(".select-distibution .card").on("click", function () {
+  let strDistribution = "";
+  if (this.id == "select-directa") {
+    strDistribution = ".distribucion-directa";
+  } else if (this.id == "select-volumen") {
+    strDistribution = ".distribucion-volumen";
+  }
+  selectDistribution(strDistribution);
+});

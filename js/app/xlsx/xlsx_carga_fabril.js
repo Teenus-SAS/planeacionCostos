@@ -34,7 +34,7 @@ $("#filecargaFabril").change(function () {
           },
           callback: function (result) {
             if (result == true) {
-              uploadCargasF(cargasF);
+              uploadServiciosF(cargasF);
             } else {
               $.notify(
                 {
@@ -124,20 +124,20 @@ function verifyErrorsCargasF(jsonObj) {
   }
   return errors;
 }
-var machines;
+var products;
 $.get(
   "/app/config-general/api/get_machines.php",
   (dataMachines, status, xhr) => {
-    machines = dataMachines;
+    products = dataMachines;
   }
 );
 
-function uploadCargasF(cargasF) {
+function uploadServiciosF(cargasF) {
   let criticalError = false;
 
   loadingSpinner();
   cargasF.forEach((cargaF) => {
-    const machine = machines.find((mach) => mach.name === cargaF.Maquina);
+    const machine = products.find((mach) => mach.name === cargaF.Maquina);
     if (!machine) {
       criticalError = true;
       $.notify(
@@ -205,7 +205,7 @@ function clearFile(input) {
   $(input).siblings("label").text("Seleccionar Archivo");
 }
 
-function generateFileCargasF() {
+function generateFileServiciosF() {
   loadingSpinner();
   // creacion del libro de excel
   var wb = XLSX.utils.book_new();
@@ -223,7 +223,7 @@ function generateFileCargasF() {
   $.get("api/get_carga_fabril.php", (data, status) => {
     // cargado de de productos con referencias
     data.forEach((cargaF) => {
-      const maquinaName = machines.find(
+      const maquinaName = products.find(
         (machine) => machine.id === cargaF.idMaquina
       ).name;
       ws_data.push({
@@ -256,4 +256,4 @@ function generateFileCargasF() {
   completeSpinner();
 }
 
-$("#download_cargaFabril").click(generateFileCargasF);
+$("#download_cargaFabril").click(generateFileServiciosF);

@@ -110,6 +110,55 @@ include(PARTIALS_PATH . "verify_session.php") ?>
     .product-name {
       overflow: hidden;
     }
+
+    .select-distibution {
+      max-height: 400px;
+    }
+
+    .select-distibution h5 {
+      text-align: center;
+      font-size: 1.2rem;
+      transition: font-size 1s;
+    }
+
+    .select-distibution .card {
+      opacity: 0.5;
+      cursor: pointer;
+      max-height: 240px;
+      transition: max-height 1s ease-out, opacity 2s;
+    }
+
+    .select-distibution .card:hover {
+      opacity: 1;
+      max-height: 400px;
+      transition: max-height 0.5s ease-in, opacity 0.5s;
+    }
+
+    .distribution-description {
+      visibility: hidden;
+      opacity: 0;
+      transition: visibility 1s, opacity 1.5s;
+    }
+
+    .select-distibution .card:hover .distribution-description {
+      visibility: visible;
+      opacity: 1;
+      transition: opacity 0.7s linear;
+    }
+
+    .select-distibution .card:hover h5 {
+      font-size: 1.6rem;
+    }
+
+    .select-distibution i {
+      font-size: 5rem;
+    }
+
+    .distribution-icon {
+      margin: 70px 0 40px 0;
+    }
+
+
   </style>
 </head>
 
@@ -446,8 +495,145 @@ include(PARTIALS_PATH . "verify_session.php") ?>
               </div>
               <!-- Fin Servicios Externos -->
 
+              <!-- Inicio Distribución Gastos -->
               <div class="tab-pane" id="history">
-                <div class="row justify-content-center align-items-center">
+                <div class="select-distibution row justify-content-around">
+                  <h3 class="col-12 text-center mb-3 py-2">Selecciona el tipo de distribución</h3>
+                  <div id="select-directa" class="card col-5">
+                    <div class="row align-items-center">
+                      <div class="distribution-icon col-12 w-100">
+                        <i class="fas fa-location-arrow"></i>
+                      </div>
+                      <div class="col-12 w-100 distribution-title">
+                        <h5>Distribución directa</h5>
+                      </div>
+                      <div class="col-12 distribution-description">
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit, officiis dicta atque a quasi dignissimos quod itaque voluptatem nobis libero, ex quis placeat explicabo quaerat mollitia, nemo modi in. Nemo?</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div id="select-volumen" class="card col-5">
+                    <div class="row align-items-center">
+                      <div class="distribution-icon col-12 w-100">
+                        <i class="fas fa-database"></i>
+                      </div>
+                      <div class="col-12 w-100 distribution-title">
+                        <h5>Distribución por volumen</h5>
+                      </div>
+                      <div class="col-12 distribution-description">
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit, officiis dicta atque a quasi dignissimos quod itaque voluptatem nobis libero, ex quis placeat explicabo quaerat mollitia, nemo modi in. Nemo?</p>
+                      </div>
+                    </div></div>
+                </div>
+                <div class="distribucion-directa row justify-content-center align-items-start" hidden>
+                  <div class="col-md-8">
+                    <!--<h3>Ventas Mensuales</h3>-->
+                    <form id="formGastosMensuales">
+                      <div class="card py-2">
+                        <div class="form-group row my-2">
+                          <label class="col-form-label col-4 text-right">Referencia</label>
+                          <div class="col-7">
+                            <select name="ref" id="inputRefGastos" class="custom-select">
+
+                            </select>
+                          </div>
+                        </div>
+                        <div class="form-group row my-2">
+                          <label class="col-form-label col-4 text-right">Productos</label>
+                          <div class="col-7 text-left">
+                            <select name="producto" id="inputProductosGastos" class="custom-select">
+
+                            </select>
+                          </div>
+                        </div>
+                        <div class="row pr-5 pl-4">
+                          <div class="col-md-6 col-6">
+                            <div class="form-group">
+                              <label for="my-input">Unidades Vendidas</label>
+                              <div class="input-group">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text">#</span>
+                                </div>
+                                <input type="text" class="form-control" id="inputUnidadesVendidas" name="unidades">
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-md-6 col-6">
+                            <div class="form-group">
+                              <label for="my-input">Volumen de Ventas</label>
+                              <div class="input-group">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text">$</span>
+                                </div>
+                                <input type="text" name="volumen" class="form-control money" aria-label="Username" id="inputVolumenVentas">
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="form-group row justify-content-center">
+                        <label for="inputGastosGenerales" class="col-form-label col-md-5 col-12">
+                          <h6>Gastos Generales del Mes</h6>
+                        </label>
+                        <div class="col-md-7 col-12 col-sm-12">
+                          <div class="input-group text-center">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text">
+                                $ &nbsp;&nbsp;
+                              </span>
+                            </div>
+                            <input type="text" name="gastosGenerales" id="inputGastosGenerales" class="form-contol money">
+                            <div class="input-group-append">
+                              <a class="btn btn-primary my-0 nav-link" id="link-gastos" href="javascript:goGG()">></a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row mb-4">
+                        <div class="col"></div>
+                        <div class="col">
+                          <button class="btn btn-primary">Guardar</button>
+                        </div>
+                        <div class="col"></div>
+                      </div>
+
+                    </form>
+                  </div>
+                  <div class="col-md-12">
+                    <div class="card">
+                      <div class="card-header">
+                        <h4>Distribución Gastos Generales</h4>
+                      </div>
+                      <div class="card-body">
+                        <div class="table-responsive tableFixHead">
+                          <table class="table table-compact table-hover" id="tableGastosMensuales">
+                            <thead class="text-primary">
+                              <th>Referencia</th>
+                              <th>Producto</th>
+                              <th>Unidades Vendidas(%)</th>
+                              <th>Volumen Ventas(%)</th>
+                              <th>Gastos Atribuibles</th>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row my-5">
+                    <div class="col-12">
+                      <h6 class="pull-left">Importar Volumenes y Ventas Mensuales</h6>
+                      <a href="#" title="Descargar Base de Datos de Gastos Generales" id="download-products-expenses" class="pull-right btn btn-success btn-icon"><i class="fas fa-file-excel"></i></a>
+                    </div>
+                    <div class="custom-file">
+                      <input type="file" id="fileProductsExpenses" class="custom-file-input">
+                      <label for="fileProductsExpenses" class="custom-file-label" data-browse="Elegir">Iniciar importación</label>
+                    </div>
+                  </div>
+                </div>
+                <div class="distribucion-volumen row justify-content-center align-items-center" hidden>
                   <div class="col-md-8">
                     <!--<h3>Ventas Mensuales</h3>-->
                     <form id="formGastosMensuales">
@@ -556,6 +742,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                   </div>
                 </div>
               </div>
+              <!-- Fin Distribución Gastos -->
 
               <!-- tab lineas -->
               <div class="tab-pane" id="lineas">
@@ -668,6 +855,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
   <script src="/js/gastos-generales.js"></script>
   <script src="/js/calculo_GG.js"></script>
   <script src="/js/app/xlsx/xlsx_productos_materiaprima.js"></script>
+  <script src="/js/app/xlsx/xlsx_servicios_externos.js"></script>
   <script src="/js/app/xlsx/xlsx_productos_procesos.js"></script>
   <script src="/js/app/xlsx/xlsx_gastos_generales.js"></script>
   <script src="/js/app/xlsx/xlsx_calculo_GG.js"></script>
