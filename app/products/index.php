@@ -111,24 +111,36 @@ include(PARTIALS_PATH . "verify_session.php") ?>
       overflow: hidden;
     }
 
-    .select-distibution {
+    .showSelectDistribution {
       max-height: 400px;
+      visibility: visible;
+      opacity: 1;
     }
 
-    .select-distibution h5 {
+    .hideSelectDistribution {
+      max-height: 0;
+      visibility: hidden;
+      opacity: 0;
+    }
+
+    #select-distibution {
+      transition: visibility 0s, max-height 1.2s, opacity 1s;
+    }
+
+    #select-distibution h5 {
       text-align: center;
       font-size: 1.2rem;
       transition: font-size 1s;
     }
 
-    .select-distibution .card {
+    #select-distibution .card {
       opacity: 0.5;
       cursor: pointer;
       max-height: 240px;
       transition: max-height 1s ease-out, opacity 2s;
     }
 
-    .select-distibution .card:hover {
+    #select-distibution .card:hover {
       opacity: 1;
       max-height: 400px;
       transition: max-height 0.5s ease-in, opacity 0.5s;
@@ -140,17 +152,17 @@ include(PARTIALS_PATH . "verify_session.php") ?>
       transition: visibility 1s, opacity 1.5s;
     }
 
-    .select-distibution .card:hover .distribution-description {
+    #select-distibution .card:hover .distribution-description {
       visibility: visible;
       opacity: 1;
       transition: opacity 0.7s linear;
     }
 
-    .select-distibution .card:hover h5 {
+    #select-distibution .card:hover h5 {
       font-size: 1.6rem;
     }
 
-    .select-distibution i {
+    #select-distibution i {
       font-size: 5rem;
     }
 
@@ -158,6 +170,22 @@ include(PARTIALS_PATH . "verify_session.php") ?>
       margin: 70px 0 40px 0;
     }
 
+    #distribucion-directa,
+    #distribucion-volumen {
+      transition: opacity 1.4s linear, visibility 0s;
+    }
+
+    .hide {
+      opacity: 0;
+      visibility: hidden;
+      height: 0;
+    }
+
+    .show {
+      opacity: 1;
+      visibility: visible;
+      height: 100%;
+    }
 
   </style>
 </head>
@@ -497,7 +525,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
 
               <!-- Inicio Distribución Gastos -->
               <div class="tab-pane" id="history">
-                <div class="select-distibution row justify-content-around">
+                <div id="select-distibution" class="row justify-content-around">
                   <h3 class="col-12 text-center mb-3 py-2">Selecciona el tipo de distribución</h3>
                   <div id="select-directa" class="card col-5">
                     <div class="row align-items-center">
@@ -525,7 +553,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                       </div>
                     </div></div>
                 </div>
-                <div class="distribucion-directa row justify-content-center align-items-start" hidden>
+                <div id="distribucion-volumen" class="row justify-content-center align-items-start hide">
                   <div class="col-md-8">
                     <!--<h3>Ventas Mensuales</h3>-->
                     <form id="formGastosMensuales">
@@ -633,7 +661,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                     </div>
                   </div>
                 </div>
-                <div class="distribucion-volumen row justify-content-center align-items-center" hidden>
+                <div id="distribucion-directa" class="row justify-content-center align-items-start hide">
                   <div class="col-md-8">
                     <!--<h3>Ventas Mensuales</h3>-->
                     <form id="formGastosMensuales">

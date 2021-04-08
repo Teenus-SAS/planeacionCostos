@@ -183,22 +183,21 @@ function goGG() {
   $("#nav-gastos").trigger("click");
 }
 
+$("#select-distibution").addClass("showSelectDistribution");
 function selectDistribution(distribution) {
-  const distributions = [".distribucion-directa", ".distribucion-volumen"];
+  $(distribution).removeClass("hide");
+  $(distribution).addClass("show");
 
-  const index = distributions.indexOf(distribution);
-  const indexOtro = index === 0 ? 1 : 0;
-
-  $(distributions[index]).attr("hidden", false);
-  $(distributions[indexOtro]).attr("hidden", true);
+  $("#select-distibution").removeClass("showSelectDistribution");
+  $("#select-distibution").addClass("hideSelectDistribution");
 }
 
-$(".select-distibution .card").on("click", function () {
+$("#select-distibution .card").on("click", function () {
   let strDistribution = "";
   if (this.id == "select-directa") {
-    strDistribution = ".distribucion-directa";
+    strDistribution = "#distribucion-directa";
   } else if (this.id == "select-volumen") {
-    strDistribution = ".distribucion-volumen";
+    strDistribution = "#distribucion-volumen";
   }
   selectDistribution(strDistribution);
 });
