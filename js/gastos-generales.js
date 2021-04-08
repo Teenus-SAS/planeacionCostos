@@ -199,5 +199,26 @@ $("#select-distibution .card").on("click", function () {
   } else if (this.id == "select-volumen") {
     strDistribution = "#distribucion-volumen";
   }
-  selectDistribution(strDistribution);
+
+  bootbox.confirm({
+    title: "Selección distribución de gastos",
+    message: `¿Está seguro de que desea elegir la <b>distribución ${
+      strDistribution.includes("directa") ? "directa" : "por volumen"
+    }</b>?.<br/>Esta acción no se puede deshacer`,
+    buttons: {
+      confirm: {
+        label: '<i class="fa fa-check"></i> Si',
+        className: "btn-info",
+      },
+      cancel: {
+        label: '<i class="fa fa-times"></i> No',
+        className: "btn-danger",
+      },
+    },
+    callback: function (result) {
+      if (result == true) {
+        selectDistribution(strDistribution);
+      }
+    },
+  });
 });
