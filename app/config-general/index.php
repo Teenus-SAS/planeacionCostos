@@ -1310,6 +1310,7 @@ include(PARTIALS_PATH . "verify_session.php");
   <script src="/js/carga-fabril.js"></script>
   <script src="/js/procesos.js"></script>
   <script src="/js/nomina.js"></script>
+  <script src="/js/app/xlsx/xlsx_calculo_GG.js"></script>
   <script src="/js/app/xlsx/xlsx_productos.js"></script>
   <script src="/js/app/xlsx/xlsx_procesos.js"></script>
   <script src="/js/app/xlsx/xlsx_materia_prima.js"></script>
