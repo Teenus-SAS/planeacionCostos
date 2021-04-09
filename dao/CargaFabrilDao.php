@@ -126,9 +126,9 @@ class CargaFabrilDao
                         `costo_por_minuto`='" . $carga->getCostoPorMinuto() . "' 
                 WHERE `id_carga` = '" . $carga->getId() . "' ";
     } else {
-      $query = "INSERT INTO `carga_fabril` (`id_carga`, `id_maquina`, `id_empresa`, `insumo`,
+      $query = "INSERT INTO `carga_fabril` (`id_maquina`, `id_empresa`, `insumo`,
                          `costo`, `costo_por_minuto`) 
-                VALUES (NULL, '" . $carga->getIdMaquina() . "', '" . $carga->getIdEmpresa() . "', '" . $carga->getInsumo() . "', 
+                VALUES ('" . $carga->getIdMaquina() . "', '" . $carga->getIdEmpresa() . "', '" . $carga->getInsumo() . "', 
                           '" . $carga->getCosto() . "','" . $carga->getCostoPorMinuto() . "')";
     }
     return  $this->db->consult($query);
