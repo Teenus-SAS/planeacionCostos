@@ -530,6 +530,20 @@ $("#form-nomina").validate({
     },
   },
   submitHandler: function (form) {
+    pf = $("input:radio[name=fpRadioB]:checked").val();
+    if (!pf) {
+      $.notify(
+        {
+          icon: "nc-icon nc-bell-55",
+          message: "Seleccione el <b>Factor prestacional</b>",
+        },
+        {
+          type: "danger",
+          timer: 8000,
+        }
+      );
+      return false;
+    }
     let request = $(form).serialize();
 
     $.post("api/add_modify_rosters.php", request).always(function (xhr) {
@@ -541,7 +555,7 @@ $("#form-nomina").validate({
               message: "Nómina <b>Actualizada</b> Correctamente",
             },
             {
-              type: "primary",
+              type: "warning",
               timer: 8000,
             }
           );
@@ -611,7 +625,7 @@ $("#form-nomina").validate({
           break;
       }
 
-      elById("inlineRadioNom1").click();
+      //elById("inlineRadioNom1").click();
       elById("nomina-btn").value = "Adicionar";
     });
   },
