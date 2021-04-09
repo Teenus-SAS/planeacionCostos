@@ -3,6 +3,21 @@
 @github: Teenus-SAS
 logica de gastos generales
 */
+
+loadMonthExpenses();
+// cargado de valor de gastos mensuales
+function loadMonthExpenses() {
+  $.get("api/get_total_month_expenses.php", (data, status) => {
+    if (status == "success") {
+      $("#inputGastosGenerales").val(data.totalMonthExpenses);
+      // formato de numero
+      $("#inputGastosGenerales").number(true, 2, ",", ".");
+    } else {
+      location.href = "/app";
+    }
+  });
+}
+
 var productsInExpenses;
 loadProductsGG();
 // cargado de productos la empresa
@@ -50,19 +65,30 @@ function loadProductsGG() {
   completeSpinner();
 }
 
-loadMonthExpenses();
+var processesDDirecta;
+loadProcessesDDirecta();
+// cargado de procesos de la empresa
+function loadProcessesDDirecta() {
+  loadingSpinner();
+  $.get(
+    "/app/config-general/api/get_processes.php",
+    (processes, status, xhr) => {
+      if (status == "success") {
+        $("#inputProcesosDDirecta").html(
+          "<option disabled selected>Selecciona un proceso</option>"
+        );
+        processesDDirecta = processes;
+        processesDDirecta.forEach((process) => {
+          $("#inputProcesosDDirecta").append(
+            `<option value="${process.id}">${process.name}</option>`
+          );
+        });
 
-// cargado de valor de gastos mensuales
-function loadMonthExpenses() {
-  $.get("api/get_total_month_expenses.php", (data, status) => {
-    if (status == "success") {
-      $("#inputGastosGenerales").val(data.totalMonthExpenses);
-      // formato de numero
-      $("#inputGastosGenerales").number(true, 2, ",", ".");
-    } else {
-      location.href = "/app";
+        $tableDistribucionDirecta.api().ajax.reload();
+      }
     }
-  });
+  );
+  completeSpinner();
 }
 
 //cargado de datos en los campos
@@ -121,7 +147,6 @@ $tableGastosMensuales.width("100%");
 $tableGastosMensuales.on("click", "tr", function () {
   $(this).toggleClass("selected");
 });
-
 // formulario para actulizar gastos de productos
 $("#formGastosMensuales").submit(function (e) {
   loadingSpinner();
@@ -179,6 +204,118 @@ $("#formGastosMensuales").submit(function (e) {
   });
 });
 
+// inicializacion de datatable de DISTRIBUCIÓN DIRECTA
+var $tableDistribucionDirecta = $("#tableDistribucionDirecta").dataTable({
+  scrollY: "500px",
+  scrollCollapse: true,
+  paging: false,
+  language: {
+    url: "/vendor/dataTables/Spanish.json",
+  },
+  ajax: {
+    url: "api/get_distribuciones_directas.php?dataTable=true",
+    dataSrc: "data",
+  },
+  columnDefs: [
+    {
+      targets: [2, 3, 4],
+      className: "text-right",
+    },
+    {
+      targets: [0],
+      className: "text-left",
+    },
+  ],
+  columns: [
+    { data: "nombreProceso" },
+    {
+      data: "porcentaje",
+      render: function (data, type, row) {
+        return `${$.number(data * 100, 2, ",", ".")} %`;
+      },
+    },
+    {
+      data: "valorProceso",
+      render: function (data, type, row) {
+        return `$ ${$.number(data, 2, ",", ".")}`;
+      },
+    },
+    {
+      data: "valorMinuto",
+      render: function (data, type, row) {
+        return `$ ${$.number(data, 2, ",", ".")}`;
+      },
+    },
+    {
+      data: "valorAsignado",
+      render: function (data, type, row) {
+        return `$ ${$.number(data, 2, ",", ".")}`;
+      },
+    },
+  ],
+  responsive: true,
+});
+$tableDistribucionDirecta.width("100%");
+$tableDistribucionDirecta.on("click", "tr", function () {
+  $(this).toggleClass("selected");
+});
+// formulario para crear una distribución directa
+$("#formDistribucionDirecta").submit(function (e) {
+  loadingSpinner();
+  e.preventDefault();
+  let request = $(this).serialize();
+  $.post(
+    "api/add_modify_distribucion_directa.php",
+    request,
+    (_data, _status, xhr) => {}
+  ).always(function (xhr) {
+    completeSpinner();
+    switch (xhr.status) {
+      case 200:
+      case 201:
+        $.notify(
+          {
+            icon: "nc-icon nc-bell-55",
+            message: "El proceso ha sido <b>Actualizado</b> Correctamente",
+          },
+          {
+            type: "primary",
+            timer: 8000,
+          }
+        );
+        $tableDistribucionDirecta.api().ajax.reload();
+        break;
+      case 400:
+        $.notify(
+          {
+            icon: "nc-icon nc-bell-55",
+            message: "<b>Completa</b> Todos los campos",
+          },
+          {
+            type: "warning",
+            timer: 8000,
+          }
+        );
+        break;
+      case 500:
+        $.notify(
+          {
+            icon: "nc-icon nc-bell-55",
+            message: "Esta <b>Referencia</b> ya existe",
+          },
+          {
+            type: "danger",
+            timer: 8000,
+          }
+        );
+        break;
+      case 401:
+        location.href = "/login";
+        break;
+    }
+  });
+});
+
 function goGG() {
   $("#nav-gastos").trigger("click");
 }
@@ -192,6 +329,8 @@ function selectDistribution(distribution) {
   $("#select-distibution").addClass("hideSelectDistribution");
 }
 
+selectDistribution("#distribucion-directa");
+
 $("#select-distibution .card").on("click", function () {
   let strDistribution = "";
   if (this.id == "select-directa") {
@@ -200,7 +339,7 @@ $("#select-distibution .card").on("click", function () {
     strDistribution = "#distribucion-volumen";
   }
 
-  bootbox.confirm({
+  /* bootbox.confirm({
     title: "Selección distribución de gastos",
     message: `¿Está seguro de que desea elegir la <b>distribución ${
       strDistribution.includes("directa") ? "directa" : "por volumen"
@@ -221,4 +360,5 @@ $("#select-distibution .card").on("click", function () {
       }
     },
   });
+  */
 });

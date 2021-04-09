@@ -181,6 +181,26 @@ class ProcessDao
     }
   }
 
+
+  /**
+   * Encuentra todos los tiempos relacionado a un proceso
+   *
+   * @param integer $idProcess id del proceso que se quiere buscar
+   * @return ProductProcess[]|null El proceso del producto que se busca
+   */
+  public function findProductProcessesByProcessId($idProcess)
+  {
+    $this->db->connect();
+    $query = "SELECT `id_tiempo_proceso` FROM `tiempo_proceso` WHERE `procesos_id_procesos` = $idProcess";
+    $ids = $this->db->consult($query, "yes");
+    $procesos = [];
+    foreach ($ids as $id) {
+      array_push($procesos, $this->findProductProcessById($id["id_tiempo_proceso"]));
+    }
+
+    return $procesos;
+  }
+
  /**
    * Encuentra todos los procesos creados por una empresa
    *

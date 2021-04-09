@@ -350,7 +350,6 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                           <label class="col-form-label col-4 text-right">Referencia</label>
                           <div class="col-7">
                             <select type="text" class="custom-select" id="inputRefProcess" name="ref">
-
                             </select>
                           </div>
                         </div>
@@ -552,48 +551,25 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit, officiis dicta atque a quasi dignissimos quod itaque voluptatem nobis libero, ex quis placeat explicabo quaerat mollitia, nemo modi in. Nemo?</p>
                       </div>
                     </div></div>
-                </div>
-                <div id="distribucion-volumen" class="row justify-content-center align-items-start hide">
+                  </div>
+                <div id="distribucion-directa" class="row justify-content-center align-items-start hide">
                   <div class="col-md-8">
-                    <!--<h3>Ventas Mensuales</h3>-->
-                    <form id="formGastosMensuales">
+                    <form id="formDistribucionDirecta">
                       <div class="card py-2">
-                        <div class="form-group row my-2">
-                          <label class="col-form-label col-4 text-right">Referencia</label>
-                          <div class="col-7">
-                            <select name="ref" id="inputRefGastos" class="custom-select">
-
-                            </select>
-                          </div>
-                        </div>
-                        <div class="form-group row my-2">
-                          <label class="col-form-label col-4 text-right">Productos</label>
-                          <div class="col-7 text-left">
-                            <select name="producto" id="inputProductosGastos" class="custom-select">
-
-                            </select>
-                          </div>
-                        </div>
-                        <div class="row pr-5 pl-4">
-                          <div class="col-md-6 col-6">
-                            <div class="form-group">
-                              <label for="my-input">Unidades Vendidas</label>
-                              <div class="input-group">
-                                <div class="input-group-prepend">
-                                  <span class="input-group-text">#</span>
-                                </div>
-                                <input type="text" class="form-control" id="inputUnidadesVendidas" name="unidades">
-                              </div>
+                        <div class="row align-items-center">
+                          <div class="form-group col-8 my-2 ml-3">
+                            <label class="col-form-label">Proceso</label>
+                            <div class="input-group">
+                              <select name="proceso" id="inputProcesosDDirecta" class="custom-select">
+                              </select>
                             </div>
                           </div>
-                          <div class="col-md-6 col-6">
-                            <div class="form-group">
-                              <label for="my-input">Volumen de Ventas</label>
-                              <div class="input-group">
-                                <div class="input-group-prepend">
-                                  <span class="input-group-text">$</span>
-                                </div>
-                                <input type="text" name="volumen" class="form-control money" aria-label="Username" id="inputVolumenVentas">
+                          <div class="form-group col-3 my-2 mr-1">
+                            <label for="col-form-label text-right">Porcentaje</label>
+                            <div class="input-group" style="height:calc(2.25rem + 2px)">
+                              <input type="text" class="form-control" id="inputPorcentajeProceso" name="porcentaje">
+                              <div class="input-group-append">
+                                <span class="input-group-text">%</span>
                               </div>
                             </div>
                           </div>
@@ -635,13 +611,13 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                       </div>
                       <div class="card-body">
                         <div class="table-responsive tableFixHead">
-                          <table class="table table-compact table-hover" id="tableGastosMensuales">
+                          <table class="table table-compact table-hover" id="tableDistribucionDirecta">
                             <thead class="text-primary">
-                              <th>Referencia</th>
-                              <th>Producto</th>
-                              <th>Unidades Vendidas(%)</th>
-                              <th>Volumen Ventas(%)</th>
-                              <th>Gastos Atribuibles</th>
+                              <th>Nombre Proceso</th>
+                              <th>Porcentaje</th>
+                              <th>Valor proceso</th>
+                              <th>Valor minuto</th>
+                              <th>Valor asignado</th>
                             </thead>
                             <tbody>
                             </tbody>
@@ -661,7 +637,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                     </div>
                   </div>
                 </div>
-                <div id="distribucion-directa" class="row justify-content-center align-items-start hide">
+                <div id="distribucion-volumen" class="row justify-content-center align-items-start hide">
                   <div class="col-md-8">
                     <!--<h3>Ventas Mensuales</h3>-->
                     <form id="formGastosMensuales">
@@ -690,7 +666,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                                 <div class="input-group-prepend">
                                   <span class="input-group-text">#</span>
                                 </div>
-                                <input type="text" class="form-control" id="inputUnidadesVendidas" name="unidades">
+                                <input type="text" class="form-control" id="PorcentajeProceso name="unidades">
                               </div>
                             </div>
                           </div>
