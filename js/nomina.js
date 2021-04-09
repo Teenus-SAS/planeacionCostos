@@ -611,7 +611,7 @@ $("#form-nomina").validate({
           break;
       }
 
-      elById("inlineRadioNom1").click();
+      //elById("inlineRadioNom1").click();
       elById("nomina-btn").value = "Adicionar";
     });
   },
