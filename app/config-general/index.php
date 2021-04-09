@@ -548,7 +548,7 @@ include(PARTIALS_PATH . "verify_session.php");
                               <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fa fa-user" aria-hidden="true"></i></span>
                               </div>
-                              <input type="text" name="cargo" class="form-control" id="input-cargo" placeholder="Nombre o Cargo" required>
+                              <input type="text" name="cargo" class="form-control" id="input-cargo" placeholder="Nombres" required>
                             </div>
                           </div>
 
@@ -607,7 +607,7 @@ include(PARTIALS_PATH . "verify_session.php");
 
                         <div id="contenedor-jornada" class="mb-3">
                           <div class="form-group">
-                            <label for="inputPassword">Bonificación</label>
+                            <label for="inputPassword">Otros Ingresos</label>
                             <div class="input-group">
                               <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fa fa-trophy" aria-hidden="true"></i></span>
@@ -725,7 +725,7 @@ include(PARTIALS_PATH . "verify_session.php");
                         <div class="table-responsive table-hover tableFixHead">
                           <table class="table" id="tableNominas">
                             <thead class="text-primary">
-                              <th>Nombre / Cargo</th>
+                              <th>Nombres</th>
                               <th>Proceso</th>
                               <!-- <th>Cantidad</th> -->
                               <!--    <th>Contrato</th> -->
