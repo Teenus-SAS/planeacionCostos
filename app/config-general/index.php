@@ -145,12 +145,7 @@ include(PARTIALS_PATH . "verify_session.php");
                   <div class="col-md-4 col-sm-12">
                     <!--<h3>Materia Prima</h3>-->
                     <form id="form-materia-prima">
-                      <div hidden class="form-check form-check-radio form-check-inline">
-                        <label>
-                          <input type="radio" name="optionMateriaPrima" id="inlineRadio1" value="option1"> Adicionar
-                          <!--  <span class="form-check-sign"></span> -->
-                        </label>
-                      </div>
+                      <input type="text" name="idMateriaPrima" id="idMateriaPrima" hidden>
                       <div hidden class="form-check form-check-radio form-check-inline">
                         <label>
                           <input type="radio" name="optionMateriaPrima" id="inlineRadio2" value="option2"> Modificar

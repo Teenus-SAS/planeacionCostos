@@ -10,7 +10,6 @@ document
   .querySelector('a[href$="materia_prima"]')
   .addEventListener("click", () => {
     resetFormMaterials();
-    elById("inlineRadio1").click();
   });
 
 function clearFormMaterials() {
@@ -25,8 +24,6 @@ function clearFormMaterials() {
     $("#input-materia-prima").remove();
   }
 }
-
-elById("inlineRadio1").click();
 
 let materialSeletedByEdit = {
   description: null,
@@ -131,9 +128,9 @@ var $tableMateriaPrima = $("#table-materia-prima").dataTable({
       },
     },
     {
-      data: "id",
+      data: null,
       render: (data) => {
-        return `<a  href='#'><i data-material-id=${data} data-toggle='tooltip' title="Editar" class='nc-icon nc-refresh-69 link-editar' style='color:rgb(255, 165, 0)'></i></a><a href='#' style="margin-left: 1rem;"><i data-material-id=${data} class='nc-icon nc-simple-remove link-borrar' data-toggle='tooltip' title='Eliminar' style='color:rgb(255, 0, 0)'></i></a>`;
+        return `<a  href='#'><i id=${data.id} data-toggle='tooltip' title="Editar" class='nc-icon nc-refresh-69 link-editar-materia-prima' style='color:rgb(255, 165, 0)'></i></a><a href='#' style="margin-left: 1rem;"><i data-material-id=${data} class='nc-icon nc-simple-remove link-borrar-materia-prima' data-toggle='tooltip' title='Eliminar' style='color:rgb(255, 0, 0)'></i></a>`;
       },
     },
   ],
@@ -318,7 +315,6 @@ function submitFormMaterials(updated = false) {
     }
     if (flag == true) {
       resetFormMaterials();
-      elById("inlineRadio1").click();
     }
   });
 }
@@ -343,18 +339,19 @@ document
   .addEventListener("click", (ev) => {
     const target = ev.target;
 
-    if (target.classList.contains("link-borrar")) {
+    if (target.classList.contains("link-borrar-materia-prima")) {
       deleteMaterial(
         target.dataset.materialId,
         target.closest("tr").cells[0].textContent
       );
-    } else if (target.classList.contains("link-editar")) {
+    } else if (target.classList.contains("link-editar-materia-prima")) {
       const closestTr = target.closest("tr");
       const referencia = closestTr.cells[0].textContent.trim();
       const description = closestTr.cells[1].textContent.trim();
       const unidad = closestTr.cells[2].textContent.trim();
       const costo = closestTr.cells[3].textContent.replace("$", "").trim();
 
+      elById("idMateriaPrima").value = target.id;
       elById("material-firstname").value = description;
       elById("ref-materia-prima").value = referencia;
       elById("input-materia-prima").value = description;
@@ -367,7 +364,7 @@ document
         "value",
         materialSeletedByEdit.id
       );
-      elById("inlineRadio2").click();
+      p;
     }
   });
 
