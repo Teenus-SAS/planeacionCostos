@@ -410,8 +410,6 @@ function selectDistribution(distribution) {
   $("#select-distibution").addClass("hideSelectDistribution");
 }
 
-selectDistribution("#distribucion-directa");
-
 $("#select-distibution .card").on("click", function () {
   let strDistribution = "";
   if (this.id == "select-directa") {
@@ -420,7 +418,7 @@ $("#select-distibution .card").on("click", function () {
     strDistribution = "#distribucion-volumen";
   }
 
-  /* bootbox.confirm({
+  bootbox.confirm({
     title: "Selección distribución de gastos",
     message: `¿Está seguro de que desea elegir la <b>distribución ${
       strDistribution.includes("directa") ? "directa" : "por volumen"
@@ -440,5 +438,5 @@ $("#select-distibution .card").on("click", function () {
         selectDistribution(strDistribution);
       }
     },
-  });*/
+  });
 });
