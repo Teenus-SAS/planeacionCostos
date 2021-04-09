@@ -1,83 +1,78 @@
-/* 
-* @Author: Teenus SAS
-* @github: Teenus-SAS
-* logica para trabajar con excel
-* importacion de datos 
-* exportacion de datos
-*/
-
-
-
-
+/*
+ * @Author: Teenus SAS
+ * @github: Teenus-SAS
+ * logica para trabajar con excel
+ * importacion de datos
+ * exportacion de datos
+ */
 
 /**
  * Se genera la carga de archivo excel
- * Con esto se validara la informacion 
+ * Con esto se validara la informacion
  * Si esta es valida?
  * SI: Se enviara al servidor para ser almacenada
- * NO: Generara notificaciones 
- *        - El tipo de Error  
+ * NO: Generara notificaciones
+ *        - El tipo de Error
  *        - Y la fila en donde ocurrio
  */
 
-
 // variables para cargar los errores en el archivo excel
-var errors
+var errors;
 
-$('#fileExpensesDescription').change(function () {
-  var reader = new FileReader()
-  let file = this.files[0]
-  let fileInput = this
-  $(this).siblings('label').text(file.name)
+$("#fileExpensesDescription").change(function () {
+  var reader = new FileReader();
+  let file = this.files[0];
+  let fileInput = this;
+  $(this).siblings("label").text(file.name);
   reader.onloadend = function () {
-    loadedFileUploadGE(reader, fileInput)
-  }
+    loadedFileUploadGE(reader, fileInput);
+  };
   if (file) {
-    reader.readAsArrayBuffer(file)
+    reader.readAsArrayBuffer(file);
   }
-})
+});
 
 function loadedFileUploadGE(reader, fileInput) {
-  loadingSpinner()
-  // parseo de informacion de excel 
-  let data = new Uint8Array(reader.result)
-  let workbook = XLSX.read(data, { type: 'array' })
+  loadingSpinner();
+  // parseo de informacion de excel
+  let data = new Uint8Array(reader.result);
+  let workbook = XLSX.read(data, { type: "array" });
 
   // cargado de datos en JSON
-  let expenses = XLSX.utils.sheet_to_json(workbook.Sheets['Gastos'])
-
+  let expenses = XLSX.utils.sheet_to_json(workbook.Sheets["Gastos"]);
 
   // cargado de errores del formato
-  let errorsExpenses = verifyErrorsExpenses(expenses)
-
+  let errorsExpenses = verifyErrorsExpenses(expenses);
 
   // validacion de la informacion
-  if (errorsExpenses.length == 0 && workbook.Sheets['Gastos'] != undefined) {
+  if (errorsExpenses.length == 0 && workbook.Sheets["Gastos"] != undefined) {
     $.confirm({
-      title: 'Tezlik',
-      type: 'green',
-      content: 'Los datos han sido procesados y estan listo para ser cargados',
+      title: "Tezlik",
+      type: "green",
+      content: "Los datos han sido procesados y estan listo para ser cargados",
       buttons: {
         Cargar: function () {
-          uploadExpenses(expenses)
-          clearFile(fileInput)
+          uploadExpenses(expenses);
+          clearFile(fileInput);
         },
         Cancelar: function () {
-          $.alert('Cancelado');
-          clearFile(fileInput)
-        }
-      }
+          $.alert("Cancelado");
+          clearFile(fileInput);
+        },
+      },
     });
   } else {
     $.dialog({
-      title: 'Peligro',
-      type: 'red',
-      icon: 'fas fa-warning',
-      content: 'Este Archivo no cumple los formatos indicados <br>' + bugsToString(errorsExpenses)
-    })
-    clearFile(fileInput)
+      title: "Peligro",
+      type: "red",
+      icon: "fas fa-warning",
+      content:
+        "Este Archivo no cumple los formatos indicados <br>" +
+        bugsToString(errorsExpenses),
+    });
+    clearFile(fileInput);
   }
-  completeSpinner()
+  completeSpinner();
 }
 
 /**
@@ -86,31 +81,51 @@ function loadedFileUploadGE(reader, fileInput) {
  * @returns un arreglo de errores con tipo y fila del error
  */
 function verifyErrorsExpenses(jsonObj) {
-  let errors = []
+  let errors = [];
   for (let index = 0; index < jsonObj.length; index++) {
-    let expense = jsonObj[index]
+    let expense = jsonObj[index];
     if (expense.Cuenta != undefined) {
-      let parentAccount = expense.Cuenta.toString().substring(0, 2)
-      
-      if (parentAccount != '51' && parentAccount != '52' && parentAccount != '53'
-        && parentAccount != '71' && parentAccount != '72' && parentAccount != '73'
-        && parentAccount != '74') {
-        errors.push({ type: 'Este número de cuenta no pertenece a ninguna familia', row: (expense.__rowNum__ + 1) })
+      let parentAccount = expense.Cuenta.toString().substring(0, 2);
+
+      if (
+        parentAccount != "51" &&
+        parentAccount != "52" &&
+        parentAccount != "53" &&
+        parentAccount != "71" &&
+        parentAccount != "72" &&
+        parentAccount != "73" &&
+        parentAccount != "74"
+      ) {
+        errors.push({
+          type: "Este número de cuenta no pertenece a ninguna familia",
+          row: expense.__rowNum__ + 1,
+        });
       }
     } else {
-      errors.push({ type: 'El número de cuenta no puede estar vacia', row: (expense.__rowNum__ + 1) })
+      errors.push({
+        type: "El número de cuenta no puede estar vacia",
+        row: expense.__rowNum__ + 1,
+      });
     }
     if (expense.Descripcion == undefined) {
-      errors.push({ type: 'La Descripción de la cuenta no puede ser vacio', row: (expense.__rowNum__ + 1) })
+      errors.push({
+        type: "La Descripción de la cuenta no puede ser vacio",
+        row: expense.__rowNum__ + 1,
+      });
     }
     if (expense.Monto == undefined) {
-      errors.push({ type: 'El monto no puede ser vacio', row: (expense.__rowNum__ + 1) })
+      errors.push({
+        type: "El monto no puede ser vacio",
+        row: expense.__rowNum__ + 1,
+      });
     } else if (isNaN(parseFloat(expense.Monto))) {
-      errors.push({ type: 'El monto debe ser un número', row: (expense.__rowNum__ + 1) })
+      errors.push({
+        type: "El monto debe ser un número",
+        row: expense.__rowNum__ + 1,
+      });
     }
-
   }
-  return errors
+  return errors;
 }
 
 /**
@@ -119,197 +134,202 @@ function verifyErrorsExpenses(jsonObj) {
  * @param {*} productsProcess Todos los Gastos Generales que se van a subir del archivo excel
  */
 function uploadExpenses(expenses) {
-  loadingSpinner()
+  loadingSpinner();
   // estructura de subida
-  let structure =
-  {
+  let structure = {
     total: 0,
-    "51":
-    {
+    51: {
       value: 0,
-      accounts: [
-      ]
+      accounts: [],
     },
-    "52":
-    {
+    52: {
       value: 0,
-      accounts: []
+      accounts: [],
     },
-    "53":
-    {
+    53: {
       value: 0,
-      accounts: []
+      accounts: [],
     },
-    "73":
-    {
+    73: {
       value: 0,
-      accounts: []
+      accounts: [],
     },
-    "74":
-    {
+    74: {
       value: 0,
-      accounts: []
+      accounts: [],
     },
-  }
-  // procesado de datos cambiando a id's  
-  let sum51 = 0, sum52 = 0, sum53 = 0, sum73 = 0, sum74 = 0
-  expenses.forEach(expense => {
-    let parentAccount = expense.Cuenta.toString().substring(0, 2)
+  };
+  // procesado de datos cambiando a id's
+  let sum51 = 0,
+    sum52 = 0,
+    sum53 = 0,
+    sum73 = 0,
+    sum74 = 0;
+  expenses.forEach((expense) => {
+    let parentAccount = expense.Cuenta.toString().substring(0, 2);
     switch (parentAccount) {
       case "51":
         structure["51"].accounts.push({
           account: expense.Cuenta.toString(),
           description: expense.Descripcion,
           amount: expense.Monto,
-        })
-        sum51 += expense.Monto
+        });
+        sum51 += expense.Monto;
         break;
       case "52":
         structure["52"].accounts.push({
           account: expense.Cuenta.toString(),
           description: expense.Descripcion,
           amount: expense.Monto,
-        })
-        sum52 += expense.Monto
+        });
+        sum52 += expense.Monto;
         break;
       case "53":
         structure["53"].accounts.push({
           account: expense.Cuenta.toString(),
           description: expense.Descripcion,
           amount: expense.Monto,
-        })
-        sum53 += expense.Monto
+        });
+        sum53 += expense.Monto;
         break;
       case "73":
         structure["73"].accounts.push({
           account: expense.Cuenta.toString(),
           description: expense.Descripcion,
           amount: expense.Monto,
-        })
-        sum73 += expense.Monto
+        });
+        sum73 += expense.Monto;
         break;
       case "74":
         structure["74"].accounts.push({
           account: expense.Cuenta.toString(),
           description: expense.Descripcion,
           amount: expense.Monto,
-        })
-        sum74 += expense.Monto
+        });
+        sum74 += expense.Monto;
         break;
       default:
         break;
     }
-  })
-  structure["51"].value = sum51
-  structure["52"].value = sum52
-  structure["53"].value = sum53
-  structure["73"].value = sum73
-  structure["74"].value = sum74
-  structure.total = sum51 + sum52 + sum53 + sum73 + sum74
-  $.post('api/modify_expenses_description.php', {
+  });
+  structure["51"].value = sum51;
+  structure["52"].value = sum52;
+  structure["53"].value = sum53;
+  structure["73"].value = sum73;
+  structure["74"].value = sum74;
+  structure.total = sum51 + sum52 + sum53 + sum73 + sum74;
+  $.post("api/modify_expenses_description.php", {
     expensesDescription: JSON.stringify(structure),
-    totalExpenses: structure.total
-  }).always(xhr => {
+    totalExpenses: structure.total,
+  }).always((xhr) => {
     if (xhr.status == 200) {
-      $.notify({
-        icon: "nc-icon nc-bell-55",
-        message: `Informacion <b>Subida</b>`
-      }, {
-        type: 'success',
-        timer: 8000
-      })
+      $.notify(
+        {
+          icon: "nc-icon nc-bell-55",
+          message: `Informacion <b>Subida</b>`,
+        },
+        {
+          type: "success",
+          timer: 8000,
+        }
+      );
     }
-    loadMonthExpenses()
-    loadExpensesGE()
-    $tableGastosMensuales.api().ajax.reload()
-  })
-  completeSpinner()
+    loadMonthExpenses();
+    loadExpensesGE();
+    $tableGastosMensuales.api().ajax.reload();
+  });
+  completeSpinner();
 }
-
 
 function bugsToString(bugs) {
-  let string = ''
-  bugs.forEach(bug => {
-    string += `<p style="color:red">${bug.type}  <b>fila: ${bug.row}</b> </p>`
-  })
-  return string
+  let string = "";
+  bugs.forEach((bug) => {
+    string += `<p style="color:red">${bug.type}  <b>fila: ${bug.row}</b> </p>`;
+  });
+  return string;
 }
 
-$('#download-description-expenses').click(generateFileExpensesGE)
-
+console.log({ button: $("#download-description-expenses") });
+$("#download-description-expenses").click(generateFileExpensesGE);
 
 function generateFileExpensesGE() {
-  loadingSpinner()
+  console.log("click");
+  loadingSpinner();
   // creacion del libro de excel
-  var wb = XLSX.utils.book_new()
+  var wb = XLSX.utils.book_new();
   // configuración de del libro
   wb.Props = {
     Title: "Gastos",
     Subject: "Tezlik",
     Author: "Tezlik",
-    CreatedDate: new Date()
-  }
+    CreatedDate: new Date(),
+  };
   // agregado de los nombres de las hojas del libro
-  wb.SheetNames.push('Gastos')
+  wb.SheetNames.push("Gastos");
   // creacion de variables para cargar la información de los materiales
-  let ws_data = []
-  $.get('api/get_expenses_description.php', (data, status) => {
+  let ws_data = [];
+  $.get("api/get_expenses_description.php", (data, status) => {
+    console.log({ data });
     // cargado de de productos con referencias
-    
-    if ( data != null) {
+    if (data != null) {
       data["51"].accounts.forEach((account) => {
         ws_data.push({
           Cuenta: account.account,
           Descripcion: account.description,
-          "Monto": account.amount
-        })
-      })
+          Monto: account.amount,
+        });
+      });
       data["52"].accounts.forEach((account) => {
         ws_data.push({
           Cuenta: account.account,
           Descripcion: account.description,
-          "Monto": account.amount
-        })
-      })
+          Monto: account.amount,
+        });
+      });
       data["53"].accounts.forEach((account) => {
         ws_data.push({
           Cuenta: account.account,
           Descripcion: account.description,
-          "Monto": account.amount
-        })
-      })
+          Monto: account.amount,
+        });
+      });
       data["73"].accounts.forEach((account) => {
         ws_data.push({
           Cuenta: account.account,
           Descripcion: account.description,
-          "Monto": account.amount
-        })
-      })
+          Monto: account.amount,
+        });
+      });
       data["74"].accounts.forEach((account) => {
         ws_data.push({
           Cuenta: account.account,
           Descripcion: account.description,
-          "Monto": account.amount
-        })
-      })
+          Monto: account.amount,
+        });
+      });
     }
-
     // se verifican que hayan datos
     if (ws_data.length <= 0) {
-      saveAs('/formatos/formato-gastos-especificos.xlsx', 'formato-gastos-especificos.xlsx')
+      saveAs(
+        "/formatos/formato-gastos-especificos.xlsx",
+        "formato-gastos-especificos.xlsx"
+      );
     } else {
       // parseo de objetos a las hojas de excel
-      var ws = XLSX.utils.json_to_sheet(ws_data)
+      var ws = XLSX.utils.json_to_sheet(ws_data);
       // asignacion de hojas de excel
-      wb.Sheets["Gastos"] = ws
+      wb.Sheets["Gastos"] = ws;
 
-      var wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'binary' })
+      var wbout = XLSX.write(wb, { bookType: "xlsx", type: "binary" });
 
-      var wopts = { bookType: 'xlsx', bookSST: false, type: 'array' }
+      var wopts = { bookType: "xlsx", bookSST: false, type: "array" };
 
-      var wbout = XLSX.write(wb, wopts)
-      saveAs(new Blob([wbout], { type: "application/octet-stream" }), 'Gastos.xlsx')
+      var wbout = XLSX.write(wb, wopts);
+      saveAs(
+        new Blob([wbout], { type: "application/octet-stream" }),
+        "Gastos.xlsx"
+      );
     }
-    completeSpinner()
-  })
+    completeSpinner();
+  });
 }

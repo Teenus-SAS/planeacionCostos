@@ -555,6 +555,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                 <div id="distribucion-directa" class="row justify-content-center align-items-start hide">
                   <div class="col-md-8">
                     <form id="formDistribucionDirecta">
+                      <input id="idDistribucionDirecta" class="form-control" type="text" name="idDistribucionDirecta" hidden />
                       <div class="card py-2">
                         <div class="row align-items-center">
                           <div class="form-group col-8 my-2 ml-3">
@@ -597,7 +598,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                       <div class="row mb-4">
                         <div class="col"></div>
                         <div class="col">
-                          <button class="btn btn-primary">Guardar</button>
+                          <button id="btnAddModifyDDirecta" class="btn btn-primary">Guardar</button>
                         </div>
                         <div class="col"></div>
                       </div>
@@ -618,6 +619,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                               <th>Valor proceso</th>
                               <th>Valor minuto</th>
                               <th>Valor asignado</th>
+                              <th>Acciones</th>
                             </thead>
                             <tbody>
                             </tbody>

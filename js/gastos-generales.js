@@ -252,18 +252,91 @@ var $tableDistribucionDirecta = $("#tableDistribucionDirecta").dataTable({
         return `$ ${$.number(data, 2, ",", ".")}`;
       },
     },
+    {
+      data: null,
+      render: function (data) {
+        return `<a href='#'><i id=${data.id} data-toggle='tooltip' title="Editar" class='nc-icon nc-refresh-69 link-editar-distribucion-directa' style='color:rgb(255, 165, 0)'></i></a><a href='#' style="margin-left: 1rem;"><i id=${data.id} class='nc-icon nc-simple-remove link-borrar-distribucion-directa' data-toggle='tooltip' title='Eliminar' style='color:rgb(255, 0, 0)'></i></a>`;
+      },
+    },
   ],
   responsive: true,
 });
 $tableDistribucionDirecta.width("100%");
-$tableDistribucionDirecta.on("click", "tr", function () {
-  $(this).toggleClass("selected");
+
+/* Actualizar distribucion directa */
+$(document).on("click", ".link-editar-distribucion-directa", function (event) {
+  event.preventDefault();
+
+  $("#idDistribucionDirecta").val(this.id);
+  let proceso = $(this).parents("tr").find("td").eq(0).text();
+  let porcentaje = parseFloat(
+    $(this)
+      .parents("tr")
+      .find("td")
+      .eq(1)
+      .html()
+      .replace("%", "")
+      .replace(",", ".")
+  );
+
+  $(`#inputProcesosDDirecta option:contains(${proceso})`).prop(
+    "selected",
+    true
+  );
+  $("#inputPorcentajeProceso").val(porcentaje);
+  $("#btnAddModifyDDirecta").html("Actualizar");
 });
+
+/* Eliminar distribucion directa */
+$(document).on("click", ".link-borrar-distribucion-directa", function (event) {
+  event.preventDefault();
+
+  let id = this.id;
+  console.log({ id });
+
+  bootbox.confirm({
+    title: "Eliminar Distribución Directa",
+    message: `¿Está seguro de eliminar la distribución?.  Esta acción no se puede deshacer`,
+    buttons: {
+      confirm: {
+        label: '<i class="fa fa-check"></i> Si',
+        className: "btn-danger",
+      },
+      cancel: {
+        label: '<i class="fa fa-times"></i> No',
+        className: "btn-info",
+      },
+    },
+    callback: function (result) {
+      if (result == true) {
+        $.post("api/delete_distribucion_directa.php", {
+          id: id,
+        }).always(function (xhr) {
+          if (xhr.status == 200) {
+            $.notify(
+              {
+                icon: "nc-icon nc-bell-55",
+                message: "Se eliminó la distribución directa",
+              },
+              {
+                type: "info",
+                timer: 8000,
+              }
+            );
+            $tableDistribucionDirecta.api().ajax.reload();
+          }
+        });
+      }
+    },
+  });
+});
+
 // formulario para crear una distribución directa
 $("#formDistribucionDirecta").submit(function (e) {
   loadingSpinner();
   e.preventDefault();
   let request = $(this).serialize();
+  console.log(request);
   $.post(
     "api/add_modify_distribucion_directa.php",
     request,
@@ -272,7 +345,6 @@ $("#formDistribucionDirecta").submit(function (e) {
     completeSpinner();
     switch (xhr.status) {
       case 200:
-      case 201:
         $.notify(
           {
             icon: "nc-icon nc-bell-55",
@@ -284,6 +356,21 @@ $("#formDistribucionDirecta").submit(function (e) {
           }
         );
         $tableDistribucionDirecta.api().ajax.reload();
+        clearDDirectaForm();
+        break;
+      case 201:
+        $.notify(
+          {
+            icon: "nc-icon nc-bell-55",
+            message: "El proceso ha sido <b>Creado</b> Correctamente",
+          },
+          {
+            type: "primary",
+            timer: 8000,
+          }
+        );
+        $tableDistribucionDirecta.api().ajax.reload();
+        clearDDirectaForm();
         break;
       case 400:
         $.notify(
@@ -297,24 +384,18 @@ $("#formDistribucionDirecta").submit(function (e) {
           }
         );
         break;
-      case 500:
-        $.notify(
-          {
-            icon: "nc-icon nc-bell-55",
-            message: "Esta <b>Referencia</b> ya existe",
-          },
-          {
-            type: "danger",
-            timer: 8000,
-          }
-        );
-        break;
       case 401:
         location.href = "/login";
         break;
     }
   });
 });
+
+function clearDDirectaForm() {
+  $(`#inputProcesosDDirecta`).prop("selectedIndex", 0);
+  $("#inputPorcentajeProceso").val("");
+  $("#btnAddModifyDDirecta").html("Guardar");
+}
 
 function goGG() {
   $("#nav-gastos").trigger("click");
@@ -359,6 +440,5 @@ $("#select-distibution .card").on("click", function () {
         selectDistribution(strDistribution);
       }
     },
-  });
-  */
+  });*/
 });

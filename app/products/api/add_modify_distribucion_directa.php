@@ -53,14 +53,12 @@ if (isset($_SESSION["user"])) {
         $distribucion->setValorProceso($valorProceso);
         $distribucion->setValorMinuto($valorMinuto);
         $distribucion->setValorAsignado($valorMinuto*$tiempoProceso);
-        if ($distribucionDirectaDao->save($distribucion) > 0) {
-          if ($_POST["idDistribucionDirecta"] != "") {
-            http_response_code(200);
-          } else {
-            http_response_code(201);
-          }
+        if(null!=($distribucion->getId())) {
+          $distribucionDirectaDao->update($distribucion);
+          http_response_code(200);
         } else {
-          http_response_code(500);
+          $distribucionDirectaDao->save($distribucion);
+          http_response_code(201);
         }
       } else {
         http_response_code(501);

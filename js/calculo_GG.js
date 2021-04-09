@@ -339,7 +339,6 @@ function loadExpensesGE() {
     });
     calculateTotalsAccounts();
     $(".amount").number(true, 2, ".", ",");
-    loadMonthExpenses();
     $(".amount").keyup(calculateTotalsAccounts);
   });
 }

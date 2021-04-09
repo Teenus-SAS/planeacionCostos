@@ -91,7 +91,7 @@ var $tableCargaFabril = $("#table-cargaFabril").dataTable({
     {
       data: null,
       render: function (data) {
-        return `<a href='#'><i id=${data.id} data-toggle='tooltip' title="Editar" class='nc-icon nc-refresh-69 link-editar' style='color:rgb(255, 165, 0)'></i></a><a href='#' style="margin-left: 1rem;"><i id=${data.id} class='nc-icon nc-simple-remove link-borrar-carga-fabril' data-toggle='tooltip' title='Eliminar' style='color:rgb(255, 0, 0)'></i></a>`;
+        return `<a href='#'><i id=${data.id} data-toggle='tooltip' title="Editar" class='nc-icon nc-refresh-69 link-editar-carga-fabril' style='color:rgb(255, 165, 0)'></i></a><a href='#' style="margin-left: 1rem;"><i id=${data.id} class='nc-icon nc-simple-remove link-borrar-carga-fabril' data-toggle='tooltip' title='Eliminar' style='color:rgb(255, 0, 0)'></i></a>`;
       },
     },
   ],
@@ -274,8 +274,7 @@ function sendData(request) {
 }
 
 /* Actualizar carga fabril */
-
-$(document).on("click", ".link-editar", function (event) {
+$(document).on("click", ".link-editar-carga-fabril", function (event) {
   event.preventDefault();
 
   $("#idCargaFabril").val(this.id);
@@ -354,8 +353,6 @@ $(document).on("click", ".link-borrar-carga-fabril", function (event) {
     },
   });
 });
-
-function deleteCargaFabril(id, maquina) {}
 
 function formatCurrency(resultadoFloat) {
   return $.number(resultadoFloat, 2, ",", ".");
