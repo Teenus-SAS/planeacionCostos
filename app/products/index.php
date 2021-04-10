@@ -166,6 +166,20 @@ include(PARTIALS_PATH . "verify_session.php") ?>
       font-size: 5rem;
     }
 
+    #select-volumen i {
+      transition: color 0.7s;
+    }
+    #select-directa i {
+      transition: color 0.7s;
+    }
+
+    #select-volumen:hover i {
+      color: cornflowerblue !important;;
+    }
+    #select-directa:hover i {
+      color: green !important;;
+    }
+
     .distribution-icon {
       margin: 70px 0 40px 0;
     }
@@ -535,20 +549,20 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                         <h5>Distribución directa</h5>
                       </div>
                       <div class="col-12 distribution-description">
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit, officiis dicta atque a quasi dignissimos quod itaque voluptatem nobis libero, ex quis placeat explicabo quaerat mollitia, nemo modi in. Nemo?</p>
+                        <p>Esta distribución de los gastos generales se genera a partir de los porcentajes de distribución que el usuario digite generando un valor que se unificara con los tiempos de proceso para asignar un valor a cada producto.</p>
                       </div>
                     </div>
                   </div>
                   <div id="select-volumen" class="card col-5">
                     <div class="row align-items-center">
                       <div class="distribution-icon col-12 w-100">
-                        <i class="fas fa-database"></i>
+                        <i class="fas fa-database" style=""></i>
                       </div>
                       <div class="col-12 w-100 distribution-title">
-                        <h5>Distribución por volumen</h5>
+                        <h5>Distribución por volumen de ventas</h5>
                       </div>
                       <div class="col-12 distribution-description">
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit, officiis dicta atque a quasi dignissimos quod itaque voluptatem nobis libero, ex quis placeat explicabo quaerat mollitia, nemo modi in. Nemo?</p>
+                        <p>Esta distribución de los gastos generales se genera a partir de las unidades y volúmenes de venta de productos generando un valor asignable a cada producto.</p>
                       </div>
                     </div></div>
                   </div>
