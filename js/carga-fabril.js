@@ -29,7 +29,7 @@ $(document).ready(function () {
 
 $("#cfmaquinas").change(function (e) {
   e.preventDefault();
-  $("#insumo").val("");
+  $("#mantenimiento").val("");
   $("#costoCargaFabril").val("");
   $("#minutoCargaFabril").val("");
   $("#cargaFabril-btn").html("Adicionar");
@@ -66,7 +66,7 @@ var $tableCargaFabril = $("#table-cargaFabril").dataTable({
       },
     },
     {
-      data: "insumo",
+      data: "mantenimiento",
       render: (data, type, row) => {
         return `<span class="name-left">${data}</span>`;
       },
@@ -158,10 +158,10 @@ function completeSpinner() {
 function submitForm(e) {
   e.preventDefault();
   let maquina = $("#cfmaquinas").val();
-  let insumo = $("#insumo").val();
+  let mantenimiento = $("#mantenimiento").val();
   let costo = $("#costoCargaFabril").val();
 
-  if (maquina === null || insumo === "" || costo === "") {
+  if (maquina === null || mantenimiento === "" || costo === "") {
     return $.notify(
       {
         icon: "nc-icon nc-bell-55",
@@ -266,7 +266,7 @@ $(document).on("click", ".link-editar-carga-fabril", function (event) {
 
   $("#idCargaFabril").val(this.id);
   maquina = $(this).parents("tr").find("td").eq(0).text();
-  insumo = $(this).parents("tr").find("td").eq(1).text();
+  mantenimiento = $(this).parents("tr").find("td").eq(1).text();
   costo = parseInt(
     $(this)
       .parents("tr")
@@ -278,7 +278,7 @@ $(document).on("click", ".link-editar-carga-fabril", function (event) {
   );
 
   $(`#cfmaquinas option:contains(${maquina})`).prop("selected", true);
-  $("#insumo").val(insumo);
+  $("#mantenimiento").val(mantenimiento);
   $("#costoCargaFabril").val(costo);
   $("#cargaFabril-btn").html("Actualizar");
   calulateCostxMin();
@@ -347,7 +347,7 @@ function formatCurrency(resultadoFloat) {
 
 function resetFormCargaFabril() {
   elById("cfmaquinas").value = "";
-  elById("insumo").value = "";
+  elById("mantenimiento").value = "";
   elById("costoCargaFabril").value = "";
   elById("minutoCargaFabril").value = "";
 }

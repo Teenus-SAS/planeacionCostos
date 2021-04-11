@@ -34,7 +34,7 @@ if (isset($_SESSION["user"])) {
     $carga = new CargaFabril();
     $carga->setIdEmpresa($user->getCompany()->getId());
     $carga->setIdMaquina($cargaJSON->Maquina);
-    $carga->setInsumo($cargaJSON->Insumo);
+    $carga->setMantenimiento($cargaJSON->Mantenimiento);
     $carga->setCosto($cargaJSON->Costo);
     $costoPorMinuto = ($cargaJSON->Costo/$user->getCompany()->getBussinesDaysMonth()/$user->getCompany()->getWorkHours() / 60);
     $carga->setCostoPorMinuto($costoPorMinuto);

@@ -102,7 +102,6 @@ function bugsToString(bugs) {
 }
 
 function verifyErrorsCargasF(jsonObj) {
-  console.log(jsonObj);
   let errors = [];
   for (let index = 0; index < jsonObj.length; index++) {
     let cargaFabril = jsonObj[index];
@@ -123,9 +122,9 @@ function verifyErrorsCargasF(jsonObj) {
         row: cargaFabril.__rowNum__ + 1,
       });
     }
-    if (cargaFabril.Insumo == undefined) {
+    if (cargaFabril.Mantenimiento == undefined) {
       errors.push({
-        type: "El nombre del insumo no puede ser vacio",
+        type: "El mantenimiento no puede ser vacio",
         row: cargaFabril.__rowNum__ + 1,
       });
     }
@@ -176,7 +175,7 @@ function uploadServiciosF(cargasF) {
               $.notify(
                 {
                   icon: "nc-icon nc-bell-55",
-                  message: `Algo ha salido mal con la carga ${cargasF[index].Insumo}`,
+                  message: `Algo ha salido mal con la carga ${cargasF[index].Mantenimiento}`,
                 },
                 {
                   type: "danger",
@@ -235,7 +234,7 @@ function generateFileServiciosF() {
         (machine) => machine.id === cargaF.idMaquina
       ).name;
       ws_data.push({
-        Insumo: cargaF.insumo,
+        Mantenimiento: cargaF.mantenimiento,
         Maquina: maquinaName,
         Costo: cargaF.costo,
       });

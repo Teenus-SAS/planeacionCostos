@@ -347,7 +347,7 @@ include(PARTIALS_PATH . "verify_session.php");
                           <div class="col-md-10 col-10">
                             <div class="form-group">
                               <label for="my-input">Mantenimiento</label>
-                              <input id="insumo" class="form-control" type="text" name="insumo" />
+                              <input id="mantenimiento" class="form-control" type="text" name="mantenimiento" />
                             </div>
                           </div>
 

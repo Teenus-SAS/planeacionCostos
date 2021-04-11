@@ -49,7 +49,7 @@ class CargaFabrilDao
       $cargaFabril->setIdMaquina($cargaFabrilDB["id_maquina"]);
       $cargaFabril->setnombreMaquina($cargaFabrilDB["nombre"]);
       $cargaFabril->setIdEmpresa($cargaFabrilDB["id_empresa"]);
-      $cargaFabril->setInsumo($cargaFabrilDB["insumo"]);
+      $cargaFabril->setMantenimiento($cargaFabrilDB["insumo"]);
       $cargaFabril->setCosto($cargaFabrilDB["costo"]);
       $cargaFabril->setCostoPorMinuto($cargaFabrilDB["costo_por_minuto"]);
       $this->db->close();
@@ -123,14 +123,14 @@ class CargaFabrilDao
     $cargasDB = $this->db->consult($query, "yes");
 
     if ($cargasDB) {
-      $query = "UPDATE `carga_fabril` SET `insumo` = '" . $carga->getInsumo() . "', `costo` = '" . $carga->getCosto() . "', 
+      $query = "UPDATE `carga_fabril` SET `insumo` = '" . $carga->getMantenimiento() . "', `costo` = '" . $carga->getCosto() . "', 
                         `costo_por_minuto`='" . $carga->getCostoPorMinuto() . "' 
                 WHERE `id_carga` = '" . $carga->getId() . "' ";
                 $update = true;
     } else {
       $query = "INSERT INTO `carga_fabril` (`id_maquina`, `id_empresa`, `insumo`,
                          `costo`, `costo_por_minuto`) 
-                VALUES ('" . $carga->getIdMaquina() . "', '" . $carga->getIdEmpresa() . "', '" . $carga->getInsumo() . "', 
+                VALUES ('" . $carga->getIdMaquina() . "', '" . $carga->getIdEmpresa() . "', '" . $carga->getMantenimiento() . "', 
                           '" . $carga->getCosto() . "','" . $carga->getCostoPorMinuto() . "')";
     }
     $this->db->consult($query);

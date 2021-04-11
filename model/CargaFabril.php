@@ -10,11 +10,11 @@ class CargaFabril implements JsonSerializable
     private $nombreMaquina;
     // id de la empresa
     private $idEmpresa;
-    // Insumo
-    private $insumo;
-    // Costo del insumo
+    // mantenimiento
+    private $mantenimiento;
+    // Costo del mantenimiento
     private $costo;
-    // Costo del insumo por minuto
+    // Costo del mantenimiento por minuto
     private $costoPorMinuto;
 
     public function setId($id)
@@ -57,14 +57,14 @@ class CargaFabril implements JsonSerializable
         return $this->idEmpresa;
     }
 
-    public function getInsumo()
+    public function getMantenimiento()
     {
-        return $this->insumo;
+        return $this->mantenimiento;
     }
 
-    public function setInsumo($insumo)
+    public function setMantenimiento($mantenimiento)
     {
-        $this->insumo = $insumo;
+        $this->mantenimiento = $mantenimiento;
     }
 
     public function getCosto()

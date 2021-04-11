@@ -6,9 +6,9 @@
  * Este Script crea una carga
  * Se llama por metodo 
  * @method POST 
- * @param insumo El nombre de la máquina en caso de creacion
- * @param price El precio de la máquina
- * @param pricePerMinute La depreciacion de la máquina
+ * @param mantenimiento El nombre de la carga en caso de creacion
+ * @param price El precio de la carga
+ * @param pricePerMinute 
  * 
  * @responsesCodes
  *  201: en caso de que se cree exitosamente la máquina
@@ -33,12 +33,12 @@ header("Content-Type: application/json");
 if (isset($_SESSION["user"])) {
   $user = unserialize($_SESSION["user"]);
   $cargaFabrilDao = new CargaFabrilDao();
-  if (isset($_POST["insumo"]) && isset($_POST["costoCargaFabril"]) && isset($_POST["minutoCargaFabril"])) {
-    if ($_POST["insumo"] != "" || $_POST["costoCargaFabril"] != "" || $_POST["minutoCargaFabril"] != "") {
+  if (isset($_POST["mantenimiento"]) && isset($_POST["costoCargaFabril"]) && isset($_POST["minutoCargaFabril"])) {
+    if ($_POST["mantenimiento"] != "" || $_POST["costoCargaFabril"] != "" || $_POST["minutoCargaFabril"] != "") {
       if ($_POST["costoCargaFabril"] > 0) {
         $carga = new CargaFabril();
         $carga->setId($_POST["idCargaFabril"]);
-        $carga->setInsumo($_POST["insumo"]);
+        $carga->setMantenimiento($_POST["mantenimiento"]);
         $carga->setIdEmpresa($user->getCompany()->getId());
         $carga->setIdMaquina($_POST["cfmaquinas"]);
         $carga->setCosto($_POST["costoCargaFabril"]);
