@@ -9,39 +9,49 @@ $("#fileRawMaterial").change(function () {
     let workSheet = workbook.Sheets["Materiales"];
     let materials = XLSX.utils.sheet_to_json(workSheet);
     let errors = verifyErrorsRawMaterials(materials);
-    if (errors.length == 0 && workSheet != undefined) {
-      bootbox.confirm({
-        title: "Importar Materia prima",
-        message: `Los datos han sido procesados y estan listos para ser cargados`,
-        buttons: {
-          confirm: {
-            label: '<i class="fa fa-check"></i> Continuar',
-            className: "btn-success",
+    if (errors.length == 0) {
+      if (workSheet != undefined) {
+        bootbox.confirm({
+          title: "Importar Materia prima",
+          message: `Los datos han sido procesados y estan listos para ser cargados`,
+          buttons: {
+            confirm: {
+              label: '<i class="fa fa-check"></i> Continuar',
+              className: "btn-success",
+            },
+            cancel: {
+              label: '<i class="fa fa-times"></i> Cancelar',
+              className: "btn-info",
+            },
           },
-          cancel: {
-            label: '<i class="fa fa-times"></i> Cancelar',
-            className: "btn-info",
+          callback: function (result) {
+            if (result == true) {
+              uploadMaterials(materials);
+              clearFile(fileInput);
+            } else {
+              $.notify(
+                {
+                  icon: "nc-icon nc-bell-55",
+                  message: `Proceso cancelado`,
+                },
+                {
+                  type: "info",
+                  timer: 8000,
+                }
+              );
+              clearFile(fileInput);
+            }
           },
-        },
-        callback: function (result) {
-          if (result == true) {
-            uploadMaterials(materials);
-            clearFile(fileInput);
-          } else {
-            $.notify(
-              {
-                icon: "nc-icon nc-bell-55",
-                message: `Proceso cancelado`,
-              },
-              {
-                type: "info",
-                timer: 8000,
-              }
-            );
-            clearFile(fileInput);
-          }
-        },
-      });
+        });
+      } else {
+        $.alert({
+          title: "Tezlik",
+          content:
+            "Este Archivo no cumple los formatos indicados <br>" +
+            "No se encontró la hoja 'Materiales' en el archivo Excel",
+          type: "red",
+        });
+      }
 
       /* $.confirm({
         title: 'Tezlik',

@@ -72,62 +72,74 @@ $("#fileProcess").change(function () {
     let workbook = XLSX.read(data, { type: "array" });
     let workSheet = workbook.Sheets["Procesos"];
     let processes = XLSX.utils.sheet_to_json(workSheet);
+
     if (validateJSONToExcelProcess(processes)) {
-      if (processes.length == 0) {
+      if (workSheet != undefined) {
+        if (processes.length == 0) {
+          $.alert({
+            title: "Peligro",
+            content: "Este Archivo Esta vacio",
+            type: "red",
+          });
+        } else {
+          bootbox.confirm({
+            title: "Importar procesos",
+            message: `Los datos han sido procesados y estan listos para ser cargados`,
+            buttons: {
+              confirm: {
+                label: '<i class="fa fa-check"></i> Continuar',
+                className: "btn-success",
+              },
+              cancel: {
+                label: '<i class="fa fa-times"></i> Cancelar',
+                className: "btn-info",
+              },
+            },
+            callback: function (result) {
+              if (result == true) {
+                uploadProcesses(processes);
+                clearFile(inputFile);
+              } else {
+                $.notify(
+                  {
+                    icon: "nc-icon nc-bell-55",
+                    message: `Proceso cancelado`,
+                  },
+                  {
+                    type: "info",
+                    timer: 8000,
+                  }
+                );
+                clearFile(inputFile);
+              }
+            },
+          });
+
+          /* $.confirm({
+            title: 'Tezlik',
+            content: 'Los datos han sido procesados y estan listo para ser cargados',
+            type: 'green',
+            buttons: {
+              Cargar: function () {
+                uploadProcesses(processes)
+                clearFile(inputFile)
+              },
+              Cancelar: function () {
+                $.alert('Cancelado')
+                clearFile(inputFile)
+              }
+            }
+          }) */
+        }
+      } else {
         $.alert({
           title: "Peligro",
-          content: "Este Archivo Esta vacio",
+          content:
+            "Este Archivo no cumple los formatos indicados</br>" +
+            "No se encontró la hoja 'Procesos' en el archivo Excel",
           type: "red",
         });
-      } else {
-        bootbox.confirm({
-          title: "Importar procesos",
-          message: `Los datos han sido procesados y estan listos para ser cargados`,
-          buttons: {
-            confirm: {
-              label: '<i class="fa fa-check"></i> Continuar',
-              className: "btn-success",
-            },
-            cancel: {
-              label: '<i class="fa fa-times"></i> Cancelar',
-              className: "btn-info",
-            },
-          },
-          callback: function (result) {
-            if (result == true) {
-              uploadProcesses(processes);
-              clearFile(inputFile);
-            } else {
-              $.notify(
-                {
-                  icon: "nc-icon nc-bell-55",
-                  message: `Proceso cancelado`,
-                },
-                {
-                  type: "info",
-                  timer: 8000,
-                }
-              );
-              clearFile(inputFile);
-            }
-          },
-        });
-
-        /* $.confirm({
-          title: 'Tezlik',
-          content: 'Los datos han sido procesados y estan listo para ser cargados',
-          type: 'green',
-          buttons: {
-            Cargar: function () {
-              uploadProcesses(processes)
-              clearFile(inputFile)
-            },
-            Cancelar: function () {
-              $.alert('Cancelado')
-              clearFile(inputFile)
-            }
-          }
-        }) */
+        clearFile(inputFile);
       }
     } else {
       $.alert({

@@ -155,26 +155,35 @@ function loadedFilePP(reader, inputFile) {
     );
 
     // validacion de la informacion
-    if (
-      errorsProductsProcesses.length == 0 &&
-      workbook.Sheets["Productos x Procesos"] != undefined
-    ) {
-      $.confirm({
-        title: "<b>Tezlik</b>",
-        type: "green",
-        content:
-          "Los datos han sido procesados y estan listo para ser cargados",
-        buttons: {
-          Cargar: function () {
-            uploadProductsProcess(ProductsProcesses);
-            clearFile(inputFile);
+    if (errorsProductsProcesses.length == 0) {
+      if (workbook.Sheets["Productos x Procesos"] != undefined) {
+        $.confirm({
+          title: "<b>Tezlik</b>",
+          type: "green",
+          content:
+            "Los datos han sido procesados y estan listo para ser cargados",
+          buttons: {
+            Cargar: function () {
+              uploadProductsProcess(ProductsProcesses);
+              clearFile(inputFile);
+            },
+            Cancelar: function () {
+              $.alert("Cancelado");
+              clearFile(inputFile);
+            },
           },
-          Cancelar: function () {
-            $.alert("Cancelado");
-            clearFile(inputFile);
-          },
-        },
-      });
+        });
+      } else {
+        $.dialog({
+          /* title: 'Peligro', */
+          type: "red",
+          icon: "fas fa-warning",
+          content:
+            "Este Archivo no cumple los formatos indicados <br>" +
+            "No se encontró la hoja 'Productos x Procesos' en el archivo Excel",
+        });
+        clearFile(inputFile);
+      }
     } else {
       $.dialog({
         /* title: 'Peligro', */

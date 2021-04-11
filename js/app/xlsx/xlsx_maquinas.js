@@ -9,60 +9,67 @@ $("#fileMachines").change(function () {
     let workSheet = workbook.Sheets["Maquinas"];
     let machines = XLSX.utils.sheet_to_json(workSheet);
     let errorsMachines = verifyErrorsMachines(machines);
-    if (
-      errorsMachines.length == 0 &&
-      workbook.Sheets["Maquinas"] != undefined
-    ) {
-      if (machines.length == 0) {
-        $.alert({
-          title: "Tezlik",
-          content: "Este Archivo Esta vacio",
-        });
-      } else {
-        bootbox.confirm({
-          title: "Importar máquinas",
-          message: `Los datos han sido procesados y estan listos para ser cargados`,
-          buttons: {
-            confirm: {
-              label: '<i class="fa fa-check"></i> Continuar',
-              className: "btn-success",
+    if (errorsMachines.length == 0) {
+      if (workbook.Sheets["Maquinas"] != undefined) {
+        if (machines.length == 0) {
+          $.alert({
+            title: "Tezlik",
+            content: "Este Archivo Esta vacio",
+          });
+        } else {
+          bootbox.confirm({
+            title: "Importar máquinas",
+            message: `Los datos han sido procesados y estan listos para ser cargados`,
+            buttons: {
+              confirm: {
+                label: '<i class="fa fa-check"></i> Continuar',
+                className: "btn-success",
+              },
+              cancel: {
+                label: '<i class="fa fa-times"></i> Cancelar',
+                className: "btn-info",
+              },
             },
-            cancel: {
-              label: '<i class="fa fa-times"></i> Cancelar',
-              className: "btn-info",
+            callback: function (result) {
+              if (result == true) {
+                uploadMachines(machines);
+              } else {
+                $.notify(
+                  {
+                    icon: "nc-icon nc-bell-55",
+                    message: `Proceso cancelado`,
+                  },
+                  {
+                    type: "info",
+                    timer: 8000,
+                  }
+                );
+              }
             },
-          },
-          callback: function (result) {
-            if (result == true) {
-              uploadMachines(machines);
-            } else {
-              $.notify(
-                {
-                  icon: "nc-icon nc-bell-55",
-                  message: `Proceso cancelado`,
-                },
-                {
-                  type: "info",
-                  timer: 8000,
-                }
-              );
-            }
-          },
-        });
+          });
 
-        /* $.confirm({
-          title: 'Tezlik',
-          content: 'Los datos han sido procesados y estan listo para ser cargados',
-          type: 'green',
-          buttons: {
-            Cargar: function () {
-              uploadMachines(machines)
-            },
-            Cancelar: function () {
-              $.alert('Cancelado');
-            }
-          }
-        }); */
+          /* $.confirm({
+              title: 'Tezlik',
+              content: 'Los datos han sido procesados y estan listo para ser cargados',
+              type: 'green',
+              buttons: {
+                Cargar: function () {
+                  uploadMachines(machines)
+                },
+                Cancelar: function () {
+                  $.alert('Cancelado');
+                }
+              }
+            }); */
+        }
+      } else {
+        $.dialog({
+          title: "Peligro",
+          content:
+            "Este Archivo no cumple los formatos indicados <br>" +
+            "No se encontró la hoja 'Maquinas' en el archivo Excel",
+          type: "red",
+        });
       }
       $("#form-maquinas")[0].reset();
       clearFile(fileInput);

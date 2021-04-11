@@ -74,43 +74,50 @@ function loadedFileProducts(reader, inputFileProducts) {
     //let errosRawMaterials = verifyErrorsRawMaterials(rawMaterials, products)
 
     // validacion de los productos
-    if (
-      errorsProducts.length == 0 /* && errosRawMaterials.length == 0 */ &&
-      workbook.Sheets["Productos"] !=
-        undefined /* && workbook.Sheets['Materia Prima'] != undefined */
-    ) {
-      bootbox.confirm({
-        title: "Importar productos",
-        message: `Los datos han sido procesados y estan listos para ser cargados`,
-        buttons: {
-          confirm: {
-            label: '<i class="fa fa-check"></i> Continuar',
-            className: "btn-success",
+    if (errorsProducts.length == 0) {
+      if (workbook.Sheets["Productos"] != undefined) {
+        bootbox.confirm({
+          title: "Importar productos",
+          message: `Los datos han sido procesados y estan listos para ser cargados`,
+          buttons: {
+            confirm: {
+              label: '<i class="fa fa-check"></i> Continuar',
+              className: "btn-success",
+            },
+            cancel: {
+              label: '<i class="fa fa-times"></i> Cancelar',
+              className: "btn-info",
+            },
           },
-          cancel: {
-            label: '<i class="fa fa-times"></i> Cancelar',
-            className: "btn-info",
+          callback: function (result) {
+            if (result == true) {
+              uploadProducts(products /* , rawMaterials */);
+              clearFile(inputFileProducts);
+            } else {
+              $.notify(
+                {
+                  icon: "nc-icon nc-bell-55",
+                  message: `Proceso cancelado`,
+                },
+                {
+                  type: "info",
+                  timer: 8000,
+                }
+              );
+              clearFile(inputFileProducts);
+            }
           },
-        },
-        callback: function (result) {
-          if (result == true) {
-            uploadProducts(products /* , rawMaterials */);
-            clearFile(inputFileProducts);
-          } else {
-            $.notify(
-              {
-                icon: "nc-icon nc-bell-55",
-                message: `Proceso cancelado`,
-              },
-              {
-                type: "info",
-                timer: 8000,
-              }
-            );
-            clearFile(inputFileProducts);
-          }
-        },
-      });
+        });
+      } else {
+        $.dialog({
+          title: "Alerta",
+          type: "red",
+          icon: "fas fa-warning",
+          content:
+            "Este Archivo no cumple los formatos indicados <br>" +
+            "No se encontró la hoja 'Productos' en el archivo Excel",
+        });
+      }
 
       /* $.confirm({
         title: 'Tezlik',

@@ -45,22 +45,35 @@ function loadedFileUploadGE(reader, fileInput) {
   let errorsExpenses = verifyErrorsExpenses(expenses);
 
   // validacion de la informacion
-  if (errorsExpenses.length == 0 && workbook.Sheets["Gastos"] != undefined) {
-    $.confirm({
-      title: "Tezlik",
-      type: "green",
-      content: "Los datos han sido procesados y estan listo para ser cargados",
-      buttons: {
-        Cargar: function () {
-          uploadExpenses(expenses);
-          clearFile(fileInput);
+  if (errorsExpenses.length == 0) {
+    if (workbook.Sheets["Gastos"] != undefined) {
+      $.confirm({
+        title: "Tezlik",
+        type: "green",
+        content:
+          "Los datos han sido procesados y estan listo para ser cargados",
+        buttons: {
+          Cargar: function () {
+            uploadExpenses(expenses);
+            clearFile(fileInput);
+          },
+          Cancelar: function () {
+            $.alert("Cancelado");
+            clearFile(fileInput);
+          },
         },
-        Cancelar: function () {
-          $.alert("Cancelado");
-          clearFile(fileInput);
-        },
-      },
-    });
+      });
+    } else {
+      $.dialog({
+        title: "Peligro",
+        type: "red",
+        icon: "fas fa-warning",
+        content:
+          "Este Archivo no cumple los formatos indicados <br>" +
+          "No se encontró la hoja 'Gastos' en el archivo Excel",
+      });
+      clearFile(fileInput);
+    }
   } else {
     $.dialog({
       title: "Peligro",
