@@ -448,6 +448,7 @@ function existsMateriaPrimaByRef(matPrimaRef) {
 /* Limpiar campos de materia prima */
 
 function resetFormMaterials() {
+  elById("idMateriaPrima").value = "";
   elById("input-materia-prima").value = "";
   elById("ref-materia-prima").value = "";
   elById("input-materia-prima").readOnly = false;
