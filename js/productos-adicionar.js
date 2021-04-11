@@ -177,7 +177,8 @@ $("#form-products").validate({
         );
       }
     } else {
-      sendRequest($(form).serialize());
+      request += "&optionProductos=option1";
+      sendRequest(request);
     }
   },
 });
@@ -217,19 +218,7 @@ function sendRequest(request) {
         );
         $("#config-color").css("color", "orange");
         $tableProductos.api().ajax.reload();
-        break;
-      case 412:
-        $.notify(
-          {
-            icon: "nc-icon nc-bell-55",
-            message:
-              "Por favor <b>selecciona</b> una opcion para <b>adicionar</b> o <b>modificar</b>",
-          },
-          {
-            type: "warning",
-            timer: 8000,
-          }
-        );
+        resetFormProducts();
         break;
       case 400:
         $.notify(

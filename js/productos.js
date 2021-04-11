@@ -374,19 +374,6 @@ $("#form-products").validate({
           loadProductsInProcess();
           loadProductsInXLSX();
           break;
-        case 412:
-          $.notify(
-            {
-              icon: "nc-icon nc-bell-55",
-              message:
-                "<b>Selecciona</b> una opción para <b>adicionar</b> o <b>modificar</b>",
-            },
-            {
-              type: "warning",
-              timer: 8000,
-            }
-          );
-          break;
         case 400:
           $.notify(
             {
@@ -446,95 +433,6 @@ function resetFormOptions() {
     formOption.value = 0;
   }
 }
-
-/* $('#form-products').submit(function (e) {
-  e.preventDefault()
-  let request = $(this).serialize()
-  $.post('api/add_modify_products.php', request, (_data, _status, xhr) => {
-  })
-    .always(function (xhr) {
-      switch (xhr.status) {
-        case 200:
-          $.notify({
-            icon: "nc-icon nc-bell-55",
-            message: "El producto ha sido <b>Actualizado</b> Correctamente"
-          }, {
-            type: 'primary',
-            timer: 8000
-          })
-          $tableProductos.api().ajax.reload()
-          $tableProductoMateria.api().ajax.reload()
-          $tableGastosMensuales.api().ajax.reload()
-          loadProductsInProcess()
-          break
-        case 201:
-          $.notify({
-            icon: "nc-icon nc-bell-55",
-            message: "El producto ha sido <b>Creado</b> Correctamente"
-          }, {
-            type: 'success',
-            timer: 8000
-          })
-          $.notify({
-            icon: "nc-icon nc-bell-55",
-            message: "Ahora ah configurar el producto"
-          }, {
-            type: 'primary',
-            timer: 8000
-          })
-          $('#config-color').css("color","orange")
-          $tableProductos.api().ajax.reload()
-          $tableProductoMateria.api().ajax.reload()
-          $tableGastosMensuales.api().ajax.reload()
-          $('#form-products')[0].reset()
-          loadProductsGG()
-          loadProductsPP()
-          loadProductsInProcess()
-          loadProductsInXLSX()
-          break
-        case 412:
-          $.notify({
-            icon: "nc-icon nc-bell-55",
-            message: "Por favor <b>selecciona</b> una opcion para <b>adicionar</b> o <b>modificar</b>"
-          }, {
-            type: 'warning',
-            timer: 8000
-          })
-          break
-        case 400:
-          $.notify({
-            icon: "nc-icon nc-bell-55",
-            message: "Por favor <b>Completa</b> Todos los campos"
-          }, {
-            type: 'warning',
-            timer: 8000
-          })
-          break
-        case 500:
-          $.notify({
-            icon: "nc-icon nc-bell-55",
-            message: "Esta <b>Referencia</b> ya existe"
-          }, {
-            type: 'danger',
-            timer: 8000
-          })
-          break
-        case 401:
-          location.href = "/login"
-          break
-        case 403:
-          $.notify({
-            icon: "nc-icon nc-bell-55",
-            message: "Ya no puede crear mas productos <br> Se ha alcanzado el limite de productos licenciados"
-          }, {
-            type: 'danger',
-            timer: 8000
-          })
-          break
-
-      }
-    })
-}) */
 
 function deleteProduct(prodId) {
   loadingSpinner();

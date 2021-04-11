@@ -237,8 +237,6 @@ $("#form-products").validate({
     let request = $(form).serialize();
     request += "&optionProductos=option2";
 
-    console.log(request);
-
     $.post(
       "api/add_modify_products.php",
       request,
@@ -278,19 +276,6 @@ $("#form-products").validate({
           loadProductsPP();
           loadProductsInProcess();
           loadProductsInXLSX();
-          break;
-        case 412:
-          $.notify(
-            {
-              icon: "nc-icon nc-bell-55",
-              message:
-                "Por favor <b>selecciona</b> una opcion para <b>adicionar</b> o <b>modificar</b>",
-            },
-            {
-              type: "warning",
-              timer: 8000,
-            }
-          );
           break;
         case 400:
           $.notify(

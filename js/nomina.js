@@ -582,19 +582,6 @@ $("#form-nomina").validate({
           $tableNominas.api().ajax.reload();
           $("#form-nomina")[0].reset();
           break;
-        case 412:
-          $.notify(
-            {
-              icon: "nc-icon nc-bell-55",
-              message:
-                "<b>selecciona</b> una opción para <b>adicionar</b> o <b>modificar</b>",
-            },
-            {
-              type: "warning",
-              timer: 8000,
-            }
-          );
-          break;
         case 400:
           $.notify(
             {

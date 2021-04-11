@@ -162,19 +162,6 @@ function sendData(request) {
         $tableServiciosExternos.api().ajax.reload();
         resetFormServiciosExternos();
         break;
-      case 412:
-        $.notify(
-          {
-            icon: "nc-icon nc-bell-55",
-            message:
-              "<b>Selecciona</b> una opción para <b>adicionar</b> o <b>modificar</b>",
-          },
-          {
-            type: "warning",
-            timer: 8000,
-          }
-        );
-        break;
       case 400:
         flag = true;
         $.notify(

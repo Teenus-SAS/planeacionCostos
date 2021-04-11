@@ -11,7 +11,6 @@ header("Content-Type: application/json");
 if (isset($_SESSION["user"])) {
   $user = unserialize($_SESSION["user"]);
   $productDao = new ProductDao();
-  if (isset($_POST["optionProductos"])) {
     if (isset($_POST["ref"]) && isset($_POST["producto"]) && isset($_POST["rentabilidad"])) {
       if ($_POST["ref"] != "" || $_POST["producto"] != "") {
         if ($productDao->findNumberProductsByCompany($user->getCompany()->getId()) <= $user->getCompany()->getLicensedProducts()) {
@@ -58,9 +57,6 @@ if (isset($_SESSION["user"])) {
     } else {
       http_response_code(400);
     }
-  } else {
-    http_response_code(412);
-  }
 } else {
   http_response_code(401);
   exit;
