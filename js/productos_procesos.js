@@ -142,9 +142,13 @@ $("#form-product-process").submit(function (e) {
   e.preventDefault();
 
   let request = $(this).serialize();
+  console.log({ request });
   //request += `&timeProcess=${60 / $("#input-unidad-hora").val()}`;
   totalTiempoProceso();
-  if (!$("#input-tiempo-total").val()) {
+  if (
+    !$("#input-tiempo-total").val() ||
+    $("#input-tiempo-total").val() == "0"
+  ) {
     $.notify(
       {
         icon: "nc-icon nc-bell-55",

@@ -394,7 +394,7 @@ include(PARTIALS_PATH . "verify_session.php");
                           <table class="table table-compact table-hover" id="table-cargaFabril">
                             <thead class="text-primary">
                               <th>Máquina</th>
-                              <th>Insumo</th>
+                              <th>Mantenimiento</th>
                               <th>Costo</th>
                               <th>Costo*Min</th>
                               <th>Acciones</th>

@@ -9,45 +9,52 @@ $("#fileserviciosExternos").change(function () {
     let workSheet = workbook.Sheets["Servicios Externos"];
     let serviciosF = XLSX.utils.sheet_to_json(workSheet);
     let errorsServiciosF = verifyErrorsServiciosF(serviciosF);
-    if (
-      errorsServiciosF.length == 0 &&
-      workbook.Sheets["Servicios Externos"] != undefined
-    ) {
-      if (serviciosF.length == 0) {
-        $.alert({
-          title: "Tezlik",
-          content: "Este archivo está vacío",
-        });
+    if (errorsServiciosF.length == 0) {
+      if (workbook.Sheets["Servicios Externos"] != undefined) {
+        if (serviciosF.length == 0) {
+          $.alert({
+            title: "Tezlik",
+            content: "Este archivo está vacío",
+          });
+        } else {
+          bootbox.confirm({
+            title: "Importar servicios externos",
+            message: `Los datos han sido procesados y estan listos para ser cargados`,
+            buttons: {
+              confirm: {
+                label: '<i class="fa fa-check"></i> Continuar',
+                className: "btn-success",
+              },
+              cancel: {
+                label: '<i class="fa fa-times"></i> Cancelar',
+                className: "btn-info",
+              },
+            },
+            callback: function (result) {
+              if (result == true) {
+                uploadServiciosF(serviciosF);
+              } else {
+                $.notify(
+                  {
+                    icon: "nc-icon nc-bell-55",
+                    message: `Proceso cancelado`,
+                  },
+                  {
+                    type: "info",
+                    timer: 8000,
+                  }
+                );
+              }
+            },
+          });
+        }
       } else {
-        bootbox.confirm({
-          title: "Importar servicios externos",
-          message: `Los datos han sido procesados y estan listos para ser cargados`,
-          buttons: {
-            confirm: {
-              label: '<i class="fa fa-check"></i> Continuar',
-              className: "btn-success",
-            },
-            cancel: {
-              label: '<i class="fa fa-times"></i> Cancelar',
-              className: "btn-info",
-            },
-          },
-          callback: function (result) {
-            if (result == true) {
-              uploadServiciosF(serviciosF);
-            } else {
-              $.notify(
-                {
-                  icon: "nc-icon nc-bell-55",
-                  message: `Proceso cancelado`,
-                },
-                {
-                  type: "info",
-                  timer: 8000,
-                }
-              );
-            }
-          },
+        $.dialog({
+          title: "Peligro",
+          content:
+            "<b>Este archivo no cumple los formatos indicados:</b> <br>" +
+            "No se encontró la hoja 'Servicios Externos' en el archivo Excel",
+          type: "red",
         });
       }
       $("#form-serviciosExternos")[0].reset();
