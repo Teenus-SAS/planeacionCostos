@@ -115,6 +115,7 @@ class CargaFabrilDao
   
   public function saveOrUpdate($carga)
   {
+    $update = false;
     $this->db->connect();
     //$id = $this->findById($carga->getId());
     $query = "SELECT * FROM `carga_fabril`
@@ -125,13 +126,15 @@ class CargaFabrilDao
       $query = "UPDATE `carga_fabril` SET `insumo` = '" . $carga->getInsumo() . "', `costo` = '" . $carga->getCosto() . "', 
                         `costo_por_minuto`='" . $carga->getCostoPorMinuto() . "' 
                 WHERE `id_carga` = '" . $carga->getId() . "' ";
+                $update = true;
     } else {
       $query = "INSERT INTO `carga_fabril` (`id_maquina`, `id_empresa`, `insumo`,
                          `costo`, `costo_por_minuto`) 
                 VALUES ('" . $carga->getIdMaquina() . "', '" . $carga->getIdEmpresa() . "', '" . $carga->getInsumo() . "', 
                           '" . $carga->getCosto() . "','" . $carga->getCostoPorMinuto() . "')";
     }
-    return  $this->db->consult($query);
+    $this->db->consult($query);
+    return $update;
   }
 
   /**

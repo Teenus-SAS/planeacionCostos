@@ -38,7 +38,7 @@ if (isset($_SESSION["user"])) {
     $carga->setCosto($cargaJSON->Costo);
     $costoPorMinuto = ($cargaJSON->Costo/$user->getCompany()->getBussinesDaysMonth()/$user->getCompany()->getWorkHours() / 60);
     $carga->setCostoPorMinuto($costoPorMinuto);
-    array_push($responses, $cargasFDao->saveOrUpdate($carga) > 0 ? true : false);
+    array_push($responses, $cargasFDao->saveOrUpdate($carga));
   }
   http_response_code(200);
   echo json_encode($responses);

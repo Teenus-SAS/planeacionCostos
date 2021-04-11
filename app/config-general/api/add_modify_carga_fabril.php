@@ -43,10 +43,10 @@ if (isset($_SESSION["user"])) {
         $carga->setIdMaquina($_POST["cfmaquinas"]);
         $carga->setCosto($_POST["costoCargaFabril"]);
         $carga->setCostoPorMinuto($_POST["minutoCargaFabril"]);
-        if ($cargaFabrilDao->saveOrUpdate($carga) > 0) {
-          http_response_code(201);
+        if ($cargaFabrilDao->saveOrUpdate($carga)) {
+          http_response_code(200);
         } else {
-          http_response_code(500);
+          http_response_code(201);
         }
       } else {
         http_response_code(501);
