@@ -185,7 +185,6 @@ $("#form-materia-prima").submit(function (e) {
             return;
           },
           No: function () {
-            resetFormMaterials();
             return;
           },
         },

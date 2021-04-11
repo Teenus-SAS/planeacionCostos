@@ -203,7 +203,8 @@ class ProductDao
   {
     $this->db->connect();
     $query = "UPDATE `productos` SET `ref` = '" . $product->getRef() . "', `nombre` = '" . $product->getName() . "', `rentabilidad` = '" . $product->getRentabilidad() . "' WHERE `productos`.`id_producto` = " . $product->getId();
-    return $this->db->consult($query);
+    $this->db->consult($query);
+    return true;
   }
 
   /**

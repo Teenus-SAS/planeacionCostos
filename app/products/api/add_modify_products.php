@@ -27,11 +27,10 @@ if (isset($_SESSION["user"])) {
             $product->setIdCompany($user->getCompany()->getId());
 
             if (
-              isset($_POST["formOption"]) && $_POST["formOption"] == '1' &&
-              isset($_POST["prodId"]) && $_POST["prodId"] != '-1'
+              isset($_POST["formOption"]) && $_POST["formOption"] == '1'
             ) {
               $product->setId($_POST["prodId"]);
-              if ($productDao->update($product) == true) {
+              if ($productDao->update($product)) {
                 http_response_code(200);
               } else {
                 http_response_code(500);

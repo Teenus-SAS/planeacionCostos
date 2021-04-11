@@ -132,11 +132,11 @@ function verifyErrorsCargasF(jsonObj) {
   }
   return errors;
 }
-var products;
+var machines;
 $.get(
   "/app/config-general/api/get_machines.php",
   (dataMachines, status, xhr) => {
-    products = dataMachines;
+    machines = dataMachines;
   }
 );
 
@@ -145,7 +145,7 @@ function uploadServiciosF(cargasF) {
 
   loadingSpinner();
   cargasF.forEach((cargaF) => {
-    const machine = products.find((mach) => mach.name === cargaF.Maquina);
+    const machine = machines.find((mach) => mach.name === cargaF.Maquina);
     if (!machine) {
       criticalError = true;
       $.notify(
@@ -231,7 +231,7 @@ function generateFileServiciosF() {
   $.get("api/get_carga_fabril.php", (data, status) => {
     // cargado de de productos con referencias
     data.forEach((cargaF) => {
-      const maquinaName = products.find(
+      const maquinaName = machines.find(
         (machine) => machine.id === cargaF.idMaquina
       ).name;
       ws_data.push({

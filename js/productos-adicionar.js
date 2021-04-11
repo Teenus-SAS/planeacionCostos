@@ -52,6 +52,18 @@ var $tableProductos = $("#tableProductos").dataTable({
   reponsive: true,
 });
 
+let productsJSON;
+
+loadProducts();
+// cargado de productos de base de datos
+function loadProducts() {
+  loadingSpinner();
+  $.get("api/get_products.php", (data, status, xhr) => {
+    productsJSON = data;
+  });
+  completeSpinner();
+}
+
 //redimensiona la tabla para no desfigurar el encabezado con respecto al cuerpo de la tabla
 
 $tableProductos.width("100%");
@@ -134,9 +146,18 @@ $("#form-products").validate({
           },
           callback: function (result) {
             if (result == true) {
+              /// Opcion en formulario 1 = editar, 0 = guardar
+              $("#formOption").val("1");
+              $("#prodId").val(
+                findProductByName(
+                  document.getElementById("inputProducto").value
+                )
+              );
+              request = $(form).serialize();
+              request += "&optionProductos=option1";
               sendRequest(request);
+              return;
             } else {
-              resetFormProducts();
               return;
             }
           },
@@ -155,51 +176,8 @@ $("#form-products").validate({
           }
         );
       }
-
-      /* bootbox.confirm({
-        title: "Crear productos",
-        message: `La referencia ${document.getElementById('inputRef').value} ya existe. Ingrese otra referencia`,
-        size: 'small',
-        buttons: {
-          cancel: {
-            label: '<i class="fa fa-times"></i> No',
-            className: 'btn-dark'
-          },
-          confirm: {
-            label: '<i class="fa fa-check"></i> Si',
-            className: 'btn-success'
-          }
-        },
-        callback: function (result) {
-          if (result == true) {
-            //sendRequest(request);
-            return;
-          } else {
-            resetFormOptions();
-            resetFormProducts();
-            return;
-          }
-
-        }
-      }); */
-
-      /* $.confirm({
-        title: 'Tezlik',
-        content: `La referencia ${document.getElementById('inputRef').value} ya existe ¿Desea actualizarla?`,
-        buttons: {
-          SI: function () {
-            sendRequest(request);
-            return;
-          },
-          No: function () {
-            resetFormOptions();
-            resetFormProducts();
-            return;
-          }
-        }
-      }) */
     } else {
-      sendRequest(request);
+      sendRequest($(form).serialize());
     }
   },
 });
@@ -239,12 +217,6 @@ function sendRequest(request) {
         );
         $("#config-color").css("color", "orange");
         $tableProductos.api().ajax.reload();
-        resetFormProducts();
-        loadProductsGG();
-        loadProductsPP();
-        loadProductsInProcess();
-        loadProductsInXLSX();
-
         break;
       case 412:
         $.notify(
@@ -303,6 +275,11 @@ function sendRequest(request) {
     /// RESETEA EL VALOR DEL FORM OPTION GUARDAR/EDITAR ///
     resetFormOptions();
   });
+}
+
+function findProductByName(name) {
+  const product = productsJSON.find((product) => product.name == name);
+  return product.id;
 }
 
 /* Editar o eliminar productos */
