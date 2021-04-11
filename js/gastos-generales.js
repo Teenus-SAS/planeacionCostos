@@ -401,10 +401,25 @@ function goGG() {
   $("#nav-gastos").trigger("click");
 }
 
+// Comprobar si ya está guardado en opciones
+$.get("api/get_opciones_empresa.php", (data) => {
+  if (data) {
+    if (data.tipoDistribucion == "1") {
+      selectDistribution("#distribucion-volumen");
+    } else if (data.tipoDistribucion == "0") {
+      selectDistribution("#distribucion-directa");
+    }
+  }
+});
+
 $("#select-distibution").addClass("showSelectDistribution");
 function selectDistribution(distribution) {
   $(distribution).removeClass("hide");
   $(distribution).addClass("show");
+
+  $.post("api/update_opciones_empresa.php", {
+    tipoDistribucion: distribution == "#distribucion-directa" ? 0 : 1,
+  });
 
   $("#select-distibution").removeClass("showSelectDistribution");
   $("#select-distibution").addClass("hideSelectDistribution");
