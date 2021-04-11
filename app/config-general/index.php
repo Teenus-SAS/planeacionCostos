@@ -331,7 +331,7 @@ include(PARTIALS_PATH . "verify_session.php");
 
               <!-- Inicio Carga Fabril -->
               <div class="tab-pane" id="carga-fabril">
-                <div class="row justify-content-center align-items-center">
+                <div class="row justify-content-center">
                   <div class="col-md-4 col-sm-12">
                     <form id="form-cargafabril">
                       <div class="card py-2">
@@ -346,7 +346,7 @@ include(PARTIALS_PATH . "verify_session.php");
                           </div>
                           <div class="col-md-10 col-10">
                             <div class="form-group">
-                              <label for="my-input">Insumo</label>
+                              <label for="my-input">Mantenimiento</label>
                               <input id="insumo" class="form-control" type="text" name="insumo" />
                             </div>
                           </div>
