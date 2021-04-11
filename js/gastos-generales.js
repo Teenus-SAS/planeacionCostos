@@ -10,8 +10,10 @@ function loadMonthExpenses() {
   $.get("api/get_total_month_expenses.php", (data, status) => {
     if (status == "success") {
       $("#inputGastosGenerales").val(data.totalMonthExpenses);
+      $("#inputGastosGeneralesDirecta").val(data.totalMonthExpenses);
       // formato de numero
       $("#inputGastosGenerales").number(true, 2, ",", ".");
+      $("#inputGastosGeneralesDirecta").number(true, 2, ",", ".");
     } else {
       location.href = "/app";
     }
@@ -247,12 +249,6 @@ var $tableDistribucionDirecta = $("#tableDistribucionDirecta").dataTable({
       },
     },
     {
-      data: "valorAsignado",
-      render: function (data, type, row) {
-        return `$ ${$.number(data, 2, ",", ".")}`;
-      },
-    },
-    {
       data: null,
       render: function (data) {
         return `<a href='#'><i id=${data.id} data-toggle='tooltip' title="Editar" class='nc-icon nc-refresh-69 link-editar-distribucion-directa' style='color:rgb(255, 165, 0)'></i></a><a href='#' style="margin-left: 1rem;"><i id=${data.id} class='nc-icon nc-simple-remove link-borrar-distribucion-directa' data-toggle='tooltip' title='Eliminar' style='color:rgb(255, 0, 0)'></i></a>`;
@@ -292,7 +288,6 @@ $(document).on("click", ".link-borrar-distribucion-directa", function (event) {
   event.preventDefault();
 
   let id = this.id;
-  console.log({ id });
 
   bootbox.confirm({
     title: "Eliminar Distribución Directa",
@@ -350,7 +345,6 @@ $("#formDistribucionDirecta").submit(function (e) {
   }
   loadingSpinner();
   let request = $(this).serialize();
-  console.log(request);
   $.post(
     "api/add_modify_distribucion_directa.php",
     request,

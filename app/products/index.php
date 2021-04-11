@@ -594,7 +594,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                       </div>
 
                       <div class="form-group row justify-content-center">
-                        <label for="inputGastosGenerales" class="col-form-label col-md-5 col-12">
+                        <label for="inputGastosGeneralesDirecta" class="col-form-label col-md-5 col-12">
                           <h6>Gastos Generales del Mes</h6>
                         </label>
                         <div class="col-md-7 col-12 col-sm-12">
@@ -604,7 +604,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                                 $ &nbsp;&nbsp;
                               </span>
                             </div>
-                            <input type="text" name="gastosGenerales" id="inputGastosGenerales" class="form-contol money">
+                            <input type="text" name="gastosGenerales" id="inputGastosGeneralesDirecta" class="form-contol money">
                             <div class="input-group-append">
                               <a class="btn btn-primary my-0 nav-link" id="link-gastos" href="javascript:goGG()">></a>
                             </div>
@@ -634,7 +634,6 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                               <th>Porcentaje</th>
                               <th>Valor proceso</th>
                               <th>Valor minuto</th>
-                              <th>Valor asignado</th>
                               <th>Acciones</th>
                             </thead>
                             <tbody>
