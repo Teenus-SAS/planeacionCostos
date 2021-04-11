@@ -333,8 +333,22 @@ $(document).on("click", ".link-borrar-distribucion-directa", function (event) {
 
 // formulario para crear una distribución directa
 $("#formDistribucionDirecta").submit(function (e) {
-  loadingSpinner();
   e.preventDefault();
+  const porcentaje = parseFloat($("#inputPorcentajeProceso").val());
+  if (!porcentaje) {
+    $.notify(
+      {
+        icon: "nc-icon nc-bell-55",
+        message: "Porcentaje no puede ser cero (0)",
+      },
+      {
+        type: "warning",
+        timer: 8000,
+      }
+    );
+    return;
+  }
+  loadingSpinner();
   let request = $(this).serialize();
   console.log(request);
   $.post(
