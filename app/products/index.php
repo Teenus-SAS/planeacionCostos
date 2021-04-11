@@ -646,11 +646,11 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                   <div class="row my-5">
                     <div class="col-12">
                       <h6 class="pull-left">Importar Volumenes y Ventas Mensuales</h6>
-                      <a href="#" title="Descargar Base de Datos de Gastos Generales" id="download-products-expenses" class="pull-right btn btn-success btn-icon"><i class="fas fa-file-excel"></i></a>
+                      <a href="#" title="Descargar Base de Datos de Distribuciones Directas" id="download-distribuciones-directas" class="pull-right btn btn-success btn-icon"><i class="fas fa-file-excel"></i></a>
                     </div>
                     <div class="custom-file">
-                      <input type="file" id="fileProductsExpenses" class="custom-file-input">
-                      <label for="fileProductsExpenses" class="custom-file-label" data-browse="Elegir">Iniciar importación</label>
+                      <input type="file" id="fileDistribucionesDirectas" class="custom-file-input">
+                      <label for="fileDistribucionesDirectas" class="custom-file-label" data-browse="Elegir">Iniciar importación</label>
                     </div>
                   </div>
                 </div>
