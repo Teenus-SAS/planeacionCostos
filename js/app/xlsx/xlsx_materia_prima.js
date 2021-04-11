@@ -9,8 +9,8 @@ $("#fileRawMaterial").change(function () {
     let workSheet = workbook.Sheets["Materiales"];
     let materials = XLSX.utils.sheet_to_json(workSheet);
     let errors = verifyErrorsRawMaterials(materials);
-    if (errors.length == 0) {
-      if (workSheet != undefined) {
+    if (workSheet != undefined) {
+      if (errors.length == 0) {
         bootbox.confirm({
           title: "Importar Materia prima",
           message: `Los datos han sido procesados y estan listos para ser cargados`,
@@ -48,9 +48,12 @@ $("#fileRawMaterial").change(function () {
           title: "Tezlik",
           content:
             "Este Archivo no cumple los formatos indicados <br>" +
-            "No se encontró la hoja 'Materiales' en el archivo Excel",
+            bugsToString(errors),
           type: "red",
         });
+        clearFormMaterials();
+        $("#form-materia-prima")[0].reset();
+        clearFile(fileInput);
       }
 
       /* $.confirm({
@@ -74,13 +77,10 @@ $("#fileRawMaterial").change(function () {
       $.alert({
         title: "Tezlik",
         content:
-          "Este Archivo no cumple los formatos indicados <br>" +
-          bugsToString(errors),
+          "<b>Este Archivo no cumple los formatos indicados:</b> <br>" +
+          "No se encontró la hoja 'Materiales' en el archivo Excel",
         type: "red",
       });
-      clearFormMaterials();
-      $("#form-materia-prima")[0].reset();
-      clearFile(fileInput);
     }
   };
   if (file) {
