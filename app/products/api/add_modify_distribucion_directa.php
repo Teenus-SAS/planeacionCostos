@@ -45,6 +45,7 @@ if (isset($_SESSION["user"])) {
           $tiempoProceso += $proceso->getTimeOperacion() + $proceso->getTimeAlistamiento();
         }
 
+        
         $distribucion = new DistribucionDirecta();
         $distribucion->setId($_POST["idDistribucionDirecta"]);
         $distribucion->setIdEmpresa($user->getCompany()->getId());
@@ -53,13 +54,17 @@ if (isset($_SESSION["user"])) {
         $distribucion->setValorProceso($valorProceso);
         $distribucion->setValorMinuto($valorMinuto);
         $distribucion->setValorAsignado($valorMinuto*$tiempoProceso);
-        if(null!=($distribucion->getId())) {
-          $distribucionDirectaDao->update($distribucion);
-          http_response_code(200);
-        } else {
-          $distribucionDirectaDao->save($distribucion);
-          http_response_code(201);
+        if(null==($distribucion->getId())) {
+          $existsDistribucion = $distribucionDirectaDao->findOneByProcessId($user->getCompany()->getId(), $_POST["proceso"]);
+          if (!$existsDistribucion) {
+            $distribucionDirectaDao->save($distribucion);
+            http_response_code(201);
+            exit;
+          }
+          $distribucion->setId($existsDistribucion[0]->getId());
         }
+        $distribucionDirectaDao->update($distribucion);
+        http_response_code(200);
       } else {
         http_response_code(501);
       }

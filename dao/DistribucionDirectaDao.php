@@ -23,8 +23,7 @@ class DistribucionDirectaDao
    */
   private $db;
 
-  public function __construct()
-  {
+  public function __construct() {
     $this->db = new DBOperator($_ENV["db_host"], $_ENV["db_user"], $_ENV["db_name"], $_ENV["db_pass"]);
   }
 
@@ -67,6 +66,28 @@ class DistribucionDirectaDao
   {
     $this->db->connect();
     $query = "SELECT `id_distribucion` FROM `distribucion_directa` WHERE `id_empresa` = '$idCompany'";
+    $ditribucionesDB = $this->db->consult($query, "yes");
+    $ditribuciones = [];
+    if ($ditribucionesDB !== false) {
+      foreach ($ditribucionesDB as $distribucionDirectaDB) {
+        array_push($ditribuciones, $this->findById($distribucionDirectaDB["id_distribucion"]));
+      }
+      return $ditribuciones;
+    } else {
+      return null;
+    }
+  }
+
+  /**
+   * Encuentra la distribucion directa de una empresa
+   *
+   * @param integer $idProcess Id del Proceso
+   * @return DistribucionDirecta|null
+   */
+  public function findOneByProcessId($idCompany, $idProcess)
+  {
+    $this->db->connect();
+    $query = "SELECT `id_distribucion` FROM `distribucion_directa` WHERE `id_empresa` = '$idCompany' AND `id_proceso` = '$idProcess'";
     $ditribucionesDB = $this->db->consult($query, "yes");
     $ditribuciones = [];
     if ($ditribucionesDB !== false) {
