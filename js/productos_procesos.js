@@ -47,14 +47,19 @@ function loadProductsPP() {
           );
         $tableProductProcess.api().ajax.reload();
       });
-      /*       $('#inputProductProcess').change(function () {
-              let productSelected = productsInProcess.filter(product => product.id == $(this).val())[0]
-              $('#inputRefProcess').val(productSelected.id)
-              $('#titleProductProcess').text(productSelected.name)
-              cleanSelects()
-              $tableProductProcess.api().ajax.url(`api/get_product_processes.php?dataTable=true&id=${productSelected.id}`)
-              $tableProductProcess.api().ajax.reload()
-            }) */
+      $("#inputProductProcess").change(function () {
+        let productSelected = productsInProcess.filter(
+          (product) => product.id == $(this).val()
+        )[0];
+        $("#inputRefProcess").val(productSelected.id);
+        cleanSelects();
+        $tableProductProcess
+          .api()
+          .ajax.url(
+            `api/get_product_processes.php?dataTable=true&id=${productSelected.id}`
+          );
+        $tableProductProcess.api().ajax.reload();
+      });
     }
   });
   completeSpinner();
@@ -179,11 +184,7 @@ $("#form-product-process").submit(function (e) {
           }
         );
         $tableProductProcess.api().ajax.reload();
-        cleanSelects();
-        $("#selectMachines").val("");
-        $("#input-tiempo-alistamiento").val("");
-        $("#input-tiempo-operacion").val("");
-        $("#input-tiempo-total").val("");
+        clearTiemposProcesosForm();
         break;
       case 201:
         $.notify(
@@ -197,7 +198,7 @@ $("#form-product-process").submit(function (e) {
           }
         );
         $tableProductProcess.api().ajax.reload();
-        cleanSelects();
+        clearTiemposProcesosForm();
         break;
       case 412:
         $.notify(
@@ -449,4 +450,13 @@ function eliminar_procesos_productos(element, proceso) {
       }
     },
   });
+}
+
+function clearTiemposProcesosForm() {
+  cleanSelects();
+  $("#selectMachines").val("");
+  $("#input-tiempo-alistamiento").val("");
+  $("#input-tiempo-operacion").val("");
+  $("#input-tiempo-total").val("");
+  $("#btnguardarproceso").html("Guardar");
 }
