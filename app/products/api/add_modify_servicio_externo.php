@@ -41,14 +41,10 @@ if (isset($_SESSION["user"])) {
         $servicio->setIdEmpresa($user->getCompany()->getId());
         $servicio->setIdProducto($_POST["cfproductos"]);
         $servicio->setCosto($_POST["costoServicioExterno"]);
-        if ($serviciosExternosDao->saveOrUpdate($servicio) > 0) {
-          if ($_POST["idServicioExterno"] != "") {
-            http_response_code(200);
-          } else {
-            http_response_code(201);
-          }
+        if ($serviciosExternosDao->saveOrUpdate($servicio)) {
+          http_response_code(200);
         } else {
-          http_response_code(500);
+          http_response_code(201);
         }
       } else {
         http_response_code(501);

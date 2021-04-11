@@ -181,6 +181,7 @@ function uploadServiciosF(serviciosF) {
     }
   );
   completeSpinner();
+  $tableServiciosExternos.api().ajax.reload();
 }
 
 function clearFile(input) {

@@ -8,7 +8,7 @@ require_once MODEL_PATH . "ServicioExterno.php";
  * 
  * @author Teenus SAS>
  * @version 1.0
- * @uses DBOperator, Machine
+ * @uses DBOperator, ServicioExterno
  * @package Dao
  * 
  */
@@ -116,17 +116,21 @@ class ServiciosExternosDao
   {
     $this->db->connect();
     $query = "SELECT * FROM `servicios_externos`
-              WHERE `id_servicio` = '" . $servicio->getId() . "' ";
+              WHERE `id_servicio` = '" . $servicio->getId() . "' OR `nombre_servicio` = '" . $servicio->getnombreServicio() . "'";
     $serviciosDB = $this->db->consult($query, "yes");
+    $update = false;
 
     if ($serviciosDB) {
-      $query = "UPDATE `servicios_externos` SET `nombre_servicio` = '" . $servicio->getnombreServicio() . "', `costo` = '" . $servicio->getCosto() . "'                
-      WHERE `id_servicio` = '" . $servicio->getId() . "' ";
+      $servicioDB = $serviciosDB[0];
+      $query = "UPDATE `servicios_externos` SET `costo` = '" . $servicio->getCosto() . "'                
+      WHERE `id_servicio` = '" . $servicioDB['id_servicio'] . "' ";
+      $update = true;
     } else {
       $query = "INSERT INTO `servicios_externos` (`id_servicio`, `nombre_servicio`, `costo`, `id_producto`, `id_empresa`)
                 VALUES (NULL, '" . $servicio->getnombreServicio() . "', '" . $servicio->getCosto() . "', '" . $servicio->getIdProducto() . "', '" . $servicio->getIdEmpresa() . "')";
     }
-    return  $this->db->consult($query);
+    $this->db->consult($query);
+    return $update;
   }
 
   /**

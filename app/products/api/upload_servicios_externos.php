@@ -35,7 +35,7 @@ if (isset($_SESSION["user"])) {
     $servicio->setIdProducto($servicioJSON->Producto);
     $servicio->setnombreServicio($servicioJSON->Servicio);
     $servicio->setCosto($servicioJSON->Costo);
-    array_push($responses, $serviciosDao->saveOrUpdate($servicio) > 0 ? true : false);
+    array_push($responses, $serviciosDao->saveOrUpdate($servicio));
   }
   http_response_code(200);
   echo json_encode($responses);
