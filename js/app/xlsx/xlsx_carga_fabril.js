@@ -191,7 +191,7 @@ function uploadServiciosF(cargasF) {
               message: `Se ${
                 countSuccess > 1 ? "han" : "ha"
               } cargado ${countSuccess} ${
-                countSuccess > 1 ? "cargas" : "carga"
+                countSuccess > 1 ? "cargas fabriles" : "carga fabril"
               }`,
             },
             {

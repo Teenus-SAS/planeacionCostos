@@ -38,7 +38,7 @@ function loadProductsPP() {
         )[0];
 
         $("#inputProductProcess").val(productSelected.id);
-        //$("#titleProductProcess").text(productSelected.name);
+        $("#titleProductProcess").text(productSelected.name);
         cleanSelects();
         $tableProductProcess
           .api()
@@ -52,6 +52,7 @@ function loadProductsPP() {
           (product) => product.id == $(this).val()
         )[0];
         $("#inputRefProcess").val(productSelected.id);
+        $("#titleProductProcess").text(productSelected.name);
         cleanSelects();
         $tableProductProcess
           .api()

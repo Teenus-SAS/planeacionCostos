@@ -437,13 +437,15 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                   <div class="col-md-8 col-sm-12">
                     <div class="card">
                       <div class="card-header">
-                        <!--<h4 id="titleProductProcess">Procesos</h4>-->
                       </div>
                       <div class="card-body">
+                        <p class="text-left ml-2" style="font-size:1.1rem">
+                          <span style="color:#51cbce"><b>Producto: </b>
+                          </span><span class="" id="titleProductProcess"></span>
+                        </p>
                         <!-- <button class="btn btn-danger" id="btn-delete-process">Eliminar</button> -->
                         <div class="table-responsive tableFixHead">
                           <table class="table" id="table-product-process">
-                            <label class="text-primary" id="titleProductProcess"></label>
                             <thead class="text-primary">
                               <th>Proceso</th>
                               <th>Máquina</th>
