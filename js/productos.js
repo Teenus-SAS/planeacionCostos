@@ -305,6 +305,22 @@ $("#form-products").validate({
     rentabilidad: "Máximo dos decimales",
   },
   submitHandler: function (form) {
+    const cantidad = parseFloat($("#input-cantidad").val());
+
+    if (!cantidad) {
+      $.notify(
+        {
+          icon: "nc-icon nc-bell-55",
+          message: "Cantidad no puede ser 0",
+        },
+        {
+          type: "danger",
+          timer: 8000,
+        }
+      );
+      return;
+    }
+
     let request = $(form).serialize();
 
     productExists();

@@ -893,18 +893,6 @@ include(PARTIALS_PATH . "verify_session.php");
                           <label class="col-sm-5 col-md-4 col-12 text-left col-form-label pl-4">Rentabilidad</label>
                           <div class="col-sm-6 col-md-7 px-0 col-10"><input type="text" class="form-control" id="inputRentabilidad" name="rentabilidad"></div>
                         </div>
-                        <!-- 
-                        <div class="form-group row my-2">
-                          <label class="col-sm-4 col-md-4 col-12 text-left col-form-label pl-4">Materia</label>
-                          <div class="col-md-7 px-0 col-10"><select class="custom-select" id="input-materia" name="materia">
-                            </select></div>
-                        </div>
-                        <div class="form-group row my-3">
-                          <label class="col-md-3 col-3 col-form-label px-0 ">Cantidad</label>
-                          <div class="col-md-3 col-3 text-left px-0"><input type="number" id="input-cantidad" class="form-control" name="cantidad" step=".01"></div>
-                          <label class="col-md-2 col-2 col-form-label px-0">Unidad</label>
-                          <div class="col-md-3 col-3 text-left px-0"><input type="text" id="input-unidad" class="form-control" name="unidad" disabled></div>
-                        </div> -->
                       </div>
                       <div class="row mb-4">
                         <div class="col"></div>

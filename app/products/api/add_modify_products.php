@@ -36,20 +36,17 @@ if (isset($_SESSION["user"])) {
                 http_response_code(500);
               }
               return;
+            } else {
+              $productDao->save($product);
+              http_response_code(201);
             }
 
-            if ($productDao->save($product) > 0) {
-              http_response_code(201);
-            } else {
-              http_response_code(500);
-            }
           } else {
             $product = $productDao->findById($_POST["producto"]);
-
-            if ($productDao->saveOrUpdateRawMaterial($product, $_POST["materia"], $_POST["cantidad"]) > 0) {
+            if ($productDao->saveOrUpdateRawMaterial($product, $_POST["materia"], $_POST["cantidad"])) {
               http_response_code(200);
             } else {
-              http_response_code(500);
+              http_response_code(201);
             }
           }
         } else {

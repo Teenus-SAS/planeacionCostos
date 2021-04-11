@@ -270,21 +270,23 @@ class ProductDao
   public function saveOrUpdateRawMaterial($product, $idMaterial, $quantity)
   {
     $productRawMaterial = $this->findOneRawMaterialByProduct($product, $idMaterial);
+    $update = false;
 
     $this->db->connect();
     if ($productRawMaterial == null) {
       $query = "INSERT INTO `materiales_has_productos` (`materiales_has_productos_id`, `materiales_id_materiales`,
        `materiales_empresas_id_empresa`, `productos_id_producto`, `cantidad`)
        VALUES (NULL, '$idMaterial', '" . $product->getIdCompany() . "', '" . $product->getId() . "', '$quantity')";
-      return $this->db->consult($query);
     } else {
       $query = "UPDATE `materiales_has_productos` SET `cantidad` = '$quantity' 
       WHERE `materiales_has_productos`.`materiales_has_productos_id` = " . $productRawMaterial->getId() . " AND
        `materiales_has_productos`.`materiales_id_materiales` = '" . $productRawMaterial->getMaterial()->getId() . "' AND
       `materiales_has_productos`.`materiales_empresas_id_empresa` = '" . $productRawMaterial->getIdCompany() . "' AND
-      `materiales_has_productos`.`productos_id_producto` = " . $product->getId();
-      return $this->db->consult($query);
+      `materiales_has_productos`.`productos_id_producto` = '" . $product->getId() . "'";
+      $update = true;
     }
+    $this->db->consult($query);
+    return $update;
   }
 
   /**

@@ -218,8 +218,26 @@ $("#form-products").validate({
     rentabilidad: "Máximo dos decimales"
   }, */
   submitHandler: function (form) {
+    const cantidad = parseFloat($("#input-cantidad").val());
+    console.log({ cantidad });
+
+    if (!cantidad) {
+      $.notify(
+        {
+          icon: "nc-icon nc-bell-55",
+          message: "Cantidad no puede ser 0",
+        },
+        {
+          type: "danger",
+          timer: 8000,
+        }
+      );
+      return;
+    }
     let request = $(form).serialize();
     request += "&optionProductos=option2";
+
+    console.log(request);
 
     $.post(
       "api/add_modify_products.php",
@@ -238,9 +256,8 @@ $("#form-products").validate({
               timer: 8000,
             }
           );
-          /*  $tableProductos.api().ajax.reload() */
           $tableProductoMateria.api().ajax.reload();
-          /*      $tableGastosMensuales.api().ajax.reload() */
+          resetFormOptions();
           loadProductsInProcess();
           break;
         case 201:
@@ -254,18 +271,9 @@ $("#form-products").validate({
               timer: 8000,
             }
           );
-          /* $.notify({
-              icon: "nc-icon nc-bell-55",
-              message: "Ahora ah configurar el producto"
-            }, {
-              type: 'primary',
-              timer: 8000
-            }) */
           $("#config-color").css("color", "orange");
-          /* $tableProductos.api().ajax.reload() */
           $tableProductoMateria.api().ajax.reload();
-          /*     $tableGastosMensuales.api().ajax.reload() */
-          $("#form-products")[0].reset();
+          resetFormOptions();
           loadProductsGG();
           loadProductsPP();
           loadProductsInProcess();
@@ -325,30 +333,19 @@ $("#form-products").validate({
           );
           break;
       }
-
-      /* $('#inputRef').val('');
-        $('#inputProducto').val('');
-        $('#inputRentabilidad').val(''); */
-      /// RESETEA EL VALOR DEL FORM OPTION GUARDAR/EDITAR ///
-      //resetFormOptions();
     });
   },
 });
 
 /* Desvincular materia prima del producto */
-
 $(document).on("click", ".link-borrar", function (e) {
   e.preventDefault();
   const selectedElement = e.target;
 
-  //if (selectedElement.classList.contains('link-borrar')) {
-  //deleteProduct(selectedElement.dataset.prodId);
   element = $(this).parents("tr").find("td").eq(0).html();
   eliminar_materiaprima_productos(selectedElement.dataset.prodId, element);
 });
 
-//borrado de materia prima
-//$('#delete-materia-prima').click(() => {
 function eliminar_materiaprima_productos(element, materiaprima) {
   producto = $("#inputProducto option:selected").html();
 
@@ -369,27 +366,16 @@ function eliminar_materiaprima_productos(element, materiaprima) {
     },
     callback: function (result) {
       if (result == true) {
-        //let rows = $tableProductoMateria.api().rows('.selected').data()
-        //let count = 0
-        //let countAux = 0
-        //if (rows.length > 0) {
         loadingSpinner();
-        // for (let index = 0; index < rows.length; index++) {
         $.post("api/delete_raw_material.php", {
-          //id: rows[index].id
           id: element,
         }).always(function (xhr) {
-          //countAux++
           if (xhr.status == 200) {
-            // count++
-            //}
-            //if (countAux == rows.length) {
             $tableProductoMateria.api().ajax.reload();
 
             $.notify(
               {
                 icon: "nc-icon nc-bell-55",
-                //message: `Se ${count > 1 ? 'han' : 'ha'} borrado ${count} ${count > 1 ? 'materias primas' : 'materia prima'}`
                 message: `Materia prima <b>desvinculada</b> del producto`,
               },
               {
@@ -400,35 +386,17 @@ function eliminar_materiaprima_productos(element, materiaprima) {
           }
           completeSpinner();
         });
-        // }
-        /* } else {
-          $.notify({
-            icon: "nc-icon nc-bell-55",
-            message: `Selecciona al menos <b>1</b> materia prima`
-          }, {
-            type: 'warning',
-            timer: 8000
-          })
-        } */
-        //})
       }
     },
   });
 }
 
-/// resetea opciones de guardar editar/////
 function resetFormOptions() {
   const formOption = document.getElementById("formOption");
-  //if (formOption.value == 1) {
   document.getElementById("form-product-btn").textContent = "Guardar";
   document.getElementById("prodId").value = "-1";
   formOption.value = 0;
   $("#input-materia").val("");
   $("#input-cantidad").val("");
   $("#input-unidad").val("");
-  /* document.getElementById('input-materia').textContent = '';
-  document.getElementById('input-cantidad').textContent = '';
-  document.getElementById('input-unidad').textContent = ''; */
-
-  // }
 }
