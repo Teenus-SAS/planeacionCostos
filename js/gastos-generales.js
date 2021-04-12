@@ -95,6 +95,7 @@ function loadProcessesDDirecta() {
 
 //cargado de datos en los campos
 function loadfields(expenses) {
+  console.log({ expenses });
   $("#inputVolumenVentas").val(expenses.turnOver);
   $("#inputUnidadesVendidas").val(expenses.soldUnits);
   //formato de numero
@@ -154,6 +155,10 @@ $("#formGastosMensuales").submit(function (e) {
   loadingSpinner();
   e.preventDefault();
   let request = $(this).serialize();
+  const gastosGeneralesParsed = PriceParser.fromString(
+    $("#inputGastosGenerales").val()
+  );
+  request = request + `&gastosGenerales=${gastosGeneralesParsed.price}`;
   $.post(
     "api/modify_expenses_product.php",
     request,
@@ -173,6 +178,7 @@ $("#formGastosMensuales").submit(function (e) {
           }
         );
         $tableGastosMensuales.api().ajax.reload();
+        clearDVolumenForm();
         loadMonthExpenses();
         break;
       case 400:
@@ -186,6 +192,7 @@ $("#formGastosMensuales").submit(function (e) {
             timer: 8000,
           }
         );
+        clearDVolumenForm();
         break;
       case 500:
         $.notify(
@@ -408,6 +415,14 @@ $("#formDistribucionDirecta").submit(function (e) {
 function clearDDirectaForm() {
   $(`#inputProcesosDDirecta`).prop("selectedIndex", 0);
   $("#inputPorcentajeProceso").val("");
+  $("#btnAddModifyDDirecta").html("Guardar");
+}
+
+function clearDVolumenForm() {
+  $("#inputRefGastos").prop("selectedIndex", 0);
+  $("#inputProductosGastos").prop("selectedIndex", 0);
+  $("#inputUnidadesVendidas").val("");
+  $("#inputVolumenVentas").val("");
   $("#btnAddModifyDDirecta").html("Guardar");
 }
 

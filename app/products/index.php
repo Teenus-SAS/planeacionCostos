@@ -680,7 +680,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                                 <div class="input-group-prepend">
                                   <span class="input-group-text">#</span>
                                 </div>
-                                <input type="text" class="form-control" id="PorcentajeProceso name="unidades">
+                                <input type="text" class="form-control" id="inputUnidadesVendidas" name="unidades">
                               </div>
                             </div>
                           </div>
