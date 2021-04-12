@@ -329,37 +329,16 @@ function uploadProductsProcess(productsProcess) {
     { productsProcess: JSON.stringify(productsProcess) },
     (data, status) => {
       if (status == "success") {
-        let countSuccess = 0;
+        let updatedCount = 0;
+        let createdCount = 0;
         for (let index = 0; index < data.length; index++) {
           if (data[index]) {
-            countSuccess++;
+            updatedCount++;
           } else {
-            $.notify(
-              {
-                icon: "nc-icon nc-bell-55",
-                message: `Algo ha salido mal con el producto ${products[index].Producto}`,
-              },
-              {
-                type: "danger",
-                timer: 8000,
-              }
-            );
+            createdCount++;
           }
         }
-        $.notify(
-          {
-            icon: "nc-icon nc-bell-55",
-            message: `Se ${
-              countSuccess > 1 ? "han" : "ha"
-            } cargado ${countSuccess} ${
-              countSuccess > 1 ? "procesos" : "proceso"
-            }`,
-          },
-          {
-            type: "success",
-            timer: 8000,
-          }
-        );
+        resumenSubidaExcel(createdCount, updatedCount, "proceso", "procesos");
       }
       loadProductsPP();
       $("#inputRefProcess").change();

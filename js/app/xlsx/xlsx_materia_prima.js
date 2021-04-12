@@ -8,6 +8,7 @@ $("#fileRawMaterial").change(function () {
     let workbook = XLSX.read(data, { type: "array" });
     let workSheet = workbook.Sheets["Materiales"];
     let materials = XLSX.utils.sheet_to_json(workSheet);
+    materials = cleanExcelCells(materials);
     let errors = verifyErrorsRawMaterials(materials);
     if (workSheet != undefined) {
       if (errors.length == 0) {
@@ -134,38 +135,25 @@ function uploadMaterials(materials) {
   materials.forEach((material) => {
     material.Descripcion = material["Materia Prima"].trim();
   });
-  console.log({ materials });
   $.post(
     "api/upload_materials.php",
     { materials: JSON.stringify(materials) },
     (data, status) => {
       if (status == "success") {
-        let countSuccess = 0;
+        let updatedCount = 0;
+        let createdCount = 0;
         for (let index = 0; index < data.length; index++) {
           if (data[index]) {
-            countSuccess++;
+            updatedCount++;
           } else {
-            $.notify(
-              {
-                icon: "nc-icon nc-bell-55",
-                message: `Algo ha salido mal con el material ${materials[index].Descripcion}`,
-              },
-              {
-                type: "danger",
-                timer: 8000,
-              }
-            );
+            createdCount++;
           }
         }
-        $.notify(
-          {
-            icon: "nc-icon nc-bell-55",
-            message: `Se han cargado ${countSuccess} materias primas`,
-          },
-          {
-            type: "success",
-            timer: 8000,
-          }
+        resumenSubidaExcel(
+          createdCount,
+          updatedCount,
+          "materia prima",
+          "materias primas"
         );
         $tableMateriaPrima.api().ajax.reload();
       }

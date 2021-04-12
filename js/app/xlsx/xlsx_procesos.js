@@ -5,41 +5,16 @@ function uploadProcesses(processes) {
     { processes: JSON.stringify(processes) },
     (data, status) => {
       if (status == "success") {
-        let countSuccess = 0;
-        let countfailed = 0;
+        let updatedCount = 0;
+        let createdCount = 0;
         for (let index = 0; index < data.length; index++) {
           if (data[index]) {
-            countSuccess++;
+            updatedCount++;
           } else {
-            countfailed++;
+            createdCount++;
           }
         }
-        $.notify(
-          {
-            icon: "nc-icon nc-bell-55",
-            message: `Se ${
-              countSuccess > 1 ? "han" : "ha"
-            } cargado ${countSuccess} ${
-              countSuccess > 1 ? "procesos" : "proceso"
-            }`,
-          },
-          {
-            type: "success",
-            timer: 8000,
-          }
-        );
-        if (countfailed > 0) {
-          $.notify(
-            {
-              icon: "nc-icon nc-bell-55",
-              message: `${countfailed} procesos ya se encontraban en la base de datos`,
-            },
-            {
-              type: "info",
-              timer: 8000,
-            }
-          );
-        }
+        resumenSubidaExcel(createdCount, updatedCount, "proceso", "procesos");
 
         $tableProcesos.api().ajax.reload();
         loadProcessesInRoster();

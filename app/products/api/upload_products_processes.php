@@ -26,7 +26,7 @@ if (isset($_SESSION["user"])) {
       $productProcessJSON->TiempoAlistamiento,
       $productProcessJSON->TiempoOperacion,
       /* 60 / $productProcessJSON->unidad */
-    )->status > 0 ? true : false);
+    )->mode == "updated" ? true : false);
   }
   http_response_code(200);
   echo json_encode($responses);

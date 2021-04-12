@@ -441,36 +441,20 @@ function uploadProductsMaterials(/* products ,*/ rawMaterials) {
     },
     (data, status) => {
       if (status == "success") {
-        let countSuccess = 0;
+        let updatedCount = 0;
+        let createdCount = 0;
         for (let index = 0; index < data.length; index++) {
           if (data[index]) {
-            countSuccess++;
+            updatedCount++;
           } else {
-            $.notify(
-              {
-                icon: "nc-icon nc-bell-55",
-                message: `Algo ha salido mal con la materia prima ${rawMaterials[index].Material} en el producto ${rawMaterials[index].Producto}`,
-              },
-              {
-                type: "danger",
-                timer: 8000,
-              }
-            );
+            createdCount++;
           }
         }
-        $.notify(
-          {
-            icon: "nc-icon nc-bell-55",
-            message: `Se ${
-              countSuccess > 1 ? "han" : "ha"
-            } cargado ${countSuccess} ${
-              countSuccess > 1 ? "materias primas" : "materia prima"
-            }`,
-          },
-          {
-            type: "success",
-            timer: 8000,
-          }
+        resumenSubidaExcel(
+          createdCount,
+          updatedCount,
+          "materia prima",
+          "materias primas"
         );
         completeSpinner();
         loadProductsInProcess();

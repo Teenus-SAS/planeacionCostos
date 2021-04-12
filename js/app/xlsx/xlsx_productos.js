@@ -5,8 +5,6 @@
  * importacion de datos
  * exportacion de datos
  */
-
-var productsJSON;
 var materialsJSON;
 
 loadProductsInMaterials();
@@ -311,15 +309,15 @@ function uploadProducts(products /* , rawMaterials */) {
   $.post(
     "../products/api/upload_products.php",
     {
-      //C:\Desarrollo\Tezlik\htdocs\app\products\api\upload_products.php
       products: JSON.stringify(products),
     },
     (data, status) => {
       if (status == "success") {
-        let countSuccess = 0;
+        let updatedCount = 0;
+        let createdCount = 0;
         for (let index = 0; index < data.length; index++) {
           if (data[index]) {
-            countSuccess++;
+            updatedCount++;
           } else {
             $.notify(
               {
@@ -337,9 +335,9 @@ function uploadProducts(products /* , rawMaterials */) {
           {
             icon: "nc-icon nc-bell-55",
             message: `Se ${
-              countSuccess > 1 ? "han" : "ha"
-            } cargado ${countSuccess} ${
-              countSuccess > 1 ? "productos" : "producto"
+              updatedCount > 1 ? "han" : "ha"
+            } cargado ${updatedCount} ${
+              updatedCount > 1 ? "productos" : "producto"
             }`,
           },
           {

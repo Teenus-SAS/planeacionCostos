@@ -167,36 +167,20 @@ function uploadServiciosF(cargasF) {
       { cargasFabriles: JSON.stringify(cargasF) },
       (data, status) => {
         if (status == "success") {
-          let countSuccess = 0;
+          let updatedCount = 0;
+          let createdCount = 0;
           for (let index = 0; index < data.length; index++) {
             if (data[index]) {
-              countSuccess++;
+              updatedCount++;
             } else {
-              $.notify(
-                {
-                  icon: "nc-icon nc-bell-55",
-                  message: `Algo ha salido mal con la carga ${cargasF[index].Mantenimiento}`,
-                },
-                {
-                  type: "danger",
-                  timer: 8000,
-                }
-              );
+              createdCount++;
             }
           }
-          $.notify(
-            {
-              icon: "nc-icon nc-bell-55",
-              message: `Se ${
-                countSuccess > 1 ? "han" : "ha"
-              } cargado ${countSuccess} ${
-                countSuccess > 1 ? "cargas fabriles" : "carga fabril"
-              }`,
-            },
-            {
-              type: "success",
-              timer: 8000,
-            }
+          resumenSubidaExcel(
+            createdCount,
+            updatedCount,
+            "carga fabril",
+            "cargas fabriles"
           );
           $tableCargaFabril.api().ajax.reload();
           $("#form-cargafabril")[0].reset();
