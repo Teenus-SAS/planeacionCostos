@@ -345,6 +345,12 @@ $("#formDistribucionDirecta").submit(function (e) {
   }
   loadingSpinner();
   let request = $(this).serialize();
+
+  const gastosGeneralesParsed = PriceParser.fromString(
+    $("#inputGastosGeneralesDirecta").val()
+  );
+  request = request + `&gastosGenerales=${gastosGeneralesParsed.price}`;
+
   $.post(
     "api/add_modify_distribucion_directa.php",
     request,

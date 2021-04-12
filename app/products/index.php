@@ -593,21 +593,18 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                         </div>
                       </div>
 
-                      <div class="form-group row justify-content-center">
-                        <label for="inputGastosGeneralesDirecta" class="col-form-label col-md-5 col-12">
-                          <h6>Gastos Generales del Mes</h6>
+                      <div class="form-group row justify-content-center align-items-center">
+                        <label for="inputGastosGeneralesDirecta" class="col-form-label col-md-6 col-12">
+                          <h6>Gastos Generales del Mes a distribuir</h6>
                         </label>
-                        <div class="col-md-7 col-12 col-sm-12">
-                          <div class="input-group text-center">
+                        <div class="col-md-6 col-12 col-sm-12">
+                          <div class="input-group">
                             <div class="input-group-prepend">
                               <span class="input-group-text">
-                                $ &nbsp;&nbsp;
+                                $ &nbsp;
                               </span>
                             </div>
-                            <input type="text" name="gastosGenerales" id="inputGastosGeneralesDirecta" class="form-contol money">
-                            <div class="input-group-append">
-                              <a class="btn btn-primary my-0 nav-link" id="link-gastos" href="javascript:goGG()">></a>
-                            </div>
+                            <input type="text" name="gastosGenerales" id="inputGastosGeneralesDirecta" class="form-contol money" disabled>
                           </div>
                         </div>
                       </div>
@@ -703,7 +700,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
 
                       <div class="form-group row justify-content-center">
                         <label for="inputGastosGenerales" class="col-form-label col-md-5 col-12">
-                          <h6>Gastos Generales del Mes</h6>
+                          <h6>Gastos Generales del Mes a distribuir</h6>
                         </label>
                         <div class="col-md-7 col-12 col-sm-12">
                           <div class="input-group text-center">
@@ -712,10 +709,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                                 $ &nbsp;&nbsp;
                               </span>
                             </div>
-                            <input type="text" name="gastosGenerales" id="inputGastosGenerales" class="form-contol money">
-                            <div class="input-group-append">
-                              <a class="btn btn-primary my-0 nav-link" id="link-gastos" href="javascript:goGG()">></a>
-                            </div>
+                            <input type="text" name="gastosGenerales" id="inputGastosGenerales" class="form-contol money" disabled>
                           </div>
                         </div>
                       </div>
@@ -853,6 +847,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
   <script src="/vendor/froala-editor/froala_editor.pkgd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>
+  <script src="/js/utils/PriceParser.js"></script>
   <script src="/js/servicios-externos.js"></script>
   <script src="/js/toggleSidebar.js"></script>
   <script>

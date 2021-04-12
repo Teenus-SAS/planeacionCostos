@@ -9,85 +9,57 @@ $("#filecargaFabril").change(function () {
     let workSheet = workbook.Sheets["Carga Fabril"];
     let cargasF = XLSX.utils.sheet_to_json(workSheet);
     cargasF = cleanExcelCells(cargasF);
-    let errorsCargasF = verifyErrorsCargasF(cargasF);
-    if (errorsCargasF.length == 0) {
-      if (workbook.Sheets["Carga Fabril"] != undefined) {
-        if (cargasF.length == 0) {
-          $.alert({
-            title: "Tezlik",
-            content: "Este archivo está vacío",
-          });
-        } else {
-          bootbox.confirm({
-            title: "Importar cargas fabriles",
-            message: `Los datos han sido procesados y estan listos para ser cargados`,
-            buttons: {
-              confirm: {
-                label: '<i class="fa fa-check"></i> Continuar',
-                className: "btn-success",
-              },
-              cancel: {
-                label: '<i class="fa fa-times"></i> Cancelar',
-                className: "btn-info",
-              },
-            },
-            callback: function (result) {
-              if (result == true) {
-                uploadServiciosF(cargasF);
-              } else {
-                $.notify(
-                  {
-                    icon: "nc-icon nc-bell-55",
-                    message: `Proceso cancelado`,
-                  },
-                  {
-                    type: "info",
-                    timer: 8000,
-                  }
-                );
-              }
-            },
-          });
-
-          /* $.confirm({
-              title: 'Tezlik',
-              content: 'Los datos han sido procesados y estan listo para ser cargados',
-              type: 'green',
-              buttons: {
-                Cargar: function () {
-                  uploadMachines(machines)
-                },
-                Cancelar: function () {
-                  $.alert('Cancelado');
-                }
-              }
-            }); */
-        }
+    if (workbook.Sheets["Carga Fabril"] != undefined) {
+      if (cargasF.length == 0) {
+        $.alert({
+          title: "Tezlik",
+          content: "Este archivo está vacío",
+        });
       } else {
-        $.dialog({
-          title: "Peligro",
-          content:
-            "Este Archivo no cumple los formatos indicados <br>" +
-            "No se encontró la hoja 'Carga Fabril' en el archivo Excel",
-          type: "red",
+        bootbox.confirm({
+          title: "Importar cargas fabriles",
+          message: `Los datos han sido procesados y estan listos para ser cargados`,
+          buttons: {
+            confirm: {
+              label: '<i class="fa fa-check"></i> Continuar',
+              className: "btn-success",
+            },
+            cancel: {
+              label: '<i class="fa fa-times"></i> Cancelar',
+              className: "btn-info",
+            },
+          },
+          callback: function (result) {
+            if (result == true) {
+              uploadServiciosF(cargasF);
+            } else {
+              $.notify(
+                {
+                  icon: "nc-icon nc-bell-55",
+                  message: `Proceso cancelado`,
+                },
+                {
+                  type: "info",
+                  timer: 8000,
+                }
+              );
+            }
+          },
         });
       }
-
-      $("#form-cargafabril")[0].reset();
-      clearFile(fileInput);
-      clearformMachines();
     } else {
       $.dialog({
         title: "Peligro",
         content:
-          "Este Archivo no cumple los formatos indicados <br>" +
-          bugsToString(errorsCargasF),
+          "<b>Este Archivo no cumple los formatos indicados: </b><br>" +
+          "No se encontró la hoja 'Carga Fabril' en el archivo Excel",
         type: "red",
       });
-      $("#form-cargafabril")[0].reset();
-      clearFile(fileInput);
-      clearformMachines();
     }
+
+    $("#form-cargafabril")[0].reset();
+    clearFile(fileInput);
+    clearformMachines();
   };
   if (file) {
     reader.readAsArrayBuffer(file);
@@ -104,32 +76,36 @@ function bugsToString(bugs) {
 
 function verifyErrorsCargasF(jsonObj) {
   let errors = [];
-  for (let index = 0; index < jsonObj.length; index++) {
-    let cargaFabril = jsonObj[index];
+  jsonObj.filter((cargaFabril, index) => {
     if (cargaFabril.Maquina == undefined) {
       errors.push({
         type: "El nombre de la máquina no puede ser vacio",
-        row: cargaFabril.__rowNum__ + 1,
+        row: index,
+        cargaFabril,
       });
     }
     if (cargaFabril.Costo == undefined) {
       errors.push({
         type: "El costo no puede ser vacio",
-        row: cargaFabril.__rowNum__ + 1,
+        row: index,
+        cargaFabril,
       });
     } else if (isNaN(parseFloat(cargaFabril.Costo))) {
       errors.push({
         type: "El costo de la máquina debe ser numérico",
-        row: cargaFabril.__rowNum__ + 1,
+        row: index,
+        cargaFabril,
       });
     }
     if (cargaFabril.Mantenimiento == undefined) {
       errors.push({
         type: "El mantenimiento no puede ser vacio",
-        row: cargaFabril.__rowNum__ + 1,
+        row: index,
+        cargaFabril,
       });
     }
-  }
+  });
+  for (let index = 0; index < jsonObj.length; index++) {}
   return errors;
 }
 var machines;
@@ -141,55 +117,52 @@ $.get(
 );
 
 function uploadServiciosF(cargasF) {
-  let criticalError = false;
-
   loadingSpinner();
-  cargasF.forEach((cargaF) => {
-    const machine = machines.find((mach) => mach.name === cargaF.Maquina);
-    console.log({ machine });
-    if (!machine) {
-      criticalError = true;
-      $.notify(
-        {
-          icon: "nc-icon nc-bell-55",
-          message: `No se encontró la máquina con nombre ${cargaF.Maquina}`,
-        },
-        {
-          type: "danger",
-          timer: 8000,
-        }
-      );
-    }
-    cargaF.Maquina = machine.id;
-  });
-
-  if (!criticalError) {
-    $.post(
-      "api/upload_cargas_fabriles.php",
-      { cargasFabriles: JSON.stringify(cargasF) },
-      (data, status) => {
-        if (status == "success") {
-          let updatedCount = 0;
-          let createdCount = 0;
-          for (let index = 0; index < data.length; index++) {
-            if (data[index]) {
-              updatedCount++;
-            } else {
-              createdCount++;
-            }
-          }
-          resumenSubidaExcel(
-            createdCount,
-            updatedCount,
-            "carga fabril",
-            "cargas fabriles"
-          );
-          $tableCargaFabril.api().ajax.reload();
-          $("#form-cargafabril")[0].reset();
-        }
-      }
+  let errorsCount = 0;
+  let errorsCargasF = verifyErrorsCargasF(cargasF);
+  errorsCount += Object.keys(errorsCargasF).length;
+  cargasF = cargasF.filter((carga) => {
+    const cargaConError = errorsCargasF.find(
+      (error) => error.cargaFabril == carga
     );
-  }
+    return cargaConError ? false : true;
+  });
+  cargasF = cargasF.filter((cargaF, index) => {
+    const machine = machines.find((mach) => mach.name === cargaF.Maquina);
+    if (!machine) {
+      errorsCount++;
+      return false;
+    } else {
+      cargaF.Maquina = machine.id;
+      return true;
+    }
+  });
+  $.post(
+    "api/upload_cargas_fabriles.php",
+    { cargasFabriles: JSON.stringify(cargasF) },
+    (data, status) => {
+      if (status == "success") {
+        let updatedCount = 0;
+        let createdCount = 0;
+        for (let index = 0; index < data.length; index++) {
+          if (data[index]) {
+            updatedCount++;
+          } else {
+            createdCount++;
+          }
+        }
+        resumenSubidaExcel(
+          createdCount,
+          updatedCount,
+          errorsCount,
+          "carga fabril",
+          "cargas fabriles"
+        );
+        $tableCargaFabril.api().ajax.reload();
+        $("#form-cargafabril")[0].reset();
+      }
+    }
+  );
   completeSpinner();
 }
 

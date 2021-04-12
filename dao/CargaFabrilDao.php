@@ -118,7 +118,7 @@ class CargaFabrilDao
     $this->db->connect();
     $query = "SELECT `id_carga` FROM `carga_fabril` WHERE `id_maquina` = '$idMachine' AND  `insumo` = '$mantenimiento'";
     $cargasDB = $this->db->consult($query, "yes");
-    if ($cargasDB !== false) {
+    if ($cargasDB !== false && count($cargasDB)>0) {
       $cargaDB = $cargasDB[0];
       return $this->findById($cargaDB["id_carga"]);
     } else {
