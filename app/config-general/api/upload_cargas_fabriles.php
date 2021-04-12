@@ -32,6 +32,7 @@ if (isset($_SESSION["user"])) {
   $responses = [];
   foreach ($cargasFJSON as $cargaJSON) {
     $carga = new CargaFabril();
+    $carga->setId($cargasFDao->findOneByMachineIdAndMantenimiento($cargaJSON->Maquina, $cargaJSON->Mantenimiento)->getId());
     $carga->setIdEmpresa($user->getCompany()->getId());
     $carga->setIdMaquina($cargaJSON->Maquina);
     $carga->setMantenimiento($cargaJSON->Mantenimiento);

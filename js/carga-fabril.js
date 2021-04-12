@@ -183,7 +183,7 @@ function submitForm(e) {
   });
   if (cargaExiste) {
     bootbox.confirm({
-      title: "Crear Máquinas",
+      title: "Actualizar Carga Fabril",
       message: `La Carga <b>"${cargaExiste.mantenimiento}" de la máquina ${cargaExiste.nombreMaquina}</b> ya existe, ¿Desea actualizarla?`,
       buttons: {
         confirm: {

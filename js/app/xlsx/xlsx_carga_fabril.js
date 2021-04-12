@@ -146,6 +146,7 @@ function uploadServiciosF(cargasF) {
   loadingSpinner();
   cargasF.forEach((cargaF) => {
     const machine = machines.find((mach) => mach.name === cargaF.Maquina);
+    console.log({ machine });
     if (!machine) {
       criticalError = true;
       $.notify(
@@ -219,8 +220,8 @@ function generateFileServiciosF() {
         (machine) => machine.id === cargaF.idMaquina
       ).name;
       ws_data.push({
-        Mantenimiento: cargaF.mantenimiento,
         Maquina: maquinaName,
+        Mantenimiento: cargaF.mantenimiento,
         Costo: cargaF.costo,
       });
     });
