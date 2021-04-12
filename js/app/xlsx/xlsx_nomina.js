@@ -59,6 +59,7 @@ function loadedFileRosters(reader, inputFileProducts) {
 
     // cargado de datos en JSON
     let rosters = XLSX.utils.sheet_to_json(workbook.Sheets["Nominas"]);
+    rosters = cleanExcelCells(rosters);
     // cargado de errores del formato
     let errorsRosters = verifyErrorsRosters(rosters);
 

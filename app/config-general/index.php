@@ -1277,6 +1277,8 @@ include(PARTIALS_PATH . "verify_session.php");
   <script src="/vendor/file-saver/FileSaver.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>
+
+  <script src="/js/utils/PriceParser.js"></script>
   <script src="/js/RedondeoDecimal.js"></script>
 
   <!--   <script src="/js/productos.js"></script>  -->
@@ -1293,6 +1295,7 @@ include(PARTIALS_PATH . "verify_session.php");
   <script src="/js/carga-fabril.js"></script>
   <script src="/js/procesos.js"></script>
   <script src="/js/nomina.js"></script>
+  <script src="/js/app/xlsx/cleanExcelCells.js"></script>
   <script src="/js/app/xlsx/resumenSubida.js"></script>
   <script src="/js/app/xlsx/xlsx_calculo_GG.js"></script>
   <script src="/js/app/xlsx/xlsx_productos.js"></script>

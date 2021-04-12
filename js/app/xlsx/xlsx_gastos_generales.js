@@ -130,6 +130,7 @@ function loadedFileUploadGG(reader, fileInput) {
     let productsExpenses = XLSX.utils.sheet_to_json(
       workbook.Sheets["Gastos Generales"]
     );
+    productExpenses = cleanExcelCells(productExpenses);
 
     // cambio de variable Unidades Vendidas a unidades
     // cambio de variable Volumen de Ventas a volumen

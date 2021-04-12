@@ -68,7 +68,7 @@ function loadedFileProducts(reader, inputFileProducts) {
 
     // cargado de datos en JSON
     let products = XLSX.utils.sheet_to_json(workbook.Sheets["Productos"]);
-    //let rawMaterials = XLSX.utils.sheet_to_json(workbook.Sheets['Materia Prima'])
+    products = cleanExcelCells(products);
     // cargado de errores del formato
     let errorsProducts = verifyErrorsProducts(products);
     //let errosRawMaterials = verifyErrorsRawMaterials(rawMaterials, products)
@@ -161,10 +161,10 @@ function loadedFileProductsMaterials(reader, inputFileProducts) {
     let workbook = XLSX.read(data, { type: "array" });
 
     // cargado de datos en JSON
-    //let products = XLSX.utils.sheet_to_json(workbook.Sheets['Productos'])
     let rawMaterials = XLSX.utils.sheet_to_json(
       workbook.Sheets["Configuracion productos"]
     );
+    rawMaterials = cleanExcelCells(rawMaterials);
     // cargado de errores del formato
     //let errorsProducts = verifyErrorsProducts(products)
     let errosRawMaterials = verifyErrorsRawMaterials(

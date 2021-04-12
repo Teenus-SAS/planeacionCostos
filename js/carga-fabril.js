@@ -29,10 +29,7 @@ $(document).ready(function () {
 
 $("#cfmaquinas").change(function (e) {
   e.preventDefault();
-  $("#mantenimiento").val("");
-  $("#costoCargaFabril").val("");
-  $("#minutoCargaFabril").val("");
-  $("#cargaFabril-btn").html("Adicionar");
+  resetFormCargaFabril();
 });
 
 // inicializacion de datatable para la carga Fabril
@@ -74,14 +71,13 @@ var $tableCargaFabril = $("#table-cargaFabril").dataTable({
     {
       data: "costo",
       render: function (data, type, row) {
-        return `$ ${$.number(data, 0, ".", ",")}`;
+        return PriceParser.toString(data, true, 0).strPrice;
       },
     },
     {
       data: "costoPorMinuto",
       render: function (data, type, row) {
         if (parseFloat(data) < 1) {
-          /* return data */
           return $.number(data, 2, ".", ",");
         } else {
           return $.number(data, 2, ".", ",");
@@ -98,22 +94,19 @@ var $tableCargaFabril = $("#table-cargaFabril").dataTable({
   reponsive: true,
 });
 $tableCargaFabril.width("100%");
-/* $tableMaquinas.on('click', 'tr', function () {
-  $(this).toggleClass('selected');
-}) */
 
-// formulario para adicionar o modificar valores de una maquina
+$("#costoCargaFabril").keyup(calcularCostoPorMinuto);
+$("#costoCargaFabril").change(calcularCostoPorMinuto);
 $("#form-cargafabril").submit(submitForm);
 
-// calcular Carga fabril con el cambio de costo
-$("#costoCargaFabril").keyup(calulateCostxMin);
-
-function calulateCostxMin() {
-  "use strict";
-  const costo = $("#costoCargaFabril").val();
-  $("#costoCargaFabril").val($.number(parseFloat(costo), 0));
+function calcularCostoPorMinuto() {
+  const costoPriceParsed = PriceParser.fromString(
+    $("#costoCargaFabril").val(),
+    false,
+    0
+  );
   let request = {
-    price: costo,
+    price: costoPriceParsed.price,
   };
   $.get("api/get_costo_por_minuto.php", request, (data, status) => {
     if (status == "success") {
@@ -141,9 +134,9 @@ function calulateCostxMin() {
       location.href = "/login";
     }
   });
+  // agreado de formato al input de precio
+  $("#costoCargaFabril").val(costoPriceParsed.strPrice);
 }
-// agreado de formato al input de precio
-$("#costoCargaFabril").number(true, 2);
 
 function loadingSpinner() {
   $("#spinnerAjax").removeClass("fade");
@@ -157,11 +150,19 @@ function completeSpinner() {
 
 function submitForm(e) {
   e.preventDefault();
+
+  let cargas = $tableCargaFabril.dataTable().api().ajax.json().data;
+
   let maquina = $("#cfmaquinas").val();
   let mantenimiento = $("#mantenimiento").val();
-  let costo = $("#costoCargaFabril").val();
+  let costoParsed = PriceParser.fromString(
+    $("#costoCargaFabril").val(),
+    false,
+    0
+  );
+  let costo = costoParsed.price;
 
-  if (maquina === null || mantenimiento === "" || costo === "") {
+  if (maquina === null || mantenimiento === "" || costo === 0) {
     return $.notify(
       {
         icon: "nc-icon nc-bell-55",
@@ -173,9 +174,44 @@ function submitForm(e) {
       }
     );
   }
+  $("#costoCargaFabril").val(costo);
 
   let request = $(this).serialize();
-  sendData(request);
+
+  let cargaExiste = cargas.find((carga) => {
+    return carga.idMaquina == maquina && carga.mantenimiento == mantenimiento;
+  });
+  if (cargaExiste) {
+    bootbox.confirm({
+      title: "Crear Máquinas",
+      message: `La Carga <b>"${cargaExiste.mantenimiento}" de la máquina ${cargaExiste.nombreMaquina}</b> ya existe, ¿Desea actualizarla?`,
+      buttons: {
+        confirm: {
+          label: '<i class="fa fa-check"></i> Si',
+          className: "btn-danger",
+        },
+        cancel: {
+          label: '<i class="fa fa-times"></i> No',
+          className: "btn-info",
+        },
+      },
+      callback: function (result) {
+        if (result == true) {
+          let idCarga = $("#idCargaFabril").val();
+          if (!idCarga) {
+            $("#idCargaFabril").val(cargaExiste.id);
+            idCarga = cargaExiste.id;
+          }
+
+          sendData(request + `&idCargaFabril=${idCarga}`);
+        } else {
+          return;
+        }
+      },
+    });
+  } else {
+    sendData(request);
+  }
 }
 
 function sendData(request) {
@@ -194,6 +230,7 @@ function sendData(request) {
           }
         );
         $tableCargaFabril.api().ajax.reload();
+        resetFormCargaFabril();
         break;
       case 201:
         $.notify(
@@ -207,7 +244,7 @@ function sendData(request) {
           }
         );
         $tableCargaFabril.api().ajax.reload();
-        $("#form-cargafabril")[0].reset();
+        resetFormCargaFabril();
         break;
       case 400:
         flag = true;
@@ -254,7 +291,7 @@ function sendData(request) {
     if (flag == false) {
       elById("cargaFabril-btn").value = "ADICIONAR";
       elById("cargaFabril-btn").textContent = "ADICIONAR";
-      //elById("inlineRadio1CF").click();
+      elById("cfmaquinas").value = "";
       resetFormCargaFabril();
     }
   });
@@ -263,7 +300,6 @@ function sendData(request) {
 /* Actualizar carga fabril */
 $(document).on("click", ".link-editar-carga-fabril", function (event) {
   event.preventDefault();
-
   $("#idCargaFabril").val(this.id);
   maquina = $(this).parents("tr").find("td").eq(0).text();
   mantenimiento = $(this).parents("tr").find("td").eq(1).text();
@@ -281,7 +317,7 @@ $(document).on("click", ".link-editar-carga-fabril", function (event) {
   $("#mantenimiento").val(mantenimiento);
   $("#costoCargaFabril").val(costo);
   $("#cargaFabril-btn").html("Actualizar");
-  calulateCostxMin();
+  calcularCostoPorMinuto();
 });
 
 /* Eliminar carga fabril */
@@ -334,6 +370,7 @@ $(document).on("click", ".link-borrar-carga-fabril", function (event) {
           }
         });
       } else {
+        elById("cfmaquinas").value = "";
         resetFormCargaFabril();
         return;
       }
@@ -341,19 +378,9 @@ $(document).on("click", ".link-borrar-carga-fabril", function (event) {
   });
 });
 
-function formatCurrency(resultadoFloat) {
-  return $.number(resultadoFloat, 2, ",", ".");
-}
-
 function resetFormCargaFabril() {
-  elById("cfmaquinas").value = "";
   elById("mantenimiento").value = "";
   elById("costoCargaFabril").value = "";
-  elById("minutoCargaFabril").value = "";
+  $("#minutoCargaFabril").val("");
+  $("#idCargaFabril").val("");
 }
-/*
-function checkIfMaquinaExists(name) {
-  return Array.from(elById("table-maquinas").tBodies[0].rows).some(
-    (row) => row.cells[0].textContent.trim() === name.trim()
-  );
-} */

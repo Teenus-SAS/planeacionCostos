@@ -8,6 +8,7 @@ $("#filecargaFabril").change(function () {
     let workbook = XLSX.read(data, { type: "array" });
     let workSheet = workbook.Sheets["Carga Fabril"];
     let cargasF = XLSX.utils.sheet_to_json(workSheet);
+    cargasF = cleanExcelCells(cargasF);
     let errorsCargasF = verifyErrorsCargasF(cargasF);
     if (errorsCargasF.length == 0) {
       if (workbook.Sheets["Carga Fabril"] != undefined) {

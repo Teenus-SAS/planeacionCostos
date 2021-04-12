@@ -8,6 +8,7 @@ $("#fileMachines").change(function () {
     let workbook = XLSX.read(data, { type: "array" });
     let workSheet = workbook.Sheets["Maquinas"];
     let machines = XLSX.utils.sheet_to_json(workSheet);
+    machines = cleanExcelCells(machines);
     let errorsMachines = verifyErrorsMachines(machines);
     if (errorsMachines.length == 0) {
       if (workbook.Sheets["Maquinas"] != undefined) {

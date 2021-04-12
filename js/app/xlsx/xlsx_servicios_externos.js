@@ -8,6 +8,7 @@ $("#fileserviciosExternos").change(function () {
     let workbook = XLSX.read(data, { type: "array" });
     let workSheet = workbook.Sheets["Servicios Externos"];
     let serviciosF = XLSX.utils.sheet_to_json(workSheet);
+    serviciosF = cleanExcelCells(serviciosF);
     let errorsServiciosF = verifyErrorsServiciosF(serviciosF);
     if (errorsServiciosF.length == 0) {
       if (workbook.Sheets["Servicios Externos"] != undefined) {

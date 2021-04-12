@@ -143,6 +143,7 @@ function loadedFilePP(reader, inputFile) {
     let ProductsProcesses = XLSX.utils.sheet_to_json(
       workbook.Sheets["Productos x Procesos"]
     );
+    ProductsProcesses = cleanExcelCells(ProductsProcesses);
 
     // cambio de variable Unidades/Hora a unidades
     /* ProductsProcesses.forEach((productsProcess) => {
@@ -155,8 +156,8 @@ function loadedFilePP(reader, inputFile) {
     );
 
     // validacion de la informacion
-    if (errorsProductsProcesses.length == 0) {
-      if (workbook.Sheets["Productos x Procesos"] != undefined) {
+    if (workbook.Sheets["Productos x Procesos"] != undefined) {
+      if (errorsProductsProcesses.length == 0) {
         $.confirm({
           title: "<b>Tezlik</b>",
           type: "green",
@@ -180,7 +181,7 @@ function loadedFilePP(reader, inputFile) {
           icon: "fas fa-warning",
           content:
             "Este Archivo no cumple los formatos indicados <br>" +
-            "No se encontró la hoja 'Productos x Procesos' en el archivo Excel",
+            bugsToString(errorsProductsProcesses),
         });
         clearFile(inputFile);
       }
@@ -191,7 +192,7 @@ function loadedFilePP(reader, inputFile) {
         icon: "fas fa-warning",
         content:
           "Este Archivo no cumple los formatos indicados <br>" +
-          bugsToString(errorsProductsProcesses),
+          "No se encontró la hoja 'Productos x Procesos' en el archivo Excel",
       });
       clearFile(inputFile);
     }

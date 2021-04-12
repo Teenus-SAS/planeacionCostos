@@ -47,6 +47,7 @@ $("#fileProcess").change(function () {
     let workbook = XLSX.read(data, { type: "array" });
     let workSheet = workbook.Sheets["Procesos"];
     let processes = XLSX.utils.sheet_to_json(workSheet);
+    processes = cleanExcelCells(processes);
 
     if (validateJSONToExcelProcess(processes)) {
       if (workSheet != undefined) {

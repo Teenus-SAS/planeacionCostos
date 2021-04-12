@@ -66,7 +66,7 @@ function loadedFileProducts(reader, inputFileProducts) {
 
     // cargado de datos en JSON
     let products = XLSX.utils.sheet_to_json(workbook.Sheets["Productos"]);
-    //let rawMaterials = XLSX.utils.sheet_to_json(workbook.Sheets['Materia Prima'])
+    products = cleanExcelCells(products);
     // cargado de errores del formato
     let errorsProducts = verifyErrorsProducts(products);
     //let errosRawMaterials = verifyErrorsRawMaterials(rawMaterials, products)
@@ -159,10 +159,10 @@ function loadedFileProductsMaterials(reader, inputFileProducts) {
     let workbook = XLSX.read(data, { type: "array" });
 
     // cargado de datos en JSON
-    //let products = XLSX.utils.sheet_to_json(workbook.Sheets['Productos'])
     let rawMaterials = XLSX.utils.sheet_to_json(
       workbook.Sheets["Materia Prima"]
     );
+    rawMaterials = cleanExcelCells(rawMaterials);
     // cargado de errores del formato
     //let errorsProducts = verifyErrorsProducts(products)
     let errosRawMaterials = verifyErrorsRawMaterials(
@@ -170,38 +170,45 @@ function loadedFileProductsMaterials(reader, inputFileProducts) {
     );
 
     // validacion de los productos
-    if (
-      /* errorsProducts.length == 0 && */ errosRawMaterials.length ==
-        0 /* && workbook.Sheets['Productos'] != undefined  */ &&
-      workbook.Sheets["Materia Prima"] != undefined
-    ) {
-      $.confirm({
-        title: "Tezlik",
-        type: "green",
-        content:
-          "Los datos han sido procesados y estan listo para ser cargados",
-        buttons: {
-          Cargar: function () {
-            uploadProductsMaterials(/* products,  */ rawMaterials);
-            clearFile(inputFileProducts);
+    if (workbook.Sheets["Materia Prima"] != undefined) {
+      if (errosRawMaterials.length == 0) {
+        $.confirm({
+          title: "Tezlik",
+          type: "green",
+          content:
+            "Los datos han sido procesados y estan listo para ser cargados",
+          buttons: {
+            Cargar: function () {
+              uploadProductsMaterials(/* products,  */ rawMaterials);
+              clearFile(inputFileProducts);
+            },
+            Cancelar: function () {
+              $.alert("Cancelado");
+              clearFile(inputFileProducts);
+            },
           },
-          Cancelar: function () {
-            $.alert("Cancelado");
-            clearFile(inputFileProducts);
-          },
-        },
-      });
+        });
+      } else {
+        $.dialog({
+          title: "Alerta",
+          type: "red",
+          icon: "fas fa-warning",
+          content:
+            "Este Archivo no cumple los formatos indicados <br>" +
+            bugsToString(errorsProducts) +
+            bugsToString(errosRawMaterials),
+        });
+        clearFile(inputFileProducts);
+      }
     } else {
       $.dialog({
-        title: "Alerta",
         type: "red",
         icon: "fas fa-warning",
         content:
           "Este Archivo no cumple los formatos indicados <br>" +
-          bugsToString(errorsProducts) +
-          bugsToString(errosRawMaterials),
+          "No se encontró la hoja 'Materia Prima' en el archivo Excel",
       });
-      clearFile(inputFileProducts);
+      clearFile(inputFile);
     }
     $("#spinnerAjax").addClass("fade");
   } else {

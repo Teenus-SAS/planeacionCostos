@@ -40,6 +40,7 @@ function loadedFileUploadGE(reader, fileInput) {
 
   // cargado de datos en JSON
   let expenses = XLSX.utils.sheet_to_json(workbook.Sheets["Gastos"]);
+  expenses = cleanExcelCells(expenses);
 
   // cargado de errores del formato
   let errorsExpenses = verifyErrorsExpenses(expenses);
