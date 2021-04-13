@@ -79,6 +79,7 @@ $("#create-user").submit(function (e) {
           }
         );
         $tableUsers.api().ajax.reload();
+        $("#waitMe_ex").waitMe("hide");
       }
     } else {
       $.notify(
