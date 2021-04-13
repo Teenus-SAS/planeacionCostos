@@ -303,19 +303,15 @@ $(document).on("click", ".link-editar-carga-fabril", function (event) {
   $("#idCargaFabril").val(this.id);
   maquina = $(this).parents("tr").find("td").eq(0).text();
   mantenimiento = $(this).parents("tr").find("td").eq(1).text();
-  costo = parseInt(
-    $(this)
-      .parents("tr")
-      .find("td")
-      .eq(2)
-      .html()
-      .replace("$", "")
-      .replace(",", "")
+  let costoParsed = PriceParser.fromString(
+    $(this).parents("tr").find("td").eq(2).html(),
+    true,
+    0
   );
 
   $(`#cfmaquinas option:contains(${maquina})`).prop("selected", true);
   $("#mantenimiento").val(mantenimiento);
-  $("#costoCargaFabril").val(costo);
+  $("#costoCargaFabril").val(costoParsed.strPrice);
   $("#cargaFabril-btn").html("Actualizar");
   calcularCostoPorMinuto();
 });

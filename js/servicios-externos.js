@@ -214,17 +214,13 @@ $(document).on("click", ".link-editar-servicio-externo", function (event) {
 
   $("#idServicioExterno").val(this.id);
   const nombre = $(this).parents("tr").find("td").eq(0).text();
-  const costo = parseInt(
-    $(this)
-      .parents("tr")
-      .find("td")
-      .eq(1)
-      .html()
-      .replace("$", "")
-      .replace(",", "")
+  let costoParsed = PriceParser.fromString(
+    $(this).parents("tr").find("td").eq(1).html(),
+    true,
+    0
   );
   $("#servicioexterno").val(nombre);
-  $("#costoServicioExterno").val(costo);
+  $("#costoServicioExterno").val(costoParsed.strPrice);
 });
 
 /* Eliminar servicio externo */
