@@ -380,6 +380,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
   <script src="/vendor/froala-editor/froala_editor.pkgd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/jquery-tabledit@1.0.0/jquery.tabledit.min.js"></script>
+  <script src="/js/utils/PriceParser.js"></script>
   <script src="/js/toggleSidebar.js"></script>
   <script>
     if ($(window).width() < 768) {

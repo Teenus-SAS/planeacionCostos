@@ -10,7 +10,7 @@ var creada = false;
 var arrPorcentaje = new Array();
 
 $(document).ready(function () {
-  $("#input-UnidadesFMes").attr("disabled", "disabled"); //Agrega al select de los productos
+  $("#input-UnidadesFMes").attr("disabled", "disabled");
   $("#input-productoA").append(
     "<option selected disabled>Seleccione un producto</option>"
   ); //llamado de los productos de la base de datos
@@ -27,15 +27,13 @@ $(document).ready(function () {
     //se activa al selecionar un producto
     $("#input-productoA").change(function () {
       $("#input-UnidadesFMes").removeAttr("disabled");
-      $("#input-AhorroMes").val(formatCurrency("es-CO", "COP", 2, 0));
-      $("#input-AhorroAño").val(formatCurrency("es-CO", "COP", 2, 0));
       arrPorcentaje = new Array();
       if (creada == true) {
         $("#tableAnalisisMateriaPrimaAM").dataTable().fnDestroy();
         $("#tableAnalisisMateriaPrimaAM").empty();
         $("#tableAnalisisMateriaPrimaAM").append(
           '<thead class="text-primary"><th>Materia</th><th>Precio Actual</th>' +
-            "<th>Precio Negociar</th><th>Porcentaje a Negociar</th><th>Costo total</th><th>Costo mes </th><th>Costo proyectado </th></br></thead><tr></tr>" +
+            "<th>Precio a Negociar</th><th>Porcentaje a Negociar</th><th>Costo total</th><th>Costo mes </th><th>Costo proyectado </th></br></thead><tr></tr>" +
             "<tbody></tbody>"
         );
       }
@@ -63,7 +61,8 @@ $(document).ready(function () {
           }
           let inputCantidadOP = $("#input-cantidadOP").val();
           total = valorTotalMateriales * inputCantidadOP;
-          $("#Costo_total").val(formatCurrency("es-CO", "COP", 2, total));
+          const totalParsed = PriceParser.toString(total, false, 2);
+          $("#Costo_total").val(totalParsed.strPrice);
           //Si el llamado es exitoso carga los datos en el input de los materiales
           if (status == "success") {
             creada = true;
@@ -127,7 +126,8 @@ $(document).ready(function () {
                   data: "2",
                   defaultContent: "<p >Sin registro </p>",
                   render: (data, type, row) => {
-                    return formatCurrency("es-CO", "COP", 2, data);
+                    const dataParsed = PriceParser.toString(data, true, 2);
+                    return dataParsed.strPrice;
                   },
                 },
                 {
@@ -136,7 +136,7 @@ $(document).ready(function () {
                   render: (data, type, row) => {
                     if (data != null)
                       return (
-                        '<input type="number" class="form-control col-md-8"  style="margin-left:20%" value="0"  id="input-' +
+                        '<input type="text" class="input-precio-negociar form-control col-md-8"  style="margin-left:20%" value="0.00"  id="input-' +
                         row[3] +
                         '">'
                       );
@@ -159,12 +159,12 @@ $(document).ready(function () {
                   data: "0",
                   render: (data, type, row) => {
                     if (data != null) {
-                      return formatCurrency(
-                        "es-CO",
-                        "COP",
-                        2,
-                        data * $("#input-UnidadesFMes").val()
+                      const dataParsed = PriceParser.toString(
+                        data * $("#input-UnidadesFMes").val(),
+                        true,
+                        2
                       );
+                      return dataParsed.strPrice;
                     }
                   },
                 },
@@ -172,12 +172,12 @@ $(document).ready(function () {
                   data: "0",
                   render: (data, type, row) => {
                     if (data != null) {
-                      return formatCurrency(
-                        "es-CO",
-                        "COP",
-                        2,
-                        data * $("#input-UnidadesFMes").val()
+                      const dataParsed = PriceParser.toString(
+                        data * $("#input-UnidadesFMes").val(),
+                        true,
+                        2
                       );
+                      return dataParsed.strPrice;
                     }
                   },
                   className: "text-danger",
@@ -186,7 +186,7 @@ $(document).ready(function () {
                   data: "1",
                   render: (data, type, row) => {
                     if (data != null) {
-                      return formatCurrency("es-CO", "COP", 2, 0);
+                      return "0.00";
                     }
                   },
                   className: "text-danger",
@@ -195,25 +195,31 @@ $(document).ready(function () {
             });
             $tableProductoMateriaAM.width("100%");
           }
+          $(".input-precio-negociar").each(function () {
+            const formatter = () => {
+              const valParsed = PriceParser.fromString($(this).val(), false, 2);
+              $(this).val(valParsed.strPrice);
+            };
+            $(this).keyup(formatter);
+            $(this).change(formatter);
+          });
         }
       );
     });
     $("#btnValidarNuevoPrecio").click(function () {
-      arr2 = new Array();
-      var ahorroMes = 0;
+      let arr2 = new Array();
 
       for (var i = 0; i < arrPorcentaje.length; i++) {
+        const precioParsed = PriceParser.fromString(
+          $("#input-" + arrPorcentaje[i][3]).val(),
+          true,
+          2
+        );
         arr2[i] = arrPorcentaje[i];
-        if (arr2[i].length == 5) {
-          if ($("#input-" + arrPorcentaje[i][3]).val() == null) {
-            arr2[i].push(0);
-          } else {
-            arr2[i].push($("#input-" + arrPorcentaje[i][3]).val());
-          }
-        } else {
+        if (arr2[i].length != 5) {
           arr2[i].pop();
-          arr2[i].push($("#input-" + arrPorcentaje[i][3]).val());
         }
+        arr2[i].push(precioParsed.price);
       }
 
       arr2 = arr2.sort((a, b) => b[0] - a[0]);
@@ -225,8 +231,6 @@ $(document).ready(function () {
           "<th>Precio Negociar</th></th><th>Porcentaje a Negociar</th><th>Costo total</th><th>Costo mes </th><th>Costo proyectado </th></br></thead><tr></tr>" +
           "<tbody></tbody> "
       );
-
-      console.log(arr2);
       $tableProductoMateriaAM = $("#tableAnalisisMateriaPrimaAM").dataTable({
         bFilter: false,
         bInfo: false,
@@ -240,22 +244,24 @@ $(document).ready(function () {
             data: "2",
             defaultContent: "<p >Sin registro </p>",
             render: (data, type, row) => {
-              return formatCurrency("es-CO", "COP", 2, data);
+              const dataParsed = PriceParser.toString(data, true, 2);
+              return dataParsed.strPrice;
             },
           },
           {
             data: "3",
             render: (data, type, row) => {
-              if (data != null)
+              if (data != null) {
+                const precioParsed = PriceParser.toString(row[5], false, 2);
                 return (
-                  '<input type="number" class="form-control col-md-8"  style="margin-left:20%" value=' +
-                  row[5] +
+                  '<input type="text" class="input-precio-negociar form-control col-md-8"  style="margin-left:20%" value=' +
+                  precioParsed.strPrice +
                   '  id="input-' +
                   row[3] +
                   '">'
                 );
-              else {
-                '<input type="number" class="form-control col-md-8"  style="margin-left:20%" value=0  id="input-' +
+              } else {
+                '<input type="text" class="input-precio-negociar form-control col-md-8"  style="margin-left:20%" value=0  id="input-' +
                   row[3] +
                   '">';
               }
@@ -276,19 +282,20 @@ $(document).ready(function () {
           {
             data: "0",
             render: (data, type, row) => {
-              return formatCurrency("es-CO", "COP", 2, data);
+              const dataParsed = PriceParser.toString(data, true, 2);
+              return dataParsed.strPrice;
             },
           },
           {
             data: "0",
             render: (data, type, row) => {
               if (data != null) {
-                return formatCurrency(
-                  "es-CO",
-                  "COP",
-                  2,
-                  data * $("#input-UnidadesFMes").val()
+                const dataParsed = PriceParser.toString(
+                  data * $("#input-UnidadesFMes").val(),
+                  true,
+                  2
                 );
+                return dataParsed.strPrice;
               }
             },
             className: "text-danger",
@@ -296,18 +303,26 @@ $(document).ready(function () {
           {
             data: "5",
             render: (data, type, row) => {
-              return formatCurrency(
-                "es-CO",
-                "COP",
-                2,
-                data * row[4] * $("#input-UnidadesFMes").val()
+              const dataParsed = PriceParser.toString(
+                data * row[4] * $("#input-UnidadesFMes").val(),
+                true,
+                2
               );
+              return dataParsed.strPrice;
             },
             className: "text-danger",
           },
         ],
       });
 
+      $(".input-precio-negociar").each(function () {
+        const formatter = () => {
+          const valParsed = PriceParser.fromString($(this).val(), false, 2);
+          $(this).val(valParsed.strPrice);
+        };
+        $(this).keyup(formatter);
+        $(this).change(formatter);
+      });
       $tableProductoMateriaAM.width("100%");
       var TotalMes = 0;
       var AhorroMes = 0;
@@ -323,22 +338,18 @@ $(document).ready(function () {
       if (AhorroMes != 0) {
         AhorroMostrar = TotalMes - AhorroMes;
       }
-      $("#input-AhorroMes").val(
-        formatCurrency(
-          "es-CO",
-          "COP",
-          2,
-          AhorroMostrar * $("#input-UnidadesFMes").val()
-        )
+      const ahorroMesParsed = PriceParser.toString(
+        AhorroMostrar * $("#input-UnidadesFMes").val(),
+        true,
+        2
       );
-      $("#input-AhorroAño").val(
-        formatCurrency(
-          "es-CO",
-          "COP",
-          2,
-          AhorroMostrar * $("#input-UnidadesFMes").val() * 12
-        )
+      const ahorroAnioParsed = PriceParser.toString(
+        ahorroMesParsed.price * 12,
+        true,
+        2
       );
+      $("#input-AhorroMes").val(ahorroMesParsed.strPrice);
+      $("#input-AhorroAño").val(ahorroAnioParsed.strPrice);
     });
   });
   //evento al dar click al boton de vbalidar las ordenes de produccion
@@ -364,11 +375,13 @@ $(document).ready(function () {
         var inputCantidadOP = $("#input-cantidadOP").val();
         //multiplica  el valor de los materiales por el numero de ordenes de produccion
         total = valorTotalMateriales * inputCantidadOP;
-        $("#Costo_total").val(formatCurrency("es-CO", "COP", 2, total));
+        const totalParsed = PriceParser.toString(total, true, 2);
+        $("#Costo_total").val(totalParsed.strPrice);
       }
     );
   });
 });
+
 //variable que guardara la cantidad del producto para dividirlo por el valor por kilo
 var cant;
 //inicializacion de la tabla de materias primas por orden de produccion
@@ -378,7 +391,7 @@ var $tableProductoMateriaA = $("#tableAnalisisMateriaPrima").dataTable({
   bPaginate: false,
   language: {
     url: "/vendor/dataTables/Spanish.json",
-    emptyTable: "My Custom Message On Empty Table",
+    emptyTable: "Sin datos en la tabla",
   },
   responsive: true,
   ajax: {
@@ -413,8 +426,7 @@ var $tableProductoMateriaA = $("#tableAnalisisMateriaPrima").dataTable({
       data: "material.cost",
       defaultContent: "<p >Sin registro </p>",
       render: (data, type, row) => {
-        if (data != null)
-          return formatCurrency("es-CO", "COP", 2, $.number(data));
+        if (data != null) return;
       },
     },
     {
@@ -445,7 +457,8 @@ var $tableProductoMateriaA = $("#tableAnalisisMateriaPrima").dataTable({
           const { quantity, material: { cost } = {} } = data;
           const mul = parseFloat(cost) * quantity * OP;
           if (type === "display") {
-            return formatCurrency("es-CO", "COP", 2, $.number(mul));
+            const mulParsed = PriceParser.toString(mul, true, 2);
+            return mulParsed.strPrice;
           } else {
             return mul;
           }
@@ -473,10 +486,10 @@ var $tableProductoMateriaA = $("#tableAnalisisMateriaPrima").dataTable({
     },
   ],
   drawCallback: function () {
-    var api = this.api();
-    let OP = $("#input-cantidadOP").val();
+    const api = this.api();
+    const totalParsed = PriceParser.toString(total, true, 2);
     $(api.column(0).footer()).html("Total: ");
-    $(api.column(4).footer()).html(formatCurrency("es-CO", "COP", 2, total));
+    $(api.column(4).footer()).html(totalParsed.strPrice);
   },
 });
 
@@ -484,25 +497,3 @@ $tableProductoMateriaA.width("100%");
 $tableProductoMateriaA.on("click", "tr", function () {
   $(this).toggleClass("selected");
 });
-//Funcion para convertir un numero a formato de moneda
-function formatCurrency(locales, currency, fractionDigits, number) {
-  var formatted = new Intl.NumberFormat(locales, {
-    style: "currency",
-    currency: currency,
-    minimumFractionDigits: fractionDigits,
-  }).format(number);
-
-  return addPoint(formatted);
-}
-
-function addPoint(nStr) {
-  nStr += "";
-  x = nStr.split(",");
-  x1 = x[0];
-  x2 = x.length > 1 ? "," + x[1] : "";
-  var rgx = /(\d+)(\d{3})/;
-  if (rgx.test(x1)) {
-    x1 = x1.replace(rgx, "$1" + "." + "$2");
-  }
-  return x1 + x2;
-}
