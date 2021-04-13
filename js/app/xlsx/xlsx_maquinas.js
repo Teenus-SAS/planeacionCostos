@@ -173,7 +173,12 @@ function uploadMachines(machines) {
             createdCount++;
           }
         }
-        resumenSubidaExcel(createdCount, updatedCount, "maquina", "maquinas");
+        SubidaExcel.resumenSubidaExcel(
+          createdCount,
+          updatedCount,
+          "maquina",
+          "maquinas"
+        );
         $tableMaquinas.api().ajax.reload();
         $("#form-maquinas")[0].reset();
       }

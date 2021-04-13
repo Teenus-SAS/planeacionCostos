@@ -193,6 +193,27 @@ class ProductDao
     return $this->db->consult($query);
   }
 
+  public function saveOrUpdate(Product $product)
+  {
+    $update = false;
+    $this->db->connect();
+    $query = "SELECT * FROM `productos`
+              WHERE `id_producto` = '" . $product->getId() . "'
+              OR `ref` = '" . $product->getRef() . "'";
+    $productDB = $this->db->consult($query, "yes");
+
+    if ($productDB) {
+      $query = "UPDATE `productos` SET `ref`='" . $product->getRef() . "', `nombre`='" . $product->getName() . "', `rentabilidad`='" . $product->getRentabilidad() . "'  
+                WHERE `id_producto` = '" . $product->getId() . "' ";
+                $update = true;
+    } else {
+      $query = "INSERT INTO `productos` (`id_producto`, `empresas_id_empresa`, `ref`, `nombre`, `rentabilidad`) 
+                VALUES (NULL, '" . $product->getIdCompany() . "', '" . $product->getRef() . "', '" . $product->getName() . "', '" . $product->getRentabilidad() . "')";
+    }
+    $this->db->consult($query);
+    return $update;
+  }
+
   /**
    * actualiza un producto en la base de datos
    *

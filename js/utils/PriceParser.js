@@ -34,6 +34,3 @@ class PriceParser {
     return parseFloat(strCurrency.replaceAll("$", "").replaceAll(",", ""));
   }
 }
-
-// agreado de formato al input de precio
-$(".costoCargaFabril").number(true, 2);

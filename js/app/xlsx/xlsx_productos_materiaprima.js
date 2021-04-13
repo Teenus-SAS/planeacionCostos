@@ -450,7 +450,7 @@ function uploadProductsMaterials(/* products ,*/ rawMaterials) {
             createdCount++;
           }
         }
-        resumenSubidaExcel(
+        SubidaExcel.resumenSubidaExcel(
           createdCount,
           updatedCount,
           "materia prima",

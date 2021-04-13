@@ -339,7 +339,12 @@ function uploadProductsProcess(productsProcess) {
             createdCount++;
           }
         }
-        resumenSubidaExcel(createdCount, updatedCount, "proceso", "procesos");
+        SubidaExcel.resumenSubidaExcel(
+          createdCount,
+          updatedCount,
+          "proceso",
+          "procesos"
+        );
       }
       loadProductsPP();
       $("#inputRefProcess").change();

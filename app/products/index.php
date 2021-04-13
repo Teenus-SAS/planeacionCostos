@@ -642,7 +642,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                   </div>
                   <div class="row my-5">
                     <div class="col-12">
-                      <h6 class="pull-left">Importar Volumenes y Ventas Mensuales</h6>
+                      <h6 class="pull-left">Importar Gastos Generales a distribuir</h6>
                       <a href="#" title="Descargar Base de Datos de Distribuciones Directas" id="download-distribuciones-directas" class="pull-right btn btn-success btn-icon"><i class="fas fa-file-excel"></i></a>
                     </div>
                     <div class="custom-file">
@@ -747,7 +747,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                   </div>
                   <div class="row my-5">
                     <div class="col-12">
-                      <h6 class="pull-left">Importar Volumenes y Ventas Mensuales</h6>
+                      <h6 class="pull-left">Importar Gastos Generales a distribuir</h6>
                       <a href="#" title="Descargar Base de Datos de Gastos Generales" id="download-products-expenses" class="pull-right btn btn-success btn-icon"><i class="fas fa-file-excel"></i></a>
                     </div>
                     <div class="custom-file">
@@ -848,6 +848,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
   <script src="/vendor/froala-editor/froala_editor.pkgd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>
   <script src="/js/utils/PriceParser.js"></script>
+  <script src="/js/app/xlsx/SubidaExcel.js" type="module"></script>
   <script src="/js/servicios-externos.js"></script>
   <script src="/js/toggleSidebar.js"></script>
   <script>
@@ -870,7 +871,6 @@ include(PARTIALS_PATH . "verify_session.php") ?>
   <script src="/js/productos_procesos.js"></script>
   <script src="/js/gastos-generales.js"></script>
   <script src="/js/calculo_GG.js"></script>
-  <script src="/js/app/xlsx/resumenSubida.js"></script>
   <script src="/js/app/xlsx/cleanExcelCells.js"></script>
   <script src="/js/app/xlsx/xlsx_productos_materiaprima.js"></script>
   <script src="/js/app/xlsx/xlsx_servicios_externos.js"></script>

@@ -1,3 +1,5 @@
+import { SubidaExcel } from "./SubidaExcel.js";
+
 function uploadProcesses(processes) {
   loadingSpinner();
   $.post(
@@ -14,7 +16,12 @@ function uploadProcesses(processes) {
             createdCount++;
           }
         }
-        resumenSubidaExcel(createdCount, updatedCount, "proceso", "procesos");
+        SubidaExcel.resumenSubidaExcel(
+          createdCount,
+          updatedCount,
+          "proceso",
+          "procesos"
+        );
 
         $tableProcesos.api().ajax.reload();
         loadProcessesInRoster();

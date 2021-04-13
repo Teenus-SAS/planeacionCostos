@@ -151,7 +151,7 @@ function uploadServiciosF(cargasF) {
             createdCount++;
           }
         }
-        resumenSubidaExcel(
+        SubidaExcel.resumenSubidaExcel(
           createdCount,
           updatedCount,
           errorsCount,

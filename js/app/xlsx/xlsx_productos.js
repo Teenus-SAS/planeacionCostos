@@ -1,10 +1,4 @@
-/*
- * @Author: Teenus SAS
- * @github: Teenus-SAS
- * logica para trabajar con excel
- * importacion de datos
- * exportacion de datos
- */
+import { SubidaExcel } from "./SubidaExcel.js";
 var materialsJSON;
 
 loadProductsInMaterials();
@@ -60,94 +54,32 @@ $("#fileProductsMaterials").change(function () {
 function loadedFileProducts(reader, inputFileProducts) {
   if (productsJSON != undefined) {
     $("#spinnerAjax").removeClass("fade");
-    // parseo de informacion de excel
-    let data = new Uint8Array(reader.result);
-    let workbook = XLSX.read(data, { type: "array" });
-
-    // cargado de datos en JSON
-    let products = XLSX.utils.sheet_to_json(workbook.Sheets["Productos"]);
-    products = cleanExcelCells(products);
-    // cargado de errores del formato
-    let errorsProducts = verifyErrorsProducts(products);
-    //let errosRawMaterials = verifyErrorsRawMaterials(rawMaterials, products)
-
-    // validacion de los productos
-    if (errorsProducts.length == 0) {
-      if (workbook.Sheets["Productos"] != undefined) {
-        bootbox.confirm({
-          title: "Importar productos",
-          message: `Los datos han sido procesados y estan listos para ser cargados`,
-          buttons: {
-            confirm: {
-              label: '<i class="fa fa-check"></i> Continuar',
-              className: "btn-success",
-            },
-            cancel: {
-              label: '<i class="fa fa-times"></i> Cancelar',
-              className: "btn-info",
-            },
-          },
-          callback: function (result) {
-            if (result == true) {
-              uploadProducts(products /* , rawMaterials */);
-              clearFile(inputFileProducts);
-            } else {
-              $.notify(
-                {
-                  icon: "nc-icon nc-bell-55",
-                  message: `Proceso cancelado`,
-                },
-                {
-                  type: "info",
-                  timer: 8000,
-                }
-              );
-              clearFile(inputFileProducts);
-            }
-          },
-        });
+    const subidaExcelProductos = new SubidaExcel(reader, "Productos", [
+      "Referencia",
+      "Producto",
+    ]);
+    subidaExcelProductos.verifySheetName(function (result) {
+      if (result == true) {
+        uploadProducts(subidaExcelProductos);
+        clearFile(inputFileProducts);
       } else {
-        $.dialog({
-          title: "Alerta",
-          type: "red",
-          icon: "fas fa-warning",
-          content:
-            "Este Archivo no cumple los formatos indicados <br>" +
-            "No se encontró la hoja 'Productos' en el archivo Excel",
-        });
+        $.notify(
+          {
+            icon: "nc-icon nc-bell-55",
+            message: `Proceso cancelado`,
+          },
+          {
+            type: "info",
+            timer: 8000,
+          }
+        );
         clearFile(inputFileProducts);
       }
-
-      /* $.confirm({
-        title: 'Tezlik',
-        type: 'green',
-        content: 'Los datos han sido procesados y estan listos para ser cargados',
-        buttons: {
-          Cargar: function () {
-            uploadProducts(products, rawMaterials)
-            clearFile(inputFileProducts)
-          },
-          Cancelar: function () {
-            $.alert('Cancelado');
-            clearFile(inputFileProducts)
-          }
-        }
-      }) */
-    } else {
-      $.dialog({
-        title: "Alerta",
-        type: "red",
-        icon: "fas fa-warning",
-        content:
-          "Este Archivo no cumple los formatos indicados <br>" +
-          bugsToString(errorsProducts),
-      });
-      clearFile(inputFileProducts);
-    }
+    });
     $("#spinnerAjax").addClass("fade");
   } else {
     $("#spinnerAjax").removeClass("fade");
-    setTimeout(loadedFileProducts(reader, inputFileProducts), 2000);
+    loadedFileProducts(reader, inputFileProducts);
   }
 }
 
@@ -163,8 +95,6 @@ function loadedFileProductsMaterials(reader, inputFileProducts) {
       workbook.Sheets["Materia Prima"]
     );
     rawMaterials = cleanExcelCells(rawMaterials);
-    // cargado de errores del formato
-    //let errorsProducts = verifyErrorsProducts(products)
     let errosRawMaterials = verifyErrorsRawMaterials(
       rawMaterials /* , products */
     );
@@ -281,38 +211,16 @@ function verifyErrorsRawMaterials(jsonObj, jsonProductObj) {
 }
 
 /**
- * Validara que se cumpla el formato y dara una lista de errores en el formato
- * @param {*} jsonObj Este objeto contiene los prodcutos generados en el excel
- * @returns un arreglo de errores con tipo y fila del error
- */
-function verifyErrorsProducts(jsonObj) {
-  let errors = [];
-  for (let index = 0; index < jsonObj.length; index++) {
-    let product = jsonObj[index];
-    if (product.Referencia == undefined) {
-      errors.push({
-        type: "La referencia del producto no puede estar vacia",
-        row: product.__rowNum__ + 1,
-      });
-    }
-    if (product.Producto == undefined) {
-      errors.push({
-        type: "El nombre del producto no puede estar vacia",
-        row: product.__rowNum__ + 1,
-      });
-    }
-  }
-  return errors;
-}
-
-/**
  * Suben los productos
  * Traidas del archivo excel cargado
  * @param {*} products Todos los productos que se van a subir del archivo excel
  * @param {*} rawMaterials Todas las materias primas de los productos que se van a subir del archivo excel
  */
-function uploadProducts(products /* , rawMaterials */) {
+function uploadProducts(subidaExcel) {
   loadingSpinner();
+
+  const products = subidaExcel.array;
+
   $.post(
     "../products/api/upload_products.php",
     {
@@ -326,66 +234,17 @@ function uploadProducts(products /* , rawMaterials */) {
           if (data[index]) {
             updatedCount++;
           } else {
-            $.notify(
-              {
-                icon: "nc-icon nc-bell-55",
-                message: `Algo ha salido mal con el producto ${products[index].Producto}`,
-              },
-              {
-                type: "danger",
-                timer: 8000,
-              }
-            );
+            createdCount++;
           }
         }
-        $.notify(
-          {
-            icon: "nc-icon nc-bell-55",
-            message: `Se ${
-              updatedCount > 1 ? "han" : "ha"
-            } cargado ${updatedCount} ${
-              updatedCount > 1 ? "productos" : "producto"
-            }`,
-          },
-          {
-            type: "success",
-            timer: 8000,
-          }
+        SubidaExcel.resumenSubidaExcel(
+          createdCount,
+          updatedCount,
+          subidaExcel.errors.length,
+          "producto",
+          "productos"
         );
         $tableProductos.api().ajax.reload();
-        /* $.post('api/upload_raw_materials.php', {
-        rawMaterials: JSON.stringify(rawMaterials)
-      }, (data, status) => {
-        if (status == 'success') {
-          let countSuccess = 0
-          for (let index = 0; index < data.length; index++) {
-            if (data[index]) {
-              countSuccess++
-            } else {
-              $.notify({
-                icon: "nc-icon nc-bell-55",
-                message: `Algo ha salido mal con la materia prima ${rawMaterials[index].Material} en el producto ${rawMaterials[index].Producto}`
-              }, {
-                type: 'danger',
-                timer: 8000
-              })
-            }
-          }
-          $.notify({
-            icon: "nc-icon nc-bell-55",
-            message: `Se ${countSuccess > 1 ? 'han' : 'ha'} cargado ${countSuccess} ${countSuccess > 1 ? 'materias primas' : 'materia prima'}`
-          }, {
-            type: 'success',
-            timer: 8000
-          })
-          completeSpinner()
-          loadProductsInProcess()
-          loadProductsInMaterials()
-          loadProductsGG()
-          loadProductsPP()
-          loadProductsInXLSX()
-        }
-      }) */
       }
     }
   ).always((xhr) => {
@@ -508,14 +367,6 @@ function uploadProductsMaterials(/* products ,*/ rawMaterials) {
   });
 
   completeSpinner();
-}
-
-function bugsToString(bugs) {
-  let string = "";
-  bugs.forEach((bug) => {
-    string += `<p style="color:red">${bug.type}  <b>fila: ${bug.row}</b> </p>`;
-  });
-  return string;
 }
 
 /**

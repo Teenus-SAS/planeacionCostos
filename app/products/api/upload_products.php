@@ -24,7 +24,7 @@ if (isset($_SESSION["user"])) {
       $product->setName($productJSON->Producto);
       $product->setRentabilidad($productJSON->Rentabilidad);
       $product->setIdCompany($user->getCompany()->getId());
-      array_push($responses, $productDao->save($product) > 0 ? true : false);
+      array_push($responses, $productDao->saveOrUpdate($product) > 0 ? true : false);
     }
     http_response_code(200);
     echo json_encode($responses);

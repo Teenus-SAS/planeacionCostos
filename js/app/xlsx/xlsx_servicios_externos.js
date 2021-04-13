@@ -156,7 +156,12 @@ function uploadServiciosF(serviciosF) {
             createdCount++;
           }
         }
-        resumenSubidaExcel(createdCount, updatedCount, "servicio", "servicios");
+        SubidaExcel.resumenSubidaExcel(
+          createdCount,
+          updatedCount,
+          "servicio",
+          "servicios"
+        );
       }
     }
   );

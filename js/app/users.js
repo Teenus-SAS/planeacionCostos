@@ -49,8 +49,8 @@ $tableUsers.width("100%");
 
 $("#create-user").submit(function (e) {
   e.preventDefault();
-  let form = $(this);
-  $.post("api/create_user.php", form.serialize(), (data, status) => {
+  let request = $(this).serialize();
+  $.post("api/create_user.php", request, (data, status) => {
     if (status == "success") {
       if (data.status) {
         $.notify(

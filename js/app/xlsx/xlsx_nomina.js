@@ -375,7 +375,12 @@ function uploadRosters(rosters) {
             createdCount++;
           }
         }
-        resumenSubidaExcel(createdCount, updatedCount, "nomina", "nominas");
+        SubidaExcel.resumenSubidaExcel(
+          createdCount,
+          updatedCount,
+          "nomina",
+          "nominas"
+        );
         $tableNominas.api().ajax.reload();
       }
     }
