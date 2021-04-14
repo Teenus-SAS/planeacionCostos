@@ -35,12 +35,12 @@ if (isset($_SESSION["user"])) {
   foreach ($materialsJSON as $materialJSON) {
     $material = new Material();
     $material->setIdCompany($user->getCompany()->getId());
-    $material->setReferencia($materialJSON->Referencia);
-    $material->setDescription(trim($materialJSON->Descripcion));
-    $material->setUnit($materialJSON->Unidad);
-    $material->setCost($materialJSON->Costo);
+    $material->setReferencia($materialJSON->referencia);
+    $material->setDescription(trim($materialJSON->descripcion));
+    $material->setUnit($materialJSON->unidad);
+    $material->setCost($materialJSON->costo);
     
-    array_push($responses, $materialDao->save($material) > 0 ? true : false);
+    array_push($responses, $materialDao->saveOrUpdate($material));
   }
 
   http_response_code(200);

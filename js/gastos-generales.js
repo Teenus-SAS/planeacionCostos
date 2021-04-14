@@ -95,7 +95,6 @@ function loadProcessesDDirecta() {
 
 //cargado de datos en los campos
 function loadfields(expenses) {
-  console.log({ expenses });
   $("#inputVolumenVentas").val(expenses.turnOver);
   $("#inputUnidadesVendidas").val(expenses.soldUnits);
   //formato de numero

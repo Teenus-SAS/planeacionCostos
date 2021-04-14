@@ -4,7 +4,7 @@ set_time_limit(300);
 
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
 require_once DAO_PATH . "UserDao.php";
-require_once DAO_PATH . "ProductDao.php";
+require_once DAO_PATH . "zz.php";
 
 // revisar si existe session
 session_start();

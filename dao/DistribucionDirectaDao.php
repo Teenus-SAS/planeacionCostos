@@ -100,12 +100,19 @@ class DistribucionDirectaDao
     }
   }
 
-  /**
-   * Crear o guardar una distribucion en la base de datos
-   *
-   * @param DistribucionDirecta $ditribucion Distribución que se quiere guardar
-   * @return integer número de tuplas afectadas 
-   */
+  public function saveOrUpdate(DistribucionDirecta $distribucion) {
+      $existe = $this->findOneByProcessId($distribucion->getIdEmpresa(), $distribucion->getIdProceso());
+      $update = false;
+      if ($existe) {
+        $update = true;
+        $this->update($distribucion);
+      } else {
+        $this->save($distribucion);
+      }
+
+      return $update;
+  }
+
   public function save($ditribucion)
   {
     $this->db->connect();
@@ -119,12 +126,6 @@ class DistribucionDirectaDao
     return  $this->db->consult($query);
   }
 
-  /**
-   * Actualiza la información de una distriución
-   *
-   * @param DistribucionDirecta $ditribucion  que se desea actualizar
-   * @return Integer Número de tuplas que se afectaron
-   */
   public function update($ditribucion)
   {
     $this->db->connect();

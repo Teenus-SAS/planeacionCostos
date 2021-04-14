@@ -204,7 +204,7 @@ class ProductDao
 
     if ($productDB) {
       $query = "UPDATE `productos` SET `ref`='" . $product->getRef() . "', `nombre`='" . $product->getName() . "', `rentabilidad`='" . $product->getRentabilidad() . "'  
-                WHERE `id_producto` = '" . $product->getId() . "' ";
+                WHERE `id_producto` = '" . $productDB[0]['id_producto'] . "' ";
                 $update = true;
     } else {
       $query = "INSERT INTO `productos` (`id_producto`, `empresas_id_empresa`, `ref`, `nombre`, `rentabilidad`) 

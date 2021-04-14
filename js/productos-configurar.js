@@ -219,7 +219,6 @@ $("#form-products").validate({
   }, */
   submitHandler: function (form) {
     const cantidad = parseFloat($("#input-cantidad").val());
-    console.log({ cantidad });
 
     if (!cantidad) {
       $.notify(
