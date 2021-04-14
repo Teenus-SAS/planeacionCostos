@@ -56,12 +56,6 @@ class DistribucionDirectaDao
     }
   }
 
-  /**
-   * Encuentra todas las distribuciones directas de una empresa
-   *
-   * @param integer $idCompany Id de la empresa
-   * @return DistribucionDirecta[]|null
-   */
   public function findByCompany($idCompany)
   {
     $this->db->connect();
@@ -78,23 +72,13 @@ class DistribucionDirectaDao
     }
   }
 
-  /**
-   * Encuentra la distribucion directa de una empresa
-   *
-   * @param integer $idProcess Id del Proceso
-   * @return DistribucionDirecta|null
-   */
   public function findOneByProcessId($idCompany, $idProcess)
   {
     $this->db->connect();
     $query = "SELECT `id_distribucion` FROM `distribucion_directa` WHERE `id_empresa` = '$idCompany' AND `id_proceso` = '$idProcess'";
     $ditribucionesDB = $this->db->consult($query, "yes");
-    $ditribuciones = [];
-    if ($ditribucionesDB !== false) {
-      foreach ($ditribucionesDB as $distribucionDirectaDB) {
-        array_push($ditribuciones, $this->findById($distribucionDirectaDB["id_distribucion"]));
-      }
-      return $ditribuciones;
+    if ($ditribucionesDB && $ditribucionesDB[0]) {
+      return $this->findById($ditribucionesDB[0]["id_distribucion"]);
     } else {
       return null;
     }

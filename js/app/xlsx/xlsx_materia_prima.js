@@ -1,29 +1,17 @@
-import { SubidaExcel } from "./SubidaExcel.js";
-import { BajadaExcel } from "./BajadaExcel.js";
+import { ImportacionXLSX } from "./ImportacionXLSX.js";
 
-const endpoint = "api/get_materials.php";
-const formato = "/formatos/formato-materia-prima.xlsx";
-const documentName = "Materia Prima";
-const sheetName = "Materiales";
-const columns = {
-  Referencia: "referencia",
-  "Materia Prima": "description",
-  Unidad: "unit",
-  Costo: "cost",
-};
-const inputFile = $("#fileRawMaterial");
-const subidaExcelProductosMateriales = new SubidaExcel(
-  inputFile,
-  sheetName,
-  columns
-);
-
-const bajadaExcel = new BajadaExcel(
-  documentName,
-  sheetName,
-  formato,
-  columns,
-  endpoint
+const exportImport = new ImportacionXLSX(
+  "api/get_materials.php",
+  "/formatos/formato-materia-prima.xlsx",
+  "Materia Prima",
+  "Materiales",
+  {
+    Referencia: "referencia",
+    "Materia Prima": "description",
+    Unidad: "unit",
+    Costo: "cost",
+  },
+  $("#fileRawMaterial")
 );
 
 function uploadMaterials(subidaExcel) {
@@ -46,10 +34,9 @@ function uploadMaterials(subidaExcel) {
             createdCount++;
           }
         }
-        SubidaExcel.resumenSubidaExcel(
+        subidaExcel.resumenSubidaExcel(
           createdCount,
           updatedCount,
-          subidaExcel.errorsCount,
           "materia prima",
           "materias primas"
         );
@@ -62,6 +49,7 @@ function uploadMaterials(subidaExcel) {
 }
 
 $("#fileRawMaterial").change(function () {
+  const subidaExcelProductosMateriales = exportImport.subidaExcel;
   subidaExcelProductosMateriales.inputFile = this;
   $("#spinnerAjax").removeClass("fade");
   subidaExcelProductosMateriales.onloadReader(() => {
@@ -74,6 +62,6 @@ $("#fileRawMaterial").change(function () {
 
 $("#download_materia_prima").click(() => {
   loadingSpinner();
-  bajadaExcel.download();
+  exportImport.bajadaExcel.download();
   completeSpinner();
 });

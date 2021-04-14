@@ -39,17 +39,13 @@ class ProcessDao
     $this->machineDao = new MachineDao();
   }
 
-  /**
-   * Buscar un proceso por id en la base de datos
-   *
-   * @param integer $id id del proceso
-   * @return Process
-   */
-  public function findById($id)
-  {
+  public function findById($id) {
     $this->db->connect();
     $query = "SELECT * FROM `procesos` WHERE `id_procesos` = $id";
     $processDB = $this->db->consult($query, "yes");
+    if (!$processDB || count($processDB) == 0) {
+      return null;
+    }
     $processDB = $processDB[0];
     $process = new Process();
     $process->setId($processDB["id_procesos"]);
@@ -59,14 +55,7 @@ class ProcessDao
     return $process;
   }
 
-  /**
-   * Encontrar un proceso de un producto por id 
-   *
-   * @param integer $id id del proceso de un producto que se desa buscar
-   * @return ProductProcess
-   */
-  public function findProductProcessById($id)
-  {
+  public function findProductProcessById($id) {
     $this->db->connect();
     $query = "SELECT * FROM `tiempo_proceso` WHERE `id_tiempo_proceso` = $id";
     $productProcessDB = $this->db->consult($query, "yes");
@@ -85,12 +74,6 @@ class ProcessDao
     return $productProcess;
   }
 
-  /**
-   * Retorna todos los procesos asignados a un producto
-   *
-   * @param Product $product objeto producto
-   * @return ProductProcess[]|null
-   */
   public function findProductProcessesByProduct($product)
   {
     $this->db->connect();
@@ -107,16 +90,6 @@ class ProcessDao
     }
   }
 
-  /**
-   * Guarda o actualiza un proceso de un producto
-   *
-   * @param Product $product producto al que se quiere actualizar o dar nuevos proceso
-   * @param integer $idMachine id de la maquina que se desea asignar
-   * @param integer $idProcess id del proceso que se desea asignar
-   * @param double $timeProcess tiempo que lleva este proceso en el producto
-   * @return mixed un objeto con el numero de tuplas afectadas 
-   * y un mensaje si fue actualizaado o creado el proceso del producto
-   */
   public function saveOrUpdateProductProcess($product, $idMachine, $idProcess, $tiempoAlistamiento, $tiempoOperacion )
   {
 
@@ -191,7 +164,7 @@ class ProcessDao
   public function findProductProcessesByProcessId($idProcess)
   {
     $this->db->connect();
-    $query = "SELECT `id_tiempo_proceso` FROM `tiempo_proceso` WHERE `procesos_id_procesos` = $idProcess";
+    $query = "SELECT `id_tiempo_proceso` FROM `tiempo_proceso` WHERE `procesos_id_procesos` = '$idProcess'";
     $ids = $this->db->consult($query, "yes");
     $procesos = [];
     foreach ($ids as $id) {
@@ -201,14 +174,7 @@ class ProcessDao
     return $procesos;
   }
 
- /**
-   * Encuentra todos los procesos creados por una empresa
-   *
-   * @param integer $idCompany id de la empresa 
-   * @return Process[]|null listado de procesos de la empresa
-   */
-  public function findByCompany($idCompany)
-  {
+  public function findByCompany($idCompany) {
     $this->db->connect();
     $query = "SELECT `id_procesos` FROM `procesos` WHERE `empresas_id_empresa` = $idCompany";
     $processesDB = $this->db->consult($query, "yes");
@@ -218,6 +184,17 @@ class ProcessDao
         array_push($processes, $this->findById($processDB["id_procesos"]));
       }
       return $processes;
+    } else {
+      return null;
+    }
+  }
+
+  public function findOneByProcessName($idCompany, $processName) {
+    $this->db->connect();
+    $query = "SELECT `id_procesos` FROM `procesos` WHERE `empresas_id_empresa` = '$idCompany' AND `nombre` = '$processName'";
+    $processesDB = $this->db->consult($query, "yes");
+    if ($processesDB && count($processesDB) > 0) {
+      return $this->findById($processesDB[0]["id_procesos"]);;
     } else {
       return null;
     }
@@ -278,12 +255,6 @@ class ProcessDao
     return $this->db->consult($query);
   }
 
-  /**
-   * Funcion creada por EstebanGomezR
-   * Busca los datos de un proceso
-   * 
-   * 
-   */
   public function findDataProcess($id){
     $this->db->connect();
     $query ="SELECT * FROM `datos_proceso` WHERE `fk_id_proceso`=$id";
@@ -291,20 +262,14 @@ class ProcessDao
     //procesos=$procesos[0];
     $proces=[];
     if(!empty($procesos)){
-    array_push($proces,$procesos[0]);
-    return($proces);
-    }
-    else{
-    return null;
+      array_push($proces,$procesos[0]);
+      return($proces);
+      }
+      else{
+      return null;
+    } 
   }
-    
-  }
-  /**
-   * Funcion creada por EstebanGomezR
-   * agrega los datos de un proceso a la base de datos
-   * 
-   * 
-   */
+
   public function saveDataProcess($idProceso,$tAislamiento,$tOperacion,$nMaquinas,$pRechazo,$nTurnos,$distancia,$disponibilidad,$mCorrectivo,$pMenores){
     $dataProcess = $this->findDataProcess($idProceso);
     if($dataProcess == null){

@@ -11,40 +11,45 @@ export class BajadaExcel {
       CreatedDate: new Date(),
     };
     this.workbook.SheetNames.push(sheetName);
-    this.#loadData(endpoint, columns);
+    this.endpoint = endpoint;
+    this.columns = columns;
+    this.#loadData();
   }
 
-  #loadData(endpoint, columns) {
+  #loadData(cb = (data) => {}) {
     let ws_data = [];
-    $.get(endpoint, (data, status) => {
+    $.get(this.endpoint, (data, status) => {
       data.forEach((item) => {
         const row = {};
-        Object.keys(columns).forEach((columnName) => {
-          row[columnName] = item[columns[columnName]];
+        Object.keys(this.columns).forEach((columnName) => {
+          row[columnName] = item[this.columns[columnName]];
         });
         ws_data.push(row);
       });
       this.data = ws_data;
+      cb(ws_data);
     });
   }
 
   download() {
-    if (this.data.length <= 0) {
-      saveAs(this.formato, `Formato ${this.documentName}.xlsx`);
-    } else {
-      let ws = XLSX.utils.json_to_sheet(this.data);
-      this.workbook.Sheets[this.sheetName] = ws;
-      let wbout = XLSX.write(this.workbook, {
-        bookType: "xlsx",
-        type: "binary",
-      });
-      let wopts = { bookType: "xlsx", bookSST: false, type: "array" };
-      wbout = XLSX.write(this.workbook, wopts);
+    this.#loadData((data) => {
+      if (data.length <= 0) {
+        saveAs(this.formato, `Formato ${this.documentName}.xlsx`);
+      } else {
+        let ws = XLSX.utils.json_to_sheet(data);
+        this.workbook.Sheets[this.sheetName] = ws;
+        let wbout = XLSX.write(this.workbook, {
+          bookType: "xlsx",
+          type: "binary",
+        });
+        let wopts = { bookType: "xlsx", bookSST: false, type: "array" };
+        wbout = XLSX.write(this.workbook, wopts);
 
-      saveAs(
-        new Blob([wbout], { type: "application/octet-stream" }),
-        `${this.documentName}.xlsx`
-      );
-    }
+        saveAs(
+          new Blob([wbout], { type: "application/octet-stream" }),
+          `${this.documentName}.xlsx`
+        );
+      }
+    });
   }
 }

@@ -47,6 +47,13 @@ class DistribucionDirecta implements JsonSerializable {
         $this->valorProceso = $valorProceso;
     }
 
+    public function setValorProcesoMinutoAsignado($valorProceso, $businessDaysMonth, $workHours, $tiempoProceso) {
+        $this->valorProceso = $valorProceso;
+        $valorMinuto = $valorProceso/$businessDaysMonth/$workHours/60;
+        $this->valorMinuto = $valorMinuto;
+        $this->valorAsignado = $valorMinuto*$tiempoProceso;
+    }
+
     public function getValorProceso() {
         return $this->valorProceso;
     }
@@ -65,6 +72,12 @@ class DistribucionDirecta implements JsonSerializable {
 
     public function getValorAsignado() {
         return $this->valorAsignado;
+    }
+
+    public function set($porcentaje, Company $company, $tiempoProceso) {
+        $this->setPorcentaje($porcentaje);
+        $valorProceso = floatval($company->getTotalMonthExpenses()) * $porcentaje;
+        $this->setValorProcesoMinutoAsignado($valorProceso, floatval($company->getBussinesDaysMonth()), floatval($company->getWorkHours()), $tiempoProceso);
     }
 
     public function setPorcentaje($porcentaje) {

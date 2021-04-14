@@ -1,10 +1,11 @@
 export class SubidaExcel {
-  constructor(inputFile, sheetName, columns) {
+  constructor(inputFile, sheetName, columns, verifyColumnscb = () => {}) {
     this.reader = new FileReader();
     this.inputFile = inputFile;
     this.sheetName = sheetName;
     this.columns = columns;
     this.errorsCount = 0;
+    this.verifyColumnscb = verifyColumnscb;
   }
 
   onloadReader(cb) {
@@ -84,9 +85,10 @@ export class SubidaExcel {
     this.array.forEach((cell) => {
       Object.keys(this.columns).forEach((columnName) => {
         columnName = columnName.trim().toLowerCase();
-        if (cell[columnName] == undefined) {
+        const verification = this.verifyColumnscb(cell, columnName);
+        if (cell[columnName] == undefined || verification) {
           this.errors.push({
-            row: cell.__rowNum__ + 1,
+            row: cell.__rowNum__ || cell.rowNum,
             cell,
           });
         }
@@ -117,6 +119,29 @@ export class SubidaExcel {
       mapped.push(cleaned);
     });
     return mapped;
+  }
+
+  resumenSubidaExcel(createdCount, updatedCount, stringType, pluralStringType) {
+    const updatedString = `<p>- Se ${
+      updatedCount > 1 ? "han" : "ha"
+    } <span style="color:blue">actualizado</span> ${updatedCount} ${
+      updatedCount > 1 || updatedCount == 0 ? pluralStringType : stringType
+    }.</p>`;
+    const createdString = `<p>- Se ${
+      createdCount > 1 ? "han" : "ha"
+    } <span style="color:green">cargado</span> ${createdCount} ${
+      createdCount > 1 || createdCount == 0 ? pluralStringType : stringType
+    }.</p>`;
+    const errorsString = `<p>- ${this.errorsCount} ${
+      this.errorsCount > 1 ? "filas" : "fila"
+    } <span style="color:red">con errores</span>.</p>`;
+
+    return bootbox.dialog({
+      title: "Resumen subida",
+      message: `${createdCount > 0 ? createdString : ""}${
+        updatedCount > 0 ? updatedString : ""
+      }${this.errorsCount > 0 ? errorsString : ""}`,
+    });
   }
 
   static resumenSubidaExcel(

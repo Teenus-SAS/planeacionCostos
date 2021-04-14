@@ -1,17 +1,9 @@
-/* 
-@Author: Teenus SAS
-@github: Teenus-SAS
-logica de gastos generales
-*/
-
 loadMonthExpenses();
-// cargado de valor de gastos mensuales
 function loadMonthExpenses() {
   $.get("api/get_total_month_expenses.php", (data, status) => {
     if (status == "success") {
       $("#inputGastosGenerales").val(data.totalMonthExpenses);
       $("#inputGastosGeneralesDirecta").val(data.totalMonthExpenses);
-      // formato de numero
       $("#inputGastosGenerales").number(true, 2, ",", ".");
       $("#inputGastosGeneralesDirecta").number(true, 2, ",", ".");
     } else {
@@ -423,10 +415,6 @@ function clearDVolumenForm() {
   $("#inputUnidadesVendidas").val("");
   $("#inputVolumenVentas").val("");
   $("#btnAddModifyDDirecta").html("Guardar");
-}
-
-function goGG() {
-  $("#nav-gastos").trigger("click");
 }
 
 // Comprobar si ya está guardado en opciones

@@ -35,25 +35,20 @@ if (isset($_SESSION["user"])) {
   if (isset($_POST["proceso"]) && isset($_POST["porcentaje"])) {
     if ($_POST["proceso"] != "" || $_POST["porcentaje"] != "") {
       if ($_POST["porcentaje"] > 0) {
-        $gastosGenerales = floatval($_POST["gastosGenerales"]);
-        $porcentaje = floatval($_POST["porcentaje"])/100;
-        $valorProceso = $porcentaje*$gastosGenerales;
-        $valorMinuto = $valorProceso/$user->getCompany()->getBussinesDaysMonth()/$user->getCompany()->getWorkHours() / 60;
         $procesos = $processDao->findProductProcessesByProcessId($_POST["proceso"]);
         $tiempoProceso = 0;
         foreach ($procesos as $proceso) {
           $tiempoProceso += $proceso->getTimeOperacion() + $proceso->getTimeAlistamiento();
         }
-
+        $gastosGenerales = floatval($_POST["gastosGenerales"]);
+        $porcentaje = floatval($_POST["porcentaje"])/100;
+        $valorProceso = $porcentaje*$gastosGenerales;
         
         $distribucion = new DistribucionDirecta();
         $distribucion->setId($_POST["idDistribucionDirecta"]);
         $distribucion->setIdEmpresa($user->getCompany()->getId());
         $distribucion->setIdProceso($_POST["proceso"]);
-        $distribucion->setPorcentaje($porcentaje);
-        $distribucion->setValorProceso($valorProceso);
-        $distribucion->setValorMinuto($valorMinuto);
-        $distribucion->setValorAsignado($valorMinuto*$tiempoProceso);
+        $distribucion->set($porcentaje, $user->getCompany(), $tiempoProceso);
         if(null==($distribucion->getId())) {
           $existsDistribucion = $distribucionDirectaDao->findOneByProcessId($user->getCompany()->getId(), $_POST["proceso"]);
           if (!$existsDistribucion) {

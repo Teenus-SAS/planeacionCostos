@@ -1,33 +1,45 @@
-import { SubidaExcel } from "./SubidaExcel.js";
-import { BajadaExcel } from "./BajadaExcel.js";
+import { ImportacionXLSX } from "./ImportacionXLSX.js";
+
+let procesos = [];
+$.get("/app/config-general/api/get_processes.php", (data, status) => {
+  procesos = data;
+});
+const reloadTable = () => {
+  const tableDistribucionDirecta = $("#tableDistribucionDirecta").dataTable();
+  tableDistribucionDirecta.api().ajax.reload();
+};
+
+const exportImportDDirecta = new ImportacionXLSX(
+  "/app/products/api/get_distribuciones_directas.php",
+  "/formatos/formato-distribucion-directa.xlsx",
+  "Distribución Directa",
+  "Distribucion",
+  {
+    Proceso: "nombreProceso",
+    Porcentaje: "porcentaje",
+  },
+  $("#fileDistribucionesDirectas"),
+  (cell, columnName) => {
+    if (columnName == "proceso") {
+      const existsProcess = procesos.find((proc) => proc.name == cell.proceso);
+      if (existsProcess) {
+        cell.proceso = existsProcess.id;
+        return false;
+      } else {
+        return true;
+      }
+    }
+  }
+);
 
 let productsJSONInExpenses;
-let processesArray;
-let distribucionesArray;
 
 loadProductsInXLSX();
-loadProcesses();
-loadDistribuciones();
 // cargado de productos de base de datos
 function loadProductsInXLSX() {
   $.get("api/get_products.php?expenses&xlsx", (data, status, xhr) => {
     productsJSONInExpenses = data;
   });
-}
-// cargado de procesos de base de datos
-function loadProcesses() {
-  $.get("/app/config-general/api/get_processes.php", (data, status, xhr) => {
-    processesArray = data;
-  });
-}
-// cargado de distribuiones de base de datos
-function loadDistribuciones() {
-  $.get(
-    "/app/products/api/get_distribuciones_directas.php",
-    (data, status, xhr) => {
-      distribucionesArray = data;
-    }
-  );
 }
 
 // Bajada
@@ -41,18 +53,6 @@ function generateFileProductExpenses() {
   req.responseType = "arraybuffer";
   req.onload = function (e) {
     loadedFileGastosGenerales(req);
-  };
-  req.send();
-}
-
-function generateFileDistribucionDirecta() {
-  loadingSpinner();
-  var url = "/formatos/formato-distribucion-directa.xlsx";
-  var req = new XMLHttpRequest();
-  req.open("GET", url, true);
-  req.responseType = "arraybuffer";
-  req.onload = function (e) {
-    loadedFileDistribucionDirecta(req);
   };
   req.send();
 }
@@ -105,49 +105,12 @@ function loadedFileGastosGenerales(req) {
   completeSpinner();
 }
 
-function loadedFileDistribucionDirecta(req) {
-  if (distribucionesArray != undefined) {
-    let wb = XLSX.utils.book_new();
-    wb.SheetNames.push("Distribucion");
-    wb.Props = {
-      Title: "Distribución Directa",
-      Subject: "Tezlik",
-      Author: "Tezlik",
-      CreatedDate: new Date(),
-    };
-    let ws_data = [];
-    distribucionesArray.forEach((distribucion) => {
-      ws_data.push({
-        Proceso: distribucion.nombreProceso,
-        Porcentaje: parseFloat(distribucion.porcentaje) * 100,
-      });
-    });
-    if (ws_data.length <= 0) {
-      saveAs(
-        "/formatos/formato-distribucion-directa.xlsx",
-        "Formato Distribucion Directa.xlsx"
-      );
-    } else {
-      var ws = XLSX.utils.json_to_sheet(ws_data);
-      wb.Sheets["Distribucion"] = ws;
-      var wbout = XLSX.write(wb, { bookType: "xlsx", type: "binary" });
-      var wopts = { bookType: "xlsx", bookSST: false, type: "array" };
-      var wbout = XLSX.write(wb, wopts);
-      saveAs(
-        new Blob([wbout], { type: "application/octet-stream" }),
-        "Distribucion Directa.xlsx"
-      );
-    }
-  }
-  completeSpinner();
-}
-
 $("#download-products-expenses").click(function () {
   generateFileProductExpenses();
 });
 
 $("#download-distribuciones-directas").click(function () {
-  generateFileDistribucionDirecta();
+  exportImportDDirecta.bajadaExcel.download();
 });
 
 // Subida
@@ -166,27 +129,16 @@ $("#fileProductsExpenses").change(function () {
 });
 
 $("#fileDistribucionesDirectas").change(function () {
-  var reader = new FileReader();
-  const subidaExcel = new SubidaExcel(reader, "Distribucion", [
-    "Proceso",
-    "Porcentaje",
-  ]);
-  subidaExcel.verifySheetName((result) => {
-    if (result == true) {
-      uploadDistribucionDirecta(subidaExcel);
-    } else {
-      $.notify(
-        {
-          icon: "nc-icon nc-bell-55",
-          message: `Proceso cancelado`,
-        },
-        {
-          type: "info",
-          timer: 4000,
-        }
-      );
-    }
+  const subidaExcelDDirecta = exportImportDDirecta.subidaExcel;
+  subidaExcelDDirecta.inputFile = this;
+  $("#spinnerAjax").removeClass("fade");
+  subidaExcelDDirecta.onloadReader(() => {
+    subidaExcelDDirecta.verifySheetName(() => {
+      uploadDistribucionDirecta(subidaExcelDDirecta);
+    });
   });
+  $("#spinnerAjax").addClass("fade");
+  subidaExcelDDirecta.clearFile();
 });
 
 function loadedFileUploadGG(reader, fileInput) {
@@ -360,7 +312,6 @@ function uploadProductsExpenses(productsExpenses) {
 }
 
 function uploadDistribucionDirecta(subidaExcel) {
-  let errorsCount = 0;
   loadingSpinner();
   $.post(
     "api/upload_distribucion_directa.php",
@@ -378,15 +329,14 @@ function uploadDistribucionDirecta(subidaExcel) {
             createdCount++;
           }
         }
-        SubidaExcel.resumenSubidaExcel(
+        subidaExcel.resumenSubidaExcel(
           createdCount,
           updatedCount,
-          errorsCount,
           "distribución",
           "distribuciones"
         );
       }
-      $tableGastosMensuales.api().ajax.reload();
+      reloadTable();
       loadProductsGG();
     }
   );
