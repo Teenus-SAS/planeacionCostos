@@ -148,7 +148,6 @@ $("#form-product-process").submit(function (e) {
   e.preventDefault();
 
   let request = $(this).serialize();
-  console.log({ request });
   //request += `&timeProcess=${60 / $("#input-unidad-hora").val()}`;
   totalTiempoProceso();
   if (

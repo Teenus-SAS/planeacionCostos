@@ -1,5 +1,5 @@
 import { SubidaExcel } from "./SubidaExcel.js";
-var materialsJSON;
+let materialsJSON;
 
 loadProductsInMaterials();
 // cargado de productos de base de datos
@@ -11,147 +11,92 @@ function loadProductsInMaterials() {
   });
 }
 
-/**
- * Se genera la carga de archivo excel
- * Con esto se validara la informacion
- * Si esta es valida?
- * SI: Se enviara al servidor para ser almacenada
- * NO: Generara notificaciones
- *        - El tipo de Error
- *        - Y la fila en donde ocurrio
- */
-
-// variables para cargar los errores en el archivo excel
-var errors;
 /* Productos */
 $("#fileProducts").change(function () {
-  var reader = new FileReader();
-  let file = this.files[0];
-  var inputFileProducts = this;
-  $(this).siblings("label").text(file.name);
-  reader.onloadend = function () {
-    loadedFileProducts(reader, inputFileProducts);
-  };
-  if (file) {
-    reader.readAsArrayBuffer(file);
-  }
-});
-
-/* Productos vs Materias primas */
-$("#fileProductsMaterials").change(function () {
-  var reader = new FileReader();
-  let file = this.files[0];
-  var inputFileProducts = this;
-  $(this).siblings("label").text(file.name);
-  reader.onloadend = function () {
-    loadedFileProducts(reader, inputFileProducts);
-  };
-  if (file) {
-    reader.readAsArrayBuffer(file);
-  }
-});
-
-function loadedFileProducts(reader, inputFileProducts) {
-  if (productsJSON != undefined) {
-    $("#spinnerAjax").removeClass("fade");
-    const subidaExcelProductos = new SubidaExcel(reader, "Productos", [
-      "Referencia",
-      "Producto",
-    ]);
-    subidaExcelProductos.verifySheetName(function (result) {
-      if (result == true) {
-        uploadProducts(subidaExcelProductos);
-        clearFile(inputFileProducts);
-      } else {
-        $.notify(
-          {
-            icon: "nc-icon nc-bell-55",
-            message: `Proceso cancelado`,
-          },
-          {
-            type: "info",
-            timer: 8000,
-          }
-        );
-        clearFile(inputFileProducts);
-      }
+  $("#spinnerAjax").removeClass("fade");
+  const subidaExcelProductos = new SubidaExcel(this, "Productos", [
+    "Referencia",
+    "Producto",
+  ]);
+  subidaExcelProductos.onloadReader(() => {
+    subidaExcelProductos.verifySheetName(() => {
+      uploadProducts(subidaExcelProductos);
+      clearFiles();
     });
-    $("#spinnerAjax").addClass("fade");
-  } else {
-    $("#spinnerAjax").removeClass("fade");
-    loadedFileProducts(reader, inputFileProducts);
-  }
-}
+  });
+  $("#spinnerAjax").addClass("fade");
+});
+
+$("#fileProductsMaterials").change(function () {
+  const subidaExcelProductosMateriales = new SubidaExcel(
+    this,
+    "Configuracion productos",
+    ["Referencia", "Producto", "Material", "Cantidad"]
+  );
+  subidaExcelProductosMateriales.onloadReader(() => {
+    subidaExcelProductosMateriales.verifySheetName(() => {
+      uploadProductsMaterials(subidaExcelProductosMateriales);
+    });
+  });
+});
 
 function loadedFileProductsMaterials(reader, inputFileProducts) {
-  if (productsJSON != undefined) {
-    $("#spinnerAjax").removeClass("fade");
-    // parseo de informacion de excel
-    let data = new Uint8Array(reader.result);
-    let workbook = XLSX.read(data, { type: "array" });
+  $("#spinnerAjax").removeClass("fade");
+  // parseo de informacion de excel
+  let data = new Uint8Array(reader.result);
+  let workbook = XLSX.read(data, { type: "array" });
 
-    // cargado de datos en JSON
-    let rawMaterials = XLSX.utils.sheet_to_json(
-      workbook.Sheets["Materia Prima"]
-    );
-    rawMaterials = cleanExcelCells(rawMaterials);
-    let errosRawMaterials = verifyErrorsRawMaterials(
-      rawMaterials /* , products */
-    );
+  // cargado de datos en JSON
+  let rawMaterials = XLSX.utils.sheet_to_json(workbook.Sheets["Materia Prima"]);
+  rawMaterials = cleanExcelCells(rawMaterials);
+  let errosRawMaterials = verifyErrorsRawMaterials(
+    rawMaterials /* , products */
+  );
 
-    // validacion de los productos
-    if (workbook.Sheets["Materia Prima"] != undefined) {
-      if (errosRawMaterials.length == 0) {
-        $.confirm({
-          title: "Tezlik",
-          type: "green",
-          content:
-            "Los datos han sido procesados y estan listo para ser cargados",
-          buttons: {
-            Cargar: function () {
-              uploadProductsMaterials(/* products,  */ rawMaterials);
-              clearFile(inputFileProducts);
-            },
-            Cancelar: function () {
-              $.alert("Cancelado");
-              clearFile(inputFileProducts);
-            },
+  // validacion de los productos
+  if (workbook.Sheets["Materia Prima"] != undefined) {
+    if (errosRawMaterials.length == 0) {
+      $.confirm({
+        title: "Tezlik",
+        type: "green",
+        content:
+          "Los datos han sido procesados y estan listo para ser cargados",
+        buttons: {
+          Cargar: function () {
+            uploadProductsMaterials(/* products,  */ rawMaterials);
+            clearFiles();
           },
-        });
-      } else {
-        $.dialog({
-          title: "Alerta",
-          type: "red",
-          icon: "fas fa-warning",
-          content:
-            "Este Archivo no cumple los formatos indicados <br>" +
-            bugsToString(errorsProducts) +
-            bugsToString(errosRawMaterials),
-        });
-        clearFile(inputFileProducts);
-      }
+          Cancelar: function () {
+            $.alert("Cancelado");
+            clearFiles();
+          },
+        },
+      });
     } else {
       $.dialog({
+        title: "Alerta",
         type: "red",
         icon: "fas fa-warning",
         content:
           "Este Archivo no cumple los formatos indicados <br>" +
-          "No se encontró la hoja 'Materia Prima' en el archivo Excel",
+          bugsToString(errorsProducts) +
+          bugsToString(errosRawMaterials),
       });
-      clearFile(inputFile);
+      clearFiles();
     }
-    $("#spinnerAjax").addClass("fade");
   } else {
-    $("#spinnerAjax").removeClass("fade");
-    setTimeout(loadedFileProductsMaterials(reader, inputFileProducts), 2000);
+    $.dialog({
+      type: "red",
+      icon: "fas fa-warning",
+      content:
+        "Este Archivo no cumple los formatos indicados <br>" +
+        "No se encontró la hoja 'Materia Prima' en el archivo Excel",
+    });
+    clearFiles();
   }
+  $("#spinnerAjax").addClass("fade");
 }
 
-/**
- * Validara que se cumpla el formato y dara una lista de errores en el formato
- * @param {*} jsonObj Este objeto contiene los materiales generados en el excel
- * @returns un arreglo de errores con tipo y fila del error
- */
 function verifyErrorsRawMaterials(jsonObj, jsonProductObj) {
   let errors = [];
   for (let index = 0; index < jsonObj.length; index++) {
@@ -210,17 +155,8 @@ function verifyErrorsRawMaterials(jsonObj, jsonProductObj) {
   return errors;
 }
 
-/**
- * Suben los productos
- * Traidas del archivo excel cargado
- * @param {*} products Todos los productos que se van a subir del archivo excel
- * @param {*} rawMaterials Todas las materias primas de los productos que se van a subir del archivo excel
- */
 function uploadProducts(subidaExcel) {
-  loadingSpinner();
-
   const products = subidaExcel.array;
-
   $.post(
     "../products/api/upload_products.php",
     {
@@ -240,7 +176,7 @@ function uploadProducts(subidaExcel) {
         SubidaExcel.resumenSubidaExcel(
           createdCount,
           updatedCount,
-          subidaExcel.errors.length,
+          subidaExcel.errorsCount,
           "producto",
           "productos"
         );
@@ -266,42 +202,8 @@ function uploadProducts(subidaExcel) {
   completeSpinner();
 }
 
-/**
- * Suben los productos y las materias primas
- * Traidas del archivo excel cargado
- * @param {*} products Todos los productos que se van a subir del archivo excel
- * @param {*} rawMaterials Todas las materias primas de los productos que se van a subir del archivo excel
- */
-function uploadProductsMaterials(/* products ,*/ rawMaterials) {
+function uploadProductsMaterials(rawMaterials) {
   loadingSpinner();
-  /* $.post('../products/api/upload_products.php', {
-    products: JSON.stringify(products)
-  }, (data, status) => {
-    if (status == 'success') {
-      let countSuccess = 0
-      for (let index = 0; index < data.length; index++) {
-        if (data[index]) {
-          countSuccess++
-        } else {
-          $.notify({
-            icon: "nc-icon nc-bell-55",
-            message: `Algo ha salido mal con el producto ${products[index].Producto}`
-          }, {
-            type: 'danger',
-            timer: 8000
-          })
-        }
-      }
-      $.notify({
-        icon: "nc-icon nc-bell-55",
-        message: `Se ${countSuccess > 1 ? 'han' : 'ha'} cargado ${countSuccess} ${countSuccess > 1 ? 'productos' : 'producto'}`
-      }, {
-        type: 'success',
-        timer: 8000
-      })
-      $tableProductos.api().ajax.reload()
-      completeSpinner()
-      loadingSpinner() */
   $.post(
     "api/upload_raw_materials.php",
     {
@@ -438,10 +340,6 @@ function generateFileProducts() {
   completeSpinner();
 }
 
-/**
- * Genera un archivo excel con todos los datos de productos y sus materias primas
- */
-
 $("#  ").click(function (e) {
   e.preventDefault();
   generateFileProductsMaterials();
@@ -507,7 +405,9 @@ function generateFileProductsMaterials() {
   completeSpinner();
 }
 
-function clearFile(input) {
-  $(input).val("");
-  $(input).siblings("label").text("Seleccionar Archivo");
+function clearFiles() {
+  $("#fileProducts").val("");
+  $("#fileProducts").siblings("label").text("Seleccionar Archivo");
+  $("#fileProductsMaterials").val("");
+  $("#fileProductsMaterials").siblings("label").text("Seleccionar Archivo");
 }

@@ -1,25 +1,35 @@
-/*
- * @Author: Teenus SAS
- * @github: Teenus-SAS
- * logica para trabajar con excel
- * importacion de datos
- * exportacion de datos
- */
+import { SubidaExcel } from "./SubidaExcel.js";
 
-var productsJSONInExpenses;
+let productsJSONInExpenses;
+let processesArray;
+let distribucionesArray;
 
 loadProductsInXLSX();
+loadProcesses();
+loadDistribuciones();
 // cargado de productos de base de datos
 function loadProductsInXLSX() {
   $.get("api/get_products.php?expenses&xlsx", (data, status, xhr) => {
     productsJSONInExpenses = data;
   });
 }
+// cargado de procesos de base de datos
+function loadProcesses() {
+  $.get("/app/config-general/api/get_processes.php", (data, status, xhr) => {
+    processesArray = data;
+  });
+}
+// cargado de distribuiones de base de datos
+function loadDistribuciones() {
+  $.get(
+    "/app/products/api/get_distribuciones_directas.php",
+    (data, status, xhr) => {
+      distribucionesArray = data;
+    }
+  );
+}
 
-/**
- * Genera un archivo excel con todos los datos de productos
- * Con procesos Asignados y sus repectivas maquinas
- */
+// Bajada
 
 function generateFileProductExpenses() {
   loadingSpinner();
@@ -29,19 +39,28 @@ function generateFileProductExpenses() {
   req.open("GET", url, true);
   req.responseType = "arraybuffer";
   req.onload = function (e) {
-    loadedFileGG(req);
+    loadedFileGastosGenerales(req);
   };
   req.send();
 }
 
-function loadedFileGG(req) {
+function generateFileDistribucionDirecta() {
+  loadingSpinner();
+  var url = "/formatos/formato-distribucion-directa.xlsx";
+  var req = new XMLHttpRequest();
+  req.open("GET", url, true);
+  req.responseType = "arraybuffer";
+  req.onload = function (e) {
+    loadedFileDistribucionDirecta(req);
+  };
+  req.send();
+}
+
+function loadedFileGastosGenerales(req) {
   if (productsJSONInExpenses != undefined) {
     var data = new Uint8Array(req.response);
     var wb = XLSX.read(data, { type: "array" });
 
-    /* DO SOMETHING WITH workbook HERE */
-
-    // configuración de del libro
     wb.Props = {
       Title: "Gastos Generales de Cotizador",
       Subject: "Tezlik",
@@ -81,30 +100,56 @@ function loadedFileGG(req) {
         "Gastos Generales.xlsx"
       );
     }
-  } else {
-    loadingSpinner();
-    setTimeout(loadedFileGG, 2000);
   }
   completeSpinner();
 }
 
-// evento al hacer click en el boton para descargar el archivo
+function loadedFileDistribucionDirecta(req) {
+  if (distribucionesArray != undefined) {
+    let wb = XLSX.utils.book_new();
+    wb.SheetNames.push("Distribucion");
+    wb.Props = {
+      Title: "Distribución Directa",
+      Subject: "Tezlik",
+      Author: "Tezlik",
+      CreatedDate: new Date(),
+    };
+    let ws_data = [];
+    distribucionesArray.forEach((distribucion) => {
+      ws_data.push({
+        Proceso: distribucion.nombreProceso,
+        Porcentaje: parseFloat(distribucion.porcentaje) * 100,
+      });
+    });
+    if (ws_data.length <= 0) {
+      saveAs(
+        "/formatos/formato-distribucion-directa.xlsx",
+        "Formato Distribucion Directa.xlsx"
+      );
+    } else {
+      var ws = XLSX.utils.json_to_sheet(ws_data);
+      wb.Sheets["Distribucion"] = ws;
+      var wbout = XLSX.write(wb, { bookType: "xlsx", type: "binary" });
+      var wopts = { bookType: "xlsx", bookSST: false, type: "array" };
+      var wbout = XLSX.write(wb, wopts);
+      saveAs(
+        new Blob([wbout], { type: "application/octet-stream" }),
+        "Distribucion Directa.xlsx"
+      );
+    }
+  }
+  completeSpinner();
+}
+
 $("#download-products-expenses").click(function () {
   generateFileProductExpenses();
 });
 
-/**
- * Se genera la carga de archivo excel
- * Con esto se validara la informacion
- * Si esta es valida?
- * SI: Se enviara al servidor para ser almacenada
- * NO: Generara notificaciones
- *        - El tipo de Error
- *        - Y la fila en donde ocurrio
- */
+$("#download-distribuciones-directas").click(function () {
+  generateFileDistribucionDirecta();
+});
 
-// variables para cargar los errores en el archivo excel
-var errors;
+// Subida
 
 $("#fileProductsExpenses").change(function () {
   var reader = new FileReader();
@@ -117,6 +162,30 @@ $("#fileProductsExpenses").change(function () {
   if (file) {
     reader.readAsArrayBuffer(file);
   }
+});
+
+$("#fileDistribucionesDirectas").change(function () {
+  var reader = new FileReader();
+  const subidaExcel = new SubidaExcel(reader, "Distribucion", [
+    "Proceso",
+    "Porcentaje",
+  ]);
+  subidaExcel.verifySheetName((result) => {
+    if (result == true) {
+      uploadDistribucionDirecta(subidaExcel);
+    } else {
+      $.notify(
+        {
+          icon: "nc-icon nc-bell-55",
+          message: `Proceso cancelado`,
+        },
+        {
+          type: "info",
+          timer: 4000,
+        }
+      );
+    }
+  });
 });
 
 function loadedFileUploadGG(reader, fileInput) {
@@ -184,18 +253,10 @@ function loadedFileUploadGG(reader, fileInput) {
       });
       clearFile(fileInput);
     }
-    completeSpinner();
-  } else {
-    loadingSpinner();
-    setTimeout(loadedFileUploadGG(reader, fileInput), 2000);
   }
+  completeSpinner();
 }
 
-/**
- * Validara que se cumpla el formato y dara una lista de errores en el formato
- * @param {*} jsonObj Este objeto contiene los gastos generales generados en el excel
- * @returns un arreglo de errores con tipo y fila del error
- */
 function verifyErrorsProductsExpenses(jsonObj) {
   let errors = [];
   for (let index = 0; index < jsonObj.length; index++) {
@@ -248,11 +309,6 @@ function verifyErrorsProductsExpenses(jsonObj) {
   return errors;
 }
 
-/**
- * Suben los gastos generales de los productos
- * Traidas del archivo excel cargado
- * @param {*} productsProcess Todos los Gastos Generales que se van a subir del archivo excel
- */
 function uploadProductsExpenses(productsExpenses) {
   loadingSpinner();
   // procesado de datos cambiando a id's
@@ -293,6 +349,40 @@ function uploadProductsExpenses(productsExpenses) {
             type: "success",
             timer: 8000,
           }
+        );
+      }
+      $tableGastosMensuales.api().ajax.reload();
+      loadProductsGG();
+    }
+  );
+  completeSpinner();
+}
+
+function uploadDistribucionDirecta(subidaExcel) {
+  let errorsCount = 0;
+  loadingSpinner();
+  $.post(
+    "api/upload_distribucion_directa.php",
+    {
+      distribuciones: JSON.stringify(subidaExcel.array),
+    },
+    (data, status) => {
+      if (status == "success") {
+        let updatedCount = 0;
+        let createdCount = 0;
+        for (let index = 0; index < data.length; index++) {
+          if (data[index]) {
+            updatedCount++;
+          } else {
+            createdCount++;
+          }
+        }
+        SubidaExcel.resumenSubidaExcel(
+          createdCount,
+          updatedCount,
+          errorsCount,
+          "distribución",
+          "distribuciones"
         );
       }
       $tableGastosMensuales.api().ajax.reload();

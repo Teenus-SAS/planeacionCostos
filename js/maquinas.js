@@ -160,7 +160,6 @@ function calulateDepreciation() {
     years: $("#input-years-depreciation").val(),
     residualValue: $("#input-valor-residual").val(),
   };
-  console.log(request);
   $.get("api/get_depreciation.php", request, (data, status) => {
     if (status == "success") {
       if (parseFloat(data.depreciation) < 1) {
@@ -222,7 +221,6 @@ document.getElementById("table-maquinas").addEventListener("click", (ev) => {
       selectedElement.dataset.maquinaYearsDeprec
     );
     const valorResidual = parseFloat(selectedElement.dataset.maquinaResidual);
-    console.log(valorResidual);
     elById("input-price-machine").value = pCompra;
     elById("input-years-depreciation").value = yearsDepreciation;
     elById("input-valor-residual").value = valorResidual;

@@ -4,10 +4,6 @@ document
     resetFormProducts();
   });
 
-/* document.querySelector('li.nav-item > a[href$="#products"]')
-addEventListener('click', (ev) => { console.log(ev.target); });
- */
-
 function loadingSpinner() {
   $("#spinnerAjax").removeClass("fade");
 }
@@ -374,7 +370,6 @@ function resetFormOptions() {
 }
 
 function resetFormProducts() {
-  console.log("reset");
   $("#inputRef").val("");
   $("#inputProducto").val("");
   $("#inputRentabilidad").val("");

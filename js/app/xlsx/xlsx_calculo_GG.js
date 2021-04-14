@@ -263,11 +263,9 @@ function bugsToString(bugs) {
   return string;
 }
 
-console.log({ button: $("#download-description-expenses") });
 $("#download-description-expenses").click(generateFileExpensesGE);
 
 function generateFileExpensesGE() {
-  console.log("click");
   loadingSpinner();
   // creacion del libro de excel
   var wb = XLSX.utils.book_new();
@@ -283,7 +281,6 @@ function generateFileExpensesGE() {
   // creacion de variables para cargar la información de los materiales
   let ws_data = [];
   $.get("api/get_expenses_description.php", (data, status) => {
-    console.log({ data });
     // cargado de de productos con referencias
     if (data != null) {
       data["51"].accounts.forEach((account) => {

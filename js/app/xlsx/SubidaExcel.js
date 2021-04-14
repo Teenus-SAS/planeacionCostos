@@ -1,12 +1,37 @@
 export class SubidaExcel {
-  constructor(reader, sheetName, excelColumns) {
-    let data = new Uint8Array(reader.result);
-    this.workbook = XLSX.read(data, { type: "array" });
+  constructor(inputFile, sheetName, columns) {
+    this.reader = new FileReader();
+    this.inputFile = inputFile;
     this.sheetName = sheetName;
-    this.sheet = this.workbook.Sheets[sheetName];
-    this.array = this.#cleanExcelCells(XLSX.utils.sheet_to_json(this.sheet));
-    this.excelColumns = excelColumns;
-    this.#verifyColumns();
+    this.columns = columns;
+    this.errorsCount = 0;
+  }
+
+  onloadReader(cb) {
+    this.#getReader(cb);
+  }
+
+  clearFile() {
+    $(this.inputFile).val("");
+    $(this.inputFile).siblings("label").text("Seleccionar Archivo");
+  }
+
+  #getReader(cb) {
+    const file =
+      this.inputFile && this.inputFile.files ? this.inputFile.files[0] : null;
+    if (file) {
+      $(this.inputFile).siblings("label").text(file.name);
+      this.reader.readAsArrayBuffer(file);
+    }
+    this.reader.onloadend = () => {
+      this.workbook = XLSX.read(new Uint8Array(this.reader.result), {
+        type: "array",
+      });
+      this.sheet = this.workbook.Sheets[this.sheetName];
+      this.array = this.#cleanExcelCells(XLSX.utils.sheet_to_json(this.sheet));
+      this.#verifyColumns();
+      cb();
+    };
   }
 
   verifySheetName(callback) {
@@ -24,7 +49,23 @@ export class SubidaExcel {
             className: "btn-info",
           },
         },
-        callback,
+        callback: (result) => {
+          if (result == true) {
+            callback();
+          } else {
+            $.notify(
+              {
+                icon: "nc-icon nc-bell-55",
+                message: `Proceso cancelado`,
+              },
+              {
+                type: "info",
+                timer: 8000,
+              }
+            );
+            this.clearFile();
+          }
+        },
       });
     } else {
       $.dialog({
@@ -41,7 +82,7 @@ export class SubidaExcel {
   #verifyColumns() {
     this.errors = [];
     this.array.forEach((cell) => {
-      this.excelColumns.forEach((columnName) => {
+      Object.keys(this.columns).forEach((columnName) => {
         if (cell[columnName] == undefined) {
           this.errors.push({
             row: cell.__rowNum__ + 1,
@@ -54,10 +95,13 @@ export class SubidaExcel {
   }
 
   #filterColumnsWithErrors() {
+    const beforeLength = this.array.length;
     this.array = this.array.filter((cell) => {
       const filaConError = this.errors.find((error) => error.cell == cell);
       return filaConError ? false : true;
     });
+    const afterLength = this.array.length;
+    this.errorsCount = beforeLength - afterLength;
   }
 
   #cleanExcelCells(array) {

@@ -274,7 +274,6 @@ $(document).ready(function () {
                 const precio = parseFloat(row[5]);
                 const precioActual = parseFloat(data || 0);
                 const porcentaje = (1 - precio / precioActual) * 100;
-                console.log({ row: row[3], precio, precioActual, porcentaje });
                 return `${$.number(porcentaje, 2, ",", ".")}%`;
               }
             },
