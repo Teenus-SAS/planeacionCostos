@@ -28,7 +28,6 @@ const bajadaExcel = new BajadaExcel(
 
 function uploadMaterials(subidaExcel) {
   const materials = subidaExcel.array;
-  console.log(materials);
   loadingSpinner();
   materials.forEach((material) => {
     material.descripcion = material["materia prima"].trim();
