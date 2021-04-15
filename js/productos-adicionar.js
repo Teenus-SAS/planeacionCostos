@@ -321,7 +321,6 @@ function deleteProduct(prodId) {
             $tableProductos.api().ajax.reload();
             loadProductsPP();
             loadProductsInProcess();
-            loadProductsInXLSX();
             $.notify(
               {
                 icon: "nc-icon nc-bell-55",
@@ -342,21 +341,6 @@ function deleteProduct(prodId) {
       }
     },
   });
-
-  /* $.confirm({
-    title: 'Tezlik',
-    content: `${document.getElementById('inputRef').value} ¿Está seguro de eliminar este producto?.  Esta acción no se puede deshacer`,
-    buttons: {
-      SI: function () {
-
-      },
-      No: function () {
-        resetFormOptions();
-        resetFormProducts();
-        return;
-      }
-    }
-  }) */
 }
 
 /// resetea opciones de guardar editar/////

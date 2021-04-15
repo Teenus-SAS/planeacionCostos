@@ -1,6 +1,6 @@
 import { ImportacionXLSX } from "./ImportacionXLSX.js";
 
-const exportImport = new ImportacionXLSX(
+const exportImportMateriaPrima = new ImportacionXLSX(
   "api/get_materials.php",
   "/formatos/formato-materia-prima.xlsx",
   "Materia Prima",
@@ -46,7 +46,7 @@ function uploadMaterials(subidaExcel) {
 }
 
 $("#fileRawMaterial").change(function () {
-  const subidaExcelProductosMateriales = exportImport.subidaExcel;
+  const subidaExcelProductosMateriales = exportImportMateriaPrima.subidaExcel;
   subidaExcelProductosMateriales.inputFile = this;
   $("#spinnerAjax").removeClass("fade");
   subidaExcelProductosMateriales.onloadReader(() => {
@@ -59,6 +59,6 @@ $("#fileRawMaterial").change(function () {
 
 $("#download_materia_prima").click(() => {
   loadingSpinner();
-  exportImport.bajadaExcel.download();
+  exportImportMateriaPrima.bajadaExcel.download();
   completeSpinner();
 });

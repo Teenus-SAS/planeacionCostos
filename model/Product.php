@@ -1,12 +1,5 @@
 <?php
 
-/**
- * Modelo de un producto de una empresa
- * 
- * @author Teenus SAS>
- * @github Teenus SAS
- * @package model
- */
 class Product implements JsonSerializable
 {
   /**

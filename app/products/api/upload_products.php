@@ -20,9 +20,9 @@ if (isset($_SESSION["user"])) {
   if (count($productsJSON) <= $user->getCompany()->getLicensedProducts()) {
     foreach ($productsJSON as $productJSON) {
       $product = new Product();
-      $product->setRef($productJSON->Referencia);
-      $product->setName($productJSON->Producto);
-      $product->setRentabilidad($productJSON->Rentabilidad);
+      $product->setRef($productJSON->referencia);
+      $product->setName($productJSON->producto);
+      $product->setRentabilidad($productJSON->rentabilidad);
       $product->setIdCompany($user->getCompany()->getId());
       array_push($responses, $productDao->saveOrUpdate($product) > 0 ? true : false);
     }
