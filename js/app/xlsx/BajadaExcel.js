@@ -16,13 +16,20 @@ export class BajadaExcel {
     this.#loadData();
   }
 
-  #loadData(cb = (data) => {}) {
+  #loadData(cb = () => {}) {
     let ws_data = [];
     $.get(this.endpoint, (data, status) => {
       data.forEach((item) => {
         const row = {};
         Object.keys(this.columns).forEach((columnName) => {
-          row[columnName] = item[this.columns[columnName]];
+          const subs = this.columns[columnName].split(".");
+          let dataColumn = item[subs[0]];
+          subs.forEach((sub, index) => {
+            if (index != 0) {
+              dataColumn = dataColumn[sub];
+            }
+          });
+          row[columnName] = dataColumn;
         });
         ws_data.push(row);
       });

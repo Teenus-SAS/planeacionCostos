@@ -36,7 +36,7 @@ if (isset($_SESSION["user"])) {
     $material = new Material();
     $material->setIdCompany($user->getCompany()->getId());
     $material->setReferencia($materialJSON->referencia);
-    $material->setDescription(trim($materialJSON->descripcion));
+    $material->setDescription(trim($materialJSON->materiaprima));
     $material->setUnit($materialJSON->unidad);
     $material->setCost($materialJSON->costo);
     

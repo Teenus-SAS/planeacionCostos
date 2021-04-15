@@ -17,9 +17,6 @@ const exportImport = new ImportacionXLSX(
 function uploadMaterials(subidaExcel) {
   const materials = subidaExcel.array;
   loadingSpinner();
-  materials.forEach((material) => {
-    material.descripcion = material["materia prima"].trim();
-  });
   $.post(
     "api/upload_materials.php",
     { materials: JSON.stringify(materials) },
@@ -34,7 +31,7 @@ function uploadMaterials(subidaExcel) {
             createdCount++;
           }
         }
-        subidaExcel.resumenSubidaExcel(
+        subidaExcel.resumenSubida(
           createdCount,
           updatedCount,
           "materia prima",

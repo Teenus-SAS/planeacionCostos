@@ -84,7 +84,7 @@ export class SubidaExcel {
     this.errors = [];
     this.array.forEach((cell) => {
       Object.keys(this.columns).forEach((columnName) => {
-        columnName = columnName.trim().toLowerCase();
+        columnName = columnName.trim().toLowerCase().replaceAll(" ", "");
         const verification = this.verifyColumnscb(cell, columnName);
         if (cell[columnName] == undefined || verification) {
           this.errors.push({
@@ -113,7 +113,7 @@ export class SubidaExcel {
       let keys = Object.keys(item);
       let cleaned = { rowNum: parseInt(item.__rowNum__) };
       keys.forEach((key) => {
-        cleaned[key.trim().toLowerCase()] =
+        cleaned[key.trim().toLowerCase().replaceAll(" ", "")] =
           typeof item[key] == "string" ? item[key].trim() : item[key];
       });
       mapped.push(cleaned);
@@ -121,7 +121,7 @@ export class SubidaExcel {
     return mapped;
   }
 
-  resumenSubidaExcel(createdCount, updatedCount, stringType, pluralStringType) {
+  resumenSubida(createdCount, updatedCount, stringType, pluralStringType) {
     const updatedString = `<p>- Se ${
       updatedCount > 1 ? "han" : "ha"
     } <span style="color:blue">actualizado</span> ${updatedCount} ${
