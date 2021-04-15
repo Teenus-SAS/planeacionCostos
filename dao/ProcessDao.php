@@ -74,8 +74,7 @@ class ProcessDao
     return $productProcess;
   }
 
-  public function findProductProcessesByProduct($product)
-  {
+  public function findProductProcessesByProduct($product) {
     $this->db->connect();
     $query = "SELECT `id_tiempo_proceso` FROM `tiempo_proceso` WHERE `productos_id_producto` = " . $product->getId();
     $productProcessesDB = $this->db->consult($query, "yes");
@@ -90,8 +89,7 @@ class ProcessDao
     }
   }
 
-  public function saveOrUpdateProductProcess($product, $idMachine, $idProcess, $tiempoAlistamiento, $tiempoOperacion )
-  {
+  public function saveOrUpdateProductProcess($product, $idMachine, $idProcess, $tiempoAlistamiento, $tiempoOperacion ) {
 
     $productProcess = $this->findOneProductProcessByProductAndMachine($product, $idProcess, $idMachine);
     if ($productProcess == null) {
@@ -113,15 +111,7 @@ class ProcessDao
     }
   }
 
-  /**
-   * Encuentra un proceso de un producto y una máquina específica
-   *
-   * @param Product $product producto en el cual se quiere buscar
-   * @param integer $idProcess id del proceso que se quiere buscar
-   * @return ProductProcess|null El proceso del producto que se busca
-   */
-  public function findOneProductProcessByProductAndMachine($product, $idProcess, $idMachine)
-  {
+  public function findOneProductProcessByProductAndMachine($product, $idProcess, $idMachine) {
     $this->db->connect();
     $query = "SELECT `id_tiempo_proceso` FROM `tiempo_proceso` WHERE `productos_id_producto` = '" . $product->getId() . "' AND `procesos_id_procesos` = '$idProcess' AND `maquinas_id_maquinas` = '$idMachine'";
     $id = $this->db->consult($query, "yes");
@@ -133,16 +123,7 @@ class ProcessDao
     }
   }
 
-
-  /**
-   * Encuentra todos los procesos de un producto
-   *
-   * @param Product $product producto en el cual se quiere buscar
-   * @param integer $idProcess id del proceso que se quiere buscar
-   * @return ProductProcess[]|null El proceso del producto que se busca
-   */
-  public function findProductProcessesByProcess($product, $idProcess)
-  {
+  public function findProductProcessesByProcess($product, $idProcess) {
     $this->db->connect();
     $query = "SELECT `id_tiempo_proceso` FROM `tiempo_proceso` WHERE `productos_id_producto` = " . $product->getId() . " AND `procesos_id_procesos` = $idProcess";
     $id = $this->db->consult($query, "yes");
@@ -154,15 +135,7 @@ class ProcessDao
     }
   }
 
-
-  /**
-   * Encuentra todos los tiempos relacionado a un proceso
-   *
-   * @param integer $idProcess id del proceso que se quiere buscar
-   * @return ProductProcess[]|null El proceso del producto que se busca
-   */
-  public function findProductProcessesByProcessId($idProcess)
-  {
+  public function findProductProcessesByProcessId($idProcess) {
     $this->db->connect();
     $query = "SELECT `id_tiempo_proceso` FROM `tiempo_proceso` WHERE `procesos_id_procesos` = '$idProcess'";
     $ids = $this->db->consult($query, "yes");
@@ -200,56 +173,27 @@ class ProcessDao
     }
   }
 
-
-  /**
-   * Crea un proceso en la base de datos
-   *
-   * @param Process $process proceso que se desea crear
-   * @return integer número de tuplas afectadas
-   */
-  public function save($process)
-  {
+  public function save($process) {
     $this->db->connect();
     $query = "INSERT INTO `procesos` (`id_procesos`, `nombre`, `empresas_id_empresa`)
      VALUES (NULL, '" . $process->getName() . "', '" . $process->getIdCompany() . "')";
     return $this->db->consult($query);
   }
 
-  /**
-   * Actualiza un proceso en al base de datos
-   *
-   * @param Process $process proceso qeu se quiere actualizar
-   * @return integer número de tuplas afectadas
-   */
-  public function update($process)
-  {
+  public function update($process) {
     $this->db->connect();
     $query = "UPDATE `procesos` SET `nombre` = '" . $process->getName() . "' 
     WHERE `procesos`.`id_procesos` = " . $process->getId();
     return $this->db->consult($query);
   }
 
-  /**
-   * borra un proceso de la base de datos por su id
-   *
-   * @param integer $id id del proceso que se desea borrar
-   * @return integer número de tuplas afectadas
-   */
-  public function delete($id)
-  {
+  public function delete($id) {
     $this->db->connect();
     $query = "DELETE FROM `procesos` WHERE `procesos`.`id_procesos` = $id";
     return $this->db->consult($query);
   }
 
-  /**
-   * borra un proceso de un producto por su id
-   *
-   * @param integer $id id del proceso del producto que se desea borrar
-   * @return integer número de tuplas afectadas
-   */
-  public function deleteProductProcess($id)
-  {
+  public function deleteProductProcess($id) {
     $this->db->connect();
     $query = "DELETE FROM `tiempo_proceso` WHERE `tiempo_proceso`.`id_tiempo_proceso` = $id";
     return $this->db->consult($query);

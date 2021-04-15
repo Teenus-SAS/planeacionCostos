@@ -43,13 +43,13 @@ if (isset($_SESSION["user"])) {
   $processDao = new ProcessDao();
   /* if (isset($_POST["optionNomina"])) { */
   if (
-    isset($_POST["cargo"]) /* && isset($_POST["Numeroempleados"]) */ && isset($_POST["proceso"])
+    isset($_POST["cargo"]) && isset($_POST["proceso"])
     && isset($_POST["salario"]) && isset($_POST["bonificacion"]) && isset($_POST["dotacion"])
     && isset($_POST["horasTrabajo"]) && isset($_POST["diasMes"]) && isset($_POST["optionFactorPrestacional"])
     && isset($_POST["factorPrestacional"])
   ) {
     if (
-      $_POST["cargo"] != "" || /* $_POST["Numeroempleados"] != "" || */ $_POST["proceso"] != ""
+      $_POST["cargo"] != "" || $_POST["proceso"] != ""
       || $_POST["salario"] != "" || $_POST["bonificacion"] != "" || $_POST["dotacion"] != ""
       || $_POST["horasTrabajo"] != "" || $_POST["diasMes"] != "" || $_POST["optionFactorPrestacional"] != ""
       || $_POST["factorPrestacional"] != ""
@@ -57,7 +57,6 @@ if (isset($_SESSION["user"])) {
       $salary = $_POST["salario"] + $_POST["horasExtra"];
       $netSalary = $salary + ($salary * ($_POST["factorPrestacional"] / 100)) + $_POST["bonificacion"] + $_POST["dotacion"];
 
-      /* if ($_POST["optionNomina"] == "option1") { */
       if ($_POST["cargo-id"]) {
         $roster = $rosterDao->findById($_POST["cargo-id"]);
         $roster->setProcess($processDao->findById($_POST["proceso"]));
@@ -109,9 +108,6 @@ if (isset($_SESSION["user"])) {
   } else {
     http_response_code(400);
   }
-  /* } else {
-    http_response_code(412);
-  } */
 } else {
   http_response_code(401);
   exit;

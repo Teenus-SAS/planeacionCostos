@@ -89,6 +89,8 @@ export class SubidaExcel {
         const verification = this.verifyColumnscb(cell, columnName);
         if (cell[columnName] == undefined || verification) {
           this.errors.push({
+            type: "undefined",
+            columnName,
             row: cell.__rowNum__ || cell.rowNum,
             cell,
           });

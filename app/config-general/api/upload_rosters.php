@@ -27,60 +27,49 @@ header("Content-Type: application/json");
 function objectToArray($d)
 {
   if (is_object($d)) {
-    // Gets the properties of the given object
-    // with get_object_vars function
     $d = get_object_vars($d);
   }
-
   if (is_array($d)) {
-    /*
-      * Return array converted to object
-      * Using __FUNCTION__ (Magic constant)
-      * for recursive call
-      */
     return array_map(__FUNCTION__, $d);
   } else {
-    // Return array
     return $d;
   }
 }
-
 
 if (isset($_SESSION["user"])) {
   $user = unserialize($_SESSION["user"]);
   $rosterDao = new RosterDao();
   $processDao = new ProcessDao();
-  $rostersJSON = objectToArray(json_decode($_POST["rosters"]));
+  $rostersJSON = json_decode($_POST["rosters"]);
 
   $responses = [];
   foreach ($rostersJSON as $rosterJSON) {
-    $salary = $rosterJSON["Salario"] + $rosterJSON["Horas Extras"];
-    $netSalary = $salary + ($salary * ($rosterJSON["Prestaciones"])) + $rosterJSON["Bonificaciones"] + $rosterJSON["Dotacion"];
+    $salary = $rosterJSON->salario + $rosterJSON->horasextras;
+    $netSalary = $salary + ($salary * ($rosterJSON->prestaciones)) + $rosterJSON->bonificaciones + $rosterJSON->dotacion;
     $roster = new Roster();
     $roster->setIdCompany($user->getCompany()->getId());
-    $roster->setPosition($rosterJSON["Cargo"]);
-    $roster->setProcess($processDao->findById($rosterJSON["Proceso"]));
-    $roster->setNumberEmployees($rosterJSON["Cantidad"]);
-    $roster->setSalary($rosterJSON["Salario"]);
-    $roster->setBonus($rosterJSON["Bonificaciones"]);
-    $roster->setEndowment($rosterJSON["Dotacion"]);
-    $roster->setWorkHours($rosterJSON["Horas"]);
-    $roster->setBussinesDaysMonth($rosterJSON["Dias"]);
-    $roster->setPerformaceFactor($rosterJSON["Prestaciones"] * 100);
+    $roster->setPosition($rosterJSON->cargo);
+    $roster->setProcess($processDao->findById($rosterJSON->proceso));
+    $roster->setNumberEmployees($rosterJSON->cantidad);
+    $roster->setSalary($rosterJSON->salario);
+    $roster->setBonus($rosterJSON->bonificaciones);
+    $roster->setEndowment($rosterJSON->dotacion);
+    $roster->setWorkHours($rosterJSON->horas);
+    $roster->setBussinesDaysMonth($rosterJSON->dias);
+    $roster->setPerformaceFactor($rosterJSON->prestaciones * 100);
     $roster->setNetSalary($netSalary);
-    $roster->setContract($rosterJSON["Tipo de contrato"]);
-    $roster->setExtraHours($rosterJSON["Horas Extras"]);
+    $roster->setContract($rosterJSON->tipodecontrato);
+    $roster->setExtraHours($rosterJSON->horasextras);
 
-    if ($rosterDao->save($roster) > 0) {
+    $id = $rosterDao->findId($roster);
+    if ($id) {
+      $roster->setId($id);
+      $rosterDao->update($roster);
       array_push($responses, true);
-    } else {
-      $roster->setId($rosterDao->findId($roster));
-      if ($rosterDao->update($roster) > 0) {
-        array_push($responses, true);
-      } else {
-        array_push($responses, false);
-      }
-    }
+      continue;
+    } 
+    $rosterDao->save($roster);
+    array_push($responses, false);
   }
   http_response_code(200);
   echo json_encode($responses);

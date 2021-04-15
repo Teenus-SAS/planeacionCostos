@@ -1,109 +1,21 @@
 <?php
-/**
- * Clase modelo de nomina
- * 
- * @author Teenus SAS>
- * @package model
- * @github Teenus SAS
- */
 class Roster implements JsonSerializable
 {
-  /**
-   * id de la nomina
-   *
-   * @var integer
-   */
   private $id;
-  /**
-   * id de la empresa
-   *
-   * @var integer
-   */
   private $idCompany;
-  /**
-   * Nombre del cargo de la nomina
-   *
-   * @var string
-   */
   private $position;
-  /**
-   * Proceso a que fue asignada la nomina
-   *
-   * @var Process
-   */
   private $process;
-  /**
-   * numero de empleados de la nomina
-   *
-   * @var integer
-   */
   private $numberEmployees;
-  /**
-   * salario de la nomina 
-   *
-   * @var double
-   */
   private $salary;
-  /**
-   * transporte de la nomina 
-   *
-   * @var double
-   */
   private $transporte;
-  /**
-   * bonificacion de la nomina
-   *
-   * @var double
-   */
   private $bonus;
-  /**
-   * dotacion de la nomina
-   *
-   * @var double
-   */
   private $endowment;
-  /**
-   * hoaras de trabajo al día
-   *
-   * @var float
-   */
   private $workHours;
-  /**
-   * horas de trabajo al mes
-   *
-   * @var integer
-   */
   private $bussinesDaysMonth;
-  /**
-   * porcentaje de factor prestacional 
-   *
-   * @var double
-   */
   private $performaceFactor;
-  /**
-   * salaraio neto
-   *
-   * @var double
-   */
   private $netSalary;
-  /**
-   * tipo de contrato 
-   * puede ser: ['nomina','servicios']
-   *
-   * @var string
-   */
   private $contract;
-  /**
-   * valor por minuto que tiene esta nomina
-   *
-   * @var float
-   */
   private $minuteValue;
-  /**
-   * valor de las horas extra 
-   *
-   * @var double
-   */
   private $extraHours;
 
   public function getId()

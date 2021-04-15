@@ -2,41 +2,19 @@
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
 require_once DB_PATH . "DBOperator.php";
 require_once DB_PATH . "env.php";
+require_once DAO_PATH . "MachineDao.php";
 require_once MODEL_PATH . "CargaFabril.php";
-/**
- * Esta clase Es el DAO(Data Access Object) para la carga fabril de las máquinas
- * 
- * @author Teenus SAS>
- * @version 1.0
- * @uses DBOperator, Machine
- * @package Dao
- * 
- */
 
-class CargaFabrilDao
-{
-  /**
-   * Objeto de comuniacion con la base de datos
-   *
-   * @access private
-   * @var DBOperator
-   */
+class CargaFabrilDao {
   private $db;
+  private $machinesDao;
 
-  public function __construct()
-  {
+  public function __construct() {
     $this->db = new DBOperator($_ENV["db_host"], $_ENV["db_user"], $_ENV["db_name"], $_ENV["db_pass"]);
+    $this->machinesDao = new MachineDao();
   }
 
-
-  /**
-   * Encuentra las cargas fabriles por id
-   *
-   * @param integer $id El id de la empresa que se quiere consultar
-   * @return CargaFabril|null
-   */
-  public function findById($id)
-  {
+  public function findById($id) {
     $this->db->connect();
     $query = "SELECT carga_fabril.id_carga, carga_fabril.id_maquina, maquinas.nombre, carga_fabril.id_empresa, carga_fabril.insumo, carga_fabril.costo, carga_fabril.costo_por_minuto 
               FROM `carga_fabril` INNER JOIN maquinas ON carga_fabril.id_maquina = maquinas.id_maquinas 
@@ -47,7 +25,8 @@ class CargaFabrilDao
       $cargaFabril = new CargaFabril();
       $cargaFabril->setId($cargaFabrilDB["id_carga"]);
       $cargaFabril->setIdMaquina($cargaFabrilDB["id_maquina"]);
-      $cargaFabril->setnombreMaquina($cargaFabrilDB["nombre"]);
+      $machine = $this->machinesDao->findById($cargaFabrilDB["id_maquina"]);
+      $cargaFabril->setnombreMaquina($machine->getName());
       $cargaFabril->setIdEmpresa($cargaFabrilDB["id_empresa"]);
       $cargaFabril->setMantenimiento($cargaFabrilDB["insumo"]);
       $cargaFabril->setCosto($cargaFabrilDB["costo"]);
@@ -60,15 +39,7 @@ class CargaFabrilDao
     }
   }
 
-  /**
-   * Encuentra todas las cargas fabriles de una empresa
-   *
-   * @param integer $idCompany Id de la empresa
-   * @return CargaFabril[]|null
-   */
-
-  public function findByCompanyId($idCompany)
-  {
+  public function findByCompanyId($idCompany) {
     $this->db->connect();
     $query = "SELECT `id_carga` FROM `carga_fabril` WHERE `id_empresa` = '$idCompany'";
     $cargasDB = $this->db->consult($query, "yes");
