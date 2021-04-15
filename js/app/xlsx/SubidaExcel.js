@@ -10,6 +10,7 @@ export class SubidaExcel {
 
   onloadReader(cb) {
     this.#getReader(cb);
+    this.clearFile();
   }
 
   clearFile() {

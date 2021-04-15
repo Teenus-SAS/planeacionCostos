@@ -32,16 +32,16 @@ if (isset($_SESSION["user"])) {
   $responses = [];
   foreach ($cargasFJSON as $cargaJSON) {
     $carga = new CargaFabril();
-    $cargaExiste = $cargasFDao->findOneByMachineIdAndMantenimiento($cargaJSON->Maquina, $cargaJSON->Mantenimiento);
+    $cargaExiste = $cargasFDao->findOneByMachineIdAndMantenimiento($cargaJSON->maquina, $cargaJSON->mantenimiento);
     if (isset($cargaExiste)) {
       $cargaId = $cargaExiste->getId();
       $carga->setId($cargaId);
     }
     $carga->setIdEmpresa($user->getCompany()->getId());
-    $carga->setIdMaquina($cargaJSON->Maquina);
-    $carga->setMantenimiento($cargaJSON->Mantenimiento);
-    $carga->setCosto($cargaJSON->Costo);
-    $costoPorMinuto = ($cargaJSON->Costo/$user->getCompany()->getBussinesDaysMonth()/$user->getCompany()->getWorkHours() / 60);
+    $carga->setIdMaquina($cargaJSON->maquina);
+    $carga->setMantenimiento($cargaJSON->mantenimiento);
+    $carga->setCosto($cargaJSON->costo);
+    $costoPorMinuto = ($cargaJSON->costo/$user->getCompany()->getBussinesDaysMonth()/$user->getCompany()->getWorkHours() / 60);
     $carga->setCostoPorMinuto($costoPorMinuto);
     array_push($responses, $cargasFDao->saveOrUpdate($carga));
   }
