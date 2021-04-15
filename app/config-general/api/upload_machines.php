@@ -32,10 +32,7 @@ if (isset($_SESSION["user"])) {
     $machine = new Machine();
     $machine->setIdCompany($user->getCompany()->getId());
     $machine->setName($machineJSON->maquina);
-    $machine->setPrice($machineJSON->precio);
-    $machine->setYearsDepreciation($machineJSON->years);
-    $machine->setResidualValue($machineJSON->valorresidual);
-    $machine->setDepreciation(($machineJSON->precio - $machineJSON->valorresidual) / ($machineJSON->years * 12) / $user->getCompany()->getWorkHours() / $user->getCompany()->getBussinesDaysMonth() / 60);
+    $machine->setValuesDepreciation($user->getCompany()->getBussinesDaysMonth(), $user->getCompany()->getWorkHours(), $machineJSON->precio, $machineJSON->valorresidual, $machineJSON->years);
     array_push($responses, $machineDao->saveOrUpdate($machine));
   }
   http_response_code(200);

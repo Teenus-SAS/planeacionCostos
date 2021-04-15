@@ -28,7 +28,8 @@ if (
     $machines = $machineDao->findByCompany($user->getCompany()->getId());
     $status = 0;
     foreach ($machines as $machine) {
-      $machine->setDepreciation($machine->getPrice() / 120 / $user->getCompany()->getWorkHours() / $user->getCompany()->getBussinesDaysMonth() / 60);
+      $company = $user->getCompany();
+      $machine->setValuesDepreciation($company->getBussinesDaysMonth(), $company->getWorkHours(), $machine->getPrice(), $machine->getResidualValue(), $machine->getYearsDepreciation());
       $status += $machineDao->update($machine);
     }
     http_response_code(200);

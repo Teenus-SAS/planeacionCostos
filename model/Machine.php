@@ -1,226 +1,82 @@
 <?php
 
-class Machine implements JsonSerializable
-{
-  /**
-   * Id de la maquina
-   *
-   * @access private
-   * @var integer
-   */
+class Machine implements JsonSerializable {
   private $id;
-  /**
-   * Id de la empresa 
-   *
-   * @access private
-   * @var integer
-   */
   private $idCompany;
-  /**
-   * Nombre de la empresa
-   *
-   * @access private
-   * @var string
-   */
   private $name;
-  /**
-   * Precio o costo de compra de la máquina
-   *
-   * @access private
-   * @var double
-   */
   private $price;
-  /**
-   * Depreciacion de la máquina
-   *
-   * @access private
-   * @var double
-   */
-  private $depreciation;
-  /**
-   * Los años da los que se va a deprecoar la máquina
-   *
-   * @access private
-   * @var integer
-   */
   private $yearsDepreciation;
-  /**
-   * El valor residial que se le dara a la máquina
-   *
-   * @access private
-   * @var double
-   */
   private $residualValue;
+  private $depreciation;
 
-  /**
-   * obtiene el id de la maquina
-   *
-   * @access public
-   * @return void
-   */
-  public function getId()
-  {
+  public function setValuesDepreciation($daysMonth, $hours, $price, $residualValue, $yearsDepreciation) {
+    $this->price = $price;
+    $this->residualValue = $residualValue;
+    $this->yearsDepreciation = $yearsDepreciation;
+    $this->calculateDepreciation($daysMonth, $hours);
+  }
+
+  public function getId() {
     return $this->id;
   }
 
-  /**
-   * cambia el id de la maquina
-   *
-   * @access public
-   * @param integer $id nuevo id de la maquina
-   * @return void
-   */
-  public function setId($id)
-  {
+  public function setId($id) {
     $this->id = $id;
   }
 
-  /**
-   * obtiene el id de la empresa creadora de la maquina
-   *
-   * @access public
-   * @return void
-   */
-  public function getIdCompany()
-  {
+  public function getIdCompany() {
     return $this->idCompany;
   }
 
-  /**
-   * Cambia el id de la empresa creadora 
-   *
-   * @access public
-   * @param integer $idCompany nuevo id de la empresa
-   * @return void
-   */
-  public function setIdCompany($idCompany)
-  {
+  public function setIdCompany($idCompany) {
     $this->idCompany = $idCompany;
   }
 
-  /**
-   * obtiene el noombre de la máquina
-   *
-   * @access public
-   * @return string
-   */
-  public function getName()
-  {
+  public function getName() {
     return $this->name;
   }
 
-  /**
-   * Cambia el nombre de la maquina
-   *
-   * @access public
-   * @param string $name nuevo nombre de la maquina
-   * @return void
-   */
-  public function setName($name)
-  {
+  public function setName($name) {
     $this->name = $name;
   }
 
-  /**
-   * obtiene el precio de la maquina
-   *
-   * @access public
-   * @return double
-   */
-  public function getPrice()
-  {
+  public function getPrice() {
     return $this->price;
   }
 
-  /**
-   * Cambia el precio de la maqunina
-   *
-   * @access public
-   * @param double $price nuevo precio de la maquina
-   * @return void
-   */
-  public function setPrice($price)
-  {
+  public function setPrice($price) {
     $this->price = $price;
   }
 
-  /**
-   * obtiene la depreciacio  de la maquina
-   *
-   * @access public
-   * @return float
-   */
-  public function getDepreciation()
-  {
-    return $this->depreciation;
-  }
-
-  /**
-   * Cambia la depreciacion de la maquina
-   *
-   * @access public
-   * @param float $depreciation nueva depreciacion de la maquina
-   * @return void
-   */
-  public function setDepreciation($depreciation)
-  {
+  public function setDepreciation($depreciation) {
     $this->depreciation = $depreciation;
   }
 
-  /**
-   * Obtiene el nuemero de años al que se deprecio la maquina
-   *
-   * @access public
-   * @return integer
-   */
-  public function getYearsDepreciation()
-  {
+  public function getDepreciation() {
+    return $this->depreciation;
+  }
+
+  private function calculateDepreciation($daysMonth, $hours) {
+    $this->depreciation = ($this->price - $this->residualValue) / ($this->yearsDepreciation * 12) / $daysMonth / $hours / 60;
+  }
+
+  public function getYearsDepreciation() {
     return $this->yearsDepreciation;
   }
 
-  /**
-   * Camabia el numero de años en que se va a depreciar la maquina
-   *
-   * @access public
-   * @param integer $yearsDepreciation nuevo numero de años de depreciacion
-   * @return void
-   */
-  public function setYearsDepreciation($yearsDepreciation)
-  {
+  public function setYearsDepreciation($yearsDepreciation) {
     $this->yearsDepreciation = $yearsDepreciation;
   }
 
-  /**
-   * Obtiene el valor residual de la maquina
-   *
-   * @access public
-   * @return double
-   */
-  public function getResidualValue()
-  {
+  public function getResidualValue() {
     return $this->residualValue;
   }
 
-  /**
-   * Cambia el valor residual de la maquina
-   *
-   * @access public
-   * @param double $residualValue nuevo valor residual para la maquina
-   * @return void
-   */
-  public function setResidualValue($residualValue)
-  {
+  public function setResidualValue($residualValue) {
     $this->residualValue = $residualValue;
   }
 
-  /**
-   * Convierte esta clase en un objeto JSON
-   *
-   * @access public
-   * @return mixed
-   */
-  public function jsonSerialize()
-  {
+  public function jsonSerialize() {
     return get_object_vars($this);
   }
 }

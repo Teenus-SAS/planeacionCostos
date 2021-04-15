@@ -1,11 +1,3 @@
-/**
- * Teenus SAS
- * @github Teenus SAS
- * logica para trabajar con excel
- * importacion de datos
- * exportacion de datos
- */
-
 var processesInRostersJSON;
 
 loadProcessesInRoster();

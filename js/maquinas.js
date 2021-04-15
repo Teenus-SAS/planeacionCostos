@@ -116,7 +116,6 @@ var $tableMaquinas = $("#table-maquinas").dataTable({
       data: "depreciation",
       render: function (data, type, row) {
         if (parseFloat(data) < 1) {
-          /* return data */
           return $.number(data, 2, ".", ",");
         } else {
           return $.number(data, 2, ".", ",");
