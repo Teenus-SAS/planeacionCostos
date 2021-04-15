@@ -86,12 +86,18 @@ class MachineDao
 
   public function saveOrUpdate(Machine $machine) {
     $update = false;
-    if ($this->findById($machine->getId()) || $this->findOneByName($machine->getIdCompany(), $machine->getName())) {
+    $machineExists = $this->findById($machine->getId());
+    if (!$machineExists) {
+      $machineExists = $this->findOneByName($machine->getIdCompany(), $machine->getName());
+    }
+    if ($machineExists) {
+      $machine->setId($machineExists->getId());
       $update = true;
       $this->update($machine);
     } else {
       $this->save($machine);
     }
+    
     return $update;
   }
 
