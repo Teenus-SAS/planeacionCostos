@@ -57,14 +57,7 @@ class MachineDao
     }
   }
 
-  /**
-   * Encuentra todas las máquinas de una empresa
-   *
-   * @param integer $idCompany Id de la empresa
-   * @return Machine[]|null
-   */
-  public function findByCompany($idCompany)
-  {
+  public function findByCompany($idCompany) {
     $this->db->connect();
     $query = "SELECT `id_maquinas` FROM `maquinas` WHERE `empresas_id_empresa` = '$idCompany'";
     $machinesDB = $this->db->consult($query, "yes");
@@ -79,14 +72,30 @@ class MachineDao
     }
   }
 
-  /**
-   * Crear o guardar una maquina en la base de datos
-   *
-   * @param Machine $machine Máquina que se quiere guardar
-   * @return integer número de tuplas afectadas 
-   */
-  public function save($machine)
-  {
+  public function findOneByName($idCompany, $name) {
+    $this->db->connect();
+    $query = "SELECT `id_maquinas` FROM `maquinas` WHERE `empresas_id_empresa` = '$idCompany' AND `nombre` = '$name'";
+    $machinesDB = $this->db->consult($query, "yes");
+    if ($machinesDB !== false && count($machinesDB) > 0) {
+      $machineDB = $machinesDB[0];
+      return $this->findById($machineDB["id_maquinas"]);
+    } else {
+      return null;
+    }
+  }
+
+  public function saveOrUpdate(Machine $machine) {
+    $update = false;
+    if ($this->findById($machine->getId()) || $this->findOneByName($machine->getIdCompany(), $machine->getName())) {
+      $update = true;
+      $this->update($machine);
+    } else {
+      $this->save($machine);
+    }
+    return $update;
+  }
+
+  public function save($machine) {
     $this->db->connect();
     $query = "INSERT INTO `maquinas` (`id_maquinas`, `empresas_id_empresa`, `nombre`,
     `precio`, `depreciacion_minuto`, `years_depreciation`,`residual_value`) VALUES (NULL, '" . $machine->getIdCompany() . "', '" . $machine->getName() . "',
@@ -98,33 +107,19 @@ class MachineDao
     return  $this->db->consult($query);
   }
 
-  /**
-   * Actualiza la información de una máquina
-   *
-   * @param Machine $machine Maquina  que se desea actualizar
-   * @return Integer Número de tuplas que se afectaron
-   */
-  public function update($machine)
-  {
+  public function update($machine)  {
     $this->db->connect();
     $query = "UPDATE `maquinas` SET `nombre` = '" . $machine->getName() . "', 
     `precio` = '" . $machine->getPrice() . "', 
     `depreciacion_minuto` = '" . $machine->getDepreciation() . "' , 
     `years_depreciation` = '" . $machine->getYearsDepreciation() . "', 
     `residual_value` = '" . $machine->getResidualValue() . "'
-    WHERE `maquinas`.`id_maquinas` = " . $machine->getId() . "
-    AND `maquinas`.`empresas_id_empresa` = " . $machine->getIdCompany();
+    WHERE `maquinas`.`id_maquinas` = '" . $machine->getId() . "'
+    AND `maquinas`.`empresas_id_empresa` = '" . $machine->getIdCompany() . "'";
     return  $this->db->consult($query);
   }
 
-  /**
-   * Borra una máquina de la base de datos
-   *
-   * @param integer $id Id de la máquina que se desea eliminar
-   * @return integer Número de tuplas afectadas
-   */
-  public function delete($id)
-  {
+  public function delete($id)  {
     $this->db->connect();
     $query = "DELETE FROM `maquinas` WHERE `maquinas`.`id_maquinas` = $id";
     return  $this->db->consult($query);

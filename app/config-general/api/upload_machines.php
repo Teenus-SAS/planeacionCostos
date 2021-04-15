@@ -31,12 +31,12 @@ if (isset($_SESSION["user"])) {
   foreach ($machinesJSON as $machineJSON) {
     $machine = new Machine();
     $machine->setIdCompany($user->getCompany()->getId());
-    $machine->setName($machineJSON->Maquina);
-    $machine->setPrice($machineJSON->Precio);
+    $machine->setName($machineJSON->maquina);
+    $machine->setPrice($machineJSON->precio);
     $machine->setYearsDepreciation($machineJSON->years);
-    $machine->setResidualValue($machineJSON->residualValue);
-    $machine->setDepreciation(($machineJSON->Precio - $machineJSON->residualValue) / ($machineJSON->years * 12) / $user->getCompany()->getWorkHours() / $user->getCompany()->getBussinesDaysMonth() / 60);
-    array_push($responses, $machineDao->save($machine) > 0 ? true : false);
+    $machine->setResidualValue($machineJSON->valorresidual);
+    $machine->setDepreciation(($machineJSON->precio - $machineJSON->valorresidual) / ($machineJSON->years * 12) / $user->getCompany()->getWorkHours() / $user->getCompany()->getBussinesDaysMonth() / 60);
+    array_push($responses, $machineDao->saveOrUpdate($machine));
   }
   http_response_code(200);
   echo json_encode($responses);

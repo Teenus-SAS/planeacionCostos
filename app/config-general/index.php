@@ -1302,7 +1302,7 @@ include(PARTIALS_PATH . "verify_session.php");
   <script src="/js/app/xlsx/xlsx_procesos.js" type="module"></script>
   <script src="/js/app/xlsx/xlsx_materia_prima.js" type="module"></script>
   <script src="/js/app/xlsx/xlsx_carga_fabril.js"></script>
-  <script src="/js/app/xlsx/xlsx_maquinas.js"></script>
+  <script src="/js/app/xlsx/xlsx_maquinas.js" type="module"></script>
   <script src="/js/app/xlsx/xlsx_nomina.js"></script>
   <script src="/js/horas_extra.js"> </script>
   <script src="/js/app/bpm.js"></script>
