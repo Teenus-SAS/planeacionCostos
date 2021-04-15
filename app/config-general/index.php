@@ -448,7 +448,7 @@ include(PARTIALS_PATH . "verify_session.php");
                       <div class="row mb-5 mt-4">
                         <div class="col-12">
                           <h5 class="pull-left">Importar Procesos</h5>
-                          <a href="javascript:generateFileProcesses()" title="Descargar plantilla Excel para Importar/Exportar" class="pull-right btn btn-success btn-icon"><i class="fas fa-file-excel"></i></a>
+                          <a id="btnDownloadProcesosExcel" title="Descargar plantilla Excel para Importar/Exportar" class="pull-right btn btn-success btn-icon"><i class="fas fa-file-excel"></i></a>
                         </div>
                         <div class="custom-file">
                           <input type="file" id="fileProcess" class="custom-file-input">

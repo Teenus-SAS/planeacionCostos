@@ -31,8 +31,8 @@ if (isset($_SESSION["user"])) {
   foreach ($processesJSON as $processJSON) {
     $process = new Process();
     $process->setIdCompany($user->getCompany()->getId());
-    $process->setName($processJSON->Proceso);
-    array_push($responses, $processDao->save($process) > 0 ? true : false);
+    $process->setName($processJSON->proceso);
+    array_push($responses, $processDao->save($process) <= 0 ? true : false);
   }
   http_response_code(200);
   echo json_encode($responses);

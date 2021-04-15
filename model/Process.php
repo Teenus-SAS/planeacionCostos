@@ -6,35 +6,11 @@
  * @github Teenus SAS
  * @package model
  */
-class Process implements JsonSerializable
-{
-  /**
-   * Id del proceso
-   *
-   * @access private
-   * @var integer
-   */
+class Process implements JsonSerializable {
   private $id;
-  /**
-   * nombre del proceso
-   *
-   * @access private
-   * @var string
-   */
   private $name;
-  /**
-   * id de la compañia creadora del proceso
-   *
-   * @access private
-   * @var integer
-   */
   private $idCompany;
 
-  /**
-   * obtiene el id del proceso
-   *
-   * @return integer
-   */
   public function getId()
   {
     return $this->id;
@@ -51,45 +27,19 @@ class Process implements JsonSerializable
     $this->id = $id;
   }
 
-  /**
-   * obtiene el nombre del proceso
-   *
-   * @return string
-   */
-  public function getName()
-  {
+  public function getName() {
     return $this->name;
   }
 
-  /**
-   * Cambia el nombre del proceso
-   *
-   * @param string $name nuevo nombre del proceso
-   * @return void
-   */
-  public function setName($name)
-  {
+  public function setName($name) {
     $this->name = $name;
   }
 
-  /**
-   * obtiene le id de la empresa creadora del proceso
-   *
-   * @return integer
-   */
-  public function getIdCompany()
-  {
+  public function getIdCompany() {
     return $this->idCompany;
   }
 
-  /**
-   * cambia el id de la empresa creadora del porceso
-   *
-   * @param integer $idCompany nuevo id de la empresa
-   * @return void
-   */
-  public function setIdCompany($idCompany)
-  {
+  public function setIdCompany($idCompany) {
     $this->idCompany = $idCompany;
   }
 
