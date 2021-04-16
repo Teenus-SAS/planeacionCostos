@@ -32,9 +32,9 @@ if (isset($_SESSION["user"])) {
   foreach ($serviciosJSON as $servicioJSON) {
     $servicio = new ServicioExterno();
     $servicio->setIdEmpresa($user->getCompany()->getId());
-    $servicio->setIdProducto($servicioJSON->Producto);
-    $servicio->setnombreServicio($servicioJSON->Servicio);
-    $servicio->setCosto($servicioJSON->Costo);
+    $servicio->setIdProducto($servicioJSON->producto);
+    $servicio->setnombreServicio($servicioJSON->servicio);
+    $servicio->setCosto($servicioJSON->costo);
     $updated = $serviciosDao->saveOrUpdate($servicio);
     array_push($responses, $updated);
   }

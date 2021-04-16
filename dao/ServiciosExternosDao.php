@@ -116,7 +116,7 @@ class ServiciosExternosDao
   {
     $this->db->connect();
     $query = "SELECT * FROM `servicios_externos`
-              WHERE `id_servicio` = '" . $servicio->getId() . "' OR `nombre_servicio` = '" . $servicio->getnombreServicio() . "'";
+              WHERE `id_servicio` = '" . $servicio->getId() . "' OR (`nombre_servicio` = '" . $servicio->getnombreServicio() . "' AND `id_producto` = '" . $servicio->getIdProducto() . "')";
     $serviciosDB = $this->db->consult($query, "yes");
     $update = false;
 
