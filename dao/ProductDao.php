@@ -162,14 +162,7 @@ class ProductDao
     }
   }
 
-  /**
-   * Encuentra el numero de productos creados por una empresa
-   *
-   * @param integer $idCompany id de la empresa
-   * @return integer numero de productos de la empresa
-   */
-  public function findNumberProductsByCompany($idCompany)
-  {
+  public function findNumberProductsByCompany($idCompany) {
     $this->db->connect();
     $query = "SELECT count(*) as n_productos FROM `productos` WHERE `empresas_id_empresa` = $idCompany";
     $count = $this->db->consult($query, "yes");
@@ -177,14 +170,7 @@ class ProductDao
     return $count[0]["n_productos"];
   }
 
-  /**
-   * Crea un producto en la base de datos
-   *
-   * @param Product $product producto que se desea crear
-   * @return integer numero de tuplas afectadas
-   */
-  public function save($product)
-  {
+  public function save($product) {
     $this->db->connect();
     $query = "INSERT INTO `productos` (`id_producto`, `empresas_id_empresa`, `ref`, `nombre`, `rentabilidad`) 
               VALUES (NULL, '" . $product->getIdCompany() . "', '" . $product->getRef() . "', '" . $product->getName() . "','" . $product->getRentabilidad() . "') 
@@ -193,8 +179,7 @@ class ProductDao
     return $this->db->consult($query);
   }
 
-  public function saveOrUpdate(Product $product)
-  {
+  public function saveOrUpdate(Product $product) {
     $update = false;
     $this->db->connect();
     $query = "SELECT * FROM `productos`
@@ -214,55 +199,26 @@ class ProductDao
     return $update;
   }
 
-  /**
-   * actualiza un producto en la base de datos
-   *
-   * @param Product $product producto que se desea actualizar
-   * @return integer numero de tuplas afectadas
-   */
-  public function update($product)
-  {
+  public function update($product) {
     $this->db->connect();
     $query = "UPDATE `productos` SET `ref` = '" . $product->getRef() . "', `nombre` = '" . $product->getName() . "', `rentabilidad` = '" . $product->getRentabilidad() . "' WHERE `productos`.`id_producto` = " . $product->getId();
     $this->db->consult($query);
     return true;
   }
 
-  /**
-   * borrar un producto por su id
-   *
-   * @param integer $id id del producto que se desea borrar
-   * @return integer numero de tuplas afectadas
-   */
-  public function delete($id)
-  {
+  public function delete($id) {
     $this->db->connect();
     $query = "DELETE FROM `productos` WHERE `productos`.`id_producto` = $id";
     return $this->db->consult($query);
   }
 
-  /**
-   * borrar una materia prima de un producto
-   *
-   * @param integer $id id de la materia prima que se quiere borrar
-   * @return integer numero de tuplas afectadas
-   */
-  public function deleteRawMaterial($id)
-  {
+  public function deleteRawMaterial($id) {
     $this->db->connect();
     $query = "DELETE FROM `materiales_has_productos` WHERE `materiales_has_productos`.`materiales_has_productos_id` = $id";
     return $this->db->consult($query);
   }
 
-  /**
-   * Encuentra una materia prima de un producto
-   *
-   * @param Product $product producto en donde se desea buscar
-   * @param integer $idMaterial id del material 
-   * @return ProductRawMaterial|null materia prima que se buscaba
-   */
-  public function findOneRawMaterialByProduct($product, $idMaterial)
-  {
+  public function findOneRawMaterialByProduct($product, $idMaterial) {
     $this->db->connect();
     $query = "SELECT * FROM `materiales_has_productos` WHERE `productos_id_producto` = " . $product->getId() . " AND `materiales_id_materiales` = $idMaterial";
     $productRawMaterialDB = $this->db->consult($query, "yes");
@@ -280,16 +236,7 @@ class ProductDao
     }
   }
 
-  /**
-   * Crea o actualiza una materia prima de un producto
-   *
-   * @param Product $product producto a donde se quiere crear o actualizar la materia prima
-   * @param integer $idMaterial id del material que se quiere crear o actualizar
-   * @param double $quantity cantidad del material que se necesita para el producto
-   * @return integer numero de tuplas afectadas
-   */
-  public function saveOrUpdateRawMaterial($product, $idMaterial, $quantity)
-  {
+  public function saveOrUpdateRawMaterial($product, $idMaterial, $quantity) {
     $productRawMaterial = $this->findOneRawMaterialByProduct($product, $idMaterial);
     $update = false;
 

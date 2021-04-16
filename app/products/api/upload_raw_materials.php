@@ -18,9 +18,9 @@ if (isset($_SESSION["user"])) {
   $materialsJSON = json_decode($_POST["rawMaterials"]);
   $responses = [];
   foreach ($materialsJSON as $materialJSON) {
-    $material = $materialDao->findByName(trim($materialJSON->Material), $user->getCompany()->getId());
-    $product = $productDao->findByRef($materialJSON->Referencia, $user->getCompany()->getId());
-    array_push($responses, $productDao->saveOrUpdateRawMaterial($product, $material->getId(), $materialJSON->Cantidad) > 0 ? true : false);
+    $material = $materialDao->findById($materialJSON->material);
+    $product = $productDao->findByRef($materialJSON->referencia, $user->getCompany()->getId());
+    array_push($responses, $productDao->saveOrUpdateRawMaterial($product, $material->getId(), $materialJSON->cantidad));
   }
   http_response_code(200);
   echo json_encode($responses);

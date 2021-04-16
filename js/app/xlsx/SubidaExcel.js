@@ -13,9 +13,11 @@ export class SubidaExcel {
     this.errorsCount = 0;
     this.verifyColumnscb = verifyColumnscb;
     this.uploadDatacb = uploadDatacb;
+    this.errors = [];
   }
 
   onloadReader(cb, verifyColumns = null) {
+    this.errors = [];
     this.#getReader(cb, verifyColumns);
     this.clearFile();
   }
@@ -95,20 +97,28 @@ export class SubidaExcel {
   }
 
   #verifyColumns() {
-    this.errors = [];
     this.array.forEach((cell) => {
-      Object.keys(this.columns).forEach((columnName) => {
-        columnName = columnName.trim().toLowerCase().replaceAll(" ", "");
-        const verification = this.verifyColumnscb(cell, columnName);
-        if (cell[columnName] == undefined || verification) {
-          this.errors.push({
-            type: verification || "undefined",
-            columnName,
-            row: cell.__rowNum__ || cell.rowNum,
-            cell,
-          });
-        }
-      });
+      const verification = this.verifyColumnscb(cell);
+      if (verification) {
+        this.errors.push({
+          type: verification.type || "",
+          columnName: verification.columnName || "",
+          row: cell.__rowNum__ || cell.rowNum,
+          cell,
+        });
+      } else {
+        Object.keys(this.columns).forEach((columnName) => {
+          columnName = columnName.trim().toLowerCase().replaceAll(" ", "");
+          if (cell[columnName] == undefined || verification) {
+            this.errors.push({
+              type: "undefined",
+              columnName,
+              row: cell.__rowNum__ || cell.rowNum,
+              cell,
+            });
+          }
+        });
+      }
     });
   }
 

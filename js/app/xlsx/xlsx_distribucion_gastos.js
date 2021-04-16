@@ -25,15 +25,16 @@ const exportImportDDirecta = new ImportacionXLSX(
     Porcentaje: "porcentaje",
   },
   $("#fileProductsExpenses"),
-  (cell, columnName) => {
-    if (columnName == "proceso") {
-      const existsProcess = procesos.find((proc) => proc.name == cell.proceso);
-      if (existsProcess) {
-        cell.proceso = existsProcess.id;
-        return false;
-      } else {
-        return true;
-      }
+  (cell) => {
+    const existsProcess = procesos.find((proc) => proc.name == cell.proceso);
+    if (existsProcess) {
+      cell.proceso = existsProcess.id;
+      return false;
+    } else {
+      return {
+        type: "Proceso no existe",
+        columnName: "proceso",
+      };
     }
   }
 );
@@ -50,17 +51,16 @@ const exportImportDGastos = new ImportacionXLSX(
     "Volumen de Ventas": "expenses.turnOver",
   },
   $("#fileDistribucionesDirectas"),
-  (cell, columnName) => {
-    if (columnName == "producto") {
-      const existsProduct = productos.find(
-        (prod) => prod.name == cell.producto
-      );
-      if (existsProduct) {
-        cell.producto = existsProduct.id;
-        return false;
-      } else {
-        return true;
-      }
+  (cell) => {
+    const existsProduct = productos.find((prod) => prod.name == cell.producto);
+    if (existsProduct) {
+      cell.producto = existsProduct.id;
+      return false;
+    } else {
+      return {
+        type: "Producto no existe",
+        columnName: "producto",
+      };
     }
   }
 );

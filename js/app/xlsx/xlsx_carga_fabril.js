@@ -15,15 +15,16 @@ const exportImportCargaFabril = new ImportacionXLSX(
     Mantenimiento: "mantenimiento",
   },
   $("#filecargaFabril"),
-  (cell, columnName) => {
-    if (columnName == "maquina") {
-      const machineExists = machines.find((mach) => mach.name === cell.maquina);
-      if (machineExists) {
-        cell.maquina = machineExists.id;
-        return false;
-      } else {
-        return true;
-      }
+  (cell) => {
+    const machineExists = machines.find((mach) => mach.name === cell.maquina);
+    if (machineExists) {
+      cell.maquina = machineExists.id;
+      return false;
+    } else {
+      return {
+        type: "Máquina no existe",
+        columnName: "maquina",
+      };
     }
   }
 );

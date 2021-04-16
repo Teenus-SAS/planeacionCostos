@@ -8,47 +8,11 @@
  */
 class Material implements JsonSerializable
 {
-  /**
-   * Id de del material
-   *
-   * @access private
-   * @var integer
-   */
   private $id;
-  /**
-   * Id de la empresa 
-   *
-   * @access private
-   * @var integer
-   */
   private $IdCompany;
-   /**
-   * referencia del material
-   *
-   * @access private
-   * @var integer
-   */
   private $referencia;
-  /**
-   * Nombre del  material
-   *
-   * @access private
-   * @var string
-   */
   private $description;
-  /**
-   * Costo del material
-   *
-   * @access private
-   * @var double
-   */
   private $cost;
-  /**
-   * Unidad de medida del material
-   *
-   * @access private
-   * @var string
-   */
   private $unit;
 
   /**

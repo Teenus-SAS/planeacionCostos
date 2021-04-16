@@ -23,15 +23,16 @@ const exportImportNomina = new ImportacionXLSX(
     Prestaciones: "performaceFactor",
   },
   $("#fileRosters"),
-  (cell, columnName) => {
-    if (columnName == "proceso") {
-      const processExists = procesos.find((proc) => proc.name === cell.proceso);
-      if (processExists) {
-        cell.proceso = processExists.id;
-        return false;
-      } else {
-        return true;
-      }
+  (cell) => {
+    const processExists = procesos.find((proc) => proc.name === cell.proceso);
+    if (processExists) {
+      cell.proceso = processExists.id;
+      return false;
+    } else {
+      return {
+        type: "Proceso no existe",
+        columnName: "proceso",
+      };
     }
   }
 );
