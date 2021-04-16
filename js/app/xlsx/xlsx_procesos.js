@@ -1,4 +1,3 @@
-import { SubidaExcel } from "./SubidaExcel.js";
 import { ImportacionXLSX } from "./ImportacionXLSX.js";
 
 const exportImportProcesos = new ImportacionXLSX(

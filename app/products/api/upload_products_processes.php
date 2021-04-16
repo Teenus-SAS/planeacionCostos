@@ -18,14 +18,13 @@ if (isset($_SESSION["user"])) {
   $productsProcessesJSON = json_decode($_POST["productsProcess"]);
   $responses = [];
   foreach ($productsProcessesJSON as $productProcessJSON) {
-    $product = $productDao->findByRef($productProcessJSON->Referencia, $user->getCompany()->getId());
+    $product = $productDao->findByRef($productProcessJSON->referencia, $user->getCompany()->getId());
     array_push($responses, $processDao->saveOrUpdateProductProcess(
       $product,
-      $productProcessJSON->Maquina,
-      $productProcessJSON->Proceso,
-      $productProcessJSON->TiempoAlistamiento,
-      $productProcessJSON->TiempoOperacion,
-      /* 60 / $productProcessJSON->unidad */
+      $productProcessJSON->maquina,
+      $productProcessJSON->proceso,
+      $productProcessJSON->tiempoalistamiento,
+      $productProcessJSON->tiempooperacion,
     )->mode == "updated" ? true : false);
   }
   http_response_code(200);
