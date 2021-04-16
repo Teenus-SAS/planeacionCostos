@@ -1,5 +1,12 @@
 export class BajadaExcel {
-  constructor(documentName, sheetName, formato, columns, endpoint) {
+  constructor(
+    documentName,
+    sheetName,
+    formato,
+    columns,
+    endpoint,
+    datacb = (data) => data
+  ) {
     this.documentName = documentName;
     this.sheetName = sheetName;
     this.formato = formato;
@@ -13,12 +20,14 @@ export class BajadaExcel {
     this.workbook.SheetNames.push(sheetName);
     this.endpoint = endpoint;
     this.columns = columns;
+    this.datacb = datacb;
     this.#loadData();
   }
 
   #loadData(cb = () => {}) {
     let ws_data = [];
     $.get(this.endpoint, (data, status) => {
+      data = this.datacb(data);
       data.forEach((item) => {
         const row = {};
         Object.keys(this.columns).forEach((columnName) => {

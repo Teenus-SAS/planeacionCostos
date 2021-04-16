@@ -1,15 +1,22 @@
 export class SubidaExcel {
-  constructor(inputFile, sheetName, columns, verifyColumnscb = () => {}) {
+  constructor(
+    inputFile,
+    sheetName,
+    columns,
+    verifyColumnscb = () => {},
+    uploadDatacb = (data) => data
+  ) {
     this.reader = new FileReader();
     this.inputFile = inputFile;
     this.sheetName = sheetName;
     this.columns = columns;
     this.errorsCount = 0;
     this.verifyColumnscb = verifyColumnscb;
+    this.uploadDatacb = uploadDatacb;
   }
 
-  onloadReader(cb) {
-    this.#getReader(cb);
+  onloadReader(cb, verifyColumns = null) {
+    this.#getReader(cb, verifyColumns);
     this.clearFile();
   }
 
@@ -18,7 +25,7 @@ export class SubidaExcel {
     $(this.inputFile).siblings("label").text("Seleccionar Archivo");
   }
 
-  #getReader(cb) {
+  #getReader(cb, verifyColumns = null) {
     const file =
       this.inputFile && this.inputFile.files ? this.inputFile.files[0] : null;
     if (file) {
@@ -31,7 +38,13 @@ export class SubidaExcel {
       });
       this.sheet = this.workbook.Sheets[this.sheetName];
       this.array = this.#cleanExcelCells(XLSX.utils.sheet_to_json(this.sheet));
-      this.#verifyColumns();
+      this.array = this.uploadDatacb(this.array);
+      if (verifyColumns) {
+        this.errors = verifyColumns(this.array);
+      } else {
+        this.#verifyColumns();
+      }
+      this.#filterColumnsWithErrors();
       cb();
     };
   }
@@ -89,7 +102,7 @@ export class SubidaExcel {
         const verification = this.verifyColumnscb(cell, columnName);
         if (cell[columnName] == undefined || verification) {
           this.errors.push({
-            type: "undefined",
+            type: verification || "undefined",
             columnName,
             row: cell.__rowNum__ || cell.rowNum,
             cell,
@@ -97,11 +110,13 @@ export class SubidaExcel {
         }
       });
     });
-    this.#filterColumnsWithErrors();
   }
 
   #filterColumnsWithErrors() {
     const beforeLength = this.array.length;
+    if (!this.errors.length) {
+      return;
+    }
     this.array = this.array.filter((cell) => {
       const filaConError = this.errors.find((error) => error.cell == cell);
       return filaConError ? false : true;
@@ -139,11 +154,17 @@ export class SubidaExcel {
       this.errorsCount > 1 ? "filas" : "fila"
     } <span style="color:red">con errores</span>.</p>`;
 
+    return this.customMessageResumenSubida(
+      `${createdCount > 0 ? createdString : ""}${
+        updatedCount > 0 ? updatedString : ""
+      }${this.errorsCount > 0 ? errorsString : ""}`
+    );
+  }
+
+  customMessageResumenSubida(message) {
     return bootbox.dialog({
       title: "Resumen subida",
-      message: `${createdCount > 0 ? createdString : ""}${
-        updatedCount > 0 ? updatedString : ""
-      }${this.errorsCount > 0 ? errorsString : ""}`,
+      message,
     });
   }
 

@@ -215,7 +215,6 @@ function saveGE() {
         }
       );
     }
-    loadMonthExpenses();
     $tableGastosMensuales.api().ajax.reload();
   });
 }

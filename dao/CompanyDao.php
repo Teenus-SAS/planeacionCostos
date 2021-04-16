@@ -5,43 +5,14 @@ require_once DB_PATH . "DBOperator.php";
 require_once DB_PATH . "env.php";
 require_once MODEL_PATH . "Company.php";
 
-/**
- * Esta clase es el DAO(Data Access Object) para Empresas
- * 
- * 
- * @author Teenus SAS>
- * @version 1.0
- * @uses DBOperator, Company
- * @package Dao
- * 
- */
-class CompanyDao
-{
-  /**
-   * Objeto de comuniacion con la base de datos
-   *
-   * @access private
-   * @var DBOperator
-   */
+class CompanyDao {
   private $db;
 
-  /**
-   * Se inicializa la conexion con la base de datos
-   * @access public
-   */
-  public function __construct()
-  {
+  public function __construct() {
     $this->db = new DBOperator($_ENV["db_host"], $_ENV["db_user"], $_ENV["db_name"], $_ENV["db_pass"]);
   }
 
-  /**
-   * Encontrar una empresa por id
-   *
-   * @param integer $id id de la empresa que se quiere buscar
-   * @return Company|null
-   */
-  public function findById($id)
-  {
+  public function findById($id) {
     $this->db->connect();
     $query = "SELECT * FROM `empresas` WHERE `id_empresa` = $id";
     $companyDB = $this->db->consult($query, "yes");

@@ -1296,7 +1296,7 @@ include(PARTIALS_PATH . "verify_session.php");
   <script src="/js/procesos.js"></script>
   <script src="/js/nomina.js"></script>
   <script src="/js/app/xlsx/cleanExcelCells.js"></script>
-  <script src="/js/app/xlsx/xlsx_calculo_GG.js"></script>
+  <script src="/js/app/xlsx/xlsx_gastos_generales.js" type="module"></script>
   <script src="/js/app/xlsx/xlsx_productos_procesos.js"></script>
   <script src="/js/app/xlsx/xlsx_productos.js" type="module"></script>
   <script src="/js/app/xlsx/xlsx_procesos.js" type="module"></script>

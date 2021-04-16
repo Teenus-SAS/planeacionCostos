@@ -17,6 +17,9 @@ if (isset($_SESSION["user"])) {
     $companyDao->update($company);
     $user->setCompany($company);
     $_SESSION["user"] = serialize($user);
+    http_response_code(200);
+    echo true;
+    exit;
 } else {
     http_response_code(401);
     exit;

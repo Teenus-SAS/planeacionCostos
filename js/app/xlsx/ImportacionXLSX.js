@@ -9,7 +9,9 @@ export class ImportacionXLSX {
     sheetName,
     columns,
     inputFile,
-    verifyColumnscb
+    verifyColumnscb,
+    downloadDatacb = (data) => data,
+    uploadDatacb = (data) => data
   ) {
     this.endpoint = endpoint;
 
@@ -17,7 +19,8 @@ export class ImportacionXLSX {
       inputFile,
       sheetName,
       columns,
-      verifyColumnscb
+      verifyColumnscb,
+      uploadDatacb
     );
 
     this.bajadaExcel = new BajadaExcel(
@@ -25,7 +28,8 @@ export class ImportacionXLSX {
       sheetName,
       formato,
       columns,
-      endpoint
+      endpoint,
+      downloadDatacb
     );
   }
 }

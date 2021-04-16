@@ -1,151 +1,31 @@
 <?php
 
 
-class Company implements JsonSerializable
-{
-  /**
-   * id de la empresa
-   *
-   * @var integer
-   */
+class Company implements JsonSerializable {
   private $id;
-  /**
-   * Nombre comercial de la empresa
-   *
-   * @var string
-   */
   private $tradename;
-  /**
-   * Razon Comercial de la empresa
-   *
-   * @var string
-   */
   private $bussinesReason;
-  /**
-   * departamento de la empresa
-   *
-   * @var string
-   */
-  private $department;
-  /**
-   * Ciudad de la empresa
-   *
-   * @var string
-   */
   private $city;
-  /**
-   * país de la empresa
-   *
-   * @var string
-   */
+  private $department;
   private $country;
-  /**
-   * Dirección de la empresa
-   *
-   * @var string
-   */
   private $address;
-  /**
-   * Telefono de la empresa
-   *
-   * @var string
-   */
   private $phone;
-  /**
-   * NIT de la empresa
-   *
-   * @var string
-   */
   private $nit;
-  
-  /**
-   * Comisión de ventas de la empresa
-   *
-   * @var double
-   */
   private $salesCommission;
-  /**
-   * Margen de rentabilidad de la empresa
-   *
-   * @var double
-   */
   private $profitabilityMargin;
-  /**
-   * horas de trabajo al dia de la empresa
-   *
-   * @var integer
-   */
   private $workHours;
-  /**
-   * Días de trabajo al mes de la empresa
-   *
-   * @var integer
-   */
   private $bussinesDaysMonth;
-  
-  /**
-   * Ruta del archivo de imagen del logo de la empresa
-   *
-   * @var string
-   */
   private $logo;
-  
-  /**
-   * Gastos generales del mes de la empresa
-   *
-   * @var double
-   */
   private $totalMonthExpenses;
-  /**
-   * Fecha de expiracion de licencia de la empresa
-   *
-   * @var date
-   */
   private $licenseExpiration;
-  
-  /**
-   * Estado de la licencia
-   *
-   * @var boolean
-   */
   private $activeLicense;
-  /**
-   * Número de productos con capacidad de agregar de la empresa
-   *
-   * @var integer
-   */
   private $licensedProducts;
-  /**
-   * Descripcion de gastos generales de la empresa
-   * Esto se da en un objeto JSON 
-   * Seguiendo una estructura creada por la apliación
-   *
-   * @var mixed
-   */
   private $expensesDescription;
-  /**
-   * Fecha de inicio de licencia
-   *
-   * @var date
-   */
   private $startLicense;
-  /**
-   * Descripción del creador de la cuenta de la empresa
-   * Esto se da en un formato JSOn
-   *
-   * @var mixed
-   */
   private $creator;
-  /**
-   * BPM de la empresa es una ruta 
-   * La cual contiene el archivo de imagen del BPM
-   *
-   * @var string
-   */
   private $bpm;
 
-  public function getId()
-  {
+  public function getId() {
     return $this->id;
   }
 
