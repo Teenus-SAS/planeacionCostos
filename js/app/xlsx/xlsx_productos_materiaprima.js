@@ -22,7 +22,9 @@ const exportImportProdMateriaPrima = new ImportacionXLSX(
   (cell) => {
     const productExists = products.find((prod) => prod.ref === cell.referencia);
     const materialExists = materials.find(
-      (mat) => mat.description === cell.material
+      (mat) =>
+        String(mat.description).toLowerCase() ===
+        String(cell.material).toLowerCase()
     );
     if (!materialExists) {
       return {
