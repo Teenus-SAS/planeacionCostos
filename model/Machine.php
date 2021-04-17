@@ -11,9 +11,11 @@ class Machine implements JsonSerializable {
 
   public function setValuesDepreciation($daysMonth, $hours, $price, $residualValue, $yearsDepreciation) {
     $this->price = $price;
-    $this->residualValue = $residualValue;
+    $this->residualValue = $residualValue; 
     $this->yearsDepreciation = $yearsDepreciation;
-    $this->calculateDepreciation($daysMonth, $hours);
+    if ($daysMonth && $hours) {
+      $this->calculateDepreciation($daysMonth, $hours);
+    }
   }
 
   public function getId() {

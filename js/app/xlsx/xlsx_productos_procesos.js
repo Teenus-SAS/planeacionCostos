@@ -29,10 +29,18 @@ const exportImportProductosProcesos = new ImportacionXLSX(
   $("#fileProductsProcesses"),
   (cell) => {
     const productExists = productos.find(
-      (prod) => prod.name == cell.producto && prod.ref == cell.referencia
+      (prod) =>
+        String(prod.name).toLowerCase() ==
+          String(cell.producto).toLowerCase() && prod.ref == cell.referencia
     );
-    const processExists = procesos.find((proc) => proc.name == cell.proceso);
-    const maquinaExists = maquinas.find((mach) => mach.name == cell.maquina);
+    const processExists = procesos.find(
+      (proc) =>
+        String(proc.name).toLowerCase() == String(cell.proceso).toLowerCase()
+    );
+    const maquinaExists = maquinas.find(
+      (mach) =>
+        String(mach.name).toLowerCase() == String(cell.maquina).toLowerCase()
+    );
     if (!productExists) {
       return {
         type: "Producto no existe",
