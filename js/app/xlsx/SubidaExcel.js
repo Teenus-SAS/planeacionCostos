@@ -149,25 +149,57 @@ export class SubidaExcel {
     return mapped;
   }
 
-  resumenSubida(createdCount, updatedCount, stringType, pluralStringType) {
-    const updatedString = `<p>- Se ${
-      updatedCount > 1 ? "han" : "ha"
-    } <span style="color:blue">actualizado</span> ${updatedCount} ${
-      updatedCount > 1 || updatedCount == 0 ? pluralStringType : stringType
-    }.</p>`;
-    const createdString = `<p>- Se ${
-      createdCount > 1 ? "han" : "ha"
-    } <span style="color:green">cargado</span> ${createdCount} ${
-      createdCount > 1 || createdCount == 0 ? pluralStringType : stringType
-    }.</p>`;
-    const errorsString = `<p>- ${this.errorsCount} ${
-      this.errorsCount > 1 ? "filas" : "fila"
-    } <span style="color:red">con errores</span>.</p>`;
+  getResumenErrores() {
+    let resumenErrores = '<ul style="">';
+    this.errors.forEach((error) => {
+      resumenErrores += `<li>${error.type}: '${
+        error.cell[error.columnName]
+      }' (fila: ${parseInt(error.row) + 1})</li>`;
+    });
+
+    return resumenErrores + "</ul>";
+  }
+
+  resumenSubida(
+    createdCount,
+    updatedCount,
+    stringType,
+    pluralStringType,
+    fem = false
+  ) {
+    const isPlural = (count) => {
+      return count > 1 || count === 0;
+    };
+    const pluralCreated = isPlural(createdCount);
+    const pluralUpdated = isPlural(updatedCount);
+    const pluralErrors = isPlural(this.errorsCount);
+    const resumenErrores = this.getResumenErrores();
+
+    const updatedString = `<p>${updatedCount} ${
+      pluralUpdated ? pluralStringType : stringType
+    } <span style="color:blue">${
+      pluralUpdated
+        ? fem
+          ? "actualizadas"
+          : "actualizados"
+        : fem
+        ? "actualizada"
+        : "actualizado"
+    }</span></p>`;
+    const createdString = `<p>${createdCount} ${
+      pluralCreated ? pluralStringType : stringType
+    } <span style="color:green">${
+      pluralCreated ? (fem ? "creadas" : "creados") : fem ? "creada" : "creado"
+    }</span></p>`;
+    const errorsString = `<p>${this.errorsCount} ${
+      pluralErrors ? "filas" : "fila"
+    } <span style="color:red">con errores:</span>
+    ${resumenErrores}</p>`;
 
     return this.customMessageResumenSubida(
-      `${createdCount > 0 ? createdString : ""}${
+      `<div>${createdCount > 0 ? createdString : ""}${
         updatedCount > 0 ? updatedString : ""
-      }${this.errorsCount > 0 ? errorsString : ""}`
+      }${this.errorsCount > 0 ? errorsString : ""}</div>`
     );
   }
 

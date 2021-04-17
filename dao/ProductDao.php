@@ -1,6 +1,4 @@
 <?php
-
-
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
 require_once DB_PATH . "DBOperator.php";
 require_once DB_PATH . "env.php";
@@ -9,51 +7,20 @@ require_once MODEL_PATH . "ProductRawMaterial.php";
 require_once DAO_PATH . "MaterialDao.php";
 require_once DAO_PATH . "CompanyDao.php";
 require_once DAO_PATH . "ProcessDao.php";
+require_once DAO_PATH . "ServiciosExternosDao.php";
 require_once MODEL_PATH . "MonthlyExpenses.php";
-
-/**
- * Esta clase Es el DAO(Data Access Object) para productos
- * 
- * @author Teenus SAS>
- * @version 1.0
- * @uses DBOperator, ProductRawMaterials, CompanyDao, ProcessDao, MaterialDao, Product, MonthlyExpenses
- * @package Dao
- * 
- */
-class ProductDao
-{
-
-  /**
-   * Objeto de comuniacion con la base de datos
-   *
-   * @access private
-   * @var DBOperator
-   */
+class ProductDao {
   private $db;
 
-  /**
-   * inicializa la comunicacion con la base de datos
-   * - y los Data Access Object de materiales, procesos y empresas
-   */
-  public function __construct()
-  {
+  public function __construct() {
     $this->db = new DBOperator($_ENV["db_host"], $_ENV["db_user"], $_ENV["db_name"], $_ENV["db_pass"]);
     $this->materialDao = new MaterialDao();
     $this->processDao = new ProcessDao();
     $this->companyDao = new CompanyDao();
+    $this->serviciosExternosDao = new ServiciosExternosDao();
   }
 
-  /**
-   * encuentra un producto por su id
-   *
-   * @param integer $id id del producto que se desea buscar
-   * @param boolean $expenses bandera para traer los gastos del producto
-   * @param boolean $processes bandera para traer los procesos del producto
-   * @param boolean $materials bandera para traer los materiles del producto
-   * @return Product El producto que se busca
-   */
-  public function findById($id, $expenses = false, $processes = false, $materials = false)
-  {
+  public function findById($id, $expenses = false, $processes = false, $materials = false) {
     $this->db->connect();
     $query1 = "SELECT * FROM `productos` LEFT JOIN `gastos_mensuales` ON `productos`.`id_producto` = `gastos_mensuales`.`productos_id_producto` WHERE `productos`.`id_producto` = $id";
     $productDB = $this->db->consult($query1, "yes");
@@ -87,18 +54,7 @@ class ProductDao
     return $product;
   }
 
-  /**
-   * Encuentra un producto por referencia
-   *
-   * @param integer $ref referencia del producto que se desea buscar
-   * @param integer $idCompany id de la empresa en donde se quiere buscar
-   * @param boolean $expenses bandera para traer los gastos del producto
-   * @param boolean $processes bandera para traer los procesos del producto
-   * @param boolean $materials bandera para traer los materiles del producto
-   * @return Product|null El producto que se busca
-   */
-  public function findByRef($ref, $idCompany, $expenses = false, $processes = false, $materials = false)
-  {
+  public function findByRef($ref, $idCompany, $expenses = false, $processes = false, $materials = false) {
     $this->db->connect();
     $query = "SELECT `id_producto` FROM `productos` WHERE `ref` = '$ref' AND `empresas_id_empresa` = $idCompany";
     $id = $this->db->consult($query, "yes");
@@ -109,14 +65,7 @@ class ProductDao
     }
   }
 
-  /**
-   * Encuentra las materias primas de un producto
-   *
-   * @param Product $product producto al que se quiere buscar sus materias primas
-   * @return ProductRawMaterial[]|null listado de materias primas del producto
-   */
-  public function findRawMaterialsByProduct($product)
-  {
+  public function findRawMaterialsByProduct($product) {
     $this->db->connect();
     $query = "SELECT * FROM `materiales_has_productos` WHERE `productos_id_producto` = " . $product->getId();
     $productRawMaterialsDB = $this->db->consult($query, "yes");
@@ -137,15 +86,12 @@ class ProductDao
     }
   }
 
-  /**
-   * Encuentra todos los producto creados por una empresa
-   *
-   * @param integer $id id de la empresa donde se quiere buscar
-   * @param boolean $expenses bandera para traer los gastos del producto
-   * @param boolean $processes bandera para traer los procesos del producto
-   * @param boolean $materials bandera para traer los materiles del producto
-   * @return Product[]|null
-   */
+  public function deleteRawMaterialsByProduct($product) {
+    $this->db->connect();
+    $query = "DELETE FROM `materiales_has_productos` WHERE `productos_id_producto` = '" . $product->getId() . "'";
+    return $this->db->consult($query);
+  }
+
   public function findByCompany($id, $expenses = false, $processes = false, $materials = false)
   {
     $this->db->connect();
@@ -208,8 +154,17 @@ class ProductDao
 
   public function delete($id) {
     $this->db->connect();
+    $product = $this->findById($id, true, true, true);
+    $this->deleteExpensesByProduct($product);
+    $this->deleteLinesByProduct($product);
+    $this->deleteRawMaterialsByProduct($product);
+    $this->serviciosExternosDao->deleteByProduct($product->getId());
+    $this->processDao->deleteProductProcessByProduct($product->getId());
+    
     $query = "DELETE FROM `productos` WHERE `productos`.`id_producto` = $id";
-    return $this->db->consult($query);
+    $this->db->consult($query);
+
+    return true;
   }
 
   public function deleteRawMaterial($id) {
@@ -220,6 +175,9 @@ class ProductDao
 
   public function findOneRawMaterialByProduct($product, $idMaterial) {
     $this->db->connect();
+    if (!$product) {
+      return null;
+    }
     $query = "SELECT * FROM `materiales_has_productos` WHERE `productos_id_producto` = " . $product->getId() . " AND `materiales_id_materiales` = $idMaterial";
     $productRawMaterialDB = $this->db->consult($query, "yes");
     if (count($productRawMaterialDB) > 0) {
@@ -257,21 +215,19 @@ class ProductDao
     return $update;
   }
 
-  /**
-   * Actualiza los gastos mensuales de un producto
-   *
-   * @param Product $product producto al que se le actulizara sus gastos 
-   * @return integer numero de tuplas afectadas
-   */
-  public function updateExpensesByProduct($product)
-  {
+  public function updateExpensesByProduct($product) {
     $this->db->connect();
     $query = "UPDATE `gastos_mensuales` SET `unidades_vendidas` = '" . $product->getExpenses()->getSoldUnits() . "', `volumen_ventas` = '" . $product->getExpenses()->getTurnOver() . "' WHERE `gastos_mensuales`.`id_gastos_mensuales` = " . $product->getExpenses()->getId();
     return $this->db->consult($query);
   }
 
-  public function findByLine($idLine)
-  {
+  public function deleteExpensesByProduct($product) {
+    $this->db->connect();
+    $query = "DELETE FROM `gastos_mensuales` WHERE `gastos_mensuales`.`id_gastos_mensuales` = " . $product->getExpenses()->getId();
+    return $this->db->consult($query);
+  }
+
+  public function findByLine($idLine) {
     $this->db->connect();
     $query = "SELECT `id_producto` FROM `linea_producto` WHERE `id_linea` = $idLine";
     $productsDB = $this->db->consult($query, "yes");
@@ -285,22 +241,19 @@ class ProductDao
     return $products;
   }
 
-  public function saveLine($name, $idCompany)
-  {
+  public function saveLine($name, $idCompany) {
     $this->db->connect();
     $query = "INSERT INTO `lineas` (`id`, `nombre`, `id_empresa`) VALUES (NULL, '$name', '$idCompany')";
     return $this->db->consult($query);
   }
 
-  public function saveProductLine($idLine, $idProduct)
-  {
+  public function saveProductLine($idLine, $idProduct) {
     $this->db->connect();
     $query = "INSERT INTO `linea_producto` (`id`, `id_linea`, `id_producto`) VALUES (NULL, '$idLine', '$idProduct')";
     return $this->db->consult($query);
   }
 
-  public function findLineByName($name, $idCompany)
-  {
+  public function findLineByName($name, $idCompany) {
     $this->db->connect();
     $query = "SELECT * FROM `lineas` WHERE `nombre` = '$name' AND `id_empresa` = '$idCompany'";
     $lineDB = $this->db->consult($query, "yes");
@@ -312,15 +265,19 @@ class ProductDao
     return $line;
   }
 
-  public function deleteProductLine($idLine, $idProduct)
-  {
+  public function deleteProductLine($idLine, $idProduct) {
     $this->db->connect();
     $query = "DELETE FROM `linea_producto` WHERE `linea_producto`.`id_linea` = $idLine AND `linea_producto`.`id_producto` = $idProduct";
     return $this->db->consult($query);
   }
 
-  public function findLinesByCompany($idCompany)
-  {
+  public function deleteLinesByProduct(Product $product) {
+    $this->db->connect();
+    $query = "DELETE FROM `linea_producto` WHERE `linea_producto`.`id_producto` = '$product->getId()'";
+    return $this->db->consult($query);
+  }
+
+  public function findLinesByCompany($idCompany) {
     $this->db->connect();
     $query = "SELECT * FROM `lineas` WHERE `id_empresa` = $idCompany";
     $linesDB = $this->db->consult($query, "yes");

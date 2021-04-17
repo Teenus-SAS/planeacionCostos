@@ -15,13 +15,12 @@ const exportImportProdMateriaPrima = new ImportacionXLSX(
   "Configuracion productos",
   {
     Referencia: "ref",
-    Producto: "name",
     Material: "material.description",
     Cantidad: "material.quantity",
   },
   $("#fileProductsMaterials"),
   (cell) => {
-    const productExists = products.find((prod) => prod.name === cell.producto);
+    const productExists = products.find((prod) => prod.ref === cell.referencia);
     const materialExists = materials.find(
       (mat) => mat.description === cell.material
     );
@@ -30,10 +29,11 @@ const exportImportProdMateriaPrima = new ImportacionXLSX(
         type: "Material no existe",
         columnName: "material",
       };
-    } else if (!productExists) {
+    }
+    if (!productExists) {
       return {
         type: "Producto no existe",
-        columnName: "producto",
+        columnName: "referencia",
       };
     }
     cell.material = materialExists.id;
@@ -44,7 +44,6 @@ const exportImportProdMateriaPrima = new ImportacionXLSX(
       product.materials.forEach((rawMaterial) => {
         mapped.push({
           ref: product.ref,
-          name: product.name,
           material: {
             description: rawMaterial.material.description,
             quantity: rawMaterial.quantity,

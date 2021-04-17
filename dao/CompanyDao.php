@@ -49,14 +49,7 @@ class CompanyDao {
     return $company;
   }
 
-  /**
-   * Actualizar una compañia en la base de datos
-   *
-   * @param Company $company Objeto que se desea actualizar
-   * @return Integer numero de tuplas afectadas por la actualizacion
-   */
-  public function update($company)
-  {
+  public function update($company) {
     $this->db->connect();
     $query = "UPDATE `empresas` SET `nombre_comercial` = '" . $company->getTradeName() . "',
     `razon_social` = '" . $company->getBussinesReason() . "', `departamento` = '" . $company->getDepartment() . "',
@@ -73,21 +66,10 @@ class CompanyDao {
     return $this->db->consult($query);
   }
 
-  /**
-   * Guardar una compañia o crearla en la base de datos
-   *
-   * @param Company $company Objeto de empresa que se desea crear
-   * @param User $user Objeto usuario con el que se va crear la empresa
-   * @return StdClass Objeto con el número de tuplas afectadas, en caso de error 
-   * El codigo de error, la lista de error
-   */
-  public function save($company, $user)
-  {
+  public function save($company, $user) {
     $response = new stdClass();
-    // se efectuara la creacion de la empresa con transacciones
     $this->db->connect();
     $this->db->autocommit(false);
-    // creacion de empresa
     $query = "INSERT INTO `empresas` (`id_empresa`, `nombre_comercial`,
      `razon_social`, `departamento`, `ciudad`, `pais`, `direccion`,
       `telefono`, `nit`, `comision_ventas`, `margen_rentabilidad`,
@@ -102,7 +84,6 @@ class CompanyDao {
     $response->status = $this->db->consult($query);
     if ($response->status > 0) {
       $companyId = $this->db->lastInsertId();
-      // creación de usuario para la empresa
       $query = "INSERT INTO `users` (`id_user`, `username`, `email`, `password`,
        `created_at`, `empresas_id_empresa`, `token_pass`,
        `roles_users_idroles_users`, `session_active`,`active`) VALUES 
@@ -130,13 +111,7 @@ class CompanyDao {
     $this->db->autocommit(false);
   }
 
-  /**
-   * Encuentra todas las empresas de la aplicación
-   *
-   * @return Company[]
-   */
-  public function findAll()
-  {
+  public function findAll() {
     $this->db->connect();
     $query = "SELECT `id_empresa` FROM `empresas`";
     $companiesDB = $this->db->consult($query, "yes");

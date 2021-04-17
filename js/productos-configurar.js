@@ -194,8 +194,6 @@ $.validator.addMethod(
 );
 
 $(document).on("click", ".link-editar", function (ev) {
-  const selectedElement = ev.target;
-
   materia_prima = $(this).parents("tr").find("td").eq(0).html();
   cantidad = $(this).parents("tr").find("td").eq(1).html();
   unidad = $(this).parents("tr").find("td").eq(2).html();
@@ -211,12 +209,6 @@ $(document).on("click", ".link-editar", function (ev) {
 // formulario para adicionar o modificar materia prima de un producto
 
 $("#form-products").validate({
-  /* rules: {
-    rentabilidad: 'rentabilidadInput'
-  },
-  messages: {
-    rentabilidad: "Máximo dos decimales"
-  }, */
   submitHandler: function (form) {
     const cantidad = parseFloat($("#input-cantidad").val());
 

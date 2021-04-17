@@ -14,7 +14,6 @@ function loadMonthExpenses() {
 
 var productsInExpenses;
 loadProductsGG();
-// cargado de productos la empresa
 function loadProductsGG() {
   loadingSpinner();
   $.get("api/get_products.php?expenses", (_products, status, xhr) => {

@@ -1,14 +1,10 @@
 <?php
-
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
 require_once DAO_PATH . "UserDao.php";
 require_once DAO_PATH . "ProductDao.php";
 
-// revisar si existe session
 session_start();
 header("Content-Type: application/json");
-
-
 
 if (isset($_POST["id"])) {
   $productDao = new ProductDao();

@@ -220,14 +220,16 @@ function saveGE() {
 }
 loadExpensesGE();
 function loadExpensesGE() {
-  $.get("api/get_expenses_description.php", (data, status) => {
-    $("#container-51").html("");
-    $("#container-52").html("");
-    $("#container-53").html("");
-    $("#container-73").html("");
-    $("#container-74").html("");
-    data["51"].accounts.forEach((account) => {
-      $("#container-51").append(`<div class="row align-content-center">
+  $.get(
+    "/app/config-general/api/get_expenses_description.php",
+    (data, status) => {
+      $("#container-51").html("");
+      $("#container-52").html("");
+      $("#container-53").html("");
+      $("#container-73").html("");
+      $("#container-74").html("");
+      data["51"].accounts.forEach((account) => {
+        $("#container-51").append(`<div class="row align-content-center">
       <div class="col-2">
         <div class="form-group">
           <label for="my-input">Cuenta</label>
@@ -247,9 +249,9 @@ function loadExpensesGE() {
         </div>
       </div>
     </div>`);
-    });
-    data["52"].accounts.forEach((account) => {
-      $("#container-52").append(`<div class="row align-content-center">
+      });
+      data["52"].accounts.forEach((account) => {
+        $("#container-52").append(`<div class="row align-content-center">
       <div class="col-2">
         <div class="form-group">
           <label for="my-input">Cuenta</label>
@@ -269,9 +271,9 @@ function loadExpensesGE() {
         </div>
       </div>
     </div>`);
-    });
-    data["53"].accounts.forEach((account) => {
-      $("#container-53").append(`<div class="row align-content-center">
+      });
+      data["53"].accounts.forEach((account) => {
+        $("#container-53").append(`<div class="row align-content-center">
       <div class="col-2">
         <div class="form-group">
           <label for="my-input">Cuenta</label>
@@ -291,9 +293,9 @@ function loadExpensesGE() {
         </div>
       </div>
     </div>`);
-    });
-    data["73"].accounts.forEach((account) => {
-      $("#container-73").append(`<div class="row align-content-center">
+      });
+      data["73"].accounts.forEach((account) => {
+        $("#container-73").append(`<div class="row align-content-center">
       <div class="col-2">
         <div class="form-group">
           <label for="my-input">Cuenta</label>
@@ -313,9 +315,9 @@ function loadExpensesGE() {
         </div>
       </div>
     </div>`);
-    });
-    data["74"].accounts.forEach((account) => {
-      $("#container-74").append(`<div class="row align-content-center">
+      });
+      data["74"].accounts.forEach((account) => {
+        $("#container-74").append(`<div class="row align-content-center">
       <div class="col-2">
         <div class="form-group">
           <label for="my-input">Cuenta</label>
@@ -335,9 +337,10 @@ function loadExpensesGE() {
         </div>
       </div>
     </div>`);
-    });
-    calculateTotalsAccounts();
-    $(".amount").number(true, 2, ".", ",");
-    $(".amount").keyup(calculateTotalsAccounts);
-  });
+      });
+      calculateTotalsAccounts();
+      $(".amount").number(true, 2, ".", ",");
+      $(".amount").keyup(calculateTotalsAccounts);
+    }
+  );
 }

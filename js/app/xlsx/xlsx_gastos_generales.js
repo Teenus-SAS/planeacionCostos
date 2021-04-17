@@ -1,7 +1,7 @@
 import { ImportacionXLSX } from "./ImportacionXLSX.js";
 
 const exportImportGastosGenerales = new ImportacionXLSX(
-  "api/get_expenses_description.php",
+  "/app/config-general/api/get_expenses_description.php",
   "/formatos/formato-gastos-especificos.xlsx",
   "Gastos Generales",
   "Gastos Generales",

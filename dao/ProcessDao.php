@@ -199,6 +199,12 @@ class ProcessDao
     return $this->db->consult($query);
   }
 
+  public function deleteProductProcessByProduct($idProduct) {
+    $this->db->connect();
+    $query = "DELETE FROM `tiempo_proceso` WHERE `tiempo_proceso`.`productos_id_producto` = $idProduct";
+    return $this->db->consult($query);
+  }
+
   public function findDataProcess($id){
     $this->db->connect();
     $query ="SELECT * FROM `datos_proceso` WHERE `fk_id_proceso`=$id";
