@@ -111,7 +111,7 @@ export class SubidaExcel {
           columnName = columnName.trim().toLowerCase().replaceAll(" ", "");
           if (cell[columnName] == undefined || verification) {
             this.errors.push({
-              type: "undefined",
+              type: `Celda vacía (${columnName})`,
               columnName,
               row: cell.__rowNum__ || cell.rowNum,
               cell,
@@ -153,7 +153,7 @@ export class SubidaExcel {
     let resumenErrores = '<ul style="">';
     this.errors.forEach((error) => {
       resumenErrores += `<li>${error.type}: '${
-        error.cell[error.columnName]
+        error.cell[error.columnName] || ""
       }' (fila: ${parseInt(error.row) + 1})</li>`;
     });
 

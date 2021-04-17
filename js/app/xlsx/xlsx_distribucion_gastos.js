@@ -1,13 +1,17 @@
 import { ImportacionXLSX } from "./ImportacionXLSX.js";
 
 let procesos = [];
+const updateProcesos = () => {
+  $.get("/app/config-general/api/get_processes.php", (data, status) => {
+    procesos = data;
+  });
+};
 let productos = [];
-$.get("/app/config-general/api/get_processes.php", (data, status) => {
-  procesos = data;
-});
-$.get("/app/config-general/api/get_products.php", (data, status) => {
-  productos = data;
-});
+const updateProductos = () => {
+  $.get("/app/config-general/api/get_products.php", (data, status) => {
+    productos = data;
+  });
+};
 const reloadTables = () => {
   const tableDistribucionDirecta = $("#tableDistribucionDirecta").dataTable();
   tableDistribucionDirecta.api().ajax.reload();
@@ -26,6 +30,7 @@ const exportImportDDirecta = new ImportacionXLSX(
   },
   $("#fileProductsExpenses"),
   (cell) => {
+    updateProcesos();
     const existsProcess = procesos.find((proc) => proc.name == cell.proceso);
     if (existsProcess) {
       cell.proceso = existsProcess.id;
@@ -52,6 +57,7 @@ const exportImportDGastos = new ImportacionXLSX(
   },
   $("#fileDistribucionesDirectas"),
   (cell) => {
+    updateProductos();
     const existsProduct = productos.find((prod) => prod.name == cell.producto);
     if (existsProduct) {
       cell.producto = existsProduct.id;

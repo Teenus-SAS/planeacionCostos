@@ -53,7 +53,12 @@ const exportImportProductosProcesos = new ImportacionXLSX(
         columnName: "proceso",
       };
     }
-    if (!maquinaExists && cell.maquina != "N/A" && cell.maquina != undefined) {
+    if (
+      !maquinaExists &&
+      cell.maquina != "N/A" &&
+      cell.maquina != undefined &&
+      cell.maquina != ""
+    ) {
       return {
         type: "Maquina no existe",
         columnName: "maquina",
