@@ -87,7 +87,6 @@ $("#form-products").validate({
    }, */
   submitHandler: function (form) {
     let request = $(form).serialize();
-    request += "&optionProductos=option1";
 
     ref = $("#inputRef").val();
     producto = $("#inputProducto").val();
@@ -142,15 +141,12 @@ $("#form-products").validate({
           },
           callback: function (result) {
             if (result == true) {
-              /// Opcion en formulario 1 = editar, 0 = guardar
-              $("#formOption").val("1");
               $("#prodId").val(
                 findProductByName(
                   document.getElementById("inputProducto").value
                 )
               );
               request = $(form).serialize();
-              request += "&optionProductos=option1";
               sendRequest(request);
               return;
             } else {
@@ -173,7 +169,6 @@ $("#form-products").validate({
         );
       }
     } else {
-      request += "&optionProductos=option1";
       sendRequest(request);
     }
   },
@@ -257,8 +252,6 @@ function sendRequest(request) {
         );
         break;
     }
-    /// RESETEA EL VALOR DEL FORM OPTION GUARDAR/EDITAR ///
-    resetFormOptions();
   });
 }
 
@@ -286,7 +279,6 @@ document.getElementById("tableProductos").addEventListener("click", (ev) => {
 
     document.getElementById("form-product-btn").textContent = "Actualizar";
     /// Opcion en formulario 1 = editar, 0 = guardar
-    document.getElementById("formOption").value = 1;
     //// id del producto ///////
     document.getElementById("prodId").value = selectedElement.dataset.prodId;
   }
@@ -335,22 +327,11 @@ function deleteProduct(prodId) {
         });
         return;
       } else {
-        resetFormOptions();
         resetFormProducts();
         return;
       }
     },
   });
-}
-
-/// resetea opciones de guardar editar/////
-function resetFormOptions() {
-  const formOption = document.getElementById("formOption");
-  if (formOption.value == 1) {
-    document.getElementById("form-product-btn").textContent = "Guardar";
-    document.getElementById("prodId").value = "-1";
-    formOption.value = 0;
-  }
 }
 
 function resetFormProducts() {

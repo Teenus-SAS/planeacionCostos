@@ -22,9 +22,14 @@ if (isset($_SESSION["user"])) {
       $product = new Product();
       $product->setRef($productJSON->referencia);
       $product->setName($productJSON->producto);
-      $product->setRentabilidad($productJSON->rentabilidad);
+      $rentabilidad = $productJSON->rentabilidad;
+      if (!$rentabilidad || $rentabilidad == '') {
+        $product->setRentabilidad($user->getCompany()->getProfitabilityMargin());
+      } else {
+        $product->setRentabilidad($productJSON->rentabilidad);
+      }
       $product->setIdCompany($user->getCompany()->getId());
-      array_push($responses, $productDao->saveOrUpdate($product) > 0 ? true : false);
+      array_push($responses, $productDao->saveOrUpdate($product));
     }
     http_response_code(200);
     echo json_encode($responses);

@@ -226,7 +226,6 @@ $("#form-products").validate({
       return;
     }
     let request = $(form).serialize();
-    request += "&optionProductos=option2";
 
     $.post(
       "api/add_modify_products.php",
@@ -370,7 +369,7 @@ function eliminar_materiaprima_productos(element, materiaprima) {
 function resetFormOptions() {
   const formOption = document.getElementById("formOption");
   document.getElementById("form-product-btn").textContent = "Guardar";
-  document.getElementById("prodId").value = "-1";
+  document.getElementById("prodId").value = "";
   formOption.value = 0;
   $("#input-materia").val("");
   $("#input-cantidad").val("");

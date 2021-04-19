@@ -883,6 +883,7 @@ include(PARTIALS_PATH . "verify_session.php");
                       <div class="row mb-4">
                         <div class="col"></div>
                         <div class="col">
+                          <input type="hidden" id="prodId" name="prodId" value="">
                           <button id="form-product-btn" class="btn btn-primary">Guardar</button>
                         </div>
                         <div class="col"></div>

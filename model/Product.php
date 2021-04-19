@@ -169,17 +169,10 @@ class Product implements JsonSerializable
    * @param string $rentabilidad nueva rentabilidad del producto
    * @return void
    */
-  public function setRentabilidad($rentabilidad)
-  {
+  public function setRentabilidad($rentabilidad) {
     $this->rentabilidad = $rentabilidad;
   }
 
-  /**
-   * obtiene la lista de materiales que contiene el porducto
-   *
-   * @access public
-   * @return ProductRawMaterial[]
-   */
   public function getMaterials()
   {
     return $this->materials;

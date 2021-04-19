@@ -15,7 +15,6 @@ function completeSpinner() {
 // cambio entre adicionar y modificar
 $("input[name=optionProductos]").change(function () {
   if ($(this).val() == "option2") {
-    //RESETEA OPCIONES DE GUARDAR EDITAR
     resetFormOptions();
 
     // desaparece el input
@@ -429,7 +428,7 @@ function resetFormOptions() {
   const formOption = document.getElementById("formOption");
   if (formOption.value == 1) {
     document.getElementById("form-product-btn").textContent = "Guardar";
-    document.getElementById("prodId").value = "-1";
+    document.getElementById("prodId").value = "";
     formOption.value = 0;
   }
 }
