@@ -56,7 +56,7 @@ class ProductDao {
 
   public function findByRef($ref, $idCompany, $expenses = false, $processes = false, $materials = false) {
     $this->db->connect();
-    $query = "SELECT `id_producto` FROM `productos` WHERE `ref` = '$ref' AND `empresas_id_empresa` = $idCompany";
+    $query = "SELECT `id_producto` FROM `productos` WHERE `ref` = '$ref' AND `empresas_id_empresa` = '$idCompany'";
     $id = $this->db->consult($query, "yes");
     if (count($id) > 0) {
       return $this->findById($id[0]["id_producto"], $expenses, $processes, $materials);

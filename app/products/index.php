@@ -244,7 +244,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
               <div class="tab-pane active" id="home">
                 <div class="row justify-content-center">
                   <div class="col-md-5 col-sm-12 col-12 col-xs-12 mb-5">
-                    <form id="form-products" novalidate>
+                    <form id="form-raw-materials-products" novalidate>
                       <div class="card py-2">
                         <div class="form-group row my-2">
                           <label class="col-sm-5 col-md-4 col-12 text-left col-form-label pl-4">Referencia</label>

@@ -53,11 +53,6 @@ var $tableProductoMateria = $("#tableProductoMateriaPrima").dataTable({
   ],
 });
 $tableProductoMateria.width("100%");
-/* $tableProductoMateria.on('click', 'tr', function () {
-  $(this).toggleClass('selected');
-}) */
-
-//RESETEA OPCIONES DE GUARDAR EDITAR
 resetFormOptions();
 
 // desaparece el input
@@ -92,8 +87,6 @@ $formGroupParent.append($selectRef);
 $("#inputProducto").parent().append($selectProduct);
 $.get("api/get_products.php?materials", (data, status, xhr) => {
   productsJSON = data;
-
-  // se consulta los productos de la empresa
   if (status == "success") {
     data.forEach((product) => {
       $selectRef.append(
@@ -103,8 +96,6 @@ $.get("api/get_products.php?materials", (data, status, xhr) => {
         `<option value="${product.id}">${product.name}</option>`
       );
     });
-
-    // se quita el input de tipo de texto
     $("#inputRef").remove();
     $("#inputProducto").remove();
     $("#inputRef").change(function () {
@@ -206,9 +197,7 @@ $(document).on("click", ".link-editar", function (ev) {
   $("#form-product-btn").html("Actualizar");
 });
 
-// formulario para adicionar o modificar materia prima de un producto
-
-$("#form-products").validate({
+$("#form-raw-materials-products").validate({
   submitHandler: function (form) {
     const cantidad = parseFloat($("#input-cantidad").val());
 
@@ -225,10 +214,11 @@ $("#form-products").validate({
       );
       return;
     }
+
     let request = $(form).serialize();
 
     $.post(
-      "api/add_modify_products.php",
+      "api/add_modify_raw_material_products.php",
       request,
       (_data, _status, xhr) => {}
     ).always(function (xhr) {
@@ -246,7 +236,6 @@ $("#form-products").validate({
           );
           $tableProductoMateria.api().ajax.reload();
           resetFormOptions();
-          loadProductsInProcess();
           break;
         case 201:
           $.notify(
@@ -264,7 +253,6 @@ $("#form-products").validate({
           resetFormOptions();
           loadProductsGG();
           loadProductsPP();
-          loadProductsInProcess();
           loadProductsInXLSX();
           break;
         case 400:
