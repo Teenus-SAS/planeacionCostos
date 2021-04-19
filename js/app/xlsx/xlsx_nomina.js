@@ -10,10 +10,10 @@ const exportImportNomina = new ImportacionXLSX(
   "Nominas",
   "Nominas",
   {
-    Cargo: "position",
+    Nombre: "position",
     Proceso: "process.name",
-    Cantidad: "numberEmployees",
     Salario: "salary",
+    Transporte: "transporte",
     "Horas Extras": "extraHours",
     Bonificaciones: "bonus",
     Dotacion: "endowment",

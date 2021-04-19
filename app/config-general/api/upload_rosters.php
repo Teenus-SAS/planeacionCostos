@@ -48,10 +48,10 @@ if (isset($_SESSION["user"])) {
     $netSalary = $salary + ($salary * ($rosterJSON->prestaciones)) + $rosterJSON->bonificaciones + $rosterJSON->dotacion;
     $roster = new Roster();
     $roster->setIdCompany($user->getCompany()->getId());
-    $roster->setPosition($rosterJSON->cargo);
+    $roster->setPosition($rosterJSON->nombre);
     $roster->setProcess($processDao->findById($rosterJSON->proceso));
-    $roster->setNumberEmployees($rosterJSON->cantidad);
     $roster->setSalary($rosterJSON->salario);
+    $roster->setTransporte($rosterJSON->transporte);
     $roster->setBonus($rosterJSON->bonificaciones);
     $roster->setEndowment($rosterJSON->dotacion);
     $roster->setWorkHours($rosterJSON->horas);
