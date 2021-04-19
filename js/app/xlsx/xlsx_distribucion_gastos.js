@@ -108,7 +108,6 @@ $("#fileDistribucionesDirectas").change(function () {
 });
 
 function uploadProductsExpenses(subidaExcel) {
-  loadingSpinner();
   const productsExpenses = subidaExcel.array;
   $.post(
     "api/upload_expenses.php",
@@ -137,7 +136,6 @@ function uploadProductsExpenses(subidaExcel) {
       loadProductsGG();
     }
   );
-  completeSpinner();
 }
 
 function uploadDistribucionDirecta(subidaExcel) {

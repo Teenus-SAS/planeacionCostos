@@ -23,8 +23,8 @@ const exportImportProductosProcesos = new ImportacionXLSX(
     Producto: "name",
     Proceso: "process.name",
     Maquina: "process.machine",
-    TiempoAlistamiento: "process.timeAlistamiento",
-    TiempoOperacion: "process.timeOperacion",
+    "Tiempo Alistamiento": "process.timeAlistamiento",
+    "Tiempo Operación": "process.timeOperacion",
   },
   $("#fileProductsProcesses"),
   (cell) => {
@@ -56,7 +56,7 @@ const exportImportProductosProcesos = new ImportacionXLSX(
     if (
       !maquinaExists &&
       cell.maquina != "N/A" &&
-      cell.maquina != undefined &&
+      -cell.maquina != undefined &&
       cell.maquina != ""
     ) {
       return {
@@ -69,7 +69,7 @@ const exportImportProductosProcesos = new ImportacionXLSX(
     if (maquinaExists) {
       cell.maquina = maquinaExists.id;
     } else {
-      cell.maquina = "NULL";
+      cell.maquina = null;
     }
   },
   (data) => {

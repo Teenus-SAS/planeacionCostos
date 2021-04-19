@@ -49,7 +49,10 @@ class DistribucionDirecta implements JsonSerializable {
 
     public function setValorProcesoMinutoAsignado($valorProceso, $businessDaysMonth, $workHours, $tiempoProceso) {
         $this->valorProceso = $valorProceso;
-        $valorMinuto = $valorProceso/$businessDaysMonth/$workHours/60;
+        $valorMinuto = 0;
+        if ($businessDaysMonth && $workHours) {
+            $valorMinuto = $valorProceso/$businessDaysMonth/$workHours/60;
+        }
         $this->valorMinuto = $valorMinuto;
         $this->valorAsignado = $valorMinuto*$tiempoProceso;
     }

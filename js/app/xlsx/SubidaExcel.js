@@ -1,3 +1,5 @@
+import { normalizeString } from "../../utils/normalizeString.js";
+
 export class SubidaExcel {
   constructor(
     inputFile,
@@ -16,9 +18,9 @@ export class SubidaExcel {
     this.errors = [];
   }
 
-  onloadReader(cb, verifyColumns = null) {
+  onloadReader(cb, allowsUndefined = true, verifyColumns = null) {
     this.errors = [];
-    this.#getReader(cb, verifyColumns);
+    this.#getReader(cb, allowsUndefined, verifyColumns);
     this.clearFile();
   }
 
@@ -27,7 +29,7 @@ export class SubidaExcel {
     $(this.inputFile).siblings("label").text("Seleccionar Archivo");
   }
 
-  #getReader(cb, verifyColumns = null) {
+  #getReader(cb, allowsUndefined = true, verifyColumns = null) {
     const file =
       this.inputFile && this.inputFile.files ? this.inputFile.files[0] : null;
     if (file) {
@@ -96,7 +98,7 @@ export class SubidaExcel {
     }
   }
 
-  #verifyColumns() {
+  #verifyColumns(allowsUndefined = true) {
     this.array.forEach((cell) => {
       const verification = this.verifyColumnscb(cell);
       if (verification) {
@@ -106,10 +108,11 @@ export class SubidaExcel {
           row: cell.__rowNum__ || cell.rowNum,
           cell,
         });
-      } else {
+      }
+      if (!allowsUndefined) {
         Object.keys(this.columns).forEach((columnName) => {
           columnName = columnName.trim().toLowerCase().replaceAll(" ", "");
-          if (cell[columnName] == undefined || verification) {
+          if (cell[columnName] == undefined) {
             this.errors.push({
               type: `Celda vacía (${columnName})`,
               columnName,
@@ -141,7 +144,7 @@ export class SubidaExcel {
       let keys = Object.keys(item);
       let cleaned = { rowNum: parseInt(item.__rowNum__) };
       keys.forEach((key) => {
-        cleaned[key.trim().toLowerCase().replaceAll(" ", "")] =
+        cleaned[normalizeString(key.trim().toLowerCase().replaceAll(" ", ""))] =
           typeof item[key] == "string" ? item[key].trim() : item[key];
       });
       mapped.push(cleaned);

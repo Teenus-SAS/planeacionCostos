@@ -90,7 +90,9 @@ class ProcessDao
   }
 
   public function saveOrUpdateProductProcess($product, $idMachine, $idProcess, $tiempoAlistamiento, $tiempoOperacion ) {
-
+    if (!$idMachine) {
+      $idMachine = 'NULL';
+    }
     $productProcess = $this->findOneProductProcessByProductAndMachine($product, $idProcess, $idMachine);
     if ($productProcess == null) {
       $this->db->connect();
@@ -113,7 +115,7 @@ class ProcessDao
 
   public function findOneProductProcessByProductAndMachine($product, $idProcess, $idMachine) {
     $this->db->connect();
-    $query = "SELECT `id_tiempo_proceso` FROM `tiempo_proceso` WHERE `productos_id_producto` = '" . $product->getId() . "' AND `procesos_id_procesos` = '$idProcess' AND `maquinas_id_maquinas` = '$idMachine'";
+    $query = "SELECT `id_tiempo_proceso` FROM `tiempo_proceso` WHERE `productos_id_producto` = '" . $product->getId() . "' AND `procesos_id_procesos` = '$idProcess' AND `maquinas_id_maquinas` = $idMachine";
     $id = $this->db->consult($query, "yes");
     if (count($id) > 0) {
       $id = $id[0]["id_tiempo_proceso"];
