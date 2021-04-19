@@ -39,39 +39,11 @@ $("input[name=optionMateriaPrima]").change(function () {
   $tableMateriaPrima.api().search("").draw();
   if ($(this).val() == "option2") {
     elById("material-btn").value = "Modificar";
-    // desaparece el input
-    /* $('#input-materia-prima').fadeOut() */
-    // guarda el padre del input
-    /*     let $formGroupParent = $('#input-materia-prima').parent() */
-    /*     loadingSpinner() */
     $.get("api/get_materials.php", (data, status, xhr) => {
       /*     completeSpinner() */
       // se consulta los materiales de esa empresa
       if (status == "success") {
-        // se agregan todos los materiales en un input select
-        /*    let string = `<select id="input-materia-prima" class="form-control" name="material"><option selected disabled>Seleccione un material</option>` */
-        /*    let string = `<select readonly id="input-materia-prima" class="form-control" name="material">` */
         materialsMateriaPrima = data;
-        /*     data.forEach((material) => {
-              if (material.description === materialSeletedByEdit.description) {
-                string += `<option selected value="${material.id}">${material.description}</option>`
-              } else{
-                string += `<option value="${material.id}">${material.description}</option>`
-              }
-              
-            } */
-        /*   ) */
-        /*     string += '</select>'
-            $formGroupParent.append(string) */
-        // se quita el input de tipo de texto
-        /*    $('#input-materia-prima').remove() */
-
-        /*         $('#input-materia-prima').change(function () {
-                  let materialSelected = data.filter(material => material.id == $(this).val())[0]
-                  $('#input-unidad').val(materialSelected.unit)
-                  $('#input-costo').val(parseFloat(materialSelected.cost))
-                  $tableMateriaPrima.api().search(materialSelected.description).draw();
-                }) */
       } else {
         location = "/login";
       }
@@ -130,7 +102,7 @@ var $tableMateriaPrima = $("#table-materia-prima").dataTable({
     {
       data: null,
       render: (data) => {
-        return `<a  href='#'><i id=${data.id} data-toggle='tooltip' title="Editar" class='nc-icon nc-refresh-69 link-editar-materia-prima' style='color:rgb(255, 165, 0)'></i></a><a href='#' style="margin-left: 1rem;"><i data-material-id=${data} class='nc-icon nc-simple-remove link-borrar-materia-prima' data-toggle='tooltip' title='Eliminar' style='color:rgb(255, 0, 0)'></i></a>`;
+        return `<a  href='#'><i id=${data.id} data-toggle='tooltip' title="Editar" class='nc-icon nc-refresh-69 link-editar-materia-prima' style='color:rgb(255, 165, 0)'></i></a><a href='#' style="margin-left: 1rem;"><i data-material-id=${data.id} class='nc-icon nc-simple-remove link-borrar-materia-prima' data-toggle='tooltip' title='Eliminar' style='color:rgb(255, 0, 0)'></i></a>`;
       },
     },
   ],
@@ -226,7 +198,7 @@ function submitFormMaterials(updated = false) {
           },
           {
             type: "primary",
-            timer: 8000,
+            timer: 4000,
           }
         );
         $tableMateriaPrima.api().ajax.reload();
@@ -242,7 +214,7 @@ function submitFormMaterials(updated = false) {
             },
             {
               type: "primary",
-              timer: 8000,
+              timer: 4000,
             }
           );
           flag = true;
@@ -254,7 +226,7 @@ function submitFormMaterials(updated = false) {
             },
             {
               type: "success",
-              timer: 8000,
+              timer: 4000,
             }
           );
           flag = true;
@@ -271,7 +243,7 @@ function submitFormMaterials(updated = false) {
           },
           {
             type: "warning",
-            timer: 8000,
+            timer: 4000,
           }
         );
         break;
@@ -283,7 +255,7 @@ function submitFormMaterials(updated = false) {
           },
           {
             type: "danger",
-            timer: 8000,
+            timer: 4000,
           }
         );
         break;
@@ -298,7 +270,7 @@ function submitFormMaterials(updated = false) {
           },
           {
             type: "danger",
-            timer: 8000,
+            timer: 4000,
           }
         );
         break;
@@ -350,22 +322,14 @@ document
 
       materialSeletedByEdit.description = description;
       materialSeletedByEdit.id = target.dataset.materialId;
-      elById("input-materia-prima").setAttribute(
-        "value",
-        materialSeletedByEdit.id
-      );
-      p;
+      elById("idMateriaPrima").setAttribute("value", materialSeletedByEdit.id);
     }
   });
-
-/*  Elimina la materia prima por id  */
 
 function deleteMaterial(id, description) {
   bootbox.confirm({
     title: "Eliminar Materia Prima",
-    message: `${
-      document.getElementById("inputRef").value
-    } ¿Está seguro de eliminar esta Materia Prima?.  Esta acción no se puede deshacer`,
+    message: `¿Está seguro de eliminar esta Materia Prima?.  Esta acción no se puede deshacer`,
     buttons: {
       confirm: {
         label: '<i class="fa fa-check"></i> Si',
@@ -383,27 +347,19 @@ function deleteMaterial(id, description) {
         }).always(function (xhr) {
           if (xhr.status == 200) {
             $tableMateriaPrima.api().ajax.reload();
-            $.notify(
-              {
-                icon: "nc-icon nc-bell-55",
-                message: `Materia prima <b>eliminada<b> Correctamente`,
-              },
-              {
-                type: "info",
-                timer: 8000,
-              }
-            );
+            $.notify({
+              icon: "nc-icon nc-bell-55",
+              message: `Materia prima <b>eliminada<b> Correctamente`,
+              type: "info",
+              timer: 4000,
+            });
           } else {
-            $.notify(
-              {
-                icon: "nc-icon nc-bell-55",
-                message: `No se puedes eliminar la Materia prima referencia <b>${description}</b>. Esta asociada a uno o más productos`,
-              },
-              {
-                type: "danger",
-                timer: 8000,
-              }
-            );
+            $.notify({
+              icon: "nc-icon nc-bell-55",
+              message: `Error eliminando la Materia prima con referencia <b>${description}</b>.`,
+              type: "danger",
+              timer: 4000,
+            });
           }
         });
       }
