@@ -111,16 +111,6 @@ function saveGE() {
       value: 0,
       accounts: [],
     },
-    /* "71":
-    {
-      value: 0,
-      accounts: []
-    },
-    "72":
-    {
-      value: 0,
-      accounts: []
-    }, */
     73: {
       value: 0,
       accounts: [],

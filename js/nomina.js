@@ -1,11 +1,3 @@
-/**
- * Teenus SAS
- * @github Teenus SAS
- * logica de máquinas
- */
-
-/* deshabilitar input fp */
-
 $("#inputFP").prop("readonly", true);
 
 elById("inlineRadio1M").click();
@@ -15,8 +7,6 @@ document
     resetFieldsRoster();
     elById("inlineRadio1M").click();
   });
-
-// cargado de procesos de la base de datos
 
 recargar_select();
 function recargar_select() {
@@ -704,7 +694,6 @@ elById("tableNominas").addEventListener("click", (ev) => {
   if (selectedEl.classList.contains("link-borrar")) {
     deleteNomina(selectedEl.dataset.nominaId);
   } else if (selectedEl.classList.contains("link-editar")) {
-    $("#btnCrearNomina").click();
     const rowInfo = $tableNominas.fnGetData(selectedEl.closest("tr"));
     ActualizarNomina(rowInfo);
   }
@@ -715,8 +704,6 @@ elById("tableNominas").addEventListener("click", (ev) => {
     const { process: proceso } = rowInfo;
 
     elById("input-cargo").value = rowInfo.position;
-    //elById("input-quantity-employees").value = rowInfo.numberEmployees;
-
     elById("input-salario").value = parseFloat(rowInfo.salary);
     $("#input-salario").number(true, 2);
 
@@ -751,12 +738,9 @@ elById("tableNominas").addEventListener("click", (ev) => {
       }
     });
 
-    //elById("inlineRadioNom2").click();
     elById("nomina-btn").value = "Actualizar";
   }
 });
-
-/* Eliminar registro Nomina seleccionado  */
 
 function deleteNomina(id) {
   bootbox.confirm({
