@@ -376,7 +376,7 @@ $("#formDistribucionDirecta").submit(function (e) {
             message: "El proceso ha sido <b>Creado</b> Correctamente",
           },
           {
-            type: "primary",
+            type: "success",
             timer: 8000,
           }
         );
@@ -405,6 +405,7 @@ $("#formDistribucionDirecta").submit(function (e) {
 function clearDDirectaForm() {
   $(`#inputProcesosDDirecta`).prop("selectedIndex", 0);
   $("#inputPorcentajeProceso").val("");
+  $("#idDistribucionDirecta").val("");
   $("#btnAddModifyDDirecta").html("Guardar");
 }
 
