@@ -6,23 +6,11 @@ logica de maquinas
 
 flag = false;
 
-/* elById("inlineRadioNom1").click();
-document.querySelector('a[href$="maquinas"]').addEventListener("click", () => {
-  resetFormMaquinas();
-  elById("inlineRadio1M").click();
-}); */
-
 function clearformMachines() {
-  if ($("#input-maquinas")[0].tagName == "SELECT") {
-    let $formGroupParent = $("#input-maquinas").parent();
-    $("#input-maquinas").fadeOut();
-    $("#input-price-machine").val("");
-    $("#input-depreciation-machine").val("");
-    $formGroupParent.append(
-      `<input id="input-maquinas" class="form-control" type="text" name="machine"> `
-    );
-    $("#input-maquinas").remove();
-  }
+  $("#input-maquinas").val("");
+  $("#input-price-machine").val("");
+  $("#input-years-depreciation").val("");
+  $("#input-depreciation-machine").val("");
 }
 function clearFile(input) {
   $(input).val("");
@@ -31,37 +19,6 @@ function clearFile(input) {
 $("input[name=optionMaquinas]").change(function () {
   $tableMaquinas.api().search("").draw();
   if ($(this).val() == "option2") {
-    // desaparece el input
-    /*  $('#input-maquinas').fadeOut() */
-    // guarda el padre del input
-    /*  let $formGroupParent = $('#input-maquinas').parent()
-     $.get('api/get_machines.php', (data, status, xhr) => { */
-    // se consulta las maquinas de esa empresa
-    /*       if (status == 'success') { */
-    // se agregan todas las maquinas en un input select
-    /*        let string = `<select id="input-maquinas" class="form-control" name="machine">
-           <option selected disabled>Seleccione una maquina</option>`
-           machines = data
-           data.forEach((machine) => {
-             string += `<option value="${machine.id}">${machine.name}</option>`
-           })
-           string += '</select>'
-           $formGroupParent.append(string) */
-    // se quita el input de tipo de texto
-    /*         $('#input-maquinas').remove()
-    
-            $('#input-maquinas').change(function () {
-              let machineSelected = data.filter(machine => machine.id == $(this).val())[0]
-              $('#input-price-machine').val(machineSelected.price)
-              $('#input-depreciation-machine').val(parseFloat(machineSelected.depreciation))
-              $('#input-years-depreciation').val(machineSelected.yearsDepreciation)
-              $('#input-valor-residual').val(machineSelected.residualValue)
-              $tableMaquinas.api().search(machineSelected.name).draw();
-            })
-          } else {
-            location = '/login'
-          } */
-    /*     }) */
   } else {
     clearformMachines();
     elById("maquinas-btn").value = "ADICIONAR";
@@ -69,9 +26,6 @@ $("input[name=optionMaquinas]").change(function () {
   }
 });
 
-// inicializacion de datatable para maquinas
-
-// inicializacion de datatable
 var $tableMaquinas = $("#table-maquinas").dataTable({
   //"scrollY": "300px",
   scrollCollapse: true,
@@ -304,20 +258,6 @@ function submitMaquinasForm(e, option, maquina) {
         }
       },
     });
-
-    /*  $.confirm({
-      title: 'Tezlik',
-      content: `La Máquina ${elById('input-maquinas').value} ya existe, ¿Desea actualizarla?`,
-      buttons: {
-        SI: function () {
-          sendDataMachine(request);
-        },
-        No: function () {
-          resetFormMaquinas();
-          return;
-        }
-      }
-    }) */
   }
 }
 
@@ -337,6 +277,7 @@ function sendDataMachine(request) {
           }
         );
         $tableMaquinas.api().ajax.reload();
+        clearformMachines();
         break;
       case 201:
         $.notify(
@@ -350,7 +291,7 @@ function sendDataMachine(request) {
           }
         );
         $tableMaquinas.api().ajax.reload();
-        $("#form-maquinas")[0].reset();
+        clearformMachines();
         break;
       case 400:
         flag = true;

@@ -39,29 +39,16 @@ if (isset($_SESSION["user"])) {
       if ($_POST["machine"] != "" || $_POST["price"] != "" || $_POST["depreciation"] != "") {
         if ($_POST["price"] > 0) {
           $company = $user->getCompany();
-          if ($_POST["optionMaquinas"] == "option1") {
             $machine = new Machine();
+            $machine->setId($_POST["machine-id"]);
             $machine->setName($_POST["machine"]);
             $machine->setIdCompany($user->getCompany()->getId());
             $machine->setValuesDepreciation($company->getBussinesDaysMonth(), $company->getWorkHours(), $_POST["price"], $_POST["valor-residual"], $_POST["years"]);
-            if ($machineDao->save($machine) > 0) {
-              http_response_code(201);
-            } else {
-              http_response_code(500);
-            }
-          } else {
-            if ($_POST["machine-id"] != "") {
-            $machine = $machineDao->findById($_POST["machine-id"]);
-            $machine->setName($_POST["machine"]);
-            $machine->setValuesDepreciation($company->getBussinesDaysMonth(), $company->getWorkHours(), $_POST["price"], $_POST["valor-residual"], $_POST["years"]);
-            echo var_dump($machine);
-            if ($machineDao->update($machine) > 0) {
+            if ($machineDao->saveOrUpdate($machine)) {
               http_response_code(200);
             } else {
-              http_response_code(500);
+              http_response_code(201);
             }
-          }
-          }
         } else {
           http_response_code(501);
         }
