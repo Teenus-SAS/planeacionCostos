@@ -197,7 +197,7 @@ function saveGE() {
       $.notify(
         {
           icon: "nc-icon nc-bell-55",
-          message: `Informacion <b>Actualizada</b>`,
+          message: `Informacion <b>Actualizada</b> correctamente`,
         },
         {
           type: "primary",
