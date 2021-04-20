@@ -24,15 +24,11 @@ if (isset($_SESSION["user"])) {
       if (floatval($_POST["tiempo-alistamiento"]) + floatval($_POST["tiempo-operacion"] != 0)) {
         $product = $productDao->findById($_POST["producto"]);
         $resquest = $processDao->saveOrUpdateProductProcess($product, $_POST["maquina"], $_POST["proceso"], $_POST["tiempo-alistamiento"], $_POST["tiempo-operacion"]);
-        if ($resquest->status > 0) {
           if ($resquest->mode == "created") {
             http_response_code(201);
           } else {
             http_response_code(200);
           }
-        } else {
-          http_response_code(500);
-        }
       } else {
         http_response_code(400);
       }

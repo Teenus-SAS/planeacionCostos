@@ -100,14 +100,14 @@ class ProcessDao
       `productos_empresas_id_empresa`, `procesos_id_procesos`, `maquinas_id_maquinas`, `tiempo_alistamiento`, `tiempo_operacion`) 
       VALUES (NULL, '" . $product->getId() . "', '" . $product->getIdCompany() . "', '$idProcess', $idMachine, '$tiempoAlistamiento', '$tiempoOperacion')";
       $reponse = new stdClass();
-      $reponse->status = $this->db->consult($query);
+      $this->db->consult($query);
       $reponse->mode = "created";
       return $reponse;
     } else {
       $this->db->connect();
-      $query = "UPDATE `tiempo_proceso` SET `tiempo_alistamiento` = '$tiempoAlistamiento', `tiempo_operacion` = '$tiempoOperacion', `maquinas_id_maquinas` = '$idMachine' WHERE `id_tiempo_proceso` = '" . $productProcess->getId() . "'";
+      $query = "UPDATE `tiempo_proceso` SET `tiempo_alistamiento` = $tiempoAlistamiento, `tiempo_operacion` = $tiempoOperacion WHERE `id_tiempo_proceso` = '" . $productProcess->getId() . "'";
       $reponse = new stdClass();
-      $reponse->status = $this->db->consult($query);
+      $this->db->consult($query);
       $reponse->mode = "updated";
       return $reponse;
     }
@@ -115,7 +115,11 @@ class ProcessDao
 
   public function findOneProductProcessByProductAndMachine($product, $idProcess, $idMachine) {
     $this->db->connect();
-    $query = "SELECT `id_tiempo_proceso` FROM `tiempo_proceso` WHERE `productos_id_producto` = '" . $product->getId() . "' AND `procesos_id_procesos` = '$idProcess' AND `maquinas_id_maquinas` = $idMachine";
+    if ($idMachine == 'NULL') {
+      $query = "SELECT `id_tiempo_proceso` FROM `tiempo_proceso` WHERE `productos_id_producto` = '" . $product->getId() . "' AND `procesos_id_procesos` = '$idProcess' AND `maquinas_id_maquinas` IS NULL";
+    } else {
+      $query = "SELECT `id_tiempo_proceso` FROM `tiempo_proceso` WHERE `productos_id_producto` = '" . $product->getId() . "' AND `procesos_id_procesos` = '$idProcess' AND `maquinas_id_maquinas` = '$idMachine'";
+    }
     $id = $this->db->consult($query, "yes");
     if (count($id) > 0) {
       $id = $id[0]["id_tiempo_proceso"];

@@ -1,9 +1,3 @@
-/* 
-@Author: Teenus SAS
-@github: Teenus-SAS
-logica de procesos
-*/
-
 document.querySelector('a[href$="#process"').addEventListener("click", () => {
   elById("input-proceso").value = "";
   elById("inlineRadioProc1").click();
@@ -37,33 +31,6 @@ function addSelectecFormProcces(data) {
 $("input[name=optionProceso]").change(function () {
   $tableProcesos.api().search("").draw();
   if ($(this).val() == "option2") {
-    // desaparece el input
-    /* $('#input-proceso').fadeOut() */
-    // guarda el padre del input
-    /*     let $formGroupParent = $('#input-proceso').parent()
-        loadingSpinner() */
-    /*    $.get('api/get_processes.php', (data, status, xhr) => {
-         completeSpinner() */
-    // se consulta las maquinas de esa empresa
-    /*   if (status == 'success') { */
-    /* s */
-    /*         $formGroupParent.parent().parent().parent().append(`<div class="row my-1 justify-content-center">
-            <div class="col-md-10">
-              <div class="form-group">
-                <label for="input-name-process">Nuevo Nombre Proceso</label>
-                <input id="input-name-process" class="form-control" type="text" name="name_proceso" required>
-              </div>
-            </div>
-          </div>`)
-            $('#input-proceso').change(function () {
-              let processSelected = data.filter(process => process.id == $(this).val())[0]
-              $('#input-name-process').val(processSelected.name)
-              $tableProcesos.api().search(processSelected.name).draw()
-            })
-          } else {
-            location = '/login'
-          }
-        }) */
   } else {
     elById("btn-procesos").value = "Adicionar";
     elById("input-proceso").value = "";
