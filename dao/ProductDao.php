@@ -92,8 +92,7 @@ class ProductDao {
     return $this->db->consult($query);
   }
 
-  public function findByCompany($id, $expenses = false, $processes = false, $materials = false)
-  {
+  public function findByCompany($id, $expenses = false, $processes = false, $materials = false) {
     $this->db->connect();
     $query = "SELECT `id_producto` FROM `productos` WHERE `empresas_id_empresa` = $id";
     $productsDB = $this->db->consult($query, "yes");
@@ -116,15 +115,6 @@ class ProductDao {
     return $count[0]["n_productos"];
   }
 
-  public function save($product) {
-    $this->db->connect();
-    $query = "INSERT INTO `productos` (`id_producto`, `empresas_id_empresa`, `ref`, `nombre`, `rentabilidad`) 
-              VALUES (NULL, '" . $product->getIdCompany() . "', '" . $product->getRef() . "', '" . $product->getName() . "','" . $product->getRentabilidad() . "') 
-              ON DUPLICATE KEY UPDATE `rentabilidad` = '" . $product->getRentabilidad() . "',`nombre` = '" . $product->getName() . "'";
-
-    return $this->db->consult($query);
-  }
-
   public function saveOrUpdate(Product $product) {
     $update = false;
     $this->db->connect();
@@ -145,18 +135,13 @@ class ProductDao {
     return $update;
   }
 
-  public function update($product) {
-    $this->db->connect();
-    $query = "UPDATE `productos` SET `ref` = '" . $product->getRef() . "', `nombre` = '" . $product->getName() . "', `rentabilidad` = '" . $product->getRentabilidad() . "' WHERE `productos`.`id_producto` = " . $product->getId();
-    $this->db->consult($query);
-    return true;
-  }
-
   public function delete($id) {
     $this->db->connect();
     $product = $this->findById($id, true, true, true);
-    $this->deleteExpensesByProduct($product);
-    $this->deleteLinesByProduct($product);
+    $lines = $this->findProductLinesByProductId($product->getId());
+    if ($lines && count($lines) > 0) {
+      return false;
+    }
     $this->deleteRawMaterialsByProduct($product);
     $this->serviciosExternosDao->deleteByProduct($product->getId());
     $this->processDao->deleteProductProcessByProduct($product->getId());
@@ -221,12 +206,6 @@ class ProductDao {
     return $this->db->consult($query);
   }
 
-  public function deleteExpensesByProduct($product) {
-    $this->db->connect();
-    $query = "DELETE FROM `gastos_mensuales` WHERE `gastos_mensuales`.`id_gastos_mensuales` = " . $product->getExpenses()->getId();
-    return $this->db->consult($query);
-  }
-
   public function findByLine($idLine) {
     $this->db->connect();
     $query = "SELECT `id_producto` FROM `linea_producto` WHERE `id_linea` = $idLine";
@@ -271,10 +250,20 @@ class ProductDao {
     return $this->db->consult($query);
   }
 
-  public function deleteLinesByProduct(Product $product) {
+  public function findProductLinesByProductId($idProduct) {
     $this->db->connect();
-    $query = "DELETE FROM `linea_producto` WHERE `linea_producto`.`id_producto` = '$product->getId()'";
-    return $this->db->consult($query);
+    $query = "SELECT * FROM `linea_producto` WHERE `id_producto` = $idProduct";
+    $linesDB = $this->db->consult($query, "yes");
+    $lines = [];
+    if (count($linesDB) > 0) {
+      foreach ($linesDB as  $lineDB) {
+        $line = new stdClass();
+        $line->id = $lineDB["id_linea"];
+        $line->producto = $lineDB["id_producto"];
+        array_push($lines, $line);
+      }
+    }
+    return $lines;
   }
 
   public function findLinesByCompany($idCompany) {

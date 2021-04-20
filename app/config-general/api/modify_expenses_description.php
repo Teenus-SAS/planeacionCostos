@@ -18,7 +18,6 @@ if (isset($_SESSION["user"])) {
     $user->setCompany($company);
     $_SESSION["user"] = serialize($user);
     http_response_code(200);
-    echo true;
     exit;
 } else {
     http_response_code(401);
