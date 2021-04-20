@@ -5,7 +5,6 @@ require_once DB_PATH . "env.php";
 require_once MODEL_PATH . "Machine.php";
 
 class MachineDao {
-
   private $db;
 
   public function __construct() {
@@ -103,8 +102,8 @@ class MachineDao {
   }
 
   public function delete($id)  {
-    $this->db->connect();
     $query = "DELETE FROM `maquinas` WHERE `maquinas`.`id_maquinas` = $id";
-    return  $this->db->consult($query);
+    $this->db->consult($query);
+    return true;
   }
 }

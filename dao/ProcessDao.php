@@ -8,35 +8,13 @@ require_once MODEL_PATH . "Process.php";
 require_once MODEL_PATH . "ProductProcess.php";
 require_once DAO_PATH . "MachineDao.php";
 
-/**
- * Esta clase Es el DAO(Data Access Object) para procesos
- * 
- * 
- * @author Teenus SAS <info@teenus.com.co>
- * @version 1.0
- * @uses DBOperator, MachineDao, Process, ProductProcess
- * @package Dao
- * 
- */
-class ProcessDao
-{
-
-  /**
-   * Objeto de comuniacion con la base de datos
-   *
-   * @access private
-   * @var DBOperator
-   */
+class ProcessDao {
   private $db;
+  private $machineDao;
 
-  /**
-   * inicialización de la comunicacion con la base de datos
-   * y el dao para máquinas
-   */
-  public function __construct()
-  {
-    $this->db = new DBOperator($_ENV["db_host"], $_ENV["db_user"], $_ENV["db_name"], $_ENV["db_pass"]);
+  public function __construct() {
     $this->machineDao = new MachineDao();
+    $this->db = new DBOperator($_ENV["db_host"], $_ENV["db_user"], $_ENV["db_name"], $_ENV["db_pass"]);
   }
 
   public function findById($id) {
@@ -59,7 +37,6 @@ class ProcessDao
     $this->db->connect();
     $query = "SELECT * FROM `tiempo_proceso` WHERE `id_tiempo_proceso` = $id";
     $productProcessDB = $this->db->consult($query, "yes");
-    
     $productProcessDB = $productProcessDB[0];
     $productProcess = new ProductProcess();
     $productProcess->setId($productProcessDB["id_tiempo_proceso"]);
@@ -74,9 +51,9 @@ class ProcessDao
     return $productProcess;
   }
 
-  public function findProductProcessesByProduct($product) {
+  public function findProductProcessesByProductId($productId) {
     $this->db->connect();
-    $query = "SELECT `id_tiempo_proceso` FROM `tiempo_proceso` WHERE `productos_id_producto` = " . $product->getId();
+    $query = "SELECT `id_tiempo_proceso` FROM `tiempo_proceso` WHERE `productos_id_producto` = " . $productId;
     $productProcessesDB = $this->db->consult($query, "yes");
     $productProcesses = [];
     if (count($productProcessesDB) > 0) {
@@ -89,27 +66,14 @@ class ProcessDao
     }
   }
 
-  public function saveOrUpdateProductProcess($product, $idMachine, $idProcess, $tiempoAlistamiento, $tiempoOperacion ) {
-    if (!$idMachine) {
-      $idMachine = 'NULL';
-    }
-    $productProcess = $this->findOneProductProcessByProductAndMachine($product, $idProcess, $idMachine);
-    if ($productProcess == null) {
-      $this->db->connect();
-      $query = "INSERT INTO `tiempo_proceso` (`id_tiempo_proceso`, `productos_id_producto`,
-      `productos_empresas_id_empresa`, `procesos_id_procesos`, `maquinas_id_maquinas`, `tiempo_alistamiento`, `tiempo_operacion`) 
-      VALUES (NULL, '" . $product->getId() . "', '" . $product->getIdCompany() . "', '$idProcess', $idMachine, '$tiempoAlistamiento', '$tiempoOperacion')";
-      $reponse = new stdClass();
-      $this->db->consult($query);
-      $reponse->mode = "created";
-      return $reponse;
+  public function findOneProductProcessesByMachineId($machineId) {
+    $this->db->connect();
+    $query = "SELECT `id_tiempo_proceso` FROM `tiempo_proceso` WHERE `maquinas_id_maquinas` = " . $machineId;
+    $productProcessesDB = $this->db->consult($query, "yes");
+    if (count($productProcessesDB) > 0) {
+      return $this->findProductProcessById($productProcessesDB[0]["id_tiempo_proceso"]);
     } else {
-      $this->db->connect();
-      $query = "UPDATE `tiempo_proceso` SET `tiempo_alistamiento` = $tiempoAlistamiento, `tiempo_operacion` = $tiempoOperacion WHERE `id_tiempo_proceso` = '" . $productProcess->getId() . "'";
-      $reponse = new stdClass();
-      $this->db->consult($query);
-      $reponse->mode = "updated";
-      return $reponse;
+      return null;
     }
   }
 
@@ -120,18 +84,6 @@ class ProcessDao
     } else {
       $query = "SELECT `id_tiempo_proceso` FROM `tiempo_proceso` WHERE `productos_id_producto` = '" . $product->getId() . "' AND `procesos_id_procesos` = '$idProcess' AND `maquinas_id_maquinas` = '$idMachine'";
     }
-    $id = $this->db->consult($query, "yes");
-    if (count($id) > 0) {
-      $id = $id[0]["id_tiempo_proceso"];
-      return $this->findProductProcessById($id);
-    } else {
-      return null;
-    }
-  }
-
-  public function findProductProcessesByProcess($product, $idProcess) {
-    $this->db->connect();
-    $query = "SELECT `id_tiempo_proceso` FROM `tiempo_proceso` WHERE `productos_id_producto` = " . $product->getId() . " AND `procesos_id_procesos` = $idProcess";
     $id = $this->db->consult($query, "yes");
     if (count($id) > 0) {
       $id = $id[0]["id_tiempo_proceso"];
@@ -176,6 +128,30 @@ class ProcessDao
       return $this->findById($processesDB[0]["id_procesos"]);;
     } else {
       return null;
+    }
+  }
+
+  public function saveOrUpdateProductProcess($product, $idMachine, $idProcess, $tiempoAlistamiento, $tiempoOperacion ) {
+    if (!$idMachine) {
+      $idMachine = 'NULL';
+    }
+    $productProcess = $this->findOneProductProcessByProductAndMachine($product, $idProcess, $idMachine);
+    if ($productProcess == null) {
+      $this->db->connect();
+      $query = "INSERT INTO `tiempo_proceso` (`id_tiempo_proceso`, `productos_id_producto`,
+      `productos_empresas_id_empresa`, `procesos_id_procesos`, `maquinas_id_maquinas`, `tiempo_alistamiento`, `tiempo_operacion`) 
+      VALUES (NULL, '" . $product->getId() . "', '" . $product->getIdCompany() . "', '$idProcess', $idMachine, '$tiempoAlistamiento', '$tiempoOperacion')";
+      $reponse = new stdClass();
+      $this->db->consult($query);
+      $reponse->mode = "created";
+      return $reponse;
+    } else {
+      $this->db->connect();
+      $query = "UPDATE `tiempo_proceso` SET `tiempo_alistamiento` = $tiempoAlistamiento, `tiempo_operacion` = $tiempoOperacion WHERE `id_tiempo_proceso` = '" . $productProcess->getId() . "'";
+      $reponse = new stdClass();
+      $this->db->consult($query);
+      $reponse->mode = "updated";
+      return $reponse;
     }
   }
 

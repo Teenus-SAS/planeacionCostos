@@ -38,7 +38,7 @@ class ProductDao {
       $product->setMaterials($this->findRawMaterialsByProduct($product));
     }
     if ($processes) {
-      $product->setProcesses($this->processDao->findProductProcessesByProduct($product));
+      $product->setProcesses($this->processDao->findProductProcessesByProductId($product->getId()));
     }
     if ($expenses) {
       $product->setExpenses(new MonthlyExpenses(

@@ -367,7 +367,7 @@ function deleteMachine(id, maquina) {
             $.notify(
               {
                 icon: "nc-icon nc-bell-55",
-                message: "Se ha borrado una máquina",
+                message: "Se ha borrado existosamente la máquina",
               },
               {
                 type: "info",
@@ -379,7 +379,7 @@ function deleteMachine(id, maquina) {
             $.notify(
               {
                 icon: "nc-icon nc-bell-55",
-                message: `La máquina <b>${maquina}</b> esta asociada a uno o más productos`,
+                message: `<b>La máquina ${maquina} no puede ser eliminada.</b> Está asociada a uno o más productos, o cargas fabriles.</br>Debes eliminar primero éstos para continuar`,
               },
               {
                 type: "danger",

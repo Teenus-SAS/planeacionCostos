@@ -6,26 +6,14 @@
 /*Para englinx.net
 /*Ultima actualizacion 03/02/2016
 /****************************************************************************************************************/
-class DBOperator
-{
-  //Atributos------------------------
-  private $host; //Nombre del hosting donde esta la base de datos
-  private $dbName; //Nombre de la base de datos
-  private $userName; //Nombre del usuario autorizado
-  private $password; //La clave de ese usuario para tener acceso
-  private $mysqliObj; //Objeto ejecutor de procesos de conexión y consulta
-  private $charset; //Set de caracteres aplicable a las consultas (Por lo general utf8)
-  //Fin de Atributos-----------------
-  /**
-   * Constructor y Destructor
-   * @param host Nombre del hosting donde esta la base de datos
-   * @param userName Nombre de la base de datos
-   * @param dbName Nombre del usuario autorizado
-   * @param password La clave de ese usuario para tener acceso
-   * @param charset Set de caracteres aplicable a las consultas (Por lo general utf8)
-   **/
-  function __construct($host = "localhost", $userName = "root", $dbName = "", $password = "", $charset = "utf8")
-  {
+class DBOperator {
+  private $host;
+  private $dbName;
+  private $userName;
+  private $password;
+  private $mysqliObj;
+  private $charset;
+  function __construct($host = "localhost", $userName = "root", $dbName = "", $password = "", $charset = "utf8") {
     $this->host = $host;
     $this->dbName = $dbName;
     $this->userName = $userName;

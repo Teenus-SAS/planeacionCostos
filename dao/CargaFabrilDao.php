@@ -54,15 +54,7 @@ class CargaFabrilDao {
     }
   }
 
-  /**
-   * Encuentra todas las cargas fabriles relacionadas a una máquina
-   *
-   * @param integer $idMachine Id de la máquina
-   * @return CargaFabril[]|null
-   */
-
-  public function findByMachineId($idMachine)
-  {
+  public function findByMachineId($idMachine) {
     $this->db->connect();
     $query = "SELECT `id_carga` FROM `carga_fabril` WHERE `id_maquina` = '$idMachine'";
     $cargasDB = $this->db->consult($query, "yes");
@@ -77,15 +69,7 @@ class CargaFabrilDao {
     }
   }
 
-  /**
-   * Encuentra todas las cargas fabriles relacionadas a una máquina
-   *
-   * @param integer $idMachine Id de la máquina
-   * @return CargaFabril|null
-   */
-
-  public function findOneByMachineIdAndMantenimiento($idMachine, $mantenimiento)
-  {
+  public function findOneByMachineIdAndMantenimiento($idMachine, $mantenimiento) {
     $this->db->connect();
     $query = "SELECT `id_carga` FROM `carga_fabril` WHERE `id_maquina` = '$idMachine' AND  `insumo` = '$mantenimiento'";
     $cargasDB = $this->db->consult($query, "yes");
@@ -97,18 +81,9 @@ class CargaFabrilDao {
     }
   }
 
-  /**
-   * Crear o guardar una carga en la base de datos
-   *
-   * @param CargaFabril $carga Carga que se quiere guardar
-   * @return integer número de tuplas afectadas 
-   */
-  
-  public function saveOrUpdate($carga)
-  {
+  public function saveOrUpdate($carga) {
     $update = false;
     $this->db->connect();
-    //$id = $this->findById($carga->getId());
     $query = "SELECT * FROM `carga_fabril`
               WHERE `id_carga` = '" . $carga->getId() . "' ";
     $cargasDB = $this->db->consult($query, "yes");
@@ -128,14 +103,7 @@ class CargaFabrilDao {
     return $update;
   }
 
-  /**
-   * Borra la carga Fabril de la base de datos
-   *
-   * @param integer $id Id de la carga Fabril que se desea eliminar
-   * @return integer Número de tuplas afectadas
-   */
-  public function delete($id)
-  {
+  public function delete($id) {
     $this->db->connect();
     $query = "DELETE FROM `carga_fabril` WHERE `carga_fabril`.`id_carga` = $id";
     return  $this->db->consult($query);
