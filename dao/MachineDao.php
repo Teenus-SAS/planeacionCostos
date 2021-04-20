@@ -3,39 +3,16 @@ include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
 require_once DB_PATH . "DBOperator.php";
 require_once DB_PATH . "env.php";
 require_once MODEL_PATH . "Machine.php";
-/**
- * Esta clase Es el DAO(Data Access Object) para máquinas
- * 
- * @author Teenus SAS>
- * @version 1.0
- * @uses DBOperator, Machine
- * @package Dao
- * 
- */
-class MachineDao
-{
 
-  /**
-   * Objeto de comuniacion con la base de datos
-   *
-   * @access private
-   * @var DBOperator
-   */
+class MachineDao {
+
   private $db;
 
-  public function __construct()
-  {
+  public function __construct() {
     $this->db = new DBOperator($_ENV["db_host"], $_ENV["db_user"], $_ENV["db_name"], $_ENV["db_pass"]);
   }
-
-  /**
-   * Encuentra la máquina por id
-   *
-   * @param integer $id El id de la máquina que se quiere consultar
-   * @return Machine|null
-   */
-  public function findById($id)
-  {
+  
+  public function findById($id) {
     $this->db->connect();
     $query = "SELECT * FROM `maquinas` WHERE `id_maquinas` = $id";
     $machineDB = $this->db->consult($query, "yes");

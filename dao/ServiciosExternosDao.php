@@ -72,7 +72,7 @@ class ServiciosExternosDao {
 
     if ($serviciosDB) {
       $servicioDB = $serviciosDB[0];
-      $query = "UPDATE `servicios_externos` SET `costo` = '" . $servicio->getCosto() . "'                
+      $query = "UPDATE `servicios_externos` SET `costo` = '" . $servicio->getCosto() . "', `nombre_servicio` = '" . $servicio->getnombreServicio() . "'                
       WHERE `id_servicio` = '" . $servicioDB['id_servicio'] . "' ";
       $update = true;
     } else {
