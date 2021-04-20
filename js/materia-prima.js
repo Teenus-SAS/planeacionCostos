@@ -22,6 +22,7 @@ function clearFormMaterials() {
       `<input id="input-materia-prima" class="form-control" type="text" name="material"> `
     );
     $("#input-materia-prima").remove();
+    elById("material-btn").value = "adicionar";
   }
 }
 
@@ -148,39 +149,26 @@ $("#form-materia-prima").submit(function (e) {
       existsMateriaPrimaByName(elById("input-materia-prima").value) ||
       existsMateriaPrimaByRef(elById("ref-materia-prima").value)
     ) {
-      $.confirm({
-        title: "Tezlik",
-        content: "¿Desea Actualizar la materia prima?",
-        buttons: {
-          SI: function () {
-            submitFormMaterials(true);
-            return;
+      if (elById("material-btn").value.trim().toLowerCase() !== "modificar") {
+        submitFormMaterials(true);
+      } else {
+        $.confirm({
+          title: "Tezlik",
+          content: "¿Desea Actualizar la materia prima?",
+          buttons: {
+            SI: function () {
+              submitFormMaterials(true);
+              return;
+            },
+            No: function () {
+              return;
+            },
           },
-          No: function () {
-            return;
-          },
-        },
-      });
+        });
+      }
     } else {
       submitFormMaterials();
     }
-
-    /*     if (materialSel != undefined) {
-          $.confirm({
-            title: 'Tezlik',
-            content: '¿Desea Actualizar El material?',
-            buttons: {
-              SI: function () {
-                submitFormMaterials(true)
-              },
-              No: function () {
-    
-              }
-            }
-          })
-        } else {
-          submitFormMaterials()
-        } */
   }
 });
 
@@ -319,6 +307,7 @@ document
       elById("input-materia-prima").value = description;
       elById("input-unidad").value = unidad;
       elById("input-costo").value = costo;
+      elById("material-btn").value = "modificar";
 
       materialSeletedByEdit.description = description;
       materialSeletedByEdit.id = target.dataset.materialId;
