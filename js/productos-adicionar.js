@@ -84,8 +84,8 @@ $.validator.addMethod(
 $("#form-products").validate({
   submitHandler: function (form) {
     let request = $(form).serialize();
-    ref = $("#inputRef").val();
-    producto = $("#inputProducto").val();
+    let ref = $("#inputRef").val();
+    let producto = $("#inputProducto").val();
 
     if (
       ref == undefined ||
@@ -350,8 +350,6 @@ function productReferenceAndNameExists(prodRef, prodName) {
     document.getElementById("tableProductos").tBodies[0].rows
   );
 
-  console.log({ tableRows });
-
   const product = tableRows.find(
     (row) =>
       row.cells[0].textContent.trim().toLowerCase() ===
@@ -367,8 +365,6 @@ function productReferenceOrNameExists(prodRef, prodName) {
   const tableRows = Array.from(
     document.getElementById("tableProductos").tBodies[0].rows
   );
-
-  console.log({ tableRows });
 
   const product = tableRows.find(
     (row) =>
