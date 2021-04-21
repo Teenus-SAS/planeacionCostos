@@ -144,14 +144,12 @@ $("input[name=optionProductos]").change(function () {
       $("#inputRef")[0].tagName == "SELECT" &&
       $("#inputProducto")[0].tagName == "SELECT"
     ) {
-      // cambio de select por uno de texto para la referencia
       let $formGroupParent = $("#inputRef").parent();
       $("#inputRef").fadeOut();
       $formGroupParent.append(
         `<input id="inputRef" class="form-control" type="text" name="ref"> `
       );
       $("#inputRef").remove();
-      // cambio de select por uno de texto para el nombre del producto
       $formGroupParent = $("#inputProducto").parent();
       $("#inputProducto").fadeOut();
       $formGroupParent.append(

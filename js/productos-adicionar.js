@@ -144,7 +144,8 @@ $("#form-products").validate({
         productReferenceOrNameExists(
           document.getElementById("inputRef").value,
           document.getElementById("inputProducto").value
-        )
+        ) &&
+        !document.getElementById("prodId").value
       ) {
         $.notify(
           {
@@ -330,6 +331,8 @@ function resetFormProducts() {
   $("#inputRef").val("");
   $("#inputProducto").val("");
   $("#inputRentabilidad").val("");
+  $("#prodId").val("");
+  document.getElementById("form-product-btn").textContent = "Guardar";
 }
 
 function productReferenceAndNameExists(prodRef, prodName) {
