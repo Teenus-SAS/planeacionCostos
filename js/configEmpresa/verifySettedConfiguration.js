@@ -5,7 +5,6 @@ export function verifySettedConfiguration(tabIdentifier) {
       if (
         !parseFloat(data.workHours) ||
         !parseFloat(data.bussinesDaysMonth) ||
-        !parseFloat(data.salesCommission) ||
         !parseFloat(data.profitabilityMargin)
       ) {
         $("#configNecesaria").val("true");
