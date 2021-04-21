@@ -142,7 +142,8 @@ class User implements JsonSerializable {
    * @return void
    */
   public function setCompany($companyId) {
-    $this->company = $this->companyDao->findById($companyId);
+    $companyDao = new CompanyDao();
+    $this->company = $companyDao->findById($companyId);
   }
 
   public function getTokenPass() {
