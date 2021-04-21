@@ -2,62 +2,6 @@
 $("#inputRef").fadeOut();
 $("#inputProducto").fadeOut();
 $("#inputRentabilidad").parent().parent().fadeOut();
-let tab;
-
-function loadingSpinner() {
-  $("#spinnerAjax").removeClass("fade");
-}
-
-function completeSpinner() {
-  $("#spinnerAjax").addClass("fade");
-}
-
-// inicializacion de datatable de productos
-var $tableProductoMateria = $("#tableProductoMateriaPrima").dataTable({
-  scrollY: "500px",
-  scrollCollapse: true,
-  paging: false,
-
-  language: {
-    url: "/vendor/dataTables/Spanish.json",
-  },
-  responsive: true,
-  ajax: {
-    url: "api/get_materials_product.php?dataTable=true",
-    dataSrc: "data",
-  },
-  columns: [
-    {
-      data: "material.description",
-    },
-    {
-      data: "quantity",
-      render: (data, type, row) => {
-        if (parseFloat(data) < 1) {
-          let sum = 0;
-          for (let index = 0; index < data.toString().length; index++) {
-            sum += data.toString().charAt(index) == "0" ? 1 : 0;
-          }
-          sum += 1;
-          return $.number(data, sum, ",", ".");
-        } else {
-          return $.number(data, 2, ",", ".");
-        }
-      },
-    },
-    {
-      data: "material.unit",
-    },
-    {
-      data: "id",
-      render: function (data) {
-        return `<a href='#'><i data-prod-id=${data} data-toggle='tooltip' title="Editar" class='nc-icon nc-refresh-69 link-editar' style='color:rgb(255, 165, 0)'></i></a> <a href='#' style="margin-left: 1rem;"><i data-prod-id=${data} class='nc-icon nc-simple-remove link-borrar' data-toggle='tooltip' title='Eliminar' style='color:rgb(255, 0, 0)'></i></a>`;
-      },
-    },
-  ],
-});
-$tableProductoMateria.width("100%");
-resetFormOptions();
 
 // guarda el padre del input
 let $formGroupParent = $("#inputRef").parent();
@@ -175,6 +119,62 @@ $.get("/app/config-general/api/get_materials.php", (_materials) => {
     );
   });
 });
+let tab;
+
+function loadingSpinner() {
+  $("#spinnerAjax").removeClass("fade");
+}
+
+function completeSpinner() {
+  $("#spinnerAjax").addClass("fade");
+}
+
+// inicializacion de datatable de productos
+var $tableProductoMateria = $("#tableProductoMateriaPrima").dataTable({
+  scrollY: "500px",
+  scrollCollapse: true,
+  paging: false,
+
+  language: {
+    url: "/vendor/dataTables/Spanish.json",
+  },
+  responsive: true,
+  ajax: {
+    url: "api/get_materials_product.php?dataTable=true",
+    dataSrc: "data",
+  },
+  columns: [
+    {
+      data: "material.description",
+    },
+    {
+      data: "quantity",
+      render: (data, type, row) => {
+        if (parseFloat(data) < 1) {
+          let sum = 0;
+          for (let index = 0; index < data.toString().length; index++) {
+            sum += data.toString().charAt(index) == "0" ? 1 : 0;
+          }
+          sum += 1;
+          return $.number(data, sum, ",", ".");
+        } else {
+          return $.number(data, 2, ",", ".");
+        }
+      },
+    },
+    {
+      data: "material.unit",
+    },
+    {
+      data: "id",
+      render: function (data) {
+        return `<a href='#'><i data-prod-id=${data} data-toggle='tooltip' title="Editar" class='nc-icon nc-refresh-69 link-editar' style='color:rgb(255, 165, 0)'></i></a> <a href='#' style="margin-left: 1rem;"><i data-prod-id=${data} class='nc-icon nc-simple-remove link-borrar' data-toggle='tooltip' title='Eliminar' style='color:rgb(255, 0, 0)'></i></a>`;
+      },
+    },
+  ],
+});
+$tableProductoMateria.width("100%");
+resetFormOptions();
 
 $.validator.addMethod(
   "rentabilidadInput",
