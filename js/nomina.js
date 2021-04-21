@@ -60,53 +60,17 @@ $("#btnImportarNomina").click(function (e) {
 $("input[name=optionNomina]").change(function () {
   if ($(this).val() == "option2") {
     $("#form-nomina").removeClass("was-validated");
-    // desaparece el input
-    /*  $('#input-cargo').fadeOut() */
-    // guarda el padre del input
-    /*   let $formGroupParent = $('#input-cargo').parent() */
     loadingSpinner();
     $.get("api/get_rosters.php", (data, status, xhr) => {
-      // se consulta las maquinas de esa empresa
       if (status == "success") {
-        // se agregan todas las maquinas en un input select
-        /*       let string = `<select id="input-cargo" class="custom-select" name="cargo" required><option selected disabled>Seleccione un Cargo</option>`
-              data.forEach((roster) => {
-                string += `<option value="${roster.id}">${roster.position}</option>`
-              })
-              string += '</select>'
-              $formGroupParent.append(string) */
-        // se quita el input de tipo de texto
-        /*   $('#input-cargo').remove() */
-        /*         $('#input-cargo').change(function () {
-                  $('#form-nomina').validate()
-                  let rosterSelected = data.filter(roster => roster.id == $(this).val())[0]
-                  $('#select-proceso').val(rosterSelected.process.id)
-                  $('#input-quantity-employees').val(parseInt(rosterSelected.numberEmployees))
-                  $('#input-salario').val(parseFloat(rosterSelected.salary))
-                  $('#input-bonificacion').val(parseFloat(rosterSelected.bonus))
-                  $('#input-dotacion').val(parseFloat(rosterSelected.endowment))
-                  $('#inputHorasTrabajo').val(parseInt(rosterSelected.workHours))
-                  $('#inputDiasMes').val(parseInt(rosterSelected.bussinesDaysMonth))
-                  $('#inputFP').val(parseFloat(rosterSelected.performaceFactor))
-                  $(`input[name=optionFactorPrestacional][value=${rosterSelected.contract}]`).prop('checked', true)
-                }) */
-        /*    clearFieldsRoster() */
       } else {
         location = "/login";
       }
     });
     completeSpinner();
   } else {
-    /* if ($('#input-cargo')[0].tagName == 'SELECT') { */
-    /*      let $formGroupParent = $('#input-cargo').parent()
-         $('#input-cargo').fadeOut()
-         $formGroupParent.append(`<input id="input-cargo" class="form-control" type="text" name="cargo" required> `)
-         $('#input-cargo').remove() */
     clearFieldsRoster();
-
     resetFieldsRoster();
-
-    /*     } */
   }
 });
 
@@ -353,13 +317,9 @@ if ($(window).width() > 800) {
   $("#input-quantity-employees").parent().removeClass("pr-0");
 }
 
-// inicializacion de datatable
-
 var $tableNominas = $("#tableNominas").dataTable({
-  //scrollY: "700px",
   scrollCollapse: true,
   pageLength: 25,
-  //paging: false,
 
   language: {
     url: "/vendor/dataTables/Spanish.json",
@@ -375,8 +335,6 @@ var $tableNominas = $("#tableNominas").dataTable({
   columns: [
     { data: "position" },
     { data: "process.name" },
-    /* { data: "numberEmployees" }, */
-    /*   {data: 'contract'}, */
     {
       data: "salary",
       render: function (data, type, row) {
@@ -404,10 +362,8 @@ var $tableNominas = $("#tableNominas").dataTable({
   ],
 
   footerCallback: function (row, data, start, end, display) {
-    var api = this.api(),
-      data;
+    var api = this.api();
 
-    // Remove the formatting to get integer data for summation
     var intVal = function (i) {
       return typeof i === "string"
         ? i.replace(/[\$,]/g, "") * 1
@@ -416,7 +372,6 @@ var $tableNominas = $("#tableNominas").dataTable({
         : 0;
     };
 
-    // Total over all pages
     total = api
       .column(3)
       .data()
@@ -424,7 +379,6 @@ var $tableNominas = $("#tableNominas").dataTable({
         return intVal(a) + intVal(b);
       }, 0);
 
-    // Total over this page
     pageTotal = api
       .column(3, { page: "current" })
       .data()
@@ -432,12 +386,10 @@ var $tableNominas = $("#tableNominas").dataTable({
         return intVal(a) + intVal(b);
       }, 0);
 
-    // Update footer
     $(api.column(3).footer()).html(
       `Total Nómina $ ${$.number(pageTotal, 2, ".", ",")}`
     );
 
-    // Total over all pages
     total = api
       .column(4)
       .data()
@@ -445,7 +397,6 @@ var $tableNominas = $("#tableNominas").dataTable({
         return intVal(a) + intVal(b);
       }, 0);
 
-    // Total over this page
     pageTotal = api
       .column(4, { page: "current" })
       .data()
@@ -453,20 +404,17 @@ var $tableNominas = $("#tableNominas").dataTable({
         return intVal(a) + intVal(b);
       }, 0);
 
-    // Update footer
     $(api.column(4).footer()).html(`$ ${$.number(pageTotal, 2, ".", ",")}`);
   },
 });
+
+$tableNominas.api().ajax.reload();
 $tableNominas.width("100%");
-/* $tableNominas.on('click', 'tr', function () {
-  $(this).toggleClass('selected');
-}) */
 
 $("#form-nomina").validate({
   rules: {
     cargo: "required",
     proceso: "required",
-    //Numeroempleados: "required",
     salario: "required",
     horasTrabajo: {
       required: true,
@@ -654,26 +602,6 @@ function clearFieldsRoster() {
   $("#input-quantity-employees").val("");
 }
 
-/**
- * Cuando se selecciona un checkbox de transporte
- * Este se le sumara o se le restara
- * El valor del subsidio de transporte
- */
-/* function addListenerTrasportOption() {
-  $(".transport-option").off("click");
-  $(".transport-option").click(function () {
-    let $input = $(this).parent().parent().siblings("input");
-
-    if ($(this).is(":checked")) {
-      $input.val(parseFloat($input.val()) + transport);
-    } else {
-      $input.val(parseFloat($input.val()) - transport);
-    }
-  });
-} */
-
-/* Validar Btn seleccionado */
-
 elById("tableNominas").addEventListener("click", (ev) => {
   const selectedEl = ev.target;
 
@@ -744,17 +672,10 @@ function deleteNomina(id) {
     },
     callback: function (result) {
       if (result == true) {
-        /*   let rows = $tableNominas.api().rows('.selected').data()
-         let count = 0, countAux = 0
-         if (rows.length > 0) {
-           for (let index = 0; index < rows.length; index++) { */
-
         $.post("api/delete_roster.php", {
           id: id,
         }).always(function (xhr) {
-          /*   countAux++ */
           if (xhr.status == 200) {
-            /*   count++ */
             $tableNominas.api().ajax.reload();
             $.notify(
               {
@@ -767,27 +688,7 @@ function deleteNomina(id) {
               }
             );
           }
-          /*         if (countAux == rows.length) {
-                    $tableNominas.api().ajax.reload()
-                    $.notify({
-                      icon: "nc-icon nc-bell-55",
-                      message: `Se ${count > 1 ? 'han' : 'ha'} borrado ${count} ${count > 1 ? 'nominas' : 'nomina'}`
-                    }, {
-                      type: 'info',
-                      timer: 8000
-                    })
-                  } */
         });
-        /*   } */
-        /*   } else {
-            $.notify({
-              icon: "nc-icon nc-bell-55",
-              message: `Selecciona al menos <b>1</b> nomina`
-            }, {
-              type: 'warning',
-              timer: 8000
-            })
-          } */
       }
     },
   });
@@ -795,8 +696,6 @@ function deleteNomina(id) {
 
 function resetFieldsRoster() {
   elById("input-cargo").value = "";
-  //$("#select-proceso").val("");
-  //elById("input-quantity-employees").value = "";
   elById("input-salario").value = "0.0";
   elById("input-bonificacion").value = "0.0";
   elById("input-dotacion").value = "0.0";
