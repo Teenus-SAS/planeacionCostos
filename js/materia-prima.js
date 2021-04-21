@@ -130,14 +130,6 @@ $("#form-materia-prima").submit(function (e) {
     )[0];
 
     if (
-      !materialSel &&
-      elById("material-btn").value.trim().toLowerCase() === "modificar"
-    ) {
-      submitFormMaterials(true);
-      return;
-    }
-
-    if (
       materialSel &&
       elById("material-btn").value.trim().toLowerCase() === "modificar"
     ) {
@@ -149,12 +141,12 @@ $("#form-materia-prima").submit(function (e) {
       existsMateriaPrimaByName(elById("input-materia-prima").value) ||
       existsMateriaPrimaByRef(elById("ref-materia-prima").value)
     ) {
-      if (elById("material-btn").value.trim().toLowerCase() !== "modificar") {
+      if (elById("material-btn").value.trim().toLowerCase() === "modificar") {
         submitFormMaterials(true);
       } else {
         $.confirm({
           title: "Tezlik",
-          content: "¿Desea Actualizar la materia prima?",
+          content: "La materia prima ya existe ¿desea actualizarla?",
           buttons: {
             SI: function () {
               submitFormMaterials(true);
@@ -389,4 +381,5 @@ function resetFormMaterials() {
   elById("input-materia-prima").readOnly = false;
   elById("input-unidad").value = "";
   elById("input-costo").value = "";
+  elById("material-btn").value = "Adicionar";
 }
