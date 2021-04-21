@@ -185,8 +185,7 @@ function deleteProceso(id, proceso) {
             $.notify(
               {
                 icon: "nc-icon nc-bell-55",
-                message: `El proceso <b>${proceso}</b> no se puede eliminar. Este proceso está asociado a uno o más productos. <br>
-              o esta asociado a la nomina`,
+                message: `El proceso <b>${proceso}</b> no se puede eliminar. Este proceso está asociado a uno o más productos, distribuciones de gastos o nóminas`,
               },
               {
                 type: "danger",

@@ -345,7 +345,7 @@ function deleteMaterial(id, description) {
           } else {
             $.notify({
               icon: "nc-icon nc-bell-55",
-              message: `Error eliminando la Materia prima con referencia <b>${description}</b>.`,
+              message: `No se puede eliminar la materia prima con referencia <b>${description} ya que está asociada a algún producto</b>.`,
               type: "danger",
               timer: 4000,
             });

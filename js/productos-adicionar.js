@@ -316,6 +316,17 @@ function deleteProduct(prodId) {
                 timer: 8000,
               }
             );
+          } else {
+            $.notify(
+              {
+                icon: "nc-icon nc-bell-55",
+                message: `El producto no se puede eliminar ya que puede estar asociado a línea de productos, materias primas, servicios externos o procesos.`,
+              },
+              {
+                type: "danger",
+                timer: 8000,
+              }
+            );
           }
         });
         return;

@@ -35,7 +35,7 @@ class ProductDao {
     $product->setRef($productDB["ref"]);
     $product->setRentabilidad($productDB['rentabilidad']);
     if ($materials) {
-      $product->setMaterials($this->findRawMaterialsByProduct($product));
+      $product->setMaterials($this->findRawMaterialsByProductId($product->getId()));
     }
     if ($processes) {
       $product->setProcesses($this->processDao->findProductProcessesByProductId($product->getId()));
@@ -65,19 +65,40 @@ class ProductDao {
     }
   }
 
-  public function findRawMaterialsByProduct($product) {
+  public function findRawMaterialsByProductId($productId) {
     $this->db->connect();
-    $query = "SELECT * FROM `materiales_has_productos` WHERE `productos_id_producto` = " . $product->getId();
+    $query = "SELECT * FROM `materiales_has_productos` WHERE `productos_id_producto` = " . $productId;
     $productRawMaterialsDB = $this->db->consult($query, "yes");
     $productRawMaterials = [];
     if ($productRawMaterialsDB !== false) {
       foreach ($productRawMaterialsDB as $productRawMaterialDB) {
         $productRawMaterial = new ProductRawMaterial();
         $productRawMaterial->setId($productRawMaterialDB["materiales_has_productos_id"]);
-        $productRawMaterial->setIdCompany($product->getIdCompany());
+        $productRawMaterial->setIdCompany($productRawMaterialDB["materiales_empresas_id_empresa"]);
         $productRawMaterial->setMaterial($this->materialDao->findById($productRawMaterialDB["materiales_id_materiales"]));
         $productRawMaterial->setQuantity($productRawMaterialDB["cantidad"]);
-        $productRawMaterial->setIdPorduct($product->getId());
+        $productRawMaterial->setIdPorduct($productRawMaterialDB["productos_id_producto"]);
+        array_push($productRawMaterials, $productRawMaterial);
+      }
+      return $productRawMaterials;
+    } else {
+      return null;
+    }
+  }
+
+  public function findRawMaterialsByMaterialId($materialId) {
+    $this->db->connect();
+    $query = "SELECT * FROM `materiales_has_productos` WHERE `materiales_id_materiales` = " . $materialId;
+    $productRawMaterialsDB = $this->db->consult($query, "yes");
+    $productRawMaterials = [];
+    if ($productRawMaterialsDB !== false) {
+      foreach ($productRawMaterialsDB as $productRawMaterialDB) {
+        $productRawMaterial = new ProductRawMaterial();
+        $productRawMaterial->setId($productRawMaterialDB["materiales_has_productos_id"]);
+        $productRawMaterial->setIdCompany($productRawMaterialDB["materiales_empresas_id_empresa"]);
+        $productRawMaterial->setMaterial($this->materialDao->findById($productRawMaterialDB["materiales_id_materiales"]));
+        $productRawMaterial->setQuantity($productRawMaterialDB["cantidad"]);
+        $productRawMaterial->setIdPorduct($productRawMaterialDB["productos_id_producto"]);
         array_push($productRawMaterials, $productRawMaterial);
       }
       return $productRawMaterials;
@@ -137,16 +158,10 @@ class ProductDao {
 
   public function delete($id) {
     $this->db->connect();
-    $product = $this->findById($id, true, true, true);
-    $lines = $this->findProductLinesByProductId($product->getId());
-    if ($lines && count($lines) > 0) {
-      return false;
-    }
-    $this->deleteRawMaterialsByProduct($product);
-    $this->serviciosExternosDao->deleteByProduct($product->getId());
-    $this->processDao->deleteProductProcessByProduct($product->getId());
     
     $query = "DELETE FROM `productos` WHERE `productos`.`id_producto` = $id";
+    $this->db->consult($query);
+    $query = "DELETE FROM `gastos_mensuales` WHERE `gastos_mensuales`.`productos_id_producto` = $id";
     $this->db->consult($query);
 
     return true;

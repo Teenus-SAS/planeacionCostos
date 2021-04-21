@@ -54,6 +54,18 @@ class RosterDao {
     }
   }
 
+  public function findByProcessId($processId) {
+    $this->db->connect();
+    $query = "SELECT `id_nominas` FROM `nominas` WHERE `procesos_id_procesos` = " . $processId;
+    $rosterDB = $this->db->consult($query, "yes");
+    if (count($rosterDB) > 0) {
+      $rosterDB = $rosterDB[0];
+      return $this->findById($rosterDB["id_nominas"]);
+    } else {
+      return null;
+    }
+  }
+
   public function findByCompany($idCompany) {
     $this->db->connect();
     $query = "SELECT `id_nominas` FROM `nominas` WHERE `empresas_id_empresa` = $idCompany";
