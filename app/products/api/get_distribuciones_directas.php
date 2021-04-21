@@ -36,7 +36,11 @@ if (isset($_SESSION["user"])) {
   $processDao = new ProcessDao();
   $distribuciones = $dDirectaDao->findByCompany($user->getCompany()->getId());
   foreach($distribuciones as $distribucion) {
-    $distribucion->setNombreProceso($processDao->findById($distribucion->getIdProceso())->getName());
+    $process = $processDao->findById($distribucion->getIdProceso());
+    if (!$process) {
+      continue;
+    }
+    $distribucion->setNombreProceso($process->getName());
   }
   if (isset($_GET["dataTable"])) {
     $response = new stdClass();
