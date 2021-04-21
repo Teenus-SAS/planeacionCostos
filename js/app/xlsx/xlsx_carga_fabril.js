@@ -16,7 +16,10 @@ const exportImportCargaFabril = new ImportacionXLSX(
   },
   $("#filecargaFabril"),
   (cell) => {
-    const machineExists = machines.find((mach) => mach.name === cell.maquina);
+    const machineExists = machines.find(
+      (mach) =>
+        mach.name.trim().toLowerCase() === cell.maquina.trim().toLowerCase()
+    );
     if (machineExists) {
       cell.maquina = machineExists.id;
       return false;
