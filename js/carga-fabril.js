@@ -2,15 +2,13 @@ verifySettedConfiguration("tabCargaFabril");
 
 $(".link-borrar-carga-fabril").css("cursor", "pointer");
 
-// cargar select maquinas
-$(document).ready(function () {
+$("#cfmaquinas").focus(function () {
   $.get(
     "/app/config-general/api/get_machines.php",
     (_machines, status, xhr) => {
       $("#cfmaquinas").append(
         `<option selected disabled>Selecciona un máquina</option>`
       );
-      let machinesJSON = _machines;
       _machines.forEach((machine) => {
         $("#cfmaquinas").append(
           `<option value="${machine.id}">${machine.name}</option>`
