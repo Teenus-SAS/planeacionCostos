@@ -10,8 +10,6 @@ var productsInProcess;
 
 loadProductsPP();
 function loadProductsPP() {
-  // cargado de productos la empresa
-  loadingSpinner();
   $.get("api/get_products.php?process", (_products, status, xhr) => {
     // se consulta los productos de esa empresa
     if (status == "success") {
@@ -63,7 +61,6 @@ function loadProductsPP() {
       });
     }
   });
-  completeSpinner();
 }
 
 // cargado de procesos

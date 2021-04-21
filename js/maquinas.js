@@ -1,9 +1,5 @@
-/* 
-@Author: Teenus SAS
-@github: Teenus-SAS
-logica de maquinas
-*/
-
+import { verifySettedConfiguration } from "./configEmpresa/verifySettedConfiguration.js";
+verifySettedConfiguration("tabMaquinas");
 flag = false;
 
 function clearformMachines() {

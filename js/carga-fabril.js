@@ -1,10 +1,6 @@
-/* 
-@Author: Teenus SAS
-@github: Teenus-SAS
-logica de carga fabril
-*/
+import { verifySettedConfiguration } from "./configEmpresa/verifySettedConfiguration.js";
+verifySettedConfiguration("tabCargaFabril");
 
-/* Cambiar puntero */
 $(".link-borrar-carga-fabril").css("cursor", "pointer");
 
 // cargar select maquinas
@@ -15,7 +11,7 @@ $(document).ready(function () {
       $("#cfmaquinas").append(
         `<option selected disabled>Selecciona un máquina</option>`
       );
-      machinesJSON = _machines;
+      let machinesJSON = _machines;
       _machines.forEach((machine) => {
         $("#cfmaquinas").append(
           `<option value="${machine.id}">${machine.name}</option>`

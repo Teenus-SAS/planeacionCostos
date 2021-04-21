@@ -1,106 +1,21 @@
 <?php
-/**
- * Clase modelo para un usuario de la apliacion
- * 
- * @author Teenus SAS>
- * @package model
- * @github Teenus SAS
- */
-class User implements JsonSerializable
-{
-  /**
-   * Id del usuario
-   *
-   * @access private
-   * @var integer
-   */
-  private $id;
-  /**
-   * nombre de usuario del usuario
-   *
-   * @access private
-   * @var string
-   */
-  private $username;
-  /**
-   * nombres del usuario
-   *
-   * @access private
-   * @var string
-   */
-  private $firstname;
-  /**
-   * apellidos del usuario
-   *
-   * @access private
-   * @var string
-   */
-  private $lastname;
-  /**
-   * Email del usuario
-   *
-   * @access private
-   * @var string
-   */
-  private $email;
-  /**
-   * contraseña del usuario
-   *
-   * @access private
-   * @var string
-   */
-  private $password;
-  /**
-   * empresa a la que pertenece el usuario
-   *
-   * @access private
-   * @var Company
-   */
-  private $company;
-  /**
-   * token de recuperacion  de contraseña
-   *
-   * @access private
-   * @var string
-   */
-  private $tokenPass;
-  /**
-   * rol de el usaurio [standard o administrador]
-   *
-   * @access private
-   * @var integer
-   */
-  private $rolId;
-  /**
-   * bandera que indica si e usuario ya tiene una sesion iniciada
-   * en otro equipo
-   *
-   * @access private
-   * @var boolean
-   */
-  private $sessionActive;
-  /**
-   * Fecha de creacion del usuario
-   *
-   * @access private
-   * @var date
-   */
-  private $createdAt;
-  /**
-   * bandera para saber si el usuario puede ingresar o no
-   * en la aplicación
-   *
-   * @access private
-   * @var boolean
-   */
-  private $active;
 
-  /**
-   * obtiene el id del usuario
-   *
-   * @access public
-   * @return integer
-   */
+require_once DAO_PATH . "CompanyDao.php";
+
+class User implements JsonSerializable {
+  private $id;
+  private $username;
+  private $firstname;
+  private $lastname;
+  private $email;
+  private $password;
+  private $company;
+  private $tokenPass;
+  private $rolId;
+  private $sessionActive;
+  private $createdAt;
+  private $active;
+  
   public function getId()
   {
     return $this->id;
@@ -226,19 +141,11 @@ class User implements JsonSerializable
    * @param Company $company nueva empresa de pertenecia del usuario
    * @return void
    */
-  public function setCompany($company)
-  {
-    $this->company = $company;
+  public function setCompany($companyId) {
+    $this->company = $this->companyDao->findById($companyId);
   }
 
-  /**
-   * Obtiene el token de recuperacion de contraseña del usuario
-   *
-   * @access public
-   * @return string
-   */
-  public function getTokenPass()
-  {
+  public function getTokenPass() {
     return $this->tokenPass;
   }
 

@@ -1,3 +1,5 @@
+import { verifySettedConfiguration } from "./configEmpresa/verifySettedConfiguration.js";
+verifySettedConfiguration("tabNomina");
 $("#inputFP").prop("readonly", true);
 
 elById("inlineRadio1M").click();

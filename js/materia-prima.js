@@ -264,11 +264,9 @@ function submitFormMaterials(updated = false) {
 $('a[data-toggle="tab"]').on("shown.bs.tab", function (e) {
   e.target; // newly activated tab
   e.relatedTarget; // previous active tab
-  $tableProductos.api().ajax.reload();
   $tableMateriaPrima.api().ajax.reload();
   $tableNominas.api().ajax.reload();
   $tableProcesos.api().ajax.reload();
-  $tableMaquinas.api().ajax.reload();
 });
 
 function alphaOnly(event) {

@@ -51,28 +51,28 @@ include(PARTIALS_PATH . "verify_session.php");
               <div class="nav-tabs-wrapper">
                 <ul class="nav nav-tabs" data-tabs="tabs">
                   <li class="nav-item">
-                    <a class="nav-link active" href="#Generales" data-toggle="tab">Datos Generales</a>
+                    <a class="nav-link active" id="tabGenerales" href="#Generales" data-toggle="tab">Datos Generales</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="#products" data-toggle="tab">Productos</a>
+                    <a class="nav-link" id="tabProductos" href="#products" data-toggle="tab">Productos</a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" href="#materia_prima" data-toggle="tab">Materia Prima</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="#maquinas" data-toggle="tab">Máquinas</a>
+                    <a class="nav-link" id='tabMaquinas' href="#maquinas" data-toggle="tab">Máquinas</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="#carga-fabril" data-toggle="tab">Carga Fabril</a>
+                    <a class="nav-link" id="tabCargaFabril" href="#carga-fabril" data-toggle="tab">Carga Fabril</a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" href="#process" data-toggle="tab">Procesos</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="#nomina-nav" data-toggle="tab">Nómina</a>
+                    <a class="nav-link" id="tabNomina" href="#nomina-nav" data-toggle="tab">Nómina</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="#gastos" data-toggle="tab" id="nav-gastos">Gastos Generales</a>
+                    <a class="nav-link" id="tabGastosGenerales" href="#gastos" data-toggle="tab" id="nav-gastos">Gastos Generales</a>
                   </li>
                   <!-- <li class="nav-item">
                     <a href="#bpm-nav" data-toggle="tab" class="nav-link">BPM</a>
@@ -85,6 +85,7 @@ include(PARTIALS_PATH . "verify_session.php");
             <div class="tab-content text-center">
               <div class="tab-pane active" id="Generales">
                 <form id="form-factor-prestacional">
+                <option id="configNecesaria" value="false" hidden></option>
                   <div class="row">
                     <div class="col-md-6 col-sm-12">
                       <div class="card">
@@ -92,11 +93,11 @@ include(PARTIALS_PATH . "verify_session.php");
                         <div class="card-body">
                           <div class="form-group row">
                             <label class="col-md-5 col-sm-12 col-form-label col-6" for="my-input">Horas de Trabajo por Dia</label>
-                            <input id="my-input-wh" class="col-md-6 form-control col-sm-10 col-5" type="text" name="workHours" value="<?= $user->getCompany()->getWorkHours() ?>">
+                            <input id="my-input-wh" class="col-md-6 form-control col-sm-10 col-5" type="text" name="workHours" value="0">
                           </div>
                           <div class="form-group row">
                             <label class="col-md-5 col-sm-12 col-form-label col-6" for="my-input">Dias Laborales del Mes</label>
-                            <input id="my-input-dl" class="col-md-6 form-control col-sm-8 col-5" type="number" name="BussinesDayMonth" value="<?= $user->getCompany()->getBussinesDaysMonth() ?>" required>
+                            <input id="my-input-dl" class="col-md-6 form-control col-sm-8 col-5" type="number" name="BussinesDayMonth" value="0" required>
                           </div>
                         </div>
                       </div>
@@ -108,7 +109,7 @@ include(PARTIALS_PATH . "verify_session.php");
                           <div class="form-group row align-items-center">
                             <label class="col-md-4 col-sm-12 col-form-label col-6" for="my-input">Comisión de Ventas</label>
                             <div class="input-group col-md-7 col-sm-10 col-5 mb-0">
-                              <input id="my-input-sc" class="form-control" type="text" name="SalesCommission" value="<?= $user->getCompany()->getSalesCommission() ?>">
+                              <input id="my-input-sc" class="form-control" type="text" name="SalesCommission" value="0">
                               <div class="input-group-append">
                                 <span class="input-group-text">%</span>
                               </div>
@@ -117,7 +118,7 @@ include(PARTIALS_PATH . "verify_session.php");
                           <div class="form-group row align-items-center mb-0">
                             <label class="col-md-4 col-form-label col-sm-12 col-6 " for="my-input">Margen De rentabilidad</label>
                             <div class="input-group col-md-7 col-sm-10 col-5 mb-0">
-                              <input id="my-input-mr" class="form-control " type="number" name="ProfitabilityMargin" value="<?= $user->getCompany()->getProfitabilityMargin() ?>" required>
+                              <input id="my-input-mr" class="form-control " type="number" name="ProfitabilityMargin" value="0" required>
                               <div class="input-group-append">
                                 <span class="input-group-text">%</span>
                               </div>
@@ -137,19 +138,12 @@ include(PARTIALS_PATH . "verify_session.php");
               </div>
               <div class="tab-pane" id="materia_prima">
                 <div class="row">
-                  <!-- justify-content-center align-items-center -->
-                  <!-- <div>
-                    <button class="button btn btn-primary ml-4">Crear Materia Prima</button>
-                    <button class="button btn btn-info ml-2">Importar Materia Prima</button>
-                  </div> -->
                   <div class="col-md-4 col-sm-12">
-                    <!--<h3>Materia Prima</h3>-->
                     <form id="form-materia-prima">
                       <input type="text" name="idMateriaPrima" id="idMateriaPrima" hidden>
                       <div hidden class="form-check form-check-radio form-check-inline">
                         <label>
                           <input type="radio" name="optionMateriaPrima" id="inlineRadio2" value="option2"> Modificar
-                          <!--   <span class="form-check-sign"></span> -->
                         </label>
                       </div>
                       <div class="card py-2">
@@ -204,7 +198,6 @@ include(PARTIALS_PATH . "verify_session.php");
                   <div class="col-md-8 col-sm-12">
                     <div class="card">
                       <div class="card-header">
-                        <!--<h4>Materia Prima</h4>-->
                       </div>
                       <div class="card-body">
                         <div class="table-responsive tableFixHead">
@@ -1268,7 +1261,7 @@ include(PARTIALS_PATH . "verify_session.php");
   <script src="/js/RedondeoDecimal.js"></script>
 
   <!--   <script src="/js/productos.js"></script>  -->
-  <script src="/js/productos-adicionar.js"></script>
+  <script src="/js/productos-adicionar.js" type="module"></script>
 
   <script src="/js/calculo_GG.js"></script>
 
@@ -1276,10 +1269,10 @@ include(PARTIALS_PATH . "verify_session.php");
 
   <script src="/js/materia-prima.js"></script>
   <script src="/js/factor-prestacional.js"></script>
-  <script src="/js/maquinas.js"></script>
-  <script src="/js/carga-fabril.js"></script>
+  <script src="/js/maquinas.js" type="module"></script>
+  <script src="/js/carga-fabril.js" type="module"></script>
   <script src="/js/procesos.js"></script>
-  <script src="/js/nomina.js"></script>
+  <script src="/js/nomina.js" type="module"></script>
   <script src="/js/app/xlsx/xlsx_gastos_generales.js" type="module"></script>
   <script src="/js/app/xlsx/xlsx_productos.js" type="module"></script>
   <script src="/js/app/xlsx/xlsx_procesos.js" type="module"></script>

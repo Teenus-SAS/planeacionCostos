@@ -1,94 +1,126 @@
-/* 
-@Author: Teenus SAS
-@github: Teenus-SAS
-logica factor prestacional
-*/
+const verifyErrorConfigNecesaria = () => {
+  if ($("#configNecesaria").val() == "true") {
+    setTimeout(
+      () =>
+        bootbox.dialog({
+          title: "Debes configurar los valores de la empresa para continuar",
+          message: "Configura los valores para continuar",
+        }),
+      500
+    );
+    $("#configNecesaria").val("false");
+  }
+};
 
-$.validator.addMethod("decimalInput", function (value) {
-  return /^\s*-?[1-9]\d*(\.\d{1,2})?\s*$/.test(value);
-  }, "Máximo dos decimales");
+$("#tabGenerales").click(() => {
+  verifyErrorConfigNecesaria();
+  $("#Generales").addClass("hide");
+  setTimeout(() => {
+    $("#Generales").removeClass("hide");
+    $("#Generales").addClass("show");
+  }, 1000);
+});
 
+$.get("/app/my-profile/api/get_company.php", (data, status) => {
+  data = data.company;
+  $("#my-input-sc").val(data.salesCommission);
+  $("#my-input-mr").val(data.profitabilityMargin);
+  $("#my-input-dl").val(data.bussinesDaysMonth);
+  $("#my-input-wh").val(data.workHours);
+});
 
-  $('#form-factor-prestacional').validate({
+$.validator.addMethod(
+  "decimalInput",
+  function (value) {
+    return /^\s*-?[1-9]\d*(\.\d{1,2})?\s*$/.test(value);
+  },
+  "Máximo dos decimales"
+);
 
-    rules: {
-      'SalesCommission': {
-        required: true,
-        /* decimalInput: true, */
-      },
-      'workHours': {
-        required: true,
-        /* decimalInput: true */
-      },
-      'BussinesDayMonth': {
-        required: true,
-        max: 31,
-        min: 1
-      },
-      'ProfitabilityMargin': {
-        required: true,
-       /*  decimalInput: true */
-      }
+$("#form-factor-prestacional").validate({
+  rules: {
+    SalesCommission: {
+      required: true,
     },
-    messages: {
-      'SalesCommission': {
-        required: 'campo requerido',
-        /* decimalInput: 'máximo dos decimales' */
-      },
-      'workHours': {
-        required:'campo required',
-        /* decimalInput: 'máximo dos decimales', */
-      },
-      'BussinesDayMonth': {
-        required: 'campo requerido',
-        max: 'máximo 31 días laborales requeridos al mes',
-        min: 'minimo 1 día laboral requerido al mes'
-      },
-      'ProfitabilityMargin': {
-        required: 'campo requerido',
-        /* decimalInput: 'máximo dos decimales' */
-      }
+    workHours: {
+      required: true,
+      max: 18,
+      min: 1,
     },
-    errorPlacement: function (error, element) {  
-      error.insertAfter(element.closest('div.form-group'));
-    }, 
-    submitHandler: function (form) {
-        loadingSpinner()
-     /*    e.preventDefault() */
-        $.post('api/update_factor_prestacional.php', $(form).serialize())
-          .always(function (xhr) {
-            completeSpinner()
-            switch (xhr.status) {
-              case 200:
-                $.notify({
-                  icon: "nc-icon nc-bell-55",
-                  message: `Informacion <b>Actualizada</b>`
-                }, {
-                  type: 'primary',
-                  timer: 8000
-                })
-                break
-              case 400:
-                $.notify({
-                  icon: "nc-icon nc-bell-55",
-                  message: `Por favor <b>Completa</b> todos los campos`
-                }, {
-                  type: 'warning',
-                  timer: 8000
-                })
-                break
-              case 500:
-                $.notify({
-                  icon: "nc-icon nc-bell-55",
-                  message: `Ha ocurrido un <b>error</b> al momento de actulizar los datos`
-                }, {
-                  type: 'danger',
-                  timer: 8000
-                })
-                break
-            }
-          })
-      },
-      errorClass: "is-invalid",
-      validClass: 'is-valid'
-  });
+    BussinesDayMonth: {
+      required: true,
+      max: 31,
+    },
+    ProfitabilityMargin: {
+      required: true,
+    },
+  },
+  messages: {
+    SalesCommission: {
+      required: "Campo requerido",
+    },
+    workHours: {
+      required: "Campo requerido",
+      max: "Valor máximo permitido: <b>18</b> horas de trabajo",
+    },
+    BussinesDayMonth: {
+      required: "Campo requerido",
+      max: "Valor máximo permitido: <b>31</b> días laborales",
+      min: "Valor mínimo permitido: <b>1</b> día laborales",
+    },
+    ProfitabilityMargin: {
+      required: "campo requerido",
+    },
+  },
+  errorPlacement: function (error, element) {
+    error.insertAfter(element.closest("div.form-group"));
+  },
+  submitHandler: function (form) {
+    loadingSpinner();
+    $.post("api/update_factor_prestacional.php", $(form).serialize()).always(
+      function (xhr) {
+        completeSpinner();
+        switch (xhr.status) {
+          case 200:
+            $.notify(
+              {
+                icon: "nc-icon nc-bell-55",
+                message: `Informacion <b>Actualizada</b>`,
+              },
+              {
+                type: "primary",
+                timer: 8000,
+              }
+            );
+            break;
+          case 400:
+            $.notify(
+              {
+                icon: "nc-icon nc-bell-55",
+                message: `Por favor <b>Completa</b> todos los campos`,
+              },
+              {
+                type: "warning",
+                timer: 8000,
+              }
+            );
+            break;
+          case 500:
+            $.notify(
+              {
+                icon: "nc-icon nc-bell-55",
+                message: `Ha ocurrido un <b>error</b> al momento de actulizar los datos`,
+              },
+              {
+                type: "danger",
+                timer: 8000,
+              }
+            );
+            break;
+        }
+      }
+    );
+  },
+  errorClass: "is-invalid",
+  validClass: "is-valid",
+});

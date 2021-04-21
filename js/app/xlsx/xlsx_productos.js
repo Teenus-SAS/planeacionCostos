@@ -15,16 +15,6 @@ const exportImportProduct = new ImportacionXLSX(
   () => {}
 );
 
-loadProductsInMaterials();
-// cargado de productos de base de datos
-function loadProductsInMaterials() {
-  loadingSpinner();
-  $.get("api/get_products.php?materials", (data, status, xhr) => {
-    productsJSON = data;
-    completeSpinner();
-  });
-}
-
 /* Productos */
 $("#fileProducts").change(function () {
   const subidaExcelProductos = exportImportProduct.subidaExcel;
@@ -93,12 +83,9 @@ function uploadProducts(subidaExcel) {
       );
     }
   });
-
-  completeSpinner();
 }
 
 function uploadProductsMaterials(rawMaterials) {
-  loadingSpinner();
   $.post(
     "api/upload_raw_materials.php",
     {
@@ -137,9 +124,8 @@ function uploadProductsMaterials(rawMaterials) {
             timer: 8000,
           }
         );
-        completeSpinner();
+
         loadProductsInProcess();
-        loadProductsInMaterials();
         loadProductsGG();
         loadProductsPP();
         loadProductsInXLSX();
@@ -162,8 +148,6 @@ function uploadProductsMaterials(rawMaterials) {
       );
     }
   });
-
-  completeSpinner();
 }
 
 $("#download-products").click(function () {
@@ -176,7 +160,6 @@ $("#  ").click(function (e) {
 });
 
 function generateFileProductsMaterials() {
-  loadingSpinner();
   $.get("api/get_products.php?materials", (data, status, xhr) => {
     productsJSON = data;
 
@@ -232,5 +215,4 @@ function generateFileProductsMaterials() {
       );
     }
   });
-  completeSpinner();
 }

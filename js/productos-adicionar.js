@@ -1,3 +1,6 @@
+import { verifySettedConfiguration } from "./configEmpresa/verifySettedConfiguration.js";
+verifySettedConfiguration("tabProductos");
+
 document
   .querySelector('li.nav-item a[href$="#products"]')
   .addEventListener("click", () => {
