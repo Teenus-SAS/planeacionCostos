@@ -56,7 +56,7 @@ if (isset($_SESSION["user"])) {
             http_response_code(201);
             exit;
           }
-          $distribucion->setId($existsDistribucion[0]->getId());
+          $distribucion->setId($existsDistribucion->getId());
         }
         $distribucionDirectaDao->update($distribucion);
         http_response_code(200);
