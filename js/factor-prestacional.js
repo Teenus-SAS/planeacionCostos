@@ -54,6 +54,7 @@ $("#form-factor-prestacional")
       BussinesDayMonth: {
         required: true,
         max: 31,
+        max: 1,
       },
       ProfitabilityMargin: {
         required: true,
@@ -66,6 +67,7 @@ $("#form-factor-prestacional")
       workHours: {
         required: "Campo requerido",
         max: "Valor máximo permitido: <b>18</b> horas de trabajo",
+        min: "Valor mínimo permitido: <b>1</b> hora de trabajo",
       },
       BussinesDayMonth: {
         required: "Campo requerido",
