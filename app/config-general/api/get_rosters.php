@@ -1,19 +1,5 @@
 <?php
 
-/**
- * @author Teenus SAS <info@teenus.com.co>
- * Este Script obtener todos las nominas de la empresa 
- * Se llama por metodo 
- * @method GET
- * 
- * @responsesCodes
- *  200: en caso de que el calculo sea exitoso
- *  500: en caso de error en el servidor
- *  401: en caso de que no exista una sesion iniciada
- * 
- * 
- */
-
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
 require_once DAO_PATH . "UserDao.php";
 require_once DAO_PATH . "RosterDao.php";

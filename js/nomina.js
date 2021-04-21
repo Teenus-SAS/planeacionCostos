@@ -1,4 +1,3 @@
-import { verifySettedConfiguration } from "./configEmpresa/verifySettedConfiguration.js";
 verifySettedConfiguration("tabNomina");
 $("#inputFP").prop("readonly", true);
 
@@ -58,8 +57,6 @@ $("#btnImportarNomina").click(function (e) {
   $("#panelCrearNomina").slideUp();
 });
 
-let nominasInfo = null;
-
 $("input[name=optionNomina]").change(function () {
   if ($(this).val() == "option2") {
     $("#form-nomina").removeClass("was-validated");
@@ -112,12 +109,6 @@ $("input[name=optionNomina]").change(function () {
     /*     } */
   }
 });
-
-/*
- * peticion de salario
- * se hara un modal con el numero salarios colocados
- * y se sumaran para darle un valor general al salario
- */
 
 $("#input-quantity-employees").keyup(function () {
   loadModalSalary($(this).val());
@@ -212,10 +203,6 @@ function loadModalSalary(quantity) {
   }
 }
 
-/*
- * calculado de salarios acumulados
- */
-
 $("#modalSalaryEmployees").on("hide.bs.modal", calculateSalaryTotal);
 
 // bandera para saber si un salario de empleado supera los 10 salarios minimos
@@ -225,7 +212,6 @@ function calculateSalaryTotal() {
     bonusTotal = 0,
     dotacionTotal = 0,
     horasExtraTotal = 0;
-  // se recorre todas las entradas de salario
   $(".money-salary").each(function () {
     salaryTotal += parseFloat($(this).val());
 
@@ -381,9 +367,7 @@ var $tableNominas = $("#tableNominas").dataTable({
   responsive: true,
   ajax: {
     url: "api/get_rosters.php?dataTable=true",
-    /*   dataSrc: 'data' */
     dataSrc: function (json) {
-      nominasInfo = json.data;
       return json.data;
     },
   },

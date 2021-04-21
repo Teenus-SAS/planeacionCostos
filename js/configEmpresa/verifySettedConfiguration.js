@@ -1,4 +1,4 @@
-export function verifySettedConfiguration(tabIdentifier) {
+function verifySettedConfiguration(tabIdentifier) {
   $(`#${tabIdentifier}`).click(() => {
     $.get("/app/my-profile/api/get_company.php", (data, status) => {
       data = data.company;

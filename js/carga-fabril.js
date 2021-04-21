@@ -1,4 +1,3 @@
-import { verifySettedConfiguration } from "./configEmpresa/verifySettedConfiguration.js";
 verifySettedConfiguration("tabCargaFabril");
 
 $(".link-borrar-carga-fabril").css("cursor", "pointer");

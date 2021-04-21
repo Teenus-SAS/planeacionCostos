@@ -1,4 +1,3 @@
-import { verifySettedConfiguration } from "./configEmpresa/verifySettedConfiguration.js";
 verifySettedConfiguration("tabProductos");
 
 document
