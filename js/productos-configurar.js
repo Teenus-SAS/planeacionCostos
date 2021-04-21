@@ -1,3 +1,7 @@
+// desaparece el input
+$("#inputRef").fadeOut();
+$("#inputProducto").fadeOut();
+$("#inputRentabilidad").parent().parent().fadeOut();
 let tab;
 
 function loadingSpinner() {
@@ -55,10 +59,6 @@ var $tableProductoMateria = $("#tableProductoMateriaPrima").dataTable({
 $tableProductoMateria.width("100%");
 resetFormOptions();
 
-// desaparece el input
-$("#inputRef").fadeOut();
-$("#inputProducto").fadeOut();
-$("#inputRentabilidad").parent().parent().fadeOut();
 // guarda el padre del input
 let $formGroupParent = $("#inputRef").parent();
 $("#input-cantidad").attr("disabled", false);
