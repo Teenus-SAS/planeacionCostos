@@ -352,8 +352,9 @@ function existsMateriaPrimaByName(matPrimaName) {
   const tableRows = Array.from(elById("table-materia-prima").tBodies[0].rows);
   return tableRows.some((row) => {
     return (
+      row.cells[1] &&
       row.cells[1].textContent.trim().toLowerCase() ===
-      matPrimaName.trim().toLowerCase()
+        matPrimaName.trim().toLowerCase()
     );
   });
 }
