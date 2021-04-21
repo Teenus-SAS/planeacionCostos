@@ -23,7 +23,7 @@ if (
   $company->setSalesCommission($_POST["SalesCommission"]);
   $company->setProfitabilityMargin($_POST["ProfitabilityMargin"]);
   if ($companyDao->update($company) > 0) {
-    $user->setCompany($company);
+    $user->setCompany($company->getId());
     $_SESSION["user"] = serialize($user);
     $machines = $machineDao->findByCompany($user->getCompany()->getId());
     $status = 0;
