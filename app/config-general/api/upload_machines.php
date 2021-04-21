@@ -2,24 +2,10 @@
 
 set_time_limit(300);
 
-/**
- * @author Teenus SAS>
- * @github Teenus SAS
- * Este Script crea o modifica máquinas desde un archivo excel
- * Se llama por metodo 
- * @method POST 
- * @param machinesJSON Un objeto json que contiene todos los datos de maquinas subidas en el excel
- * 
- * @responsesCodes
- *  200: en caso de que se suba la información correctamente
- *  401: en caso de que no exista una session inciada
- */
-
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
 require_once DAO_PATH . "UserDao.php";
 require_once DAO_PATH . "MachineDao.php";
 
-// revisar si existe session
 session_start();
 header("Content-Type: application/json");
 
@@ -32,7 +18,7 @@ if (isset($_SESSION["user"])) {
     $machine = new Machine();
     $machine->setIdCompany($user->getCompany()->getId());
     $machine->setName($machineJSON->maquina);
-    $machine->setValuesDepreciation($user->getCompany()->getBussinesDaysMonth(), $user->getCompany()->getWorkHours(), $machineJSON->precio, $machineJSON->valorresidual, $machineJSON->years);
+    $machine->setValuesDepreciation($user->getCompany()->getBussinesDaysMonth(), $user->getCompany()->getWorkHours(), $machineJSON->precio, $machineJSON->valorresidual, $machineJSON->anos);
     array_push($responses, $machineDao->saveOrUpdate($machine));
   }
   http_response_code(200);
