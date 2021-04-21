@@ -425,7 +425,9 @@ var $tableProductoMateriaA = $("#tableAnalisisMateriaPrima").dataTable({
       data: "material.cost",
       defaultContent: "<p >Sin registro </p>",
       render: (data, type, row) => {
-        if (data != null) return;
+        if (data != null) {
+          return PriceParser.toString(data, true, 2).strPrice;
+        }
       },
     },
     {
