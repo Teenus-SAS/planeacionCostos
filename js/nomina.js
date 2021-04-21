@@ -8,8 +8,9 @@ document
     resetFieldsRoster();
     elById("inlineRadio1M").click();
   });
-
-recargar_select();
+$("#select-proceso").focus(() => {
+  recargar_select();
+});
 function recargar_select() {
   $("#select-proceso").empty();
   $.get("api/get_processes.php", (processes, status) => {
