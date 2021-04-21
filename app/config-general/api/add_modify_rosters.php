@@ -54,14 +54,13 @@ if (isset($_SESSION["user"])) {
       || $_POST["horasTrabajo"] != "" || $_POST["diasMes"] != "" || $_POST["optionFactorPrestacional"] != ""
       || $_POST["factorPrestacional"] != ""
     ) {
-      $salary = $_POST["salario"] + $_POST["horasExtra"];
+      $salary = $_POST["salario"] + $_POST["horasExtra"] + $_POST['transporte'];
       $netSalary = $salary + ($salary * ($_POST["factorPrestacional"] / 100)) + $_POST["bonificacion"] + $_POST["dotacion"];
 
       if ($_POST["cargo-id"]) {
         $roster = $rosterDao->findById($_POST["cargo-id"]);
         $roster->setProcess($processDao->findById($_POST["proceso"]));
         $roster->setPosition($_POST["cargo"]);
-        //$roster->setNumberEmployees($_POST["Numeroempleados"]);
         $roster->setSalary($_POST["salario"]);
         $roster->setTransporte($_POST['transporte']);
         $roster->setBonus($_POST["bonificacion"]);

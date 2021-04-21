@@ -54,7 +54,7 @@ $("#form-factor-prestacional")
       BussinesDayMonth: {
         required: true,
         max: 31,
-        max: 1,
+        min: 1,
       },
       ProfitabilityMargin: {
         required: true,
