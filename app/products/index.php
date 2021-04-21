@@ -288,7 +288,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                         <div class="col">
                           <input type="hidden" id="formOption" name="formOption" value="0">
                           <input type="hidden" id="prodId" name="prodId" value="-1">
-                          <button id="form-product-btn" class="btn btn-primary">Guardar</button>
+                          <button id="btnConfigProducts" class="btn btn-primary">Guardar</button>
                         </div>
                         <div class="col"></div>
                       </div>

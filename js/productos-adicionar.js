@@ -275,13 +275,9 @@ document.getElementById("tableProductos").addEventListener("click", (ev) => {
     document.getElementById("inputRentabilidad").value = rentabilidad;
 
     document.getElementById("form-product-btn").textContent = "Actualizar";
-    /// Opcion en formulario 1 = editar, 0 = guardar
-    //// id del producto ///////
     document.getElementById("prodId").value = selectedElement.dataset.prodId;
   }
 });
-
-/* Eliminar productos */
 
 function deleteProduct(prodId) {
   bootbox.confirm({

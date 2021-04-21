@@ -137,7 +137,7 @@ $.get("api/get_products.php?materials", (data, status, xhr) => {
 
     // cambio de material
     $("#input-materia").change(function () {
-      $("#form-product-btn").html("Guardar");
+      $("#btnConfigProducts").html("Guardar");
       let productSelected = data.filter(
         (product) => product.id == $("#inputProducto").val()
       )[0];
@@ -194,7 +194,7 @@ $(document).on("click", ".link-editar", function (ev) {
   $(`#input-materia option:contains(${materia_prima})`).attr("selected", true);
   $("#input-cantidad").val(cantidad);
   $("#input-unidad").val(unidad);
-  $("#form-product-btn").html("Actualizar");
+  $("#btnConfigProducts").html("Actualizar");
 });
 
 $("#form-raw-materials-products").validate({
@@ -356,10 +356,10 @@ function eliminar_materiaprima_productos(element, materiaprima) {
 
 function resetFormOptions() {
   const formOption = document.getElementById("formOption");
-  document.getElementById("form-product-btn").textContent = "Guardar";
+  document.getElementById("btnConfigProducts").textContent = "Guardar";
   document.getElementById("prodId").value = "";
   formOption.value = 0;
-  $("#input-materia").val("");
+  $("#input-materia").prop("selectedIndex", 0);
   $("#input-cantidad").val("");
   $("#input-unidad").val("");
 }
