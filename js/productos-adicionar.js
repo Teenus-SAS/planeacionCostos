@@ -79,15 +79,8 @@ $.validator.addMethod(
 // formulario para adicionar o modificar valores de una producto
 
 $("#form-products").validate({
-  /*  rules: {
-     rentabilidad: 'rentabilidadInput'
-   },
-   messages: {
-     rentabilidad: "Ingrese máximo dos decimales"
-   }, */
   submitHandler: function (form) {
     let request = $(form).serialize();
-
     ref = $("#inputRef").val();
     producto = $("#inputProducto").val();
 
@@ -110,65 +103,65 @@ $("#form-products").validate({
 
       return false;
     }
-
     if (
-      productReferenceExists(document.getElementById("inputRef").value) &&
-      document.getElementById("form-product-btn").textContent.toLowerCase() ===
-        "guardar"
+      productReferenceAndNameExists(
+        document.getElementById("inputRef").value,
+        document.getElementById("inputProducto").value
+      )
     ) {
+      bootbox.confirm({
+        title: "Crear Productos",
+        message: `El producto con referencia <b>"${
+          document.getElementById("inputRef").value
+        }"</b> y nombre <b>"${
+          document.getElementById("inputProducto").value
+        }"</b> ya existe, ¿Desea actualizarlo?`,
+        buttons: {
+          confirm: {
+            label: '<i class="fa fa-check"></i> Si',
+            className: "btn-danger",
+          },
+          cancel: {
+            label: '<i class="fa fa-times"></i> No',
+            className: "btn-info",
+          },
+        },
+        callback: function (result) {
+          if (result == true) {
+            $("#prodId").val(
+              findProductByName(document.getElementById("inputProducto").value)
+            );
+            request = $(form).serialize();
+            sendRequest(request);
+            return;
+          } else {
+            return;
+          }
+        },
+      });
+    } else {
       if (
-        productReferenceAndNameExists(
+        productReferenceOrNameExists(
           document.getElementById("inputRef").value,
           document.getElementById("inputProducto").value
         )
       ) {
-        bootbox.confirm({
-          title: "Crear Productos",
-          message: `El producto con referencia <b>"${
-            document.getElementById("inputRef").value
-          }"</b> y nombre <b>"${
-            document.getElementById("inputProducto").value
-          }"</b> ya existe, ¿Desea actualizarlo?`,
-          buttons: {
-            confirm: {
-              label: '<i class="fa fa-check"></i> Si',
-              className: "btn-danger",
-            },
-            cancel: {
-              label: '<i class="fa fa-times"></i> No',
-              className: "btn-info",
-            },
-          },
-          callback: function (result) {
-            if (result == true) {
-              $("#prodId").val(
-                findProductByName(
-                  document.getElementById("inputProducto").value
-                )
-              );
-              request = $(form).serialize();
-              sendRequest(request);
-              return;
-            } else {
-              return;
-            }
-          },
-        });
-      } else {
         $.notify(
           {
             icon: "nc-icon nc-bell-55",
-            message: `La referencia ${
+            message: `El producto con referencia '${
               document.getElementById("inputRef").value
-            } ya existe. Ingrese otra referencia`,
+            }' o el nombre de producto '${
+              document.getElementById("inputProducto").value
+            }' ya existe.`,
           },
           {
             type: "danger",
             timer: 8000,
           }
         );
+        return;
       }
-    } else {
       sendRequest(request);
     }
   },
@@ -312,7 +305,6 @@ function deleteProduct(prodId) {
           if (xhr.status == 200) {
             $tableProductos.api().ajax.reload();
             loadProductsPP();
-            loadProductsInProcess();
             $.notify(
               {
                 icon: "nc-icon nc-bell-55",
@@ -340,27 +332,35 @@ function resetFormProducts() {
   $("#inputRentabilidad").val("");
 }
 
-function productReferenceExists(prodRef) {
-  const tableRows = Array.from(
-    document.getElementById("tableProductos").tBodies[0].rows
-  );
-
-  return tableRows.some(
-    (row) =>
-      row.cells[0].textContent.trim().toLowerCase() ===
-      prodRef.trim().toLowerCase()
-  );
-}
-
 function productReferenceAndNameExists(prodRef, prodName) {
   const tableRows = Array.from(
     document.getElementById("tableProductos").tBodies[0].rows
   );
 
+  console.log({ tableRows });
+
   const product = tableRows.find(
     (row) =>
       row.cells[0].textContent.trim().toLowerCase() ===
         prodRef.trim().toLowerCase() &&
+      row.cells[1].textContent.trim().toLowerCase() ===
+        prodName.trim().toLowerCase()
+  );
+
+  return product ? true : false;
+}
+
+function productReferenceOrNameExists(prodRef, prodName) {
+  const tableRows = Array.from(
+    document.getElementById("tableProductos").tBodies[0].rows
+  );
+
+  console.log({ tableRows });
+
+  const product = tableRows.find(
+    (row) =>
+      row.cells[0].textContent.trim().toLowerCase() ===
+        prodRef.trim().toLowerCase() ||
       row.cells[1].textContent.trim().toLowerCase() ===
         prodName.trim().toLowerCase()
   );
