@@ -35,11 +35,13 @@ const exportImportProductosProcesos = new ImportacionXLSX(
     );
     const processExists = procesos.find(
       (proc) =>
-        String(proc.name).toLowerCase() == String(cell.proceso).toLowerCase()
+        String(proc.name).trim().toLowerCase() ==
+        String(cell.proceso).trim().toLowerCase()
     );
     const maquinaExists = maquinas.find(
       (mach) =>
-        String(mach.name).toLowerCase() == String(cell.maquina).toLowerCase()
+        String(mach.name).trim().toLowerCase() ==
+        String(cell.maquina).trim().toLowerCase()
     );
     if (!productExists) {
       return {
@@ -56,7 +58,7 @@ const exportImportProductosProcesos = new ImportacionXLSX(
     if (
       !maquinaExists &&
       cell.maquina != "N/A" &&
-      -cell.maquina != undefined &&
+      cell.maquina != undefined &&
       cell.maquina != ""
     ) {
       return {
