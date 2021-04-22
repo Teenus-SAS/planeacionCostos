@@ -101,18 +101,16 @@ $.get("api/get_products.php?materials", (data, status, xhr) => {
         $("#input-cantidad").val("");
       }
     });
-    completeSpinner();
   } else {
     location = "/login";
   }
 });
-
-// cargado de materias primas de la empresa
+let materiales = [];
 $.get("/app/config-general/api/get_materials.php", (_materials) => {
   $("#input-materia").html(
     "<option selected disabled>Selecione un Material</option>"
   );
-  materialsJSON = _materials;
+  materiales = _materials;
   _materials.forEach((material) => {
     $("#input-materia").append(
       `<option value="${material.id}">${material.description}</option>`
@@ -185,13 +183,16 @@ $.validator.addMethod(
 );
 
 $(document).on("click", ".link-editar", function (ev) {
-  materia_prima = $(this).parents("tr").find("td").eq(0).html();
-  cantidad = $(this).parents("tr").find("td").eq(1).html();
-  unidad = $(this).parents("tr").find("td").eq(2).html();
+  let materia_prima = $(this).parents("tr").find("td").eq(0).html();
+  let cantidad = $(this).parents("tr").find("td").eq(1).html();
+  let unidad = $(this).parents("tr").find("td").eq(2).html();
 
   cantidad = parseInt(cantidad.replace(".", ""));
+  let materiaPrima = materiales.find(
+    (mat) => mat.description.trim() == materia_prima.trim()
+  );
 
-  $(`#input-materia option:contains(${materia_prima})`).attr("selected", true);
+  $(`#input-materia`).val(materiaPrima.id);
   $("#input-cantidad").val(cantidad);
   $("#input-unidad").val(unidad);
   $("#btnConfigProducts").html("Actualizar");
