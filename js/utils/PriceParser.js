@@ -5,6 +5,9 @@ class PriceParser {
   }
 
   static toString(price, sign = false, digits = 2) {
+    if (!price) {
+      price = 0;
+    }
     return new PriceParser(price, this.#priceToString(price, digits, sign));
   }
 

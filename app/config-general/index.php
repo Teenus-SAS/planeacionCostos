@@ -349,13 +349,13 @@ include(PARTIALS_PATH . "verify_session.php");
                           <div class="col-md-5 col-6">
                             <div class="form-group">
                               <label for="my-input">Costo</label>
-                              <input id="costoCargaFabril" class="form-control" name="costoCargaFabril" />
+                              <input id="costoCargaFabril" class="form-control" name="costoCargaFabril" value="0"/>
                             </div>
                           </div>
                           <div class="col-md-5 col-5">
                             <div class="form-group">
                               <label for="my-input">Costo por Minuto </label>
-                              <input style="text-align: center" id="minutoCargaFabril" class="form-control disabled" type="number" readonly name="minutoCargaFabril" step=".01">
+                              <input style="text-align: center" id="minutoCargaFabril" class="form-control disabled" type="number" readonly name="minutoCargaFabril" value="0">
                             </div>
                           </div>
                         </div>

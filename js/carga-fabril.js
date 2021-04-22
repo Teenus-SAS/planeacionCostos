@@ -155,11 +155,22 @@ function submitForm(e) {
   );
   let costo = costoParsed.price;
 
-  if (maquina === null || mantenimiento === "" || costo === 0) {
+  if (maquina === null || mantenimiento === "") {
     return $.notify(
       {
         icon: "nc-icon nc-bell-55",
         message: "Ingrese <b>Todos</b> los campos",
+      },
+      {
+        type: "danger",
+        timer: 8000,
+      }
+    );
+  } else if (!costo) {
+    return $.notify(
+      {
+        icon: "nc-icon nc-bell-55",
+        message: "El costo no puede ser 0 cero",
       },
       {
         type: "danger",
@@ -369,7 +380,7 @@ $(document).on("click", ".link-borrar-carga-fabril", function (event) {
 
 function resetFormCargaFabril() {
   elById("mantenimiento").value = "";
-  elById("costoCargaFabril").value = "";
-  $("#minutoCargaFabril").val("");
+  $("#costoCargaFabril").val("0");
+  $("#minutoCargaFabril").val("0");
   $("#idCargaFabril").val("");
 }
