@@ -31,7 +31,11 @@ const exportImportDDirecta = new ImportacionXLSX(
   $("#fileProductsExpenses"),
   (cell) => {
     updateProcesos();
-    const existsProcess = procesos.find((proc) => proc.name == cell.proceso);
+    const existsProcess = procesos.find(
+      (proc) =>
+        String(proc.name).trim().toLowerCase() ==
+        String(cell.proceso).trim().toLowerCase()
+    );
     if (existsProcess) {
       cell.proceso = existsProcess.id;
       return false;
