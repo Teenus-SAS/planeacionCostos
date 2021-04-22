@@ -12,7 +12,11 @@ const exportImportProduct = new ImportacionXLSX(
     Rentabilidad: "rentabilidad",
   },
   $("#fileProducts"),
-  () => {}
+  (cell) => {
+    if (!cell.rentabilidad) {
+      cell.rentabilidad = "";
+    }
+  }
 );
 
 /* Productos */

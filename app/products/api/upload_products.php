@@ -22,11 +22,6 @@ if (isset($_SESSION["user"])) {
       $product = new Product();
       $product->setRef($productJSON->referencia);
       $product->setName($productJSON->producto);
-      if(empty($_POST["rentabilidad"])){
-        $product->setRentabilidad($user->getCompany()->getProfitabilityMargin());
-      } else {
-        $product->setRentabilidad($_POST["rentabilidad"]);
-      }
       $rentabilidad = $productJSON->rentabilidad;
       if (!$rentabilidad || $rentabilidad == '') {
         $product->setRentabilidad($user->getCompany()->getProfitabilityMargin());
