@@ -380,10 +380,8 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                         </div>
                         <div class="form-group row my-2">
                           <label class="col-form-label col-4 text-right">Tiempo de Alistamiento (Min)</label>
-                          <!-- <label class="col-form-label col-4 text-right">Unidades Producidas Hora</label> -->
                           <div class="col-5">
                             <input type="number" min="0" class="form-control" step=".001" id="input-tiempo-alistamiento" name="tiempo-alistamiento">
-                            <!-- <input type="number" class="form-control" step=".001" id="input-unidad-hora"> -->
                           </div>
                         </div>
                         <div class="form-group row my-2">

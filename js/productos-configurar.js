@@ -1,3 +1,15 @@
+let materiales = [];
+$.get("/app/config-general/api/get_materials.php", (_materials) => {
+  $("#input-materia").html(
+    "<option selected disabled>Selecione un Material</option>"
+  );
+  materiales = _materials;
+  _materials.forEach((material) => {
+    $("#input-materia").append(
+      `<option value="${material.id}">${material.description}</option>`
+    );
+  });
+});
 // desaparece el input
 $("#inputRef").fadeOut();
 $("#inputProducto").fadeOut();
@@ -85,7 +97,7 @@ $.get("api/get_products.php?materials", (data, status, xhr) => {
       let productSelected = data.filter(
         (product) => product.id == $("#inputProducto").val()
       )[0];
-      let materialSelected = materialsJSON.filter(
+      let materialSelected = materiales.filter(
         (material) => material.id == $(this).val()
       )[0];
       let materialInProduct;
@@ -104,18 +116,6 @@ $.get("api/get_products.php?materials", (data, status, xhr) => {
   } else {
     location = "/login";
   }
-});
-let materiales = [];
-$.get("/app/config-general/api/get_materials.php", (_materials) => {
-  $("#input-materia").html(
-    "<option selected disabled>Selecione un Material</option>"
-  );
-  materiales = _materials;
-  _materials.forEach((material) => {
-    $("#input-materia").append(
-      `<option value="${material.id}">${material.description}</option>`
-    );
-  });
 });
 let tab;
 
