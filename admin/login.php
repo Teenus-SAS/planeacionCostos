@@ -11,10 +11,25 @@
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
   <!-- CSS Files -->
+  <style>    
+    #loginError {
+      color: coral;
+      width: 100%;
+      margin-bottom: 8px;
+      transition: all 0.5s;
+      text-align: center;
+    }
+    .showError {
+      opacity: 1;
+      visibility: visible;
+    }
+    .hideError {
+      opacity: 0;
+      visibility: hidden;
+    }
+  </style>
   <link href="/app/assets/css/bootstrap.min.css" rel="stylesheet" />
   <link href="/app/assets/css/paper-dashboard.css" rel="stylesheet" />
-  <!-- CSS Just for demo purpose, don't include it in your project -->
-  <link href="/app/assets/demo/demo.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
   <link rel="stylesheet" href="/css/admin/login.css">
 </head>
@@ -31,7 +46,9 @@
           <span class="login100-form-title">
           Tezlik Admin
           </span>
-
+          <div id="loginError" class="hideError">
+            Error en el inicio de sesión
+          </div>
           <div class="wrap-input100 validate-input" data-validate="Ingresa un email valido">
             <input class="input100" id="email-input" type="text" name="email" placeholder="Email">
             <span class="focus-input100"></span>
@@ -86,20 +103,22 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
   <script src="/js/admin/login.js"></script>
   <script>
+    let id = undefined;
     $('.validate-form').submit(function(e) {
       e.preventDefault()
       $.post('api/validate_login.php', $(this).serialize(), (data, status) => {
         if (status == 'success') {
           if (data.status) {
             location.reload();
-          } else {
-            if (data.typeError == 'email') {
-              $('#email-input').parent().attr('data-validate', data.message)
-              showValidate($('#email-input'))
-            } else if (data.typeError == 'password') {
-              $('#pass').parent().attr('data-validate', data.message)
-              showValidate($('#pass'))
-            }
+          } else if (!id) {
+            $('#loginError').html(data.message)
+            $('#loginError').addClass('showError');
+            $('#loginError').removeClass('hideError');
+            id = setTimeout(() => {
+              $('#loginError').removeClass('showError');
+              $('#loginError').addClass('hideError');
+              id = undefined;
+            }, 4000);
           }
         }
       })

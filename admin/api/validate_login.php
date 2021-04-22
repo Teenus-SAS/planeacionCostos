@@ -14,13 +14,11 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
       $_SESSION["admin"] = serialize($admin);
     } else {
       $response->status = false;
-      $response->typeError = "password";
-      $response->message = "La contraseña es Incorrecta";
+      $response->message = "El usuario o contraseña no son correctos";
     }
   } else {
     $response->status = false;
-    $response->typeError = "email";
-    $response->message = "El Email no existe";
+    $response->message = "El usuario o contraseña no son correctos";
   }
 } else {
   http_response_code(400);
