@@ -15,7 +15,7 @@ const exportImportNomina = new ImportacionXLSX(
     Salario: "salary",
     Transporte: "transporte",
     "Horas Extras": "extraHours",
-    Bonificaciones: "bonus",
+    "Otros Ingresos": "bonus",
     Dotacion: "endowment",
     Dias: "bussinesDaysMonth",
     Horas: "workHours",

@@ -45,14 +45,14 @@ if (isset($_SESSION["user"])) {
   $responses = [];
   foreach ($rostersJSON as $rosterJSON) {
     $salary = $rosterJSON->salario + $rosterJSON->horasextras;
-    $netSalary = $salary + ($salary * ($rosterJSON->prestaciones)) + $rosterJSON->bonificaciones + $rosterJSON->dotacion;
+    $netSalary = $salary + ($salary * ($rosterJSON->prestaciones)) + $rosterJSON->otrosingresos + $rosterJSON->dotacion;
     $roster = new Roster();
     $roster->setIdCompany($user->getCompany()->getId());
     $roster->setPosition($rosterJSON->nombre);
     $roster->setProcess($processDao->findById($rosterJSON->proceso));
     $roster->setSalary($rosterJSON->salario);
     $roster->setTransporte($rosterJSON->transporte);
-    $roster->setBonus($rosterJSON->bonificaciones);
+    $roster->setBonus($rosterJSON->otrosingresos);
     $roster->setEndowment($rosterJSON->dotacion);
     $roster->setWorkHours($rosterJSON->horas);
     $roster->setBussinesDaysMonth($rosterJSON->dias);
