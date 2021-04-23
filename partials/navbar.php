@@ -59,16 +59,8 @@
             <a class="dropdown-item" href="javascript:changePass()">Cambiar
               Contraseña</a>
             <a class="dropdown-item" href="/app/my-profile/">Mi perfil</a>
-            <!-- <a class="dropdown-item" href="#">Something else here</a> -->
+            <a class="dropdown-item" href="javascript:logout();">Cerrar sesión</a>
           </div>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link btn-rotate" href="javascript:logout();">
-            <i class="nc-icon nc-button-power"></i>
-            <p>
-              <span class="d-lg-none d-md-block">Cerrar Sesión</span>
-            </p>
-          </a>
         </li>
       </ul>
     </div>
