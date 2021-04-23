@@ -364,7 +364,7 @@ $(document).on("click", ".link-borrar-distribucion-directa", function (event) {
             $.notify(
               {
                 icon: "nc-icon nc-bell-55",
-                message: "Se eliminó la distribución directa",
+                message: "Registro Eliminado Correctamente",
               },
               {
                 type: "info",

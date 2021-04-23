@@ -19,7 +19,7 @@ if(isset($_POST["email"]) && isset($_POST["username"])  && isset($_POST["firstna
     $password = generar_password_complejo(10);
     $newUser->setPassword(hash("sha256", $password));
     $newUser->setActive(false);
-    $newUser->setCompany($user->getCompany());
+    $newUser->setCompany($user->getCompany()->getId());
     $newUser->setRolId($_POST["rol"]);
     if ($userDao->save($newUser) > 0) {
       $response->status = true;

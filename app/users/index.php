@@ -165,23 +165,6 @@ include(PARTIALS_PATH . "verify_session.php") ?>
   <script src="/vendor/numberFormat/jquery.number.min.js"></script>
   <script src="/vendor/spinner/waitMe.min.js"></script>
   <script src="/js/app/users.js"></script>
-  <script>
-    function crear_usuarios(){
-
-    $('#waitMe_ex').waitMe({
-        effect: 'roundBounce',
-        text: 'Por favor, espere unos minutos',
-        //bg: rgba(255, 255, 255, 0.7),
-        //color: #0000,
-        //maxSize: '',
-        //waitTime: 6000,
-        textPos: 'vertical',
-        //fontSize: '',
-        //source: '',
-        onClose: function() {}
-      });
-    };
-  </script>
 </body>
 
 </html>

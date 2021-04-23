@@ -1,11 +1,3 @@
-/*
- * @Author: Teenus SAS
- * @github: Teenus-SAS
- *
- * Funcionalidad para crear usuarios
- */
-
-// inicializacion de datatable de usuarios
 var $tableUsers = $("#table-users").dataTable({
   language: {
     url: "/vendor/dataTables/Spanish.json",
@@ -49,6 +41,7 @@ $tableUsers.width("100%");
 
 $("#create-user").submit(function (e) {
   e.preventDefault();
+  showWaitMe();
   let request = $(this).serialize();
   $.post("api/create_user.php", request, (data, status) => {
     $("#waitMe_ex").waitMe("hide");
@@ -66,7 +59,11 @@ $("#create-user").submit(function (e) {
         );
         clearUsersForm();
         $tableUsers.api().ajax.reload();
-        $.post("api/notify_admins.php", form.serialize(), (data, satus) => {});
+        $.post(
+          "api/notify_admins.php",
+          $(this).serialize(),
+          (data, satus) => {}
+        );
       } else {
         $.notify(
           {
@@ -234,4 +231,19 @@ function clearUsersForm() {
   $("#lastname-user").val("");
   $("#email-user").val("");
   $("#rol-user").val("");
+}
+
+function showWaitMe() {
+  $("#waitMe_ex").waitMe({
+    effect: "roundBounce",
+    text: "Por favor, espere unos minutos",
+    //bg: rgba(255, 255, 255, 0.7),
+    //color: #0000,
+    //maxSize: '',
+    //waitTime: 6000,
+    textPos: "vertical",
+    //fontSize: '',
+    //source: '',
+    onClose: function () {},
+  });
 }

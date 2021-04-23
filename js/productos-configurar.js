@@ -228,7 +228,8 @@ $("#form-raw-materials-products").validate({
           $.notify(
             {
               icon: "nc-icon nc-bell-55",
-              message: "Producto <b>Actualizado</b> Correctamente",
+              message:
+                "Materia Prima Asociada <b>Correctamente</b> al Producto",
             },
             {
               type: "primary",
