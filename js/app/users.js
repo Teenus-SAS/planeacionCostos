@@ -51,6 +51,7 @@ $("#create-user").submit(function (e) {
   e.preventDefault();
   let request = $(this).serialize();
   $.post("api/create_user.php", request, (data, status) => {
+    $("#waitMe_ex").waitMe("hide");
     if (status == "success") {
       if (data.status) {
         $.notify(
@@ -64,7 +65,6 @@ $("#create-user").submit(function (e) {
           }
         );
         clearUsersForm();
-        $("#waitMe_ex").waitMe("hide");
         $tableUsers.api().ajax.reload();
         $.post("api/notify_admins.php", form.serialize(), (data, satus) => {});
       } else {

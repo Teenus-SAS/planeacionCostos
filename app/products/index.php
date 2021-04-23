@@ -620,6 +620,15 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                             </thead>
                             <tbody>
                             </tbody>
+                            <tfoot>
+                              <tr>
+                                <th class="pl-5" style="text-align:right">Total:</th>
+                                <th style="text-align:center"></th>
+                                <th style="text-align:right"></th>
+                                <th style="text-align:right"></th>
+                                <th style="text-align:right"></th>
+                              </tr>
+                            </tfoot>
                           </table>
                         </div>
                       </div>
@@ -830,6 +839,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
   <script src="/vendor/xlsx-js/xlsx.full.min.js"></script>
   <script src="/vendor/file-saver/FileSaver.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+  <script src="/js/utils/watch-unwatch-jquery.js"></script>
   <script src="/vendor/froala-editor/froala_editor.pkgd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>
   <script src="/js/utils/PriceParser.js"></script>

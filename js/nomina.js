@@ -24,14 +24,11 @@ function recargar_select() {
     });
   });
 }
-// cambio a formato numero
-
 $("#input-bonificacion").number(true, 2);
 $("#input-salario").number(true, 2);
 $("#input-dotacion").number(true, 2);
 $("#input-horas-extra").number(true, 2);
 
-/// validadores
 $.validator.addMethod(
   "decimalInput",
   function (value) {
@@ -39,8 +36,6 @@ $.validator.addMethod(
   },
   "Máximo dos decimales"
 );
-
-// Toggle para crear Nomina
 
 $("#panelCrearNomina").slideUp();
 $("#panelImportarNomina").slideUp();

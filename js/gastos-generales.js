@@ -94,7 +94,7 @@ function loadfields(expenses) {
 }
 
 // inicializacion de datatable de gastos generales
-var $tableGastosMensuales = $("#tableGastosMensuales").dataTable({
+let $tableGastosMensuales = $("#tableGastosMensuales").dataTable({
   scrollY: "500px",
   scrollCollapse: true,
   paging: false,
@@ -204,7 +204,7 @@ $("#formGastosMensuales").submit(function (e) {
 });
 
 // inicializacion de datatable de DISTRIBUCIÓN DIRECTA
-var $tableDistribucionDirecta = $("#tableDistribucionDirecta").dataTable({
+let $tableDistribucionDirecta = $("#tableDistribucionDirecta").dataTable({
   scrollY: "500px",
   scrollCollapse: true,
   paging: false,
@@ -253,8 +253,64 @@ var $tableDistribucionDirecta = $("#tableDistribucionDirecta").dataTable({
     },
   ],
   responsive: true,
+  footerCallback: function (row, data, start, end, display) {
+    let api = this.api();
+
+    let intVal = function (i) {
+      return typeof i === "string"
+        ? i.replace(/[\$,]/g, "") * 1
+        : typeof i === "number"
+        ? i
+        : 0;
+    };
+
+    let total = api
+      .column(1)
+      .data()
+      .reduce(function (a, b) {
+        return intVal(a) + intVal(b);
+      }, 0);
+
+    let pageTotal = api
+      .column(1, { page: "current" })
+      .data()
+      .reduce(function (a, b) {
+        return intVal(a) + intVal(b);
+      }, 0);
+
+    console.log({ api: api.column(1).data(), total, pageTotal });
+
+    $(api.column(1).footer()).html(
+      `${$.number(pageTotal * 100, 2, ".", ",")} %`
+    );
+
+    total = api
+      .column(2)
+      .data()
+      .reduce(function (a, b) {
+        return intVal(a) + intVal(b);
+      }, 0);
+
+    pageTotal = api
+      .column(2, { page: "current" })
+      .data()
+      .reduce(function (a, b) {
+        return intVal(a) + intVal(b);
+      }, 0);
+
+    $(api.column(2).footer()).html(`$ ${$.number(pageTotal, 2, ".", ",")}`);
+  },
 });
-$tableDistribucionDirecta.width("100%");
+
+$(window).resize(() => {
+  $tableDistribucionDirecta.width("100%");
+  $tableDistribucionDirecta.api().ajax.reload();
+});
+
+$("#tableDistribucionDirecta").on("load", () => {
+  $tableDistribucionDirecta.width("100%");
+  $tableDistribucionDirecta.api().ajax.reload();
+});
 
 /* Actualizar distribucion directa */
 $(document).on("click", ".link-editar-distribucion-directa", function (event) {

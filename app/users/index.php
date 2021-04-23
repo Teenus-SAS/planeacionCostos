@@ -104,7 +104,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                   </div>
                   <div class="row">
                     <div class="col"></div>
-                    <div class="col"><button type="submit" class="btn btn-primary" onclick="crear_usuarios();"><i class="nc-icon nc-simple-add"></i> Crear</button></div>
+                    <div class="col"><button type="submit" class="btn btn-primary"><i class="nc-icon nc-simple-add"></i> Crear</button></div>
                     <div class="col"></div>
                   </div>
                 </form>
