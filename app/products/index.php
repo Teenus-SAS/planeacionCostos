@@ -843,6 +843,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
   <script src="/vendor/froala-editor/froala_editor.pkgd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>
   <script src="/js/utils/PriceParser.js"></script>
+  <script src="/js/utils/loadData.js" type="module"></script>
   <script src="/js/app/xlsx/SubidaExcel.js" type="module"></script>
   <script src="/js/servicios-externos.js"></script>
   <script src="/js/toggleSidebar.js"></script>
@@ -864,7 +865,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
   <!--   <script src="/js/productos.js"></script> -->
   <script src="/js/productos-configurar.js"></script>
   <script src="/js/productos_procesos.js"></script>
-  <script src="/js/gastos-generales.js" type="module"></script>
+  <script src="/js/distribucion-gastos.js" type="module"></script>
   <script src="/js/calculo_GG.js"></script>
   <script src="/js/app/xlsx/xlsx_productos_materiaprima.js" type="module"></script>
   <script src="/js/app/xlsx/xlsx_servicios_externos.js" type="module"></script>

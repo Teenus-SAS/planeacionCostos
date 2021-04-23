@@ -1264,7 +1264,7 @@ include(PARTIALS_PATH . "verify_session.php");
   <!--   <script src="/js/productos.js"></script>  -->
   <script src="/js/productos-adicionar.js"></script>
 
-  <script src="/js/calculo_GG.js"></script>
+  <script src="/js/gastos-generales.js" type="module"></script>
 
   <script src="/js/productos_procesos.js"></script>
 
