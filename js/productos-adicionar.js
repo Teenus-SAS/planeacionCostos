@@ -252,7 +252,9 @@ function sendRequest(request) {
 }
 
 function findProductByName(name) {
-  const product = productsJSON.find((product) => product.name == name);
+  const product = productsJSON.find(
+    (product) => product.name.trim().toLowerCase() == name.trim().toLowerCase()
+  );
   return product.id;
 }
 

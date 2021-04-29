@@ -21,11 +21,11 @@ if (isset($_POST["id"])) {
   $distribuciones = $distribucionDirectaDao->findOneByProcessId($companyId, isset($_POST["id"]));
   $nominas = $nominasDao->findByProcessId($_POST["id"]);
   $tiemposProcesos = $processDao->findProductProcessesByProcessId($_POST["id"]);
-  if ($distribuciones && count($distribuciones) > 0) {
+  if ($distribuciones) {
     http_response_code(511);
     exit;
   }
-  if ($nominas && count($nominas) > 0) {
+  if ($nominas) {
     http_response_code(512);
     exit;
   }

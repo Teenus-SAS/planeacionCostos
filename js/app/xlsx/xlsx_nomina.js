@@ -24,7 +24,11 @@ const exportImportNomina = new ImportacionXLSX(
   },
   $("#fileRosters"),
   (cell) => {
-    const processExists = procesos.find((proc) => proc.name === cell.proceso);
+    const processExists = procesos.find(
+      (proc) =>
+        String(proc.name).trim().toLowerCase() ===
+        String(cell.proceso).trim().toLowerCase()
+    );
     if (processExists) {
       cell.proceso = processExists.id;
       return false;

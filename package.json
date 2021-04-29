@@ -1,0 +1,26 @@
+{
+  "name": "htdocs",
+  "version": "1.0.0",
+  "description": "Aplicacion para planear los precios y rentabilidad desde la base del costo",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Teenus-SAS/planeacionCostos.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Teenus-SAS/planeacionCostos/issues"
+  },
+  "homepage": "https://github.com/Teenus-SAS/planeacionCostos#readme",
+  "dependencies": {
+    "elegant-crud-datatable": "0.0.4"
+  }
+}

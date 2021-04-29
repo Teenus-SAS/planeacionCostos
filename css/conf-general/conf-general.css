@@ -14,21 +14,6 @@
   top: 0;
 }
 
-/* Just common table stuff. Really. */
-table {
-  border-collapse: collapse;
-  width: 100%;
-}
-
-th,
-td {
-  padding: 8px 16px;
-}
-
-th {
-  background: #eee;
-}
-
 .dataTables_wrapper,
 .dt-bootstrap4,
 .no-footer {
@@ -179,4 +164,8 @@ i.fa.fa-cog.fa-spin.fa-3x.fa-fw {
   #contenedor-jornada {
     display: block;
   }
+}
+
+.bg-color {
+  background-color: #f4f3ef;
 }

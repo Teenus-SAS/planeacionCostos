@@ -1,10 +1,6 @@
 <?php
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
 include(PARTIALS_PATH . "verify_session.php");
-/* do{
-	echo key($_SESSION);
-	echo current($_SESSION);
-} while(next($_SESSION)) */
 
 ?>
 <!DOCTYPE html>
@@ -21,18 +17,17 @@ include(PARTIALS_PATH . "verify_session.php");
   <!--     Fonts and icons     -->
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
   <link href="/vendor/font-awesome/font-awesome.min.css" rel="stylesheet">
-  <!-- CSS Files -->
   <link href="/app/assets/css/bootstrap.min.css" rel="stylesheet" />
   <link href="/app/assets/css/paper-dashboard.css" rel="stylesheet" />
-  <!-- CSS Just for demo purpose, don't include it in your project -->
-  <!-- <link href="/app/assets/demo/demo.css" rel="stylesheet" /> -->
   <link rel="stylesheet" href="../../css/conf-general/conf-general.css">
   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   <link rel="stylesheet" href="/vendor/dataTables/jquery.dataTables.min.css">
   <link rel="stylesheet" href="/vendor/dataTables/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="/node_modules/elegant-crud-datatable/build/index.css">
+  <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
   <link rel="stylesheet" href="/vendor/froala-editor/froala_editor.pkgd.min.css">
-
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css">
 </head>
 
 <body class="">
@@ -744,93 +739,13 @@ include(PARTIALS_PATH . "verify_session.php");
 
 
               <div class="tab-pane" id="gastos">
-
+              <div id="gastosGeneralesTable" class="w-11/12 mx-auto bg-white"></div>
                 <div class="container mt-2" style="width:950px;">
                   <div class="row align-content-center text-primary mb-2">
-                    <!-- <div class="col-2"><b>51</b></div> -->
                     <div class="col-10"><b>Total Gastos</b></div>
                     <div class="col-2 sum-total" id="sum-total">$ 0.00</div>
                   </div>
                   <hr>
-                  <div class="row align-content-center text-primary">
-                    <div class="col-2"><b>51</b></div>
-                    <div class="col-8"><b>Gastos Operacionales de Administración</b></div>
-                    <div class="col-2" id="sum-51">$ 0.00</div>
-                  </div>
-                  <div class="container" id="container-51">
-
-                  </div>
-                  <div class="row align-content-center justify-content-center">
-                    <div class="col"></div>
-                    <div class="col text-center">
-                      <button class="btn btn-primary btn-round btn-icon" id="btn_add_51"><i class="fas fa-plus"></i></button>
-                    </div>
-                    <div class="col"></div>
-                  </div>
-                  <!-- siguiendo grupo de cuenta -->
-                  <div class="row align-content-center text-primary">
-                    <div class="col-2"><b>52</b></div>
-                    <div class="col-8"><b>Gastos Operacionales de Ventas</b></div>
-                    <div class="col-2" id="sum-52">$ 0.00</div>
-                  </div>
-                  <div class="container" id="container-52">
-
-                  </div>
-                  <div class="row align-content-center justify-content-center">
-                    <div class="col"></div>
-                    <div class="col text-center">
-                      <button class="btn btn-primary btn-round btn-icon" id="btn_add_52"><i class="fas fa-plus"></i></button>
-                    </div>
-                    <div class="col"></div>
-                  </div>
-                  <!-- siguiendo grupo de cuenta -->
-                  <div class="row align-content-center text-primary">
-                    <div class="col-2"><b>53</b></div>
-                    <div class="col-8"><b>Gastos No operacionales</b></div>
-                    <div class="col-2" id="sum-53">$ 0.00</div>
-                  </div>
-                  <div class="container" id="container-53">
-
-                  </div>
-                  <div class="row align-content-center justify-content-center">
-                    <div class="col"></div>
-                    <div class="col text-center">
-                      <button class="btn btn-primary btn-round btn-icon" id="btn_add_53"><i class="fas fa-plus"></i></button>
-                    </div>
-                    <div class="col"></div>
-                  </div>
-                  <!-- siguiendo grupo de cuenta -->
-                  <div class="row align-content-center text-primary">
-                    <div class="col-2"><b>73</b></div>
-                    <div class="col-8"><b>Costos indirectos de fabricación</b></div>
-                    <div class="col-2" id="sum-73">$ 0.00</div>
-                  </div>
-                  <div class="container" id="container-73">
-
-                  </div>
-                  <div class="row align-content-center justify-content-center">
-                    <div class="col"></div>
-                    <div class="col text-center">
-                      <button class="btn btn-primary btn-round btn-icon" id="btn_add_73"><i class="fas fa-plus"></i></button>
-                    </div>
-                    <div class="col"></div>
-                  </div>
-                  <!-- siguiendo grupo de cuenta -->
-                  <div class="row align-content-center text-primary">
-                    <div class="col-2"><b>74</b></div>
-                    <div class="col-8"><b>Contrato de servicios</b></div>
-                    <div class="col-2" id="sum-74">$ 0.00</div>
-                  </div>
-                  <div class="container" id="container-74">
-
-                  </div>
-                  <div class="row align-content-center justify-content-center">
-                    <div class="col"></div>
-                    <div class="col text-center">
-                      <button class="btn btn-primary btn-round btn-icon" id="btn_add_74"><i class="fas fa-plus"></i></button>
-                    </div>
-                    <div class="col"></div>
-                  </div>
                   <div class="row align-content-center justify-content-center">
                     <div class="col"></div>
                     <div class="col"></div>
@@ -1261,9 +1176,9 @@ include(PARTIALS_PATH . "verify_session.php");
   <script src="/js/RedondeoDecimal.js"></script>
   <script src="/js/configEmpresa/verifySettedConfiguration.js"></script>
 
-  <!--   <script src="/js/productos.js"></script>  -->
   <script src="/js/productos-adicionar.js"></script>
 
+  <script src="/js/GastosGenerales/index.js" type="module"></script>
   <script src="/js/gastos-generales.js" type="module"></script>
 
   <script src="/js/productos_procesos.js"></script>

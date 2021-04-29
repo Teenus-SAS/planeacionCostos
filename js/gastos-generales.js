@@ -1,3 +1,5 @@
+const tableGastosGenerales = $("#tableGastosGenerales");
+
 let structure;
 
 var field = `<div class="row align-content-center">
