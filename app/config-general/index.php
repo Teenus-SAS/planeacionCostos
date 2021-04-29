@@ -23,8 +23,7 @@ include(PARTIALS_PATH . "verify_session.php");
   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   <link rel="stylesheet" href="/vendor/dataTables/jquery.dataTables.min.css">
   <link rel="stylesheet" href="/vendor/dataTables/dataTables.bootstrap4.min.css">
-  <link rel="stylesheet" href="/node_modules/elegant-crud-datatable/build/index.css">
-  <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+  <!-- <link rel="stylesheet" href="/node_modules/elegant-crud-datatable/build/index.css"> -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
   <link rel="stylesheet" href="/vendor/froala-editor/froala_editor.pkgd.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css">
