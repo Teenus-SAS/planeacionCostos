@@ -15,7 +15,7 @@ if (isset($_SESSION["user"])) {
     $company->setExpensesDescription($_POST["expensesDescription"]);
     $company->setTotalMonthExpenses($_POST["totalExpenses"]);
     $companyDao->update($company);
-    $user->setCompany($company);
+    $user->setCompany($company->getId());
     $_SESSION["user"] = serialize($user);
     http_response_code(200);
     exit;

@@ -738,7 +738,86 @@ include(PARTIALS_PATH . "verify_session.php");
 
 
               <div class="tab-pane" id="gastos">
-              <div id="gastosGeneralesTable" class="w-11/12 mx-auto bg-white"></div>
+              
+              <div class="row align-content-center text-primary">
+                    <div class="col-2"><b>51</b></div>
+                    <div class="col-8"><b>Gastos Operacionales de Administración</b></div>
+                    <div class="col-2" id="sum-51">$ 0.00</div>
+                  </div>
+                  <div class="container" id="container-51">
+
+                  </div>
+                  <div class="row align-content-center justify-content-center">
+                    <div class="col"></div>
+                    <div class="col text-center">
+                      <button class="btn btn-primary btn-round btn-icon" id="btn_add_51"><i class="fas fa-plus"></i></button>
+                    </div>
+                    <div class="col"></div>
+                  </div>
+                  <!-- siguiendo grupo de cuenta -->
+                  <div class="row align-content-center text-primary">
+                    <div class="col-2"><b>52</b></div>
+                    <div class="col-8"><b>Gastos Operacionales de Ventas</b></div>
+                    <div class="col-2" id="sum-52">$ 0.00</div>
+                  </div>
+                  <div class="container" id="container-52">
+
+                  </div>
+                  <div class="row align-content-center justify-content-center">
+                    <div class="col"></div>
+                    <div class="col text-center">
+                      <button class="btn btn-primary btn-round btn-icon" id="btn_add_52"><i class="fas fa-plus"></i></button>
+                    </div>
+                    <div class="col"></div>
+                  </div>
+                  <!-- siguiendo grupo de cuenta -->
+                  <div class="row align-content-center text-primary">
+                    <div class="col-2"><b>53</b></div>
+                    <div class="col-8"><b>Gastos No operacionales</b></div>
+                    <div class="col-2" id="sum-53">$ 0.00</div>
+                  </div>
+                  <div class="container" id="container-53">
+
+                  </div>
+                  <div class="row align-content-center justify-content-center">
+                    <div class="col"></div>
+                    <div class="col text-center">
+                      <button class="btn btn-primary btn-round btn-icon" id="btn_add_53"><i class="fas fa-plus"></i></button>
+                    </div>
+                    <div class="col"></div>
+                  </div>
+                  <!-- siguiendo grupo de cuenta -->
+                  <div class="row align-content-center text-primary">
+                    <div class="col-2"><b>73</b></div>
+                    <div class="col-8"><b>Costos indirectos de fabricación</b></div>
+                    <div class="col-2" id="sum-73">$ 0.00</div>
+                  </div>
+                  <div class="container" id="container-73">
+
+                  </div>
+                  <div class="row align-content-center justify-content-center">
+                    <div class="col"></div>
+                    <div class="col text-center">
+                      <button class="btn btn-primary btn-round btn-icon" id="btn_add_73"><i class="fas fa-plus"></i></button>
+                    </div>
+                    <div class="col"></div>
+                  </div>
+                  <!-- siguiendo grupo de cuenta -->
+                  <div class="row align-content-center text-primary">
+                    <div class="col-2"><b>74</b></div>
+                    <div class="col-8"><b>Contrato de servicios</b></div>
+                    <div class="col-2" id="sum-74">$ 0.00</div>
+                  </div>
+                  <div class="container" id="container-74">
+
+                  </div>
+                  <div class="row align-content-center justify-content-center">
+                    <div class="col"></div>
+                    <div class="col text-center">
+                      <button class="btn btn-primary btn-round btn-icon" id="btn_add_74"><i class="fas fa-plus"></i></button>
+                    </div>
+                    <div class="col"></div>
+                  </div>
                 <div class="container mt-2" style="width:950px;">
                   <div class="row align-content-center text-primary mb-2">
                     <div class="col-10"><b>Total Gastos</b></div>

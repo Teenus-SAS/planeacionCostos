@@ -116,7 +116,7 @@ function saveGE() {
     },
   };
 
-  sum = 0;
+  let sum = 0;
   $("#container-51 .row").each(function () {
     if (!isNaN(parseFloat($(this).find(".amount").val()))) {
       sum += parseFloat($(this).find(".amount").val());
