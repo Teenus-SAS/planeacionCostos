@@ -631,7 +631,7 @@ elById("tableNominas").addEventListener("click", (ev) => {
 
     elById("inputHorasTrabajo").value = rowInfo.workHours;
     elById("inputDiasMes").value = rowInfo.bussinesDaysMonth;
-    elById("inputFP").value = rowInfo.performaceFactor;
+    elById("inputFP").value = parseFloat(rowInfo.performaceFactor);
     elById("cargo-id").value = rowInfo.id;
 
     if (rowInfo.contract.trim() === "nomina") elById("fpNomina").checked = true;
