@@ -1,63 +1,13 @@
 <?php
 
-/**
- * Clase modelo que representa El proceso de un producto
- * 
- * @author Teenus SAS>
- * @package model
- * @github Teenus SAS
- */
-class ProductProcess implements JsonSerializable
-{
-  /**
-   * id del proceso de un producto
-   *
-   * @access private
-   * @var integer
-   */
-  private $id;
-  /**
-   * id del producto
-   *
-   * @access private
-   * @var integer
-   */
-  private $idProduct;
-  /**
-   * id de la empresa
-   *
-   * @access private
-   * @var integer
-   */
-  private $idCompany;
-  /**
-   * Maquina utilizada para este proceso
-   *
-   * @access private
-   * @var Machine
-   */
-  private $machine;
-  /**
-   * tiempo que toma hacer este proceso
-   *
-   * @access private
-   * @var float
-   */
-  private $timeAlistamiento;
-  /**
-   * Proceso que tiene asignado
-   *
-   * @access private
-   * @var float
-   */
-  private $timeOperacion;
-  /**
-   * Proceso que tiene asignado
-   *
-   * @access private
-   * @var Process
-   */
+class ProductProcess implements JsonSerializable {
 
+  private $id;
+  private $idProduct;
+  private $idCompany;
+  private $machine;
+  private $timeAlistamiento;
+  private $timeOperacion;
   private $process;
 
   // --------------------------------------------------------------------------

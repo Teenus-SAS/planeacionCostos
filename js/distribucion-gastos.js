@@ -61,7 +61,7 @@ function loadProductsGG() {
   completeSpinner();
 }
 
-var processesDDirecta;
+let processesDDirecta;
 loadProcessesDDirecta();
 // cargado de procesos de la empresa
 function loadProcessesDDirecta() {
@@ -305,12 +305,10 @@ let $tableDistribucionDirecta = $("#tableDistribucionDirecta").dataTable({
 
 $(window).resize(() => {
   $tableDistribucionDirecta.width("100%");
-  $tableDistribucionDirecta.api().ajax.reload();
 });
 
 $("#tableDistribucionDirecta").on("load", () => {
   $tableDistribucionDirecta.width("100%");
-  $tableDistribucionDirecta.api().ajax.reload();
 });
 
 /* Actualizar distribucion directa */

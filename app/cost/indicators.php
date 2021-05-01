@@ -94,7 +94,6 @@ include(PARTIALS_PATH . "verify_session.php") ?>
   <script src="/app/assets/demo/demo.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
   <script src="/vendor/numberFormat/jquery.number.min.js"></script>
-  <script src="/js/app/toImageSVG.js"></script>
 
   <!-- <script src="/js/app/indicators.js"></script> -->
   <script src="/js/app/indicators2.js"></script>

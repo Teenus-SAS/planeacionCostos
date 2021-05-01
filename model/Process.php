@@ -1,11 +1,5 @@
 <?php
-/**
- * Modelo de un proceso de una empresa
- * 
- * @author Teenus SAS>
- * @github Teenus SAS
- * @package model
- */
+
 class Process implements JsonSerializable {
   private $id;
   private $name;
