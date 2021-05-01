@@ -19,11 +19,11 @@ if (isset($_SESSION["user"])) {
   $product = $productDao->findById($_GET["id"], true, true, true);
   $quantity = $_GET["quantity"];
   $response->rawMaterialExpenses = 0;
-  if ($product->getProcesses() != null) {
+  if ($product->getProductProcesses() != null) {
     $response->ManoObra = [];
     $response->timeProcessTotal = 0;
     $response->processes = [];
-    foreach ($product->getProcesses() as $process) {
+    foreach ($product->getProductProcesses() as $process) {
       $roster = $rosterDao->findByProcess($process->getProcess());
       $response->timeProcessTotal += $process->getTimeProcess() * $quantity;
       array_push($response->processes, array("time" => $process->getTimeProcess() * $quantity, "name" => $process->getProcess()->getName()));

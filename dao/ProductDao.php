@@ -20,7 +20,7 @@ class ProductDao {
     $this->serviciosExternosDao = new ServiciosExternosDao();
   }
 
-  public function findById($id, $expenses = false, $processes = false, $materials = false) {
+  public function findById($id, $expenses = false, $productProcesses = false, $materials = false) {
     $this->db->connect();
     $query1 = "SELECT * FROM `productos` LEFT JOIN `gastos_mensuales` ON `productos`.`id_producto` = `gastos_mensuales`.`productos_id_producto` WHERE `productos`.`id_producto` = $id";
     $productDB = $this->db->consult($query1, "yes");
@@ -34,11 +34,12 @@ class ProductDao {
     $product->setName($productDB["nombre"]);
     $product->setRef($productDB["ref"]);
     $product->setRentabilidad($productDB['rentabilidad']);
+    $product->setServiciosExternos($this->serviciosExternosDao->findByProductId($productDB["id_producto"]));
     if ($materials) {
       $product->setMaterials($this->findRawMaterialsByProductId($product->getId()));
     }
-    if ($processes) {
-      $product->setProcesses($this->processDao->findProductProcessesByProductId($product->getId()));
+    if ($productProcesses) {
+      $product->setProductProcesses($this->processDao->findProductProcessesByProductId($product->getId()));
     }
     if ($expenses) {
       $product->setExpenses(new MonthlyExpenses(

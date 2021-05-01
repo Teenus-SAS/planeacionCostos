@@ -120,6 +120,21 @@ class ProcessDao {
     }
   }
 
+  public function findByProductId($productId) {
+    $this->db->connect();
+    $query = "SELECT `id_procesos` FROM `procesos` WHERE `empresas_id_empresa` = $productId";
+    $processesDB = $this->db->consult($query, "yes");
+    if ($processesDB !== false) {
+      $processes = [];
+      foreach ($processesDB as $processDB) {
+        array_push($processes, $this->findById($processDB["id_procesos"]));
+      }
+      return $processes;
+    } else {
+      return null;
+    }
+  }
+
   public function findOneByProcessName($idCompany, $processName) {
     $this->db->connect();
     $query = "SELECT `id_procesos` FROM `procesos` WHERE `empresas_id_empresa` = '$idCompany' AND `nombre` = '$processName'";

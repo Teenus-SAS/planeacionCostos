@@ -21,9 +21,9 @@ if (isset($_SESSION["user"])) {
   $response->indirectExpenses = 0;
   $response->rawMaterialExpenses = 0;
   $quantity = (int) $_GET["quantity"];
-  if ($product->getProcesses() != null) {
+  if ($product->getProductProcesses() != null) {
     $response->ManoObra = [];
-    foreach ($product->getProcesses() as $process) {
+    foreach ($product->getProductProcesses() as $process) {
       $roster = $rosterDao->findByProcess($process->getProcess());
       if ($roster != null) {
         $response->laborCost += ($process->getTimeProcess() * $roster->getValueMinute()) / $roster->getNumberEmployees();

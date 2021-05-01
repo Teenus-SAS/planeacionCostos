@@ -180,7 +180,7 @@ class Product implements JsonSerializable
    * @access public
    * @return ProductProcess[]
    */
-  public function getProcesses()
+  public function getProductProcesses()
   {
     return $this->processes;
   }
@@ -192,7 +192,7 @@ class Product implements JsonSerializable
    * @param ProductProcess[] $processes listado de procesos
    * @return void
    */
-  public function setProcesses($processes)
+  public function setProductProcesses($processes)
   {
     $this->processes = $processes;
   }

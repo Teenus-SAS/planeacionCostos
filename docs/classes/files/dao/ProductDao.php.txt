@@ -70,7 +70,7 @@ class ProductDao
       $product->setMaterials($this->findRawMaterialsByProduct($product));
     }
     if ($processes) {
-      $product->setProcesses($this->processDao->findProductProcessesByProduct($product));
+      $product->setProductProcesses($this->processDao->findProductProcessesByProduct($product));
     }
     if ($expenses) {
       $product->setExpenses(new MonthlyExpenses(

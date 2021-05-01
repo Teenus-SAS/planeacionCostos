@@ -17,11 +17,11 @@ if (isset($_SESSION["user"])) {
         $product = $productDao->findById($_GET["id"], false, true);
         if (isset($_GET["dataTable"])) {
             $response = new  stdClass();
-            $response->data = $product->getProcesses() == null ? [] : $product->getProcesses();
+            $response->data = $product->getProductProcesses() == null ? [] : $product->getProductProcesses();
             echo json_encode($response);
             exit;
         } else {
-            echo json_encode($product->getProcesses() == null ? [] : $product->getProcesses());
+            echo json_encode($product->getProductProcesses() == null ? [] : $product->getProductProcesses());
             exit;
         }
     } else {

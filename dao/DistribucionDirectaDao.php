@@ -72,8 +72,7 @@ class DistribucionDirectaDao
     }
   }
 
-  public function findOneByProcessId($idCompany, $idProcess)
-  {
+  public function findOneByProcessId($idCompany, $idProcess) {
     $this->db->connect();
     $query = "SELECT `id_distribucion` FROM `distribucion_directa` WHERE `id_empresa` = '$idCompany' AND `id_proceso` = '$idProcess'";
     $ditribucionesDB = $this->db->consult($query, "yes");

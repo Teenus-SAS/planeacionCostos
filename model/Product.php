@@ -1,238 +1,94 @@
 <?php
 
-class Product implements JsonSerializable
-{
-  /**
-   * id del producto
-   *
-   * @access private
-   * @var integer
-   */
+class Product implements JsonSerializable {
   private $id;
-  /**
-   * nombre del producto
-   *
-   * @access private
-   * @var string
-   */
   private $name;
-  /**
-   * id de la empresa creadora del producto
-   *
-   * @access private
-   * @var integer
-   */
   private $idCompany;
-  /**
-   * Referencia del producto
-   *
-   * @access private
-   * @var string
-   */
   private $ref;
-    /**
-   * Rentabilidad del producto o en su defecto la rentabilidad general
-   *
-   * @access private
-   * @var decimal
-   */
   private $rentabilidad;
-  /**
-   * materiales Del producto
-   *
-   * @access private
-   * @var ProductRawMaterial[]
-   */
   private $materials;
-  /**
-   * procesos Asociados al producto
-   *
-   * @access private
-   * @var ProductProcess[]
-   */
   private $processes;
-  /**
-   * Gastos mensuales del producto
-   *
-   * @access private
-   * @var MonthlyExpenses
-   */
+  private $productProcesses;
   private $expenses;
+  private $serviciosExternos;
 
-  /**
-   * obtiene el id del producto
-   *
-   * @access public
-   * @return integer
-   */
-  public function getId()
-  {
+  public function getServiciosExternos() {
+    return $this->serviciosExternos;
+  }
+
+  public function setServiciosExternos($serviciosExternos) {
+    $this->serviciosExternos = $serviciosExternos;
+  }
+
+  public function getId() {
     return $this->id;
   }
 
-  /**
-   * cambia el id del producto
-   *
-   * @access public
-   * @param integer $id nuevo id del producto
-   * @return void
-   */
-  public function setId($id)
-  {
+  public function setId($id) {
     $this->id = $id;
   }
 
-  /**
-   * obtiene el nombre del producto
-   *
-   * @access public
-   * @return string
-   */
-  public function getName()
-  {
+  public function getName() {
     return $this->name;
   }
 
-  /**
-   * Cambia el nombre del producto
-   *
-   * @access public
-   * @param string $name nombre del producto
-   * @return void
-   */
-  public function setName($name)
-  {
+  public function setName($name) {
     $this->name = $name;
   }
 
-  /**
-   * obtiene el id de la empresa creadora del producto
-   *
-   * @access public
-   * @return integer
-   */
-  public function getIdCompany()
-  {
+  public function getIdCompany() {
     return $this->idCompany;
   }
 
-  /**
-   * Cambia el id de la empresa creadora del producto
-   *
-   * @access public
-   * @param integer $idCompany nuevo id de la empresa
-   * @return void
-   */
-  public function setIdCompany($idCompany)
-  {
+  public function setIdCompany($idCompany) {
     $this->idCompany = $idCompany;
   }
 
-  /**
-   * obtiene la referencia del producto
-   *
-   * @access public
-   * @return string
-   */
-  public function getRef()
-  {
+  public function getRef() {
     return $this->ref;
   }
 
-  /**
-   * cambia la referencia del producto
-   *
-   * @access public
-   * @param string $ref nueva referencia del producto
-   * @return void
-   */
-  public function setRef($ref)
-  {
+  public function setRef($ref) {
     $this->ref = $ref;
   }
 
-  /**
-   * obtiene la rentabilidad del producto o en su defecto la rentablidad general
-   *
-   * @access public
-   * @return float
-   */
-  public function getRentabilidad()
-  {
+  public function getRentabilidad() {
     return $this->rentabilidad;
   }
 
-    /**
-   * cambia el valor de la rentabilidad del producto
-   *
-   * @access public
-   * @param string $rentabilidad nueva rentabilidad del producto
-   * @return void
-   */
   public function setRentabilidad($rentabilidad) {
     $this->rentabilidad = $rentabilidad;
   }
 
-  public function getMaterials()
-  {
+  public function getMaterials() {
     return $this->materials;
   }
 
-  /**
-   * Cambia el listado de materiales que  contiene el producto
-   *
-   * @access public
-   * @param ProductRawMaterial[] $materials listado de materiales que va a contener el producto
-   * @return void
-   */
-  public function setMaterials($materials)
-  {
+  public function setMaterials($materials) {
     $this->materials = $materials;
   }
 
-  /**
-   * obtiene el listado de procesos que tiene el producto
-   *
-   * @access public
-   * @return ProductProcess[]
-   */
-  public function getProcesses()
-  {
+  public function getProductProcesses() {
+    return $this->productProcesses;
+  }
+
+  public function setProductProcesses($productProcesses) {
+    $this->productProcesses = $productProcesses;
+  }
+
+  public function getProcesses() {
     return $this->processes;
   }
 
-  /**
-   * cambia el listado de procesos que tiene el producto
-   *
-   * @access public
-   * @param ProductProcess[] $processes listado de procesos
-   * @return void
-   */
-  public function setProcesses($processes)
-  {
+  public function setProcesses($processes) {
     $this->processes = $processes;
   }
 
-  /**
-   * obtiene los gastos mesuales del producto
-   *
-   * @access public
-   * @return MonthlyExpenses
-   */
-  public function getExpenses()
-  {
+  public function getExpenses() {
     return $this->expenses;
   }
 
-  /**
-   * Cambia los gastos mensuales del producto
-   *
-   * @access public
-   * @param MonthlyExpenses $expenses gastos mensuales del producto
-   * @return void
-   */
-  public function setExpenses($expenses)
-  {
+  public function setExpenses($expenses) {
     $this->expenses = $expenses;
   }
 

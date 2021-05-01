@@ -3,6 +3,7 @@ include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
 require_once DAO_PATH . "UserDao.php";
 require_once DAO_PATH . "MachineDao.php";
 require_once DAO_PATH . "CargaFabrilDao.php";
+require_once DAO_PATH . "DistribucionDirectaDao.php";
 require_once DAO_PATH . "ProductDao.php";
 require_once DAO_PATH . "RosterDao.php";
 require_once DAO_PATH . "ProcessDao.php";
@@ -18,6 +19,7 @@ if (isset($_SESSION["user"])) {
   $rosterDao = new RosterDao();
   $machineDao = new MachineDao();
   $cargaFabrilDao = new CargaFabrilDao();
+  $dDirectaDao = new DistribucionDirectaDao();
   $productDao = new ProductDao();
   $rosterDao = new RosterDao();
   $processDao = new ProcessDao();
@@ -26,18 +28,24 @@ if (isset($_SESSION["user"])) {
   $response->laborCost = 0;
   $response->indirectExpenses = 0;
   $response->rawMaterialExpenses = 0;
+  $response->generalExpenses = 0;
   $quantity = (int) $_GET["quantity"];
-  if ($product->getProcesses() != null) {
+  if ($product->getProductProcesses() != null) {
     $response->ManoObra = [];
-    foreach ($product->getProcesses() as $process) {
-      $roster = $rosterDao->findByProcess($process->getProcess());
+    foreach ($product->getProductProcesses() as $productProcess) {
+      $distribucion = $dDirectaDao->findOneByProcessId($user->getCompany()->getId(),$productProcess->getProcess()->getId());
+      if($distribucion)  {
+        $response->generalExpenses += $distribucion->getValorAsignado();
+      }
+      
+      $roster = $rosterDao->findByProcess($productProcess->getProcess());
       if ($roster != null) {
-        $response->laborCost += ($process->getTimeAlistamiento() + $process->getTimeOperacion() * $roster->getValueMinute());
-        array_push($response->ManoObra, array("tiempo" => $process->getTimeAlistamiento() + $process->getTimeOperacion(), "valor" => $roster->getValueMinute(), "costo" => $process->getTimeAlistamiento() * $roster->getValueMinute()));
+        $response->laborCost += ($productProcess->getTimeAlistamiento() + $productProcess->getTimeOperacion() * $roster->getValueMinute());
+        array_push($response->ManoObra, array("tiempo" => $productProcess->getTimeAlistamiento() + $productProcess->getTimeOperacion(), "valor" => $roster->getValueMinute(), "costo" => $productProcess->getTimeAlistamiento() * $roster->getValueMinute()));
       }
 
-      if ($process->getMachine() != null) {
-        $machineId = $process->getMachine()->getId();
+      if ($productProcess->getMachine() != null) {
+        $machineId = $productProcess->getMachine()->getId();
         
         $cargasMachine = $cargaFabrilDao->findByMachineId($machineId);
         $totalCargasMaquina = 0;
@@ -45,7 +53,7 @@ if (isset($_SESSION["user"])) {
         foreach($cargasMachine as $carga) {
             $totalCargasMaquina += $carga->getCostoPorMinuto();
         }
-        $response->indirectExpenses += $process->getTimeOperacion() * ($process->getMachine()->getDepreciation() + $totalCargasMaquina);
+        $response->indirectExpenses += $productProcess->getTimeOperacion() * ($productProcess->getMachine()->getDepreciation() + $totalCargasMaquina);
       }
     }
   }
@@ -56,7 +64,14 @@ if (isset($_SESSION["user"])) {
   $response->indirectExpenses *= $quantity;
   $response->rawMaterialExpenses *= $quantity;
   $response->cost = $response->indirectExpenses + $response->rawMaterialExpenses + $response->laborCost;
-  $response->generalExpenses = $product->getExpenses()->getUnitAssignableExpense();
+  $response->generalExpenses += $product->getExpenses()->getUnitAssignableExpense();
+  
+  $serviciosExternos = $product->getServiciosExternos();
+  if ($serviciosExternos && count($serviciosExternos) > 0) {
+    foreach ($serviciosExternos as $servicioExterno) {
+      $response->generalExpenses += $servicioExterno->getCosto();
+    }
+  }
   $response->totalCost = $response->cost + $response->generalExpenses;
 
 
