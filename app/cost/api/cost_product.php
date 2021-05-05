@@ -29,9 +29,9 @@ if (isset($_SESSION["user"])) {
   $response->indirectExpenses = 0;
   $response->rawMaterialExpenses = 0;
   $response->generalExpenses = 0;
+  $response->ManoObra = [];
   $quantity = (int) $_GET["quantity"];
   if ($product->getProductProcesses() != null) {
-    $response->ManoObra = [];
     foreach ($product->getProductProcesses() as $productProcess) {
       $distribucion = $dDirectaDao->findOneByProcessId($user->getCompany()->getId(),$productProcess->getProcess()->getId());
       if($distribucion)  {

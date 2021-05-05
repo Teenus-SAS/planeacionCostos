@@ -79,206 +79,201 @@ include(PARTIALS_PATH . "verify_session.php") ?>
       <!-- End Navbar -->
 
       <div class="content">
-        <div class="row">
-          <div class="col-md-12 text-center">
-            <h3>Reporte General</h3>
+        <div id="main-content">
+          <div class="row">
+            <div class="col-md-12 text-center">
+              <h3>Reporte General</h3>
+            </div>
           </div>
-        </div>
-        <div class="row">
-          <div class="col-md-6">
-            <div class="row">
-              <div class="col-md-12 col-sm-12">
-                <div class="card ">
-                  <div class="card-header ">
-                    <h5 class="card-title">Costos</h5>
-                  </div>
-                  <div class="card-body ">
-                    <canvas id="chartCost" height="200"></canvas>
-                    <canvas id="chartCostPdf" height="200" style="display:none"></canvas>
-                    <canvas id="chartProcess" height="200" style="display:none"></canvas>
-                    <canvas id="chartLaborCost" height="200" style="display:none"></canvas>
-                    <canvas id="chartExpensesGeneral" height="200" style="display:none"></canvas>
-                    <canvas id="chartRawMaterialsCost" height="200" style="display:none"></canvas>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="row">
+                <div class="col-md-12 col-sm-12">
+                  <div class="card ">
+                    <div class="card-header ">
+                      <h5 class="card-title">Costos</h5>
+                    </div>
+                    <div class="card-body ">
+                      <canvas id="chartCost" height="200"></canvas>
+                      <canvas id="chartCostPdf" height="200" style="display:none"></canvas>
+                      <canvas id="chartProcess" height="200" style="display:none"></canvas>
+                      <canvas id="chartLaborCost" height="200" style="display:none"></canvas>
+                      <canvas id="chartExpensesGeneral" height="200" style="display:none"></canvas>
+                      <canvas id="chartRawMaterialsCost" height="200" style="display:none"></canvas>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="row">
-              <div class="col-md-12">
-                <div class="card" style="height: 400px;">
-                  <div class="card-body">
-                    <div class="table-responsive tableFixHead" style="height: 380px;">
-                      <table class="table" id="tableProducts">
-                        <thead class="text-primary">
-                          <th>Referencia</th>
-                          <th>Producto</th>
-                          <th>Cantidad</th>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                      </table>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="card" style="height: 400px;">
+                    <div class="card-body">
+                      <div class="table-responsive tableFixHead" style="height: 380px;">
+                        <table class="table" id="tableProducts">
+                          <thead class="text-primary">
+                            <th>Referencia</th>
+                            <th>Producto</th>
+                            <th>Cantidad</th>
+                          </thead>
+                          <tbody>
+                          </tbody>
+                        </table>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div class="col-md-6" id="reporte-numeros">
-            <div class="form-group row justify-content-center">
-              <label for="select-product" class="col-form-label col-md-6 text-center text-primary"><b>Producto Cotizado</b></label>
-              <div class="col-md-6">
-                <select id="select-product" class="custom-select"></select>
+            <div class="col-md-6" id="reporte-numeros">
+              <div class="form-group row justify-content-center">
+                <label for="select-product" class="col-form-label col-md-6 text-center text-primary"><b>Producto Cotizado</b></label>
+                <div class="col-md-6">
+                  <select id="select-product" class="custom-select"></select>
+                </div>
               </div>
-            </div>
-            <br>
-            <div class="row">
-              <div class="col-12 text-uppercase text-center text-success">
-                <b id="title-product"></b>
+              <br>
+              <div class="row">
+                <div class="col-12 text-uppercase text-center text-success">
+                  <b id="title-product"></b>
 
+                </div>
+                <div class="col-12 text-uppercase text-center ">
+                  <a class="btn-product" id="link-indicators" target="_blank"></a>
+                  <a class="btn-product" id="link-simulation" href="javascript:simulationCost()"></a>
+                </div>
               </div>
-              <div class="col-12 text-uppercase text-center ">
-                <a class="btn-product" id="link-indicators" target="_blank"></a>
-                <a class="btn-product" id="link-simulation" href="javascript:simulationCost()"></a>
+              <br>
+              <div class="row my-2 mb-4 align-items-center">
+                <div class="col-md-5 col-5 col-sm-5 col-xs-5 text-primary">
+                  <strong>Cantidad</strong>
+                </div>
+                <div class="col-md-4 col-4 col-sm-4 col-xs-4">
+                  <input type="number" class="form-control quantity-product" readonly>
+                </div>
+                <div class="col-md-3 col-3 col-sm-3 col-xs-3">
+                  <input type="number" class="form-control  quantity-product" readonly>
+                </div>
               </div>
-            </div>
-            <br>
-            <div class="row my-2 mb-4 align-items-center">
-              <div class="col-md-5 col-5 col-sm-5 col-xs-5 text-primary">
-                <strong>Cantidad</strong>
+              <div class="row my-2 align-items-center">
+                <div class="col-md-5 col-sm-5 col-5 text-center text-primary">
+                  <strong>Detalle</strong>
+                </div>
+                <div class="col-md-4 col-sm-4 col-4 text-primary text-center">
+                  <strong>COP</strong>
+                </div>
+                <div class="col-md-3 col-sm-3 col-3 text-primary text-center">
+                  <strong>%Participacion</strong>
+                </div>
               </div>
-              <div class="col-md-4 col-4 col-sm-4 col-xs-4">
-                <input type="number" class="form-control quantity-product" readonly>
-              </div>
-              <div class="col-md-3 col-3 col-sm-3 col-xs-3">
-                <input type="number" class="form-control  quantity-product" readonly>
-              </div>
-            </div>
-            <div class="row my-2 align-items-center">
-              <div class="col-md-5 col-sm-5 col-5 text-center text-primary">
-                <strong>Detalle</strong>
-              </div>
-              <div class="col-md-4 col-sm-4 col-4 text-primary text-center">
-                <strong>COP</strong>
-              </div>
-              <div class="col-md-3 col-sm-3 col-3 text-primary text-center">
-                <strong>%Participacion</strong>
-              </div>
-            </div>
 
-            <div class="row my-2 align-items-center">
-              <div class="col-md-5 col-5 text-primary">
-                <strong>Precio de Venta</strong>
+              <div class="row my-2 align-items-center">
+                <div class="col-md-5 col-5 text-primary">
+                  <strong>Precio de Venta</strong>
+                </div>
+                <div class="col-md-4 col-4">
+                  <input type="text" class="form-control number" readonly id="precioVentaCOP">
+                </div>
+                <div class="col-md-3 col-3">
+                  <input type="text" class="form-control" readonly id="precioVentaUSD">
+                </div>
               </div>
-              <div class="col-md-4 col-4">
-                <input type="text" class="form-control number" readonly id="precioVentaCOP">
+              <div class="row my-2 align-items-center">
+                <div class="col-md-5 col-5 text-primary">
+                  <strong>Total Costos</strong>
+                </div>
+                <div class="col-md-4 col-4">
+                  <input type="text" class="form-control number" readonly id="totalCostosCOP">
+                </div>
+                <div class="col-md-3 col-3">
+                  <input type="text" class="form-control" readonly id="totalCostosUSD">
+                </div>
               </div>
-              <div class="col-md-3 col-3">
-                <input type="text" class="form-control" readonly id="precioVentaUSD">
+              <div class="row my-2 align-items-center">
+                <div class="col-md-5 col-5 text-primary">
+                  <strong>Costos</strong>
+                </div>
+                <div class="col-md-4 col-4">
+                  <input type="text" class="form-control number" readonly id="CostoCOP">
+                </div>
+                <div class="col-md-3 col-3">
+                  <input type="text" class="form-control" readonly id="CostoUSD">
+                </div>
               </div>
-            </div>
-            <div class="row my-2 align-items-center">
-              <div class="col-md-5 col-5 text-primary">
-                <strong>Total Costos</strong>
+              <div class="row my-2 align-items-center">
+                <div class="col-md-5 col-5 pl-5">
+                  Materia Prima
+                </div>
+                <div class="col-md-4 col-4">
+                  <input type="text" class="form-control number" readonly id="materiaPrimaCOP">
+                </div>
+                <div class="col-md-3 col-3">
+                  <input type="text" class="form-control" readonly id="materiaPrimaUSD">
+                </div>
               </div>
-              <div class="col-md-4 col-4">
-                <input type="text" class="form-control number" readonly id="totalCostosCOP">
+              <div class="row my-2 align-items-center">
+                <div class="col-md-5 col-5 pl-5">
+                  Mano de obra
+                </div>
+                <div class="col-md-4 col-4">
+                  <input type="text" class="form-control number" readonly id="manoObraCOP">
+                </div>
+                <div class="col-md-3 col-3">
+                  <input type="text" class="form-control" readonly id="manoObraUSD">
+                </div>
               </div>
-              <div class="col-md-3 col-3">
-                <input type="text" class="form-control" readonly id="totalCostosUSD">
+              <div class="row my-2 align-items-center">
+                <div class="col-md-5 col-5 pl-5">
+                  Costos indirectos de Fabricación
+                </div>
+                <div class="col-md-4 col-4">
+                  <input type="text" class="form-control number" readonly id="costosIndirectosCOP">
+                </div>
+                <div class="col-md-3 col-3">
+                  <input type="text" class="form-control" readonly id="costosIndirectosUSD">
+                </div>
               </div>
-            </div>
-            <div class="row my-2 align-items-center">
-              <div class="col-md-5 col-5 text-primary">
-                <strong>Costos</strong>
+              <div class="row my-2 align-items-center">
+                <div class="col-md-5 col-5 text-primary">
+                  <strong>Gastos</strong>
+                </div>
+                <div class="col-md-4 col-4">
+                  <input type="text" class="form-control number" readonly id="gastosCOP">
+                </div>
+                <div class="col-md-3 col-3">
+                  <input type="text" class="form-control" readonly id="gastosUSD">
+                </div>
               </div>
-              <div class="col-md-4 col-4">
-                <input type="text" class="form-control number" readonly id="CostoCOP">
-              </div>
-              <div class="col-md-3 col-3">
-                <input type="text" class="form-control" readonly id="CostoUSD">
-              </div>
-            </div>
-            <div class="row my-2 align-items-center">
-              <div class="col-md-5 col-5 pl-5">
-                Materia Prima
-              </div>
-              <div class="col-md-4 col-4">
-                <input type="text" class="form-control number" readonly id="materiaPrimaCOP">
-              </div>
-              <div class="col-md-3 col-3">
-                <input type="text" class="form-control" readonly id="materiaPrimaUSD">
-              </div>
-            </div>
-            <div class="row my-2 align-items-center">
-              <div class="col-md-5 col-5 pl-5">
-                Mano de obra
-              </div>
-              <div class="col-md-4 col-4">
-                <input type="text" class="form-control number" readonly id="manoObraCOP">
-              </div>
-              <div class="col-md-3 col-3">
-                <input type="text" class="form-control" readonly id="manoObraUSD">
-              </div>
-            </div>
-            <div class="row my-2 align-items-center">
-              <div class="col-md-5 col-5 pl-5">
-                Costos indirectos de Fabricación
-              </div>
-              <div class="col-md-4 col-4">
-                <input type="text" class="form-control number" readonly id="costosIndirectosCOP">
-              </div>
-              <div class="col-md-3 col-3">
-                <input type="text" class="form-control" readonly id="costosIndirectosUSD">
-              </div>
-            </div>
-            <div class="row my-2 align-items-center">
-              <div class="col-md-5 col-5 text-primary">
-                <strong>Gastos</strong>
-              </div>
-              <div class="col-md-4 col-4">
-                <input type="text" class="form-control number" readonly id="gastosCOP">
-              </div>
-              <div class="col-md-3 col-3">
-                <input type="text" class="form-control" readonly id="gastosUSD">
-              </div>
-            </div>
-       <!--      <div class="row my-2 align-items-center">
-              <div class="col-md-5 col-5 pl-5">
-                Gastos Generales
-              </div>
-              <div class="col-md-4 col-4">
-                <input type="text" class="form-control number" readonly id="gastosGeneralesCOP">
-              </div>
-              <div class="col-md-3 col-3">
-                <input type="text" class="form-control" readonly id="gastosGeneralesUSD">
-              </div>
-            </div> -->
-            <div class="row my-2 align-items-center">
-              <div class="col-md-5 col-5 text-primary">
-                <strong>Comision de Ventas</strong> 
-              </div>
-              <div class="col-md-4 col-4">
-                <input type="text" class="form-control number" readonly id="comisionCOP">
-              </div>
-              <div class="col-md-3 col-3">
-                <input type="text" class="form-control" readonly id="comisionUSD">
-              </div>
-            </div>
-            <div class="row my-2 align-items-center">
-              <div class="col-md-5 col-5 text-primary">
-                <strong>Rentabilidad</strong>
-              </div>
-              <div class="col-md-4 col-4">
-                <input type="text" class="form-control number" readonly id="rentabilidadCOP">
-              </div>
-              <div class="col-md-3 col-3">
-                <input type="text" class="form-control" readonly id="rentabilidadUSD">
-              </div>
-            </div>
-            <div style="text-align:center; margin-top:10%">
-              <button class="btn btn-primary" id="downloaad-pdf">Generar Reporte</button>
-            </div>
 
+              <div class="row my-2 align-items-center">
+                <div class="col-md-5 col-5 text-primary">
+                  <strong>Comision de Ventas</strong> 
+                </div>
+                <div class="col-md-4 col-4">
+                  <input type="text" class="form-control number" readonly id="comisionCOP">
+                </div>
+                <div class="col-md-3 col-3">
+                  <input type="text" class="form-control" readonly id="comisionUSD">
+                </div>
+              </div>
+              <div class="row my-2 align-items-center">
+                <div class="col-md-5 col-5 text-primary">
+                  <strong>Rentabilidad</strong>
+                </div>
+                <div class="col-md-4 col-4">
+                  <input type="text" class="form-control number" readonly id="rentabilidadCOP">
+                </div>
+                <div class="col-md-3 col-3">
+                  <input type="text" class="form-control" readonly id="rentabilidadUSD">
+                </div>
+              </div>
+              <div style="text-align:center; margin-top:10%">
+                <button class="btn btn-primary" id="downloaad-pdf">Generar Reporte</button>
+              </div>
+              <div style="text-align:center; margin-top:10%">
+                <button class="btn btn-primary" id="reporteProcesos">Reporte Procesos</button>
+              </div>
+
+            </div>
           </div>
         </div>
       </div>

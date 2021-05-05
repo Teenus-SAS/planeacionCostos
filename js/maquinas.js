@@ -22,10 +22,8 @@ $("input[name=optionMaquinas]").change(function () {
 });
 
 var $tableMaquinas = $("#table-maquinas").dataTable({
-  //"scrollY": "300px",
   scrollCollapse: true,
-  //"paging": false,
-  pageLength: 25,
+  pageLength: 5,
 
   language: {
     url: "/vendor/dataTables/Spanish.json",

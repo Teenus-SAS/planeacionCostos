@@ -5,19 +5,11 @@ class Process implements JsonSerializable {
   private $name;
   private $idCompany;
 
-  public function getId()
-  {
+  public function getId() {
     return $this->id;
   }
 
-  /**
-   * cambia el id del proceso
-   *
-   * @param integer $id nuevo id del proceso
-   * @return void
-   */
-  public function setId($id)
-  {
+  public function setId($id) {
     $this->id = $id;
   }
 

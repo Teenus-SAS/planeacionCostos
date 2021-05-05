@@ -514,7 +514,6 @@ function changeQuantity(value) {
   )[0];
   $(`#quantity-product-${productSelected.id}`).html(value);
   sessionStorage.setItem("products", JSON.stringify(productsReq));
-  /* window.history.pushState('', 'change', '/app/cost/report.php?products=' + encodeURIComponent(JSON.stringify(productsReq))) */
   loadCost(
     productsReq.filter(
       (product) => product.id == $("#select-product").val()

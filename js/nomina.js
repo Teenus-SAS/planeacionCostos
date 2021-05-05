@@ -1,6 +1,8 @@
 verifySettedConfiguration("tabNomina");
 $("#inputFP").prop("readonly", true);
 
+let addModifyPanelOpen = false;
+
 elById("inlineRadio1M").click();
 document
   .querySelector('a[href$="nomina-nav"]')
@@ -44,6 +46,7 @@ $("#btnCrearNomina").click(function (e) {
   e.preventDefault();
   $("#panelCrearNomina").toggle(1000);
   $("#panelImportarNomina").slideUp();
+  addModifyPanelOpen = !addModifyPanelOpen;
   resetFieldsRoster();
 });
 
@@ -604,6 +607,9 @@ elById("tableNominas").addEventListener("click", (ev) => {
   if (selectedEl.classList.contains("link-borrar")) {
     deleteNomina(selectedEl.dataset.nominaId);
   } else if (selectedEl.classList.contains("link-editar")) {
+    if (!addModifyPanelOpen) {
+      $("#btnCrearNomina").trigger("click");
+    }
     const rowInfo = $tableNominas.fnGetData(selectedEl.closest("tr"));
     ActualizarNomina(rowInfo);
   }

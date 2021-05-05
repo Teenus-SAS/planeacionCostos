@@ -11,17 +11,20 @@ $.get(
   (data, status) => {
     var manoObraDataChart = [];
     var timeProcessDataChart = [];
-    data.ManoObra.forEach((roster) => {
-      manoObraDataChart.push([roster.process, roster.costo]);
-    });
-    console.log("mano de obra chart", manoObraDataChart);
-
-    data.processes.forEach((process) => {
-      timeProcessDataChart.push({
-        name: process.name,
-        y: process.time,
+    if (data.ManoObra) {
+      data.ManoObra.forEach((roster) => {
+        manoObraDataChart.push([roster.process, roster.costo]);
       });
-    });
+    }
+
+    if (data.processes) {
+      data.processes.forEach((process) => {
+        timeProcessDataChart.push({
+          name: process.name,
+          y: process.time,
+        });
+      });
+    }
 
     // configuracion grafico de procesos
     let chartProcess = $("#chartProcess").highcharts({

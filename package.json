@@ -21,6 +21,6 @@
   },
   "homepage": "https://github.com/Teenus-SAS/planeacionCostos#readme",
   "dependencies": {
-    "elegant-crud-datatable": "0.0.4"
+    "elegant-crud-datatable": "0.0.9"
   }
 }

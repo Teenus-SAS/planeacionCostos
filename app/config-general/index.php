@@ -27,6 +27,7 @@ include(PARTIALS_PATH . "verify_session.php");
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
   <link rel="stylesheet" href="/vendor/froala-editor/froala_editor.pkgd.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="./../../node_modules/elegant-crud-datatable/build/index.css">
 </head>
 
 <body class="">
@@ -738,7 +739,7 @@ include(PARTIALS_PATH . "verify_session.php");
 
 
               <div class="tab-pane" id="gastos">
-              
+              <div id="gastosGeneralesTable"></div>
               <div class="row align-content-center text-primary">
                     <div class="col-2"><b>51</b></div>
                     <div class="col-8"><b>Gastos Operacionales de Administración</b></div>

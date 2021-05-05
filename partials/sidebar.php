@@ -40,6 +40,12 @@
           <p>Análisis</p>
         </a>
       </li>
+      <li id="sidebar-reportes-item">
+        <a href="/app/reportes/">
+          <i class="fa fa-flag"></i>
+          <p>Reportes</p>
+        </a>
+      </li>
       <li id="sidebar-analisis-item">
         <a href="/app/Analisis/">
           <i class="fa fa-bolt"></i>
