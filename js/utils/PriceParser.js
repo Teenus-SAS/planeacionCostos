@@ -26,7 +26,7 @@ class PriceParser {
   }
 
   static #formatCurrency(number, fractionDigits, sign = false) {
-    let formatted = `$ ${$.number(number, fractionDigits, ".", ",")}`;
+    let formatted = `$${$.number(number, fractionDigits, ".", ",")}`;
     if (!sign) {
       formatted = formatted.replaceAll("$", "").trim();
     }

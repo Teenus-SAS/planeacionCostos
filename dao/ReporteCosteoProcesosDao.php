@@ -3,6 +3,7 @@ include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
 require_once DB_PATH . "DBOperator.php";
 require_once DB_PATH . "env.php";
 require_once MODEL_PATH . "ReporteCosteoProcesos.php";
+require_once DAO_PATH . "ProductDao.php";
 
 class ReporteCosteoProcesosDao {
   private $db;
@@ -13,6 +14,7 @@ class ReporteCosteoProcesosDao {
 
   public function findByConsecutivo($consecutivo) {
     $this->db->connect();
+    $productDao = new ProductDao();
     $query = "SELECT * FROM `reportes_productos_procesos` WHERE `consecutivo_reporte` = $consecutivo";
     $reportesDB = $this->db->consult($query, "yes");
     $reportesDB = $reportesDB[0];
@@ -22,7 +24,7 @@ class ReporteCosteoProcesosDao {
     $reporteCosteoProcesos->setCreationDate($reportesDB["reporte_creation_date"]);
     $reporteCosteoProcesos->setCiudad($reportesDB["ciudad_reporte"]);
     $reporteCosteoProcesos->setCliente($reportesDB['cliente_reporte']);
-    $reporteCosteoProcesos->setIdProducto($reportesDB['id_producto']);
+    $reporteCosteoProcesos->setProducto($productDao->findById($reportesDB['id_producto']));
     $reporteCosteoProcesos->setCantidad($reportesDB['cantidad']);
     $this->db->close();
     return $reporteCosteoProcesos;
@@ -57,19 +59,26 @@ class ReporteCosteoProcesosDao {
                 */
     } else {
       $saved = true;
-      $query = "INSERT INTO `reportes_productos_procesos` (`id_reporte`, `id_empresa`, `consecutivo_reporte`, `ciudad_reporte`, `cliente_reporte`, `id_producto`, `cantidad`, `reporte_creation_date`) 
-                VALUES (NULL, '" . $reporte->getIdCompany() . "', '" . $reporte->getConsecutivo() . "', '" . $reporte->getCiudad() . "', '" . $reporte->getCliente() . "', '" . $reporte->getIdProducto() . "', '" . $reporte->getCantidad() . "', '" . $reporte->getCreationDate() . "')";
+      $query = "INSERT INTO `reportes_productos_procesos` (`id_reporte`, `id_empresa`, `consecutivo_reporte`, `ciudad_reporte`, `cliente_reporte`, `id_producto`, `cantidad`) 
+                VALUES (NULL, '" . $reporte->getIdCompany() . "', '" . $reporte->getConsecutivo() . "', '" . $reporte->getCiudad() . "', '" . $reporte->getCliente() . "', '" . $reporte->getProducto()->getId() . "', '" . $reporte->getCantidad() . "')";
     }
     $this->db->consult($query);
     return $saved;
   }
 
-  public function delete($id) {
+  public function deleteById($id) {
     $this->db->connect();
     
     $query = "DELETE FROM `reportes_productos_procesos` WHERE `reportes_productos_procesos`.`id_reporte` = $id";
     $this->db->consult($query);
-    $query = "DELETE FROM `gastos_mensuales` WHERE `gastos_mensuales`.`productos_id_producto` = $id";
+
+    return true;
+  }
+
+  public function deleteByConsecutivo($consecutivo) {
+    $this->db->connect();
+    
+    $query = "DELETE FROM `reportes_productos_procesos` WHERE `reportes_productos_procesos`.`consecutivo_reporte` = $consecutivo";
     $this->db->consult($query);
 
     return true;

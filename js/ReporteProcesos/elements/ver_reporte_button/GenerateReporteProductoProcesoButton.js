@@ -4,13 +4,20 @@ import { OnClickGenerateReporteProductoProcesoButton } from "./events/OnClickGen
 export class GenerateReporteProductoProcesoButton extends DomElement {
   constructor(elementId, invalidDatacb = undefined) {
     super(document.getElementById(elementId));
-    super.onClick(() => {
-      if (invalidDatacb && this.validateData()) {
-        OnClickGenerateReporteProductoProcesoButton(this._data);
-      } else if (invalidDatacb) {
-        invalidDatacb();
+    this.invalidDatacb = invalidDatacb;
+    this.generarReporteOnClick();
+  }
+
+  generarReporteOnClick(aftercb = undefined) {
+    super.onClick((data) => {
+      if (this.invalidDatacb) {
+        if (this.validateData()) {
+          OnClickGenerateReporteProductoProcesoButton(data);
+        } else {
+          this.invalidDatacb();
+        }
       }
-    });
+    }, aftercb);
   }
 
   get productoId() {

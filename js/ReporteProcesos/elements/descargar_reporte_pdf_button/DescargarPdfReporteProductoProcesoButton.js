@@ -2,15 +2,27 @@ import { DomElement } from "../../../Shared/domain/DomElement.js";
 import { OnClickDescargarReporteProductoProcesoButton } from "./events/OnClickDescargarReporteProductoProcesoButton.js";
 
 export class DescargarPdfReporteProductoProcesoButton extends DomElement {
-  constructor(elementId, invalidDatacb = undefined) {
+  constructor(
+    elementId,
+    invalidDatacb = undefined,
+    aftercb = undefined,
+    successcb = undefined
+  ) {
     super(document.getElementById(elementId));
-    super.onClick(() => {
-      if (invalidDatacb && this.validateData()) {
-        OnClickDescargarReporteProductoProcesoButton(this._data);
-      } else if (invalidDatacb) {
-        invalidDatacb();
+    this.invalidDatacb = invalidDatacb;
+    this.descargarPdfOnClick(aftercb, successcb);
+  }
+
+  descargarPdfOnClick(aftercb = undefined, successcb = undefined) {
+    super.onClick((data) => {
+      if (this.invalidDatacb) {
+        if (this.validateData()) {
+          OnClickDescargarReporteProductoProcesoButton(data, successcb);
+        } else {
+          this.invalidDatacb();
+        }
       }
-    });
+    }, aftercb);
   }
 
   get consecutivo() {

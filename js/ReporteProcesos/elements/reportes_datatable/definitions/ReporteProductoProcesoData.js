@@ -1,4 +1,4 @@
-import { DataForTable } from "../../../node_modules/elegant-crud-datatable/build/DataForTable.js";
+import { DataForTable } from "elegant-crud-datatable/build/DataForTable";
 
 export class ReporteProductoProceso extends DataForTable {
   constructor(consecutivo, cantidad, ciudad, cliente, fechaCreacion, producto) {

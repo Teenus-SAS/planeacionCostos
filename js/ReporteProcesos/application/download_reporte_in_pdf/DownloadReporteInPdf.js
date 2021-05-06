@@ -1,6 +1,7 @@
 export function DownloadReporteInPdf(cliente, ciudad, consecutivo) {
   let reportePdf = new jsPDF("p", "pt", "letter");
-  reportePdf.text("Reporte", 300, 50, {
+  const title = "Reporte";
+  reportePdf.text(title, 300, 50, {
     align: "center",
   });
   reportePdf.text(

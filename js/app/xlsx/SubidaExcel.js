@@ -79,7 +79,7 @@ export class SubidaExcel {
               },
               {
                 type: "info",
-                timer: 8000,
+                timer: 2000,
               }
             );
             this.clearFile();

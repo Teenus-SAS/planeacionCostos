@@ -1,7 +1,6 @@
 export class DomElement {
   constructor(element) {
     this.element = element;
-    this.onClickcb = undefined;
     this._data = null;
   }
 
@@ -17,16 +16,20 @@ export class DomElement {
     return new DomElement(document.getElementById(elementId));
   }
 
-  onClick(cb = undefined) {
+  onClick(cb = undefined, aftercb = undefined) {
+    const callback = cb || this.onClickcb;
     $(this.element).on("click", (e) => {
       e.preventDefault();
-      if (cb) {
-        this.onClickcb = cb;
-        return cb(this._data);
-      } else if (this.onClickcb) {
-        return this.onClickcb(this._data);
-      }
     });
+    if (callback) {
+      $(this.element).on("click", (e) => {
+        e.preventDefault();
+        callback(this._data);
+        if (aftercb) {
+          aftercb();
+        }
+      });
+    }
   }
 
   triggerClick() {

@@ -12,7 +12,14 @@ const columnDefinitions = [
       6
     )
   ),
-
+  new DataTableColumnDefinition(
+    new DataTableColumnHeader("Maquina", { content: [""] }),
+    new DataTableColumnBody(
+      undefined,
+      { content: ["font-normal", "text-blue-900"], cell: ["text-left"] },
+      6
+    )
+  ),
   new DataTableColumnDefinition(
     new DataTableColumnHeader("Minutos"),
     new DataTableColumnBody(undefined, {}, 250)
@@ -27,7 +34,11 @@ const columnDefinitions = [
   ),
   new DataTableColumnDefinition(
     new DataTableColumnHeader("Total"),
-    new DataTableColumnBody(undefined, { cell: ["text-right"] }, 250)
+    new DataTableColumnBody(
+      (data) => PriceParser.toString(data, true).strPrice,
+      { cell: ["text-right"] },
+      250
+    )
   ),
 ];
 

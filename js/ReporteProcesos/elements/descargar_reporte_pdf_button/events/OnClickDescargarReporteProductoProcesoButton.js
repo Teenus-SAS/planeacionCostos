@@ -1,7 +1,7 @@
 import { DownloadReporteInPdf } from "../../../application/download_reporte_in_pdf/DownloadReporteInPdf.js";
 import { NewReporteProductoProcesos } from "../../../application/new_reporte_producto_procesos/NewReporteProductoProcesos.js";
 
-export function OnClickDescargarReporteProductoProcesoButton(buttonData) {
+export function OnClickDescargarReporteProductoProcesoButton(buttonData, cb) {
   NewReporteProductoProcesos(
     buttonData.consecutivo,
     buttonData.cliente,
@@ -9,6 +9,17 @@ export function OnClickDescargarReporteProductoProcesoButton(buttonData) {
     buttonData.productoId,
     buttonData.cantidad,
     () => {
+      $.notify(
+        {
+          icon: "nc-icon nc-bell-55",
+          message: `Reporte creado correctamente`,
+        },
+        {
+          type: "success",
+          timer: 2500,
+        }
+      );
+      cb();
       DownloadReporteInPdf(
         buttonData.cliente,
         buttonData.ciudad,
