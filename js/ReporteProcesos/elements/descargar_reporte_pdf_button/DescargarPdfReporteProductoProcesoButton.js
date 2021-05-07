@@ -45,12 +45,17 @@ export class DescargarPdfReporteProductoProcesoButton extends DomElement {
     return this.data && this.data.productoId ? this.data.productoId : null;
   }
 
+  get pdfdata() {
+    return this.data && this.data.pdfdata ? this.data.pdfdata : null;
+  }
+
   validateData() {
     return (
       this.consecutivo &&
       this.cliente &&
       this.ciudad &&
       this.cantidad &&
+      this.pdfdata &&
       this.productoId
     );
   }
@@ -62,6 +67,7 @@ export class DescargarPdfReporteProductoProcesoButton extends DomElement {
       ciudad: data.ciudad || this.ciudad,
       cantidad: data.cantidad || this.cantidad,
       productoId: data.productoId || this.productoId,
+      pdfdata: data.pdfdata || this.pdfdata,
     };
   }
 }

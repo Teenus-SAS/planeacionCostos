@@ -9,6 +9,7 @@ class ReporteCosteoProcesos implements JsonSerializable {
   private $cliente;
   private $producto;
   private $cantidad;
+  private $pdfData;
 
   public function getId() {
     return $this->id;
@@ -72,6 +73,14 @@ class ReporteCosteoProcesos implements JsonSerializable {
 
   public function setCantidad($cantidad) {
     $this->cantidad = $cantidad;
+  }
+
+  public function getPdfData() {
+    return $this->pdfData;
+  }
+
+  public function setPdfData($pdfData) {
+    $this->pdfData = $pdfData;
   }
 
   /**

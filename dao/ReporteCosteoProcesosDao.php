@@ -12,10 +12,10 @@ class ReporteCosteoProcesosDao {
     $this->db = new DBOperator($_ENV["db_host"], $_ENV["db_user"], $_ENV["db_name"], $_ENV["db_pass"]);
   }
 
-  public function findByConsecutivo($consecutivo) {
+  public function findByConsecutivo($idEmpresa, $consecutivo) {
     $this->db->connect();
     $productDao = new ProductDao();
-    $query = "SELECT * FROM `reportes_productos_procesos` WHERE `consecutivo_reporte` = $consecutivo";
+    $query = "SELECT * FROM `reportes_productos_procesos` WHERE `consecutivo_reporte` = '$consecutivo' AND `id_empresa` = '$idEmpresa'";
     $reportesDB = $this->db->consult($query, "yes");
     $reportesDB = $reportesDB[0];
     $reporteCosteoProcesos = new ReporteCosteoProcesos();
@@ -26,6 +26,7 @@ class ReporteCosteoProcesosDao {
     $reporteCosteoProcesos->setCliente($reportesDB['cliente_reporte']);
     $reporteCosteoProcesos->setProducto($productDao->findById($reportesDB['id_producto']));
     $reporteCosteoProcesos->setCantidad($reportesDB['cantidad']);
+    $reporteCosteoProcesos->setPdfData($reportesDB['reporte_pdfdata']);
     $this->db->close();
     return $reporteCosteoProcesos;
   }
@@ -37,7 +38,7 @@ class ReporteCosteoProcesosDao {
     $reportes = [];
     if ($reportesDB !== false) {
       foreach ($reportesDB as $reporteDB) {
-        array_push($reportes, $this->findByConsecutivo($reporteDB["consecutivo_reporte"]));
+        array_push($reportes, $this->findByConsecutivo($id, $reporteDB["consecutivo_reporte"]));
       }
       return $reportes;
     } else {
@@ -59,8 +60,8 @@ class ReporteCosteoProcesosDao {
                 */
     } else {
       $saved = true;
-      $query = "INSERT INTO `reportes_productos_procesos` (`id_reporte`, `id_empresa`, `consecutivo_reporte`, `ciudad_reporte`, `cliente_reporte`, `id_producto`, `cantidad`) 
-                VALUES (NULL, '" . $reporte->getIdCompany() . "', '" . $reporte->getConsecutivo() . "', '" . $reporte->getCiudad() . "', '" . $reporte->getCliente() . "', '" . $reporte->getProducto()->getId() . "', '" . $reporte->getCantidad() . "')";
+      $query = "INSERT INTO `reportes_productos_procesos` (`id_reporte`, `id_empresa`, `consecutivo_reporte`, `ciudad_reporte`, `cliente_reporte`, `id_producto`, `cantidad`, `reporte_pdfdata`) 
+                VALUES (NULL, '" . $reporte->getIdCompany() . "', '" . $reporte->getConsecutivo() . "', '" . $reporte->getCiudad() . "', '" . $reporte->getCliente() . "', '" . $reporte->getProducto()->getId() . "', '" . $reporte->getCantidad() . "', '" . $reporte->getPdfData() . "')";
     }
     $this->db->consult($query);
     return $saved;

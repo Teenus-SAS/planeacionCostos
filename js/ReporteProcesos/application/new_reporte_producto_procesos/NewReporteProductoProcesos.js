@@ -4,6 +4,7 @@ export function NewReporteProductoProcesos(
   ciudad,
   productoId,
   cantidad,
+  pdfData,
   cb,
   errorscb = () => {}
 ) {
@@ -13,6 +14,7 @@ export function NewReporteProductoProcesos(
     ciudad,
     productoId,
     cantidad,
+    pdfdata: pdfData,
   }).always((xhr) => {
     if (xhr.status == 200) {
       cb();

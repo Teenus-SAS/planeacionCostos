@@ -8,6 +8,7 @@ export function OnClickDescargarReporteProductoProcesoButton(buttonData, cb) {
     buttonData.ciudad,
     buttonData.productoId,
     buttonData.cantidad,
+    buttonData.pdfdata,
     () => {
       $.notify(
         {

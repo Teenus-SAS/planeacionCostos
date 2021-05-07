@@ -2,17 +2,17 @@ import { DomElement } from "../../../Shared/domain/DomElement.js";
 import { OnClickGenerateReporteProductoProcesoButton } from "./events/OnClickGenerateReporteProductoProcesoButton.js";
 
 export class GenerateReporteProductoProcesoButton extends DomElement {
-  constructor(elementId, invalidDatacb = undefined) {
+  constructor(elementId, reportecb, invalidDatacb = undefined) {
     super(document.getElementById(elementId));
     this.invalidDatacb = invalidDatacb;
-    this.generarReporteOnClick();
+    this.generarReporteOnClick(reportecb);
   }
 
-  generarReporteOnClick(aftercb = undefined) {
+  generarReporteOnClick(reportecb, aftercb = undefined) {
     super.onClick((data) => {
       if (this.invalidDatacb) {
         if (this.validateData()) {
-          OnClickGenerateReporteProductoProcesoButton(data);
+          OnClickGenerateReporteProductoProcesoButton(data, reportecb);
         } else {
           this.invalidDatacb();
         }

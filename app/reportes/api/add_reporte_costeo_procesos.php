@@ -21,6 +21,7 @@ if (isset($_SESSION["user"])) {
   $reporte->setCiudad($_POST['ciudad']);
   $reporte->setProducto($productDao->findById($_POST['productoId']));
   $reporte->setCantidad($_POST['cantidad']);
+  $reporte->setPdfData($_POST['pdfdata']);
   $reporte->setIdCompany($user->getCompany()->getId());
   if (!$reportesProcesosDao->save($reporte)) {
     http_response_code(411);

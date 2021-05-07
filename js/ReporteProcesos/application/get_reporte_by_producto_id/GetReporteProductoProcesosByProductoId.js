@@ -24,15 +24,23 @@ export function GetReporteProductoProcesosByProductoId(
                 const totalTime =
                   parseFloat(proceso.timeAlistamiento) +
                   parseFloat(proceso.timeOperacion);
-                reportes.push(
-                  new IndividualReporteProductoProcesoData(
-                    proceso.process.name,
-                    proceso.machine ? proceso.machine.name : "N/A",
-                    totalTime,
-                    costoMinuto,
-                    totalTime * costoMinuto
-                  )
+                const processExists = reportes.find(
+                  (reporte) => reporte.productoProceso == proceso.process.name
                 );
+                if (!processExists) {
+                  reportes.push(
+                    new IndividualReporteProductoProcesoData(
+                      proceso.process.name,
+                      totalTime,
+                      costoMinuto,
+                      totalTime * costoMinuto
+                    )
+                  );
+                } else {
+                  processExists.costoMinuto += costoMinuto;
+                  processExists.cantidadMinuto += totalTime;
+                  processExists.total += totalTime * costoMinuto;
+                }
               });
               cb(reportes);
             }

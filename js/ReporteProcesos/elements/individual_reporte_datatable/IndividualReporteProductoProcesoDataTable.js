@@ -2,18 +2,11 @@ import { DataTable } from "../../../../node_modules/elegant-crud-datatable/build
 import { DataTableColumnDefinition } from "../../../../node_modules/elegant-crud-datatable/build/DataTableColumn/DataTableColumnDefinition.js";
 import { DataTableColumnHeader } from "../../../../node_modules/elegant-crud-datatable/build/DataTableColumn/DataTableColumnHeader.js";
 import { DataTableColumnBody } from "../../../../node_modules/elegant-crud-datatable/build/DataTableColumn/DataTableColumnBody.js";
+import { IndividualReporteProductoProcesoData } from "./definitions/IndividualReporteProductoProcesoData.js";
 
 const columnDefinitions = [
   new DataTableColumnDefinition(
     new DataTableColumnHeader("Proceso", { content: [""] }),
-    new DataTableColumnBody(
-      undefined,
-      { content: ["font-normal", "text-blue-900"], cell: ["text-left"] },
-      6
-    )
-  ),
-  new DataTableColumnDefinition(
-    new DataTableColumnHeader("Maquina", { content: [""] }),
     new DataTableColumnBody(
       undefined,
       { content: ["font-normal", "text-blue-900"], cell: ["text-left"] },
@@ -47,5 +40,17 @@ export class IndividualReporteProductoProcesoDataTable extends DataTable {
     super(columnDefinitions, data, createOptions, {
       table: ["bg-ligth"],
     });
+  }
+
+  toJSON() {
+    console.log(this._data);
+    return JSON.stringify(this._data);
+  }
+
+  fromJSON(divId, json) {
+    this._data = JSON.parse(json).map((row) => {
+      return IndividualReporteProductoProcesoData.fromJSON(row);
+    });
+    this.toDiv(divId);
   }
 }
