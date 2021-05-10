@@ -79,7 +79,7 @@ class ReporteCosteoProcesosDao {
   public function deleteByConsecutivo($consecutivo) {
     $this->db->connect();
     
-    $query = "DELETE FROM `reportes_productos_procesos` WHERE `reportes_productos_procesos`.`consecutivo_reporte` = $consecutivo";
+    $query = "DELETE FROM `reportes_productos_procesos` WHERE `reportes_productos_procesos`.`consecutivo_reporte` = '$consecutivo'";
     $this->db->consult($query);
 
     return true;

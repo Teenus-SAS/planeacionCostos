@@ -1,9 +1,10 @@
 import { OnClickDeleteReporteProductoProceso } from "./events/OnClickDeleteReporteProductoProceso.js";
 import { OnClickDownloadReporteProductoProceso } from "./events/OnClickDownloadReporteProductoProceso.js";
+import { OnClickViewReporteProductoProceso } from "./events/OnClickViewReporteProductoProceso.js";
 
 export class ReporteProductoProcesoDataTable {
   constructor() {
-    this.dataTableReportes = $("#reportes-jquery-datatable").DataTable({
+    this.dataTableReportes = $("#reportes-jquery-datatable").dataTable({
       scrollCollapse: true,
       ordering: true,
       pageLength: 5,
@@ -56,6 +57,7 @@ export class ReporteProductoProcesoDataTable {
       ],
       reponsive: true,
     });
+    this.dataTableReportes.width("100%");
   }
 
   delete(consecutivo) {
@@ -68,7 +70,11 @@ export class ReporteProductoProcesoDataTable {
     OnClickDownloadReporteProductoProceso(consecutivo, () => {});
   }
 
+  view(consecutivo, cb) {
+    OnClickViewReporteProductoProceso(consecutivo, cb);
+  }
+
   reload() {
-    this.dataTableReportes.ajax.reload();
+    this.dataTableReportes.api().ajax.reload();
   }
 }

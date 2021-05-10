@@ -22,6 +22,7 @@ export function OnClickDescargarReporteProductoProcesoButton(buttonData, cb) {
       );
       cb();
       DownloadReporteInPdf(
+        buttonData.productoId,
         buttonData.cliente,
         buttonData.ciudad,
         buttonData.consecutivo

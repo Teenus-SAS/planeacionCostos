@@ -2,17 +2,11 @@
 
 class ServicioExterno implements JsonSerializable
 {
-    // Id del servicio
     private $id;
-    // Nombre del servicio
     private $nombreServicio;
-    // Costo del servicio
     private $costo;
-    // Id del producto
     private $idProducto;
-    // nombre del producto
     private $nombreProducto;
-    // id de la empresa
     private $idEmpresa;
 
     public function setId($id)

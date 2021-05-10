@@ -4,7 +4,11 @@ import { IndividualReporteProductoProcesoDataTable } from "../../individual_repo
 
 export function OnClickDownloadReporteProductoProceso(consecutivo, cb) {
   GetReporteProductoProcesosByConsecutivo(consecutivo, (reporte) => {
-    const table = new IndividualReporteProductoProcesoDataTable([], {});
+    const table = new IndividualReporteProductoProcesoDataTable(
+      "reporte-procesos-table",
+      [],
+      {}
+    );
     table.fromJSON("reporte-procesos-table", reporte.pdfData);
     DownloadReporteInPdfByConsecutivo(consecutivo);
     cb();

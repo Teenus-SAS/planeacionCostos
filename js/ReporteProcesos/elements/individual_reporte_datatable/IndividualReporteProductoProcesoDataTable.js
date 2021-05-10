@@ -36,21 +36,37 @@ const columnDefinitions = [
 ];
 
 export class IndividualReporteProductoProcesoDataTable extends DataTable {
-  constructor(data, createOptions) {
+  constructor(divId, data, createOptions) {
     super(columnDefinitions, data, createOptions, {
       table: ["bg-ligth"],
     });
+    this.divId = divId;
+  }
+
+  show() {
+    $("#reporte-procesos-content").attr("hidden", false);
+    document.getElementById("reporte-procesos-content").scrollIntoView();
+  }
+
+  hide() {
+    $("#reporte-procesos-content").attr("hidden", "true");
+    document.getElementById("main-panel-content").scrollIntoView();
+  }
+
+  setData(_data) {
+    this._data = _data;
+    this.toDiv(this.divId);
   }
 
   toJSON() {
-    console.log(this._data);
     return JSON.stringify(this._data);
   }
 
-  fromJSON(divId, json) {
-    this._data = JSON.parse(json).map((row) => {
-      return IndividualReporteProductoProcesoData.fromJSON(row);
-    });
-    this.toDiv(divId);
+  fromJSON(json) {
+    this.setData(
+      JSON.parse(json).map((row) => {
+        return IndividualReporteProductoProcesoData.fromJSON(row);
+      })
+    );
   }
 }

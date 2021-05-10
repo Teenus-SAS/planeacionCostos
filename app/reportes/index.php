@@ -26,6 +26,10 @@ include(PARTIALS_PATH . "verify_session.php") ?>
   <link rel="stylesheet" href="./../../node_modules/elegant-crud-datatable/build/index.css">
   <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
   <style>
+    
+    html {
+      scroll-behavior: smooth;
+    }
     .v-center {
       min-height: 200px;
       display: flex;
@@ -66,7 +70,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
 
     <div class="main-panel">
       <?php include(PARTIALS_PATH . "navbar.php") ?>
-      <div class="content">
+      <div class="content"  id="main-panel-content">
         <div id="crud-content" class="row">
           <h1 class="text-xl text-center mb-1 w-full col-12">Reportes</h1>
           <div id="new-reporte-proceso" class="col-4 my-3">      

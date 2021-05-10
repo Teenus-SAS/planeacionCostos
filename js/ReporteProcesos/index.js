@@ -2,10 +2,18 @@ import { fillSelect } from "../utils/fillSelect.js";
 import { GetAllProductos } from "../Productos/application/get_all_productos/GetAllProductos.js";
 import { ReporteProductoProcesoDataTable } from "./elements/reportes_datatable/ReporteProductoProcesoDataTable.js";
 import { GenerateReporteProductoProcesoButton } from "./elements/ver_reporte_button/GenerateReporteProductoProcesoButton.js";
-import { DescargarPdfReporteProductoProcesoButton } from "./elements/descargar_reporte_pdf_button/DescargarPdfReporteProductoProcesoButton.js";
 import { IndividualReporteProductoProcesoDataTable } from "./elements/individual_reporte_datatable/IndividualReporteProductoProcesoDataTable.js";
+import { DescargarPdfReporteProductoProcesoButton } from "./elements/download_new_reporte_form/DescargarPdfReporteProductoProcesoButton.js";
+import { InfoNuevoReporteProductoProcesoForm } from "./elements/download_new_reporte_form/InfoNuevoReporteProductoProcesoForm.js";
 
+const infoNuevoReporte = new InfoNuevoReporteProductoProcesoForm();
 const reportesDataTable = new ReporteProductoProcesoDataTable();
+const individualReporteDataTable = new IndividualReporteProductoProcesoDataTable(
+  "reporte-procesos-table",
+  [],
+  {}
+);
+
 $(document).on("click", ".link-borrar-reporte-pprocesos", function (e) {
   e.preventDefault();
   reportesDataTable.delete(this.id);
@@ -13,6 +21,16 @@ $(document).on("click", ".link-borrar-reporte-pprocesos", function (e) {
 $(document).on("click", ".link-descargar-reporte-pprocesos", function (e) {
   e.preventDefault();
   reportesDataTable.download(this.id);
+});
+$(document).on("click", ".link-ver-reporte-pprocesos", function (e) {
+  e.preventDefault();
+  reportesDataTable.view(this.id, (jsonData, consecutivo, cliente, ciudad) => {
+    individualReporteDataTable.fromJSON(jsonData);
+    individualReporteDataTable.toDiv("reporte-procesos-table");
+    individualReporteDataTable.show();
+    infoNuevoReporte.fill(consecutivo, cliente, ciudad);
+    infoNuevoReporte.disabledForm();
+  });
 });
 
 const descargarPdfReporteButton = new DescargarPdfReporteProductoProcesoButton(
@@ -33,21 +51,21 @@ const descargarPdfReporteButton = new DescargarPdfReporteProductoProcesoButton(
     reportesDataTable.reload();
   },
   () => {
-    clearInfoReporteForm();
-    $("#reporte-procesos-content").attr("hidden", "true");
+    infoNuevoReporte.clearForm();
+    individualReporteDataTable.hide();
   }
 );
 
 const generarReporteButton = new GenerateReporteProductoProcesoButton(
   "new-reporte-procesos-button",
   (dataTable) => {
-    const table = new IndividualReporteProductoProcesoDataTable(dataTable, {});
-    table.toDiv("reporte-procesos-table");
+    individualReporteDataTable.setData(dataTable);
+    infoNuevoReporte.activeForm();
+    individualReporteDataTable.show();
 
-    descargarPdfReporteButton.setData({ pdfdata: table.toJSON() });
-
-    $("#reporte-procesos-content").attr("hidden", false);
-    document.getElementById("reporte-procesos-content").scrollIntoView();
+    descargarPdfReporteButton.setData({
+      pdfdata: individualReporteDataTable.toJSON(),
+    });
   },
   (errors) => {
     $.notify(
@@ -103,10 +121,4 @@ function activeReportesItemsSidebar() {
   $("#sidebar-parametrizar-item").removeClass("active");
   $("#sidebar-analisis-item").removeClass("active");
   $("#sidebar-costear-item").removeClass("active");
-}
-
-function clearInfoReporteForm() {
-  $("#input-consecutivo-reporte").val("");
-  $("#input-cliente-reporte").val("");
-  $("#input-ciudad-reporte").val("");
 }
