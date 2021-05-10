@@ -1,12 +1,14 @@
 import { fillSelect } from "../utils/fillSelect.js";
 import { GetAllProductos } from "../Productos/application/get_all_productos/GetAllProductos.js";
 import { ReporteProductoProcesoDataTable } from "./elements/reportes_datatable/ReporteProductoProcesoDataTable.js";
-import { GenerateReporteProductoProcesoButton } from "./elements/ver_reporte_button/GenerateReporteProductoProcesoButton.js";
+import { GenerateReporteProductoProcesoButton } from "./elements/generate_new_reporte_form/GenerateReporteProductoProcesoButton.js";
 import { IndividualReporteProductoProcesoDataTable } from "./elements/individual_reporte_datatable/IndividualReporteProductoProcesoDataTable.js";
 import { DescargarPdfReporteProductoProcesoButton } from "./elements/download_new_reporte_form/DescargarPdfReporteProductoProcesoButton.js";
 import { InfoNuevoReporteProductoProcesoForm } from "./elements/download_new_reporte_form/InfoNuevoReporteProductoProcesoForm.js";
+import { GenerateNewReporteForm } from "./elements/generate_new_reporte_form/GenerateNewReporteForm.js";
 
-const infoNuevoReporte = new InfoNuevoReporteProductoProcesoForm();
+const generateNuevoReporteForm = new GenerateNewReporteForm();
+const infoNuevoReporteForm = new InfoNuevoReporteProductoProcesoForm();
 const reportesDataTable = new ReporteProductoProcesoDataTable();
 const individualReporteDataTable = new IndividualReporteProductoProcesoDataTable(
   "reporte-procesos-table",
@@ -27,8 +29,8 @@ $(document).on("click", ".link-ver-reporte-pprocesos", function (e) {
   reportesDataTable.view(this.id, (jsonData, consecutivo, cliente, ciudad) => {
     individualReporteDataTable.fromJSON(jsonData);
     individualReporteDataTable.toDiv("reporte-procesos-table");
-    infoNuevoReporte.fill(consecutivo, cliente, ciudad);
-    infoNuevoReporte.disabledForm();
+    infoNuevoReporteForm.fill(consecutivo, cliente, ciudad);
+    infoNuevoReporteForm.disabledForm();
     individualReporteDataTable.show();
   });
 });
@@ -51,7 +53,7 @@ const descargarPdfReporteButton = new DescargarPdfReporteProductoProcesoButton(
     reportesDataTable.reload();
   },
   () => {
-    infoNuevoReporte.clearForm();
+    infoNuevoReporteForm.clearForm();
     individualReporteDataTable.hide();
   }
 );
@@ -59,8 +61,9 @@ const descargarPdfReporteButton = new DescargarPdfReporteProductoProcesoButton(
 const generarReporteButton = new GenerateReporteProductoProcesoButton(
   "new-reporte-procesos-button",
   (dataTable) => {
+    generateNuevoReporteForm.clearForm();
     individualReporteDataTable.setData(dataTable);
-    infoNuevoReporte.activeForm();
+    infoNuevoReporteForm.activeForm();
     individualReporteDataTable.show();
 
     descargarPdfReporteButton.setData({
