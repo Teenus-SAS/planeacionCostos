@@ -114,9 +114,12 @@ include(PARTIALS_PATH . "verify_session.php") ?>
             </div>
           </div>
         </div>
-        <div id="reporte-procesos-content" class="col-12" hidden="true">
+        <div id="reporte-procesos-content" class="col-12 card relative" hidden="true">
+          <div id="close-button" class="mt-2 absolute cursor-pointer">
+            <i class="nc-icon nc-simple-remove text-2xl"></i>
+          </div>
           <div class="row align-items-around">
-            <div id="reporte-procesos-table" class="col-8 pr-5">
+            <div id="reporte-procesos-table" class="col-8 pr-5 mt-4">
             </div>
             <div id="generate-reporte-pdf" class="col-4 pt-2">
               <div id="form-datos-reporte-procesos">

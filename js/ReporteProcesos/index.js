@@ -27,9 +27,9 @@ $(document).on("click", ".link-ver-reporte-pprocesos", function (e) {
   reportesDataTable.view(this.id, (jsonData, consecutivo, cliente, ciudad) => {
     individualReporteDataTable.fromJSON(jsonData);
     individualReporteDataTable.toDiv("reporte-procesos-table");
-    individualReporteDataTable.show();
     infoNuevoReporte.fill(consecutivo, cliente, ciudad);
     infoNuevoReporte.disabledForm();
+    individualReporteDataTable.show();
   });
 });
 
@@ -100,6 +100,10 @@ $("#input-cliente-reporte").on("input", function () {
 
 $("#input-ciudad-reporte").on("input", function () {
   descargarPdfReporteButton.setData({ ciudad: this.value });
+});
+
+$("#close-button").on("click", () => {
+  individualReporteDataTable.hide();
 });
 
 GetAllProductos((productos) => {
