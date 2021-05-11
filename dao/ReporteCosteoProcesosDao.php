@@ -60,8 +60,10 @@ class ReporteCosteoProcesosDao {
                 */
     } else {
       $saved = true;
-      $query = "INSERT INTO `reportes_productos_procesos` (`id_reporte`, `id_empresa`, `consecutivo_reporte`, `ciudad_reporte`, `cliente_reporte`, `id_producto`, `cantidad`, `reporte_pdfdata`) 
-                VALUES (NULL, '" . $reporte->getIdCompany() . "', '" . $reporte->getConsecutivo() . "', '" . $reporte->getCiudad() . "', '" . $reporte->getCliente() . "', '" . $reporte->getProducto()->getId() . "', '" . $reporte->getCantidad() . "', '" . $reporte->getPdfData() . "')";
+      date_default_timezone_set('America/Bogota');
+      $currentDate = date('Y-m-d H:i:s');
+      $query = "INSERT INTO `reportes_productos_procesos` (`id_reporte`, `id_empresa`, `consecutivo_reporte`, `ciudad_reporte`, `cliente_reporte`, `id_producto`, `cantidad`, `reporte_pdfdata`, `reporte_creation_date`) 
+                VALUES (NULL, '" . $reporte->getIdCompany() . "', '" . $reporte->getConsecutivo() . "', '" . $reporte->getCiudad() . "', '" . $reporte->getCliente() . "', '" . $reporte->getProducto()->getId() . "', '" . $reporte->getCantidad() . "', '" . $reporte->getPdfData() . "', '$currentDate')";
     }
     $this->db->consult($query);
     return $saved;
