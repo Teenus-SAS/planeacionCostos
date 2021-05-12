@@ -3,33 +3,66 @@ import { DataTableColumnDefinition } from "../../../../../node_modules/elegant-c
 import { DataTableColumnHeader } from "../../../../../node_modules/elegant-crud-datatable/build/DataTableColumn/DataTableColumnHeader.js";
 import { DataTableColumnBody } from "../../../../../node_modules/elegant-crud-datatable/build/DataTableColumn/DataTableColumnBody.js";
 import { IndividualReporteProductoProcesoData } from "./definitions/IndividualReporteProductoProcesoData.js";
+import { capitalizeString } from "../../../../utils/capitalizeString.js";
 
 const columnDefinitions = [
   new DataTableColumnDefinition(
-    new DataTableColumnHeader("Costos de Procesos", { content: ["text-2xl"] }),
+    new DataTableColumnHeader("Costos de Procesos", {
+      content: [
+        "text-normal",
+        "border-transparent",
+        "text-primary",
+        "text-base",
+        "font-bold",
+      ],
+    }),
     new DataTableColumnBody(
-      undefined,
-      { content: ["text-xl"], cell: ["text-left"] },
+      (data) => capitalizeString(data),
+      { content: [], cell: ["text-left"] },
       6
     )
   ),
   new DataTableColumnDefinition(
-    new DataTableColumnHeader("Minutos", { content: ["text-2xl"] }),
-    new DataTableColumnBody(undefined, { content: ["text-xl"], cell: [] }, 250)
+    new DataTableColumnHeader("Minutos", {
+      content: [
+        "text-normal",
+        "border-transparent",
+        "text-primary",
+        "text-base",
+        "font-bold",
+      ],
+    }),
+    new DataTableColumnBody(undefined, { content: [], cell: [] }, 250)
   ),
   new DataTableColumnDefinition(
-    new DataTableColumnHeader("Costo/min", { content: ["text-2xl"] }),
+    new DataTableColumnHeader("Costo/min", {
+      content: [
+        "text-normal",
+        "border-transparent",
+        "text-primary",
+        "text-base",
+        "font-bold",
+      ],
+    }),
     new DataTableColumnBody(
       (data) => PriceParser.toString(data, true).strPrice,
-      { content: ["text-xl"], cell: ["text-right"] },
+      { content: [], cell: ["text-right"] },
       250
     )
   ),
   new DataTableColumnDefinition(
-    new DataTableColumnHeader("Total", { content: ["text-2xl"] }),
+    new DataTableColumnHeader("Total", {
+      content: [
+        "text-normal",
+        "border-transparent",
+        "text-primary",
+        "text-base",
+        "font-bold",
+      ],
+    }),
     new DataTableColumnBody(
       (data) => PriceParser.toString(data, true).strPrice,
-      { content: ["text-xl"], cell: ["text-right"] },
+      { content: [], cell: ["text-right"] },
       250
     )
   ),
@@ -38,7 +71,7 @@ const columnDefinitions = [
 export class IndividualReporteProductoProcesoDataTable extends DataTable {
   constructor(divId, data, createOptions) {
     super(columnDefinitions, data, createOptions, {
-      table: ["bg-ligth"],
+      table: ["bg-ligth", "table", "dataTable"],
     });
     this.divId = divId;
   }

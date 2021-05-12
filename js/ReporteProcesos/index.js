@@ -84,12 +84,19 @@ const descargarPdfReporteButton = new DescargarPdfReporteProductoProcesoButton(
   },
   () => {
     reportesDataTable.reload();
+    $("#form-datos-reporte-procesos").modal("hide");
   },
   () => {
     infoNuevoReporteForm.clearForm();
     individualReporteDataTable.hide();
+    $("#form-datos-reporte-procesos").modal("hide");
   }
 );
+
+$("#crear-pdf-reporte-procesos").on("click", (e) => {
+  e.preventDefault();
+  $("#form-datos-reporte-procesos").modal();
+});
 
 const generarReporteButton = new GenerateReporteProductoProcesoButton(
   "new-reporte-procesos-button",
@@ -101,7 +108,7 @@ const generarReporteButton = new GenerateReporteProductoProcesoButton(
     serviciosExternosIndividualReporteDataTable.setData(dataTableDetalle);
     materiasIndividualReporteDataTable.setData([
       new MateriasIndividualReporteData(
-        "COSTOS DE MATERIA PRIMA REQUERIDA",
+        "Costos de materia prima requerida",
         totalMaterias
       ),
     ]);
@@ -134,6 +141,9 @@ const generarReporteButton = new GenerateReporteProductoProcesoButton(
 $("#select-producto-reporte").on("change", function () {
   generarReporteButton.setData(this.value, generarReporteButton.cantidad);
   descargarPdfReporteButton.setData({ productoId: this.value });
+  $("#input-cantidad-producto-reporte").val(1);
+  generarReporteButton.setData(generarReporteButton.productoId, 1);
+  descargarPdfReporteButton.setData({ cantidad: 1 });
 });
 
 $("#input-cantidad-producto-reporte").on("input", function () {

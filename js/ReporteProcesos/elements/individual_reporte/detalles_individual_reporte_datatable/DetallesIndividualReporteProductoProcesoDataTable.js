@@ -6,7 +6,15 @@ import { DetallesIndividualReporteData } from "./data/DetallesIndividualReporteD
 
 const columnDefinitions = [
   new DataTableColumnDefinition(
-    new DataTableColumnHeader("Concepto", { content: [""] }),
+    new DataTableColumnHeader("Concepto", {
+      content: [
+        "text-normal",
+        "border-transparent",
+        "text-primary",
+        "text-base",
+        "font-bold",
+      ],
+    }),
     new DataTableColumnBody(
       undefined,
       { content: ["font-normal"], cell: ["text-left"] },
@@ -14,7 +22,15 @@ const columnDefinitions = [
     )
   ),
   new DataTableColumnDefinition(
-    new DataTableColumnHeader("Monto"),
+    new DataTableColumnHeader("Monto", {
+      content: [
+        "text-normal",
+        "border-transparent",
+        "text-primary",
+        "text-base",
+        "font-bold",
+      ],
+    }),
     new DataTableColumnBody(
       (value) => PriceParser.toString(value, true).strPrice,
       { cell: ["text-right"] },
@@ -26,7 +42,7 @@ const columnDefinitions = [
 export class DetallesIndividualReporteProductoProcesoDataTable extends DataTable {
   constructor(divId, data, createOptions) {
     super(columnDefinitions, data, createOptions, {
-      table: ["bg-ligth"],
+      table: ["bg-ligth", "table", "dataTable"],
     });
     this.divId = divId;
   }

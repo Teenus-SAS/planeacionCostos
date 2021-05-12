@@ -310,7 +310,6 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                       <div class="card-header">
                       </div>
                       <div class="card-body">
-                        <!-- <button class="btn btn-danger" id="delete-materia-prima">Eliminar</button> -->
                         <div class="table-responsive tableFixHead">
                           <table class="table" id="tableProductoMateriaPrima">
                             <thead class="text-primary">

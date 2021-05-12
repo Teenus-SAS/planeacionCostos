@@ -30,6 +30,14 @@ include(PARTIALS_PATH . "verify_session.php") ?>
     html {
       scroll-behavior: smooth;
     }
+    th,
+    td {
+      padding: 4px 16px;
+    }
+
+    th {
+      background: #eee;
+    }
     .v-center {
       min-height: 200px;
       display: flex;
@@ -88,7 +96,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                   <div class="col-12">
                     <div class="form-group">
                       <label class="w-full text-center col-form-label">Cantidad</label>
-                      <input class="form-control" id="input-cantidad-producto-reporte" name="cantidad" type="number"/>
+                      <input class="form-control text-center" id="input-cantidad-producto-reporte" name="cantidad" type="number"/>
                     </div>
                   </div>
                   <div class="col-12">
@@ -120,7 +128,10 @@ include(PARTIALS_PATH . "verify_session.php") ?>
           </div>
           <div class="row align-items-around">
             <div id="generate-reporte-pdf" class="col-12 pt-5">
-              <div id="form-datos-reporte-procesos">
+              <div class="col-auto">
+                <button id="crear-pdf-reporte-procesos" class="btn btn-primary" type="submit">Crear PDF</button>
+              </div>
+              <div id="form-datos-reporte-procesos" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
                 <form>
                 <option id="option-id-producto-reporte" hidden="true" value=""></option>
                   <div class="card py-2">
@@ -157,7 +168,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
               <h2 class="text-2xl text-center font-ligth">Servicios Externos</h2>
               <div id="servicios-externos-reporte-procesos-table"></div>
               <h2 class="text-2xl text-center font-ligth">Costeo</h2>
-              <div id="costeo-reporte-procesos-table"></div>
+              <div id="costeo-reporte-procesos-table" class="w-90 mx-auto"></div>
             </div>
           </div>
         </div>

@@ -1,3 +1,4 @@
+import { DataTableSubgroupSeparator } from "../../../../node_modules/elegant-crud-datatable/build/DataTableSubgroupSeparator.js";
 import { GetServiciosExternosByProductoId } from "../../../ServiciosExternos/application/get_by_producto_id/GetServiciosExternosByProductoId.js";
 import { ServiciosExternosIndividualReporteData } from "../../elements/individual_reporte/serviciosexternos_individual_reporte_datatable/data/ServiciosExternosIndividualReporteData.js";
 
@@ -22,6 +23,18 @@ export function GetServiciosExternosReporteProductoProcesoByProductoId(
         return total + parseFloat(servicio.costo);
       }, 0);
     }
+    dataTable.push(
+      new DataTableSubgroupSeparator(
+        "TotalServicios",
+        `Total Servicios Externos: ${
+          PriceParser.toString(serviciosExternosCostoTotal, true).strPrice
+        }`,
+        [],
+        ["text-right", "pr-3"],
+        undefined,
+        "white"
+      )
+    );
 
     cb(dataTable, serviciosExternosCostoTotal);
   });

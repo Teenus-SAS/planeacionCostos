@@ -16,22 +16,40 @@ export function GetCosteosReporteByProductoId(
       GetEmpresa((empresa) => {
         let dataTable = [];
         dataTable.push(
-          new CosteosIndividualReporteData(`Costo Mano de Obra`, totalProcesos)
+          new CosteosIndividualReporteData(
+            `Costo Mano de Obra`,
+            0,
+            totalProcesos
+          )
         );
         dataTable.push(
-          new CosteosIndividualReporteData(`Materia Prima`, totalMateriasPrimas)
+          new CosteosIndividualReporteData(
+            `Materia Prima`,
+            0,
+            totalMateriasPrimas
+          )
         );
         dataTable.push(
-          new CosteosIndividualReporteData(`Carga Fabril`, totalCargasFabriles)
+          new CosteosIndividualReporteData(
+            `Carga Fabril`,
+            0,
+            totalCargasFabriles
+          )
         );
         const costoProduccion =
           totalProcesos + totalMateriasPrimas + totalCargasFabriles;
         dataTable.push(
-          new CosteosIndividualReporteData(`Costo Producción`, costoProduccion)
+          new CosteosIndividualReporteData(
+            `Costo Producción`,
+            0,
+            costoProduccion,
+            ["font-semibold"]
+          )
         );
         dataTable.push(
           new CosteosIndividualReporteData(
             `Servicios Externos`,
+            0,
             totalServiciosExternos
           )
         );
@@ -48,6 +66,7 @@ export function GetCosteosReporteByProductoId(
         dataTable.push(
           new CosteosIndividualReporteData(
             `Recuperación gastos y costos`,
+            0,
             recuperacionGastosCostos
           )
         );
@@ -56,32 +75,45 @@ export function GetCosteosReporteByProductoId(
         dataTable.push(
           new CosteosIndividualReporteData(
             `Costo Total Producto`,
-            costoTotalProducto
+            0,
+            costoTotalProducto,
+            ["font-semibold"]
           )
         );
         let margenUtilidad =
           (parseFloat(empresa.profitabilityMargin) / 100) * costoTotalProducto;
 
         dataTable.push(
-          new CosteosIndividualReporteData(`Margen de Utilidad`, margenUtilidad)
+          new CosteosIndividualReporteData(
+            `Margen de Utilidad`,
+            parseFloat(empresa.profitabilityMargin),
+            margenUtilidad
+          )
         );
         let costoAntescomision = margenUtilidad + costoTotalProducto;
         dataTable.push(
           new CosteosIndividualReporteData(
             `Costo antes de comisión`,
+            0,
             costoAntescomision
           )
         );
         let comisionVentas =
           (parseFloat(empresa.salesCommission) / 100) * costoAntescomision;
         dataTable.push(
-          new CosteosIndividualReporteData(`Comisión ventas %`, comisionVentas)
+          new CosteosIndividualReporteData(
+            `Comisión ventas %`,
+            parseFloat(empresa.salesCommission),
+            comisionVentas
+          )
         );
         let precioVentaAntesIVA = comisionVentas + costoAntescomision;
         dataTable.push(
           new CosteosIndividualReporteData(
             `Precio de venta antes de IVA`,
-            precioVentaAntesIVA
+            0,
+            precioVentaAntesIVA,
+            ["font-semibold"]
           )
         );
         cb(dataTable);

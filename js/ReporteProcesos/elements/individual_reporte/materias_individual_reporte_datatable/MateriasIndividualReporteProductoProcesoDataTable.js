@@ -6,18 +6,30 @@ import { MateriasIndividualReporteData } from "./data/MateriasIndividualReporteD
 
 const columnDefinitions = [
   new DataTableColumnDefinition(
-    new DataTableColumnHeader("Costos de Procesos", { content: ["text-2xl"] }),
-    new DataTableColumnBody(
-      undefined,
-      { content: ["text-xl"], cell: ["text-left"] },
-      6
-    )
+    new DataTableColumnHeader("Costos de Procesos", {
+      content: [
+        "text-normal",
+        "border-transparent",
+        "text-primary",
+        "text-base",
+        "font-bold",
+      ],
+    }),
+    new DataTableColumnBody(undefined, { content: [], cell: ["text-left"] }, 6)
   ),
   new DataTableColumnDefinition(
-    new DataTableColumnHeader("Total", { content: ["text-2xl"] }),
+    new DataTableColumnHeader("Total", {
+      content: [
+        "text-normal",
+        "border-transparent",
+        "text-primary",
+        "text-base",
+        "font-bold",
+      ],
+    }),
     new DataTableColumnBody(
       (value) => PriceParser.toString(value, true).strPrice,
-      { content: ["text-xl"], cell: ["text-right"] },
+      { content: [], cell: ["text-right"] },
       250
     )
   ),
@@ -26,7 +38,7 @@ const columnDefinitions = [
 export class MateriasIndividualReporteProductoProcesoDataTable extends DataTable {
   constructor(divId, data, createOptions) {
     super(columnDefinitions, data, createOptions, {
-      table: ["bg-ligth"],
+      table: ["bg-ligth", "table", "dataTable"],
     });
     this.divId = divId;
   }

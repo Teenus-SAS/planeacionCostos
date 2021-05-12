@@ -27,7 +27,6 @@ include(PARTIALS_PATH . "verify_session.php");
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
   <link rel="stylesheet" href="/vendor/froala-editor/froala_editor.pkgd.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css">
-  <link rel="stylesheet" href="./../../node_modules/elegant-crud-datatable/build/index.css">
 </head>
 
 <body class="">
@@ -685,7 +684,7 @@ include(PARTIALS_PATH . "verify_session.php");
                             </div>
                           </div>
                           <div class="col-md-2 col-2">
-                            <button class="btn btn-info" type="button" data-toggle="modal" data-target="#modalFactorPrestacional">></button>
+                            <button class="btn btn-info" type="button" data-toggle="modal" data-target="#modalFactorPrestacional"></button>
                           </div>
                         </div>
 

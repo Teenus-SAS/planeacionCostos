@@ -7,21 +7,43 @@ import { CosteosIndividualReporteData } from "./data/CosteosIndividualReporteDat
 const columnDefinitions = [
   new DataTableColumnDefinition(
     new DataTableColumnHeader("Detalle", {
-      content: ["text-2xl", "font-semibold"],
+      content: [
+        "text-normal",
+        "border-transparent",
+        "text-primary",
+        "text-base",
+        "font-bold",
+      ],
     }),
     new DataTableColumnBody(
       undefined,
-      { content: [""], cell: ["text-left", "text-xl"] },
+      { content: [""], cell: ["text-left"] },
       6
     )
   ),
   new DataTableColumnDefinition(
+    new DataTableColumnHeader("Porcentaje", {
+      content: ["text-xl", "border-transparent", "text-transparent"],
+    }),
+    new DataTableColumnBody(
+      (data) => (data == "0" ? "" : `${data}%`),
+      { cell: ["text-right"], content: [] },
+      250
+    )
+  ),
+  new DataTableColumnDefinition(
     new DataTableColumnHeader("Total", {
-      content: ["text-2xl", "font-semibold"],
+      content: [
+        "text-normal",
+        "border-transparent",
+        "text-primary",
+        "text-base",
+        "font-bold",
+      ],
     }),
     new DataTableColumnBody(
       (value) => PriceParser.toString(value, true, 0).strPrice,
-      { cell: ["text-right", "text-xl"], content: ["font-semibold"] },
+      { cell: ["text-right"], content: [] },
       250
     )
   ),
@@ -30,7 +52,7 @@ const columnDefinitions = [
 export class CosteosIndividualReporteProductoProcesoDataTable extends DataTable {
   constructor(divId, data, createOptions) {
     super(columnDefinitions, data, createOptions, {
-      table: ["bg-ligth"],
+      table: ["bg-ligth", "table", "dataTable"],
     });
     this.divId = divId;
   }
