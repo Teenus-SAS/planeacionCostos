@@ -50,6 +50,7 @@ export class DescargarPdfReporteProductoProcesoButton extends DomElement {
   }
 
   validateData() {
+    console.log(this._data);
     return (
       this.consecutivo &&
       this.cliente &&

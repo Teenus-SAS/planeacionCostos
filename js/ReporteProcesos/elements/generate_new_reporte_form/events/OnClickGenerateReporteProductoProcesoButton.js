@@ -1,12 +1,28 @@
-import { GetReporteProductoProcesosByProductoId } from "../../../application/get_reporte_by_producto_id/GetReporteProductoProcesosByProductoId.js";
+import { GetServiciosExternosReporteProductoProcesoByProductoId } from "../../../application/get_servicios_externos_reporte_by_producto_id/GetServiciosExternosReporteProductoProcesoByProductoId.js";
+import { GenerateReporteProductoProcesosByProductoId } from "../../../application/generate_reporte_by_producto_id/GenerateReporteProductoProcesosByProductoId.js";
+import { GetCosteosReporteByProductoId } from "../../../application/get_costeos_reporte_by_producto_id/GetCosteosReporteByProductoId.js";
 
 export function OnClickGenerateReporteProductoProcesoButton(buttonData, cb) {
-  GetReporteProductoProcesosByProductoId(
+  GenerateReporteProductoProcesosByProductoId(
     buttonData.productoId,
     buttonData.cantidad,
-    (data) => {
-      $("#option-id-producto-reporte").val(buttonData.productoId);
-      cb(data);
+    (data, total, totalMateriasPrimas, totalCargasFabriles) => {
+      GetServiciosExternosReporteProductoProcesoByProductoId(
+        buttonData.productoId,
+        (dataTableDetalle, totalServiciosExternos) => {
+          $("#option-id-producto-reporte").val(buttonData.productoId);
+          GetCosteosReporteByProductoId(
+            buttonData.productoId,
+            total,
+            totalServiciosExternos,
+            totalMateriasPrimas,
+            totalCargasFabriles,
+            (dataCosteos) => {
+              cb(data, dataTableDetalle, totalMateriasPrimas, dataCosteos);
+            }
+          );
+        }
+      );
     }
   );
 }

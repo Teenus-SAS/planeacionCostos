@@ -2,40 +2,28 @@ import { DataTable } from "../../../../node_modules/elegant-crud-datatable/build
 import { DataTableColumnDefinition } from "../../../../node_modules/elegant-crud-datatable/build/DataTableColumn/DataTableColumnDefinition.js";
 import { DataTableColumnHeader } from "../../../../node_modules/elegant-crud-datatable/build/DataTableColumn/DataTableColumnHeader.js";
 import { DataTableColumnBody } from "../../../../node_modules/elegant-crud-datatable/build/DataTableColumn/DataTableColumnBody.js";
-import { IndividualReporteProductoProcesoData } from "./definitions/IndividualReporteProductoProcesoData.js";
+import { DetallesIndividualReporteData } from "./data/DetallesIndividualReporteData.js";
 
 const columnDefinitions = [
   new DataTableColumnDefinition(
-    new DataTableColumnHeader("Proceso", { content: [""] }),
+    new DataTableColumnHeader("Concepto", { content: [""] }),
     new DataTableColumnBody(
       undefined,
-      { content: ["font-normal", "text-blue-900"], cell: ["text-left"] },
+      { content: ["font-normal"], cell: ["text-left"] },
       6
     )
   ),
   new DataTableColumnDefinition(
-    new DataTableColumnHeader("Minutos"),
-    new DataTableColumnBody(undefined, {}, 250)
-  ),
-  new DataTableColumnDefinition(
-    new DataTableColumnHeader("Costo/min"),
+    new DataTableColumnHeader("Monto"),
     new DataTableColumnBody(
-      (data) => PriceParser.toString(data, true).strPrice,
-      { cell: ["text-right", "pr-2"] },
-      250
-    )
-  ),
-  new DataTableColumnDefinition(
-    new DataTableColumnHeader("Total"),
-    new DataTableColumnBody(
-      (data) => PriceParser.toString(data, true).strPrice,
+      (value) => PriceParser.toString(value, true).strPrice,
       { cell: ["text-right"] },
       250
     )
   ),
 ];
 
-export class IndividualReporteProductoProcesoDataTable extends DataTable {
+export class DetallesIndividualReporteProductoProcesoDataTable extends DataTable {
   constructor(divId, data, createOptions) {
     super(columnDefinitions, data, createOptions, {
       table: ["bg-ligth"],
@@ -43,18 +31,9 @@ export class IndividualReporteProductoProcesoDataTable extends DataTable {
     this.divId = divId;
   }
 
-  show() {
-    $("#reporte-procesos-content").attr("hidden", false);
-    document.getElementById("reporte-procesos-content").scrollIntoView();
-  }
-
-  hide() {
-    $("#reporte-procesos-content").attr("hidden", "true");
-    document.getElementById("main-panel-content").scrollIntoView();
-  }
-
   setData(_data) {
     this._data = _data;
+    console.log(this._data);
     this.toDiv(this.divId);
   }
 
@@ -65,7 +44,7 @@ export class IndividualReporteProductoProcesoDataTable extends DataTable {
   fromJSON(json) {
     this.setData(
       JSON.parse(json).map((row) => {
-        return IndividualReporteProductoProcesoData.fromJSON(row);
+        return DetallesIndividualReporteData.fromJSON(row);
       })
     );
   }

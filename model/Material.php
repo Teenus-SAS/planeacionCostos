@@ -1,11 +1,4 @@
 <?php
-/**
- * Clase modelo de material
- * 
- * Teenus SAS <info@teenus.com.co>
- * @package model
- * @github MoraHol
- */
 class Material implements JsonSerializable
 {
   private $id;
@@ -15,14 +8,7 @@ class Material implements JsonSerializable
   private $cost;
   private $unit;
 
-  /**
-   * obtiene el id del material
-   *
-   * @access public
-   * @return integer
-   */
-  public function getId()
-  {
+  public function getId() {
     return $this->id;
   }
 

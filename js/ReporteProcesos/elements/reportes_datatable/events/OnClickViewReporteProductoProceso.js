@@ -2,6 +2,11 @@ import { GetReporteProductoProcesosByConsecutivo } from "../../../application/ge
 
 export function OnClickViewReporteProductoProceso(consecutivo, cb) {
   GetReporteProductoProcesosByConsecutivo(consecutivo, (reporte) => {
-    cb(reporte.pdfData, reporte.consecutivo, reporte.cliente, reporte.ciudad);
+    cb(
+      JSON.parse(reporte.pdfData),
+      reporte.consecutivo,
+      reporte.cliente,
+      reporte.ciudad
+    );
   });
 }

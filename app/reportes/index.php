@@ -119,9 +119,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
             <i class="nc-icon nc-simple-remove text-2xl"></i>
           </div>
           <div class="row align-items-around">
-            <div id="reporte-procesos-table" class="col-8 pr-5 mt-4">
-            </div>
-            <div id="generate-reporte-pdf" class="col-4 pt-2">
+            <div id="generate-reporte-pdf" class="col-12 pt-5">
               <div id="form-datos-reporte-procesos">
                 <form>
                 <option id="option-id-producto-reporte" hidden="true" value=""></option>
@@ -142,13 +140,24 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                           <input id="input-ciudad-reporte" class="form-control" type="text" name="ciudad" placeholder="Ciudad"/>
                         </div>
                       </div>
-                    </div>
-                    <div class="col-6">
-                      <button id="generar-pdf-reporte-procesos" class="btn btn-primary" type="submit">Generar pdf</button>
+                      <div class="col-11">
+                        <button id="generar-pdf-reporte-procesos" class="btn btn-primary" type="submit">Generar PDF y guardar reporte</button>
+                      </div>
                     </div>
                   </div>
                 </form>
               </div>
+            </div>
+            <div id="individual-reporte-procesos" class="col-12 pr-5 mt-4">
+              <h2 class="text-2xl text-center font-normal py-3">Procesos</h2>
+              <div id="reporte-procesos-table">
+              </div>
+              <h2 class="text-2xl text-center font-ligth">Materia Prima</h2>
+              <div id="materias-reporte-procesos-table"></div>
+              <h2 class="text-2xl text-center font-ligth">Servicios Externos</h2>
+              <div id="servicios-externos-reporte-procesos-table"></div>
+              <h2 class="text-2xl text-center font-ligth">Costeo</h2>
+              <div id="costeo-reporte-procesos-table"></div>
             </div>
           </div>
         </div>

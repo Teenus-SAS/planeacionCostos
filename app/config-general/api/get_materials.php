@@ -1,43 +1,5 @@
 <?php
 
-/**
- * @author Teenus SAS>
- * @github Teenus SAS
- * Este Script obtener todos los materiales de la empresa 
- * Se llama por metodo 
- * @method GET
- * 
- * @responsesCodes
- *  200: en caso de que el calculo sea exitoso
- *  500: en caso de error en el servidor
- *  401: en caso de que no exista una sesion iniciada
- * 
- * @structureRepsonse 
- *  [
- *    {
- *      "id": number,
- *      "IdCompany": number,
- *      "description": string,
- *      "cost": number,
- *      "unit": number
- *    },
- *    {
- *      "id": number,
- *      "IdCompany": number,
- *      "description": string,
- *      "cost": number,
- *      "unit": number
- *    },
- *    {
- *      "id": number,
- *      "IdCompany": number,
- *      "description": string,
- *      "cost": number,
- *      "unit": number
- *    }
- *    ]
- */
-
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
 require_once DB_PATH . "DBOperator.php";
 require_once DB_PATH . "env.php";

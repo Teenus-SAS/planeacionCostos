@@ -4,7 +4,12 @@ import { GetReporteProductoProcesosByConsecutivo } from "../get_reporte_by_conse
 export function DownloadReporteInPdfByConsecutivo(consecutivo) {
   GetReporteProductoProcesosByConsecutivo(consecutivo, (reporte) => {
     if (reporte) {
-      DownloadReporteInPdf(reporte.cliente, reporte.ciudad, consecutivo);
+      DownloadReporteInPdf(
+        reporte.producto.id,
+        reporte.cliente,
+        reporte.ciudad,
+        consecutivo
+      );
     }
   });
 }

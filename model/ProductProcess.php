@@ -10,15 +10,6 @@ class ProductProcess implements JsonSerializable {
   private $timeOperacion;
   private $process;
 
-  // --------------------------------------------------------------------------
-  //    Metodos Getters y Setters
-  // --------------------------------------------------------------------------
-
-  /**
-   * Obtiene el id del proceso de un producto
-   *
-   * @return integer
-   */
   public function getId()
   {
     return $this->id;

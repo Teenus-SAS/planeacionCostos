@@ -1,4 +1,4 @@
-import { DataForTable } from "../../../../../node_modules/elegant-crud-datatable/build/DataForTable.js";
+import { DataForTable } from "../../../../../../node_modules/elegant-crud-datatable/build/DataForTable.js";
 
 export class IndividualReporteProductoProcesoData extends DataForTable {
   constructor(productoProceso, cantidadMinuto, costoMinuto, total) {
@@ -20,7 +20,7 @@ export class IndividualReporteProductoProcesoData extends DataForTable {
 
   toObject() {
     return {
-      Proceso: this.productoProceso,
+      "Costos de Procesos": this.productoProceso,
       Minutos: this.cantidadMinuto,
       "Costo/min": this.costoMinuto,
       Total: this.total,

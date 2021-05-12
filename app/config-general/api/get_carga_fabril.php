@@ -1,30 +1,5 @@
 <?php
 
-/**
- * @author Teenus SAS>
- * @github Teenus SAS
- * Este Script obtener todos los insumos de la carga fabril
- * Se llama por metodo 
- * @method GET
- * 
- * @responsesCodes
- *  200: en caso de que el calculo sea exitoso
- *  500: en caso de error en el servidor
- *  401: en caso de que no exista una sesion iniciada
- * 
- * @structureResponse 
- *  [
- *    {
- *      "id": number,
- *      "idMachine": number,
- *      "idCompany": number,
- *      "name": string,
- *      "price": number,
- *      "pricePerMinute": number,
- *    }
- *  ]
- */
-
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
 require_once DB_PATH . "DBOperator.php";
 require_once DB_PATH . "env.php";

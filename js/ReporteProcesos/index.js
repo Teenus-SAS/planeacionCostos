@@ -2,19 +2,42 @@ import { fillSelect } from "../utils/fillSelect.js";
 import { GetAllProductos } from "../Productos/application/get_all_productos/GetAllProductos.js";
 import { ReporteProductoProcesoDataTable } from "./elements/reportes_datatable/ReporteProductoProcesoDataTable.js";
 import { GenerateReporteProductoProcesoButton } from "./elements/generate_new_reporte_form/GenerateReporteProductoProcesoButton.js";
-import { IndividualReporteProductoProcesoDataTable } from "./elements/individual_reporte_datatable/IndividualReporteProductoProcesoDataTable.js";
 import { DescargarPdfReporteProductoProcesoButton } from "./elements/download_new_reporte_form/DescargarPdfReporteProductoProcesoButton.js";
 import { InfoNuevoReporteProductoProcesoForm } from "./elements/download_new_reporte_form/InfoNuevoReporteProductoProcesoForm.js";
 import { GenerateNewReporteForm } from "./elements/generate_new_reporte_form/GenerateNewReporteForm.js";
+import { CosteosIndividualReporteProductoProcesoDataTable } from "./elements/individual_reporte/costeos_individual_reporte_datatable/CosteosIndividualReporteProductoProcesoDataTable.js";
+import { IndividualReporteProductoProcesoDataTable } from "./elements/individual_reporte/individual_reporte_datatable/IndividualReporteProductoProcesoDataTable.js";
+import { MateriasIndividualReporteProductoProcesoDataTable } from "./elements/individual_reporte/materias_individual_reporte_datatable/MateriasIndividualReporteProductoProcesoDataTable.js";
+import { ServiciosExternosIndividualReporteProductoProcesoDataTable } from "./elements/individual_reporte/serviciosexternos_individual_reporte_datatable/ServiciosExternosIndividualReporteProductoProcesoDataTable.js";
+import { MateriasIndividualReporteData } from "./elements/individual_reporte/materias_individual_reporte_datatable/data/MateriasIndividualReporteData.js";
 
 const generateNuevoReporteForm = new GenerateNewReporteForm();
 const infoNuevoReporteForm = new InfoNuevoReporteProductoProcesoForm();
 const reportesDataTable = new ReporteProductoProcesoDataTable();
-const individualReporteDataTable = new IndividualReporteProductoProcesoDataTable(
-  "reporte-procesos-table",
-  [],
-  {}
-);
+const individualReporteDataTable =
+  new IndividualReporteProductoProcesoDataTable(
+    "reporte-procesos-table",
+    [],
+    {}
+  );
+const materiasIndividualReporteDataTable =
+  new MateriasIndividualReporteProductoProcesoDataTable(
+    "materias-reporte-procesos-table",
+    [],
+    {}
+  );
+const serviciosExternosIndividualReporteDataTable =
+  new ServiciosExternosIndividualReporteProductoProcesoDataTable(
+    "servicios-externos-reporte-procesos-table",
+    [],
+    {}
+  );
+const costeosIndividualReporteDataTable =
+  new CosteosIndividualReporteProductoProcesoDataTable(
+    "costeo-reporte-procesos-table",
+    [],
+    {}
+  );
 
 $(document).on("click", ".link-borrar-reporte-pprocesos", function (e) {
   e.preventDefault();
@@ -27,10 +50,14 @@ $(document).on("click", ".link-descargar-reporte-pprocesos", function (e) {
 $(document).on("click", ".link-ver-reporte-pprocesos", function (e) {
   e.preventDefault();
   reportesDataTable.view(this.id, (jsonData, consecutivo, cliente, ciudad) => {
-    individualReporteDataTable.fromJSON(jsonData);
-    individualReporteDataTable.toDiv("reporte-procesos-table");
     infoNuevoReporteForm.fill(consecutivo, cliente, ciudad);
     infoNuevoReporteForm.disabledForm();
+
+    individualReporteDataTable.fromJSON(JSON.stringify(jsonData.main));
+    serviciosExternosIndividualReporteDataTable.fromJSON(
+      JSON.stringify(jsonData.detail)
+    );
+
     individualReporteDataTable.show();
   });
 });
@@ -60,14 +87,27 @@ const descargarPdfReporteButton = new DescargarPdfReporteProductoProcesoButton(
 
 const generarReporteButton = new GenerateReporteProductoProcesoButton(
   "new-reporte-procesos-button",
-  (dataTable) => {
+  (dataTable, dataTableDetalle, totalMaterias, costeoData) => {
     generateNuevoReporteForm.clearForm();
+
     individualReporteDataTable.setData(dataTable);
-    infoNuevoReporteForm.activeForm();
     individualReporteDataTable.show();
+    serviciosExternosIndividualReporteDataTable.setData(dataTableDetalle);
+    materiasIndividualReporteDataTable.setData([
+      new MateriasIndividualReporteData(
+        "COSTOS DE MATERIA PRIMA REQUERIDA",
+        totalMaterias
+      ),
+    ]);
+    costeosIndividualReporteDataTable.setData(costeoData);
+
+    infoNuevoReporteForm.activeForm();
 
     descargarPdfReporteButton.setData({
-      pdfdata: individualReporteDataTable.toJSON(),
+      pdfdata: JSON.stringify({
+        main: individualReporteDataTable.toJSON(),
+        detail: serviciosExternosIndividualReporteDataTable.toJSON(),
+      }),
     });
   },
   (errors) => {
