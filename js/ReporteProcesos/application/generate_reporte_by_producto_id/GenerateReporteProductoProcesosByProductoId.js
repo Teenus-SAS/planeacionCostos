@@ -47,7 +47,7 @@ export function GenerateReporteProductoProcesosByProductoId(
                           (reporte) =>
                             reporte.productoProceso == proceso.process.name
                         );
-                        if (!processExists) {
+                        if (!processExists && minutoNomina != 0) {
                           reportes.push(
                             new IndividualReporteProductoProcesoData(
                               proceso.process.name,
@@ -56,7 +56,7 @@ export function GenerateReporteProductoProcesosByProductoId(
                               totalTime * minutoNomina
                             )
                           );
-                        } else {
+                        } else if (processExists) {
                           processExists.costoMinuto += minutoNomina;
                           processExists.cantidadMinuto += totalTime;
                           processExists.total += totalTime * minutoNomina;

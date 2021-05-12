@@ -53,6 +53,7 @@ $(document).on("click", ".link-ver-reporte-pprocesos", function (e) {
     infoNuevoReporteForm.fill(consecutivo, cliente, ciudad);
     infoNuevoReporteForm.disabledForm();
 
+    console.log(jsonData);
     individualReporteDataTable.fromJSON(JSON.stringify(jsonData.main));
     materiasIndividualReporteDataTable.fromJSON(
       JSON.stringify(jsonData.materias)

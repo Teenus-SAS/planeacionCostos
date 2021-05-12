@@ -10,7 +10,11 @@ export class CosteosIndividualReporteData extends DataForTable {
   }
 
   static fromJSON(json) {
-    return new CosteosIndividualReporteData(json.concepto, json.monto);
+    return new CosteosIndividualReporteData(
+      json.concepto,
+      json.porcentaje,
+      json.monto
+    );
   }
 
   toObject() {

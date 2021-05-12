@@ -15,7 +15,7 @@ export function capitalizeString(strInput) {
   });
   if (str.length > 0 && firstLetter) {
     firstLetter.toUpperCase();
-    const start = str.slice(0, indexFirstLetter - 1);
+    const start = str.slice(0, indexFirstLetter);
     const end = str.slice(indexFirstLetter + 1, str.length).toLowerCase();
     strOutput += start;
     strOutput += firstLetter;

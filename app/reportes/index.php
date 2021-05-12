@@ -123,7 +123,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
           </div>
         </div>
         <div id="reporte-procesos-content" class="col-12 card relative" hidden="true">
-          <div id="close-button" class="mt-2 absolute cursor-pointer">
+          <div id="close-button" class="mt-2 absolute cursor-pointer z-10">
             <i class="nc-icon nc-simple-remove text-2xl"></i>
           </div>
           <div class="row align-items-around">
@@ -131,34 +131,48 @@ include(PARTIALS_PATH . "verify_session.php") ?>
               <div class="col-auto">
                 <button id="crear-pdf-reporte-procesos" class="btn btn-primary" type="submit">Crear PDF</button>
               </div>
-              <div id="form-datos-reporte-procesos" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-                <form>
-                <option id="option-id-producto-reporte" hidden="true" value=""></option>
-                  <div class="card py-2">
-                    <div class="row my-2 justify-content-center">
-                      <div class="col-md-11 col-11">
-                        <div class="form-group">
-                          <input id="input-consecutivo-reporte" class="form-control " type="text" name="consecutivo" placeholder="N° Consecutivo">
+              <div class="modal fade" id="form-datos-reporte-procesos">
+                <div class="modal-dialog modal-lg modal-dialog-centered">
+                  <div class="modal-content">
+              
+                    <!-- cabecera del diálogo -->
+                    <div class="modal-header">
+                      <h4 class="modal-title">Generar PDF</h4>
+                      <button type="button" class="close" data-dismiss="modal">X</button>
+                    </div>
+              
+                    <!-- cuerpo del diálogo -->
+                    <div class="modal-body">
+                      
+                <div id="form-datos-reporte-procesos" tabindex="-1" role="dialog" aria-hidden="true">
+                  <form>
+                  <option id="option-id-producto-reporte" hidden="true" value=""></option>
+                    <div class="card py-2">
+                      <div class="row my-2 justify-content-center">
+                        <div class="col-md-11 col-11">
+                          <div class="form-group">
+                            <input id="input-consecutivo-reporte" class="form-control " type="text" name="consecutivo" placeholder="N° Consecutivo">
+                          </div>
                         </div>
-                      </div>
-                      <div class="col-md-11 col-11">
-                        <div class="form-group">
-                          <input id="input-cliente-reporte" class="form-control" type="text" name="cliente" placeholder="Cliente">
+                        <div class="col-md-11 col-11">
+                          <div class="form-group">
+                            <input id="input-cliente-reporte" class="form-control" type="text" name="cliente" placeholder="Cliente">
+                          </div>
                         </div>
-                      </div>
-                      <div class="col-md-11 col-11">
-                        <div class="form-group">
-                          <input id="input-ciudad-reporte" class="form-control" type="text" name="ciudad" placeholder="Ciudad"/>
+                        <div class="col-md-11 col-11">
+                          <div class="form-group">
+                            <input id="input-ciudad-reporte" class="form-control" type="text" name="ciudad" placeholder="Ciudad"/>
+                          </div>
                         </div>
-                      </div>
-                      <div class="col-11">
-                        <button id="generar-pdf-reporte-procesos" class="btn btn-primary" type="submit">Generar PDF y guardar reporte</button>
+                        <div class="col-11">
+                          <button id="generar-pdf-reporte-procesos" class="btn btn-primary" type="submit">Generar PDF y guardar reporte</button>
+                        </div>
                       </div>
                     </div>
+                  </form>
                   </div>
-                </form>
-              </div>
-            </div>
+                    </div>
+                    </div></div></div>
             <div id="individual-reporte-procesos" class="col-12 pr-5 mt-4">
               <h2 class="text-2xl text-center font-normal py-3">Procesos</h2>
               <div id="reporte-procesos-table">
