@@ -72,7 +72,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
   </style>
 </head>
 
-<body class="">
+<body>
   <div class="wrapper ">
     <?php include(PARTIALS_PATH . "sidebar.php") ?>
 

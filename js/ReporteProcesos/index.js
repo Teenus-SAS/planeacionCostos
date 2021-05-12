@@ -53,7 +53,6 @@ $(document).on("click", ".link-ver-reporte-pprocesos", function (e) {
     infoNuevoReporteForm.fill(consecutivo, cliente, ciudad);
     infoNuevoReporteForm.disabledForm();
 
-    console.log(jsonData);
     individualReporteDataTable.fromJSON(JSON.stringify(jsonData.main));
     materiasIndividualReporteDataTable.fromJSON(
       JSON.stringify(jsonData.materias)
@@ -102,6 +101,8 @@ $("#crear-pdf-reporte-procesos").on("click", (e) => {
 const generarReporteButton = new GenerateReporteProductoProcesoButton(
   "new-reporte-procesos-button",
   (dataTable, dataTableDetalle, totalMaterias, costeoData) => {
+    $("#new-reporte-procesos-button").removeClass("hover:cursor-wait");
+    $("body").removeClass("cursor-wait");
     generateNuevoReporteForm.clearForm();
 
     individualReporteDataTable.show();

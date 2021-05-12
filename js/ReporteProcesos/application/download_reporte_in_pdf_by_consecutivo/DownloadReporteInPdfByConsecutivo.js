@@ -8,7 +8,8 @@ export function DownloadReporteInPdfByConsecutivo(consecutivo) {
         reporte.producto.id,
         reporte.cliente,
         reporte.ciudad,
-        consecutivo
+        consecutivo,
+        reporte.creationDate
       );
     }
   });

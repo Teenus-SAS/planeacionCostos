@@ -1,4 +1,10 @@
-export function DownloadReporteInPdf(productoId, cliente, ciudad, consecutivo) {
+export function DownloadReporteInPdf(
+  productoId,
+  cliente,
+  ciudad,
+  consecutivo,
+  fecha
+) {
   let reportePdf = new jsPDF("p", "pt", "letter");
   const title = "Reporte";
 
@@ -48,5 +54,9 @@ export function DownloadReporteInPdf(productoId, cliente, ciudad, consecutivo) {
     startY: 70,
     theme: "grid",
   });
-  reportePdf.save();
+  if (!fecha) {
+    const now = new Date();
+    fecha = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`;
+  }
+  reportePdf.save(`Cotizacion_${consecutivo}_${fecha}.pdf`);
 }
