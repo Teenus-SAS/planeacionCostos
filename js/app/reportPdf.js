@@ -52,7 +52,7 @@ charCostPdf = new Chart(ctx, {
 });
 
 $("#downloaad-pdf").click(() => {
-  doc = new jsPDF("p", "pt", "letter");
+  let doc = new jsPDF("p", "pt", "letter");
   // titulo del documento
   doc.text("Reporte General", 300, 50, {
     align: "center",
@@ -692,7 +692,8 @@ $("#downloaad-pdf").click(() => {
             };
 
             chartMaterialCost.data.datasets[0].data = valuesMaterials;
-            chartMaterialCost.data.datasets[0].backgroundColor = colorsMaterials;
+            chartMaterialCost.data.datasets[0].backgroundColor =
+              colorsMaterials;
             chartMaterialCost.data.labels = namesMaterials;
 
             chartMaterialCost.update({ duration: 0 });
@@ -728,7 +729,8 @@ $("#downloaad-pdf").click(() => {
             }
 
             chartExpensesDescription.data.datasets[0].data = valuesExpenses;
-            chartExpensesDescription.data.datasets[0].backgroundColor = colorsExpenses;
+            chartExpensesDescription.data.datasets[0].backgroundColor =
+              colorsExpenses;
             chartExpensesDescription.data.labels = names;
 
             chartExpensesDescription.update({ duration: 0 });

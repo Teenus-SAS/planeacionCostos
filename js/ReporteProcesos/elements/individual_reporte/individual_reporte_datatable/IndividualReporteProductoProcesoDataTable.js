@@ -21,7 +21,7 @@ const columnDefinitions = [
     new DataTableColumnHeader("Costo/min", { content: ["text-2xl"] }),
     new DataTableColumnBody(
       (data) => PriceParser.toString(data, true).strPrice,
-      { content: ["text-xl"], cell: ["text-left"] },
+      { content: ["text-xl"], cell: ["text-right"] },
       250
     )
   ),

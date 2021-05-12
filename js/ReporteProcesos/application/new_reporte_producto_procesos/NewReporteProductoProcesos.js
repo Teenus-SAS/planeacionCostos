@@ -14,7 +14,7 @@ export function NewReporteProductoProcesos(
     ciudad,
     productoId,
     cantidad,
-    pdfdata: pdfData,
+    pdfdata: JSON.stringify(pdfData),
   }).always((xhr) => {
     if (xhr.status == 200) {
       cb();

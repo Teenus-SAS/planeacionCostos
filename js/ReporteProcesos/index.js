@@ -54,8 +54,14 @@ $(document).on("click", ".link-ver-reporte-pprocesos", function (e) {
     infoNuevoReporteForm.disabledForm();
 
     individualReporteDataTable.fromJSON(JSON.stringify(jsonData.main));
+    materiasIndividualReporteDataTable.fromJSON(
+      JSON.stringify(jsonData.materias)
+    );
     serviciosExternosIndividualReporteDataTable.fromJSON(
-      JSON.stringify(jsonData.detail)
+      JSON.stringify(jsonData.servicios)
+    );
+    costeosIndividualReporteDataTable.fromJSON(
+      JSON.stringify(jsonData.costeos)
     );
 
     individualReporteDataTable.show();
@@ -90,8 +96,8 @@ const generarReporteButton = new GenerateReporteProductoProcesoButton(
   (dataTable, dataTableDetalle, totalMaterias, costeoData) => {
     generateNuevoReporteForm.clearForm();
 
-    individualReporteDataTable.setData(dataTable);
     individualReporteDataTable.show();
+    individualReporteDataTable.setData(dataTable);
     serviciosExternosIndividualReporteDataTable.setData(dataTableDetalle);
     materiasIndividualReporteDataTable.setData([
       new MateriasIndividualReporteData(
@@ -104,10 +110,12 @@ const generarReporteButton = new GenerateReporteProductoProcesoButton(
     infoNuevoReporteForm.activeForm();
 
     descargarPdfReporteButton.setData({
-      pdfdata: JSON.stringify({
-        main: individualReporteDataTable.toJSON(),
-        detail: serviciosExternosIndividualReporteDataTable.toJSON(),
-      }),
+      pdfdata: {
+        main: individualReporteDataTable._data,
+        servicios: serviciosExternosIndividualReporteDataTable._data,
+        materias: materiasIndividualReporteDataTable._data,
+        costeos: costeosIndividualReporteDataTable._data,
+      },
     });
   },
   (errors) => {
