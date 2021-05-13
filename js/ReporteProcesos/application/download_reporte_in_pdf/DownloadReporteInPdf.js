@@ -25,6 +25,11 @@ export function DownloadReporteInPdf(
     {}
   );*/
   reportePdf.setFontSize(12);
+  $("#pdf-cotizacion-mano-obra").empty();
+  $("#pdf-cotizacion-materias-primas").empty();
+  $("#pdf-cotizacion-servicios-externos").empty();
+  $("#pdf-cotizacion-consolidacion").empty();
+
   $("#pdf-cotizacion-mano-obra").append($("#reporte-procesos-table").html());
   $("#pdf-cotizacion-materias-primas").append(
     $("#materias-reporte-procesos-table").html()

@@ -11,7 +11,6 @@ export function GetTotalCargasFabrilesByProductoId(productoId, cb) {
       cargas.forEach((carga) => {
         total += parseFloat(carga.costoPorMinuto);
       });
-      console.log({ maquinas, total });
       maquinas.forEach((maquina) => {
         if (maquina) {
           total += parseFloat(maquina.depreciation);

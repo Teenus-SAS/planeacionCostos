@@ -49,7 +49,6 @@ export class DetallesIndividualReporteProductoProcesoDataTable extends DataTable
 
   setData(_data) {
     this._data = _data;
-    console.log(this._data);
     this.toDiv(this.divId);
   }
 

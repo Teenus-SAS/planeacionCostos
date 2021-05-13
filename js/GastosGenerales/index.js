@@ -15,7 +15,6 @@ const data = [
       ),
     ],
     (data, subgroupId) => {
-      console.log(subgroupId);
       return true;
     },
     null,

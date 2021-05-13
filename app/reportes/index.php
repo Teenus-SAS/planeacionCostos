@@ -124,7 +124,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
           <div id="close-button" class="mt-2 absolute cursor-pointer z-10">
             <i class="nc-icon nc-simple-remove text-2xl"></i>
           </div>
-          <div class="row align-items-around" hidden="true">
+          <div class="row align-items-around">
             <div id="generate-reporte-pdf" class="col-12 pt-5">
               <div class="col-auto">
                 <button id="crear-pdf-reporte-procesos" class="btn btn-primary" type="submit">Crear PDF</button>

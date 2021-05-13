@@ -86,7 +86,6 @@ const descargarPdfReporteButton = new DescargarPdfReporteProductoProcesoButton(
   },
   () => {
     reportesDataTable.reload();
-    $("#form-datos-reporte-procesos").modal("hide");
   },
   () => {
     infoNuevoReporteForm.clearForm();
@@ -128,6 +127,17 @@ const generarReporteButton = new GenerateReporteProductoProcesoButton(
         costeos: costeosIndividualReporteDataTable._data,
       },
     });
+
+    $("#pdf-cotizacion-mano-obra").append($("#reporte-procesos-table").html());
+    $("#pdf-cotizacion-materias-primas").append(
+      $("#materias-reporte-procesos-table").html()
+    );
+    $("#pdf-cotizacion-servicios-externos").append(
+      $("#servicios-externos-reporte-procesos-table").html()
+    );
+    $("#pdf-cotizacion-consolidacion").append(
+      $("#costeo-reporte-procesos-table").html()
+    );
   },
   (errors) => {
     $.notify(
