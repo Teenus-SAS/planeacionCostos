@@ -184,7 +184,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
             </div>
           </div>
         </div>
-        <div id="final_pdf_cotizacion" class="w-full relative">
+        <div id="final_pdf_cotizacion" class="w-full relative" hidden="true">
           <div class="w-11/12 mx-auto mt-8">
             <div class="w-full ml-3 absolute">
               <img id="img-logo-company-sidebar" src="<?= $user->getCompany()->getLogo() ?>" class="w-16 h-auto">
