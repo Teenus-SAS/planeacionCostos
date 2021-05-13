@@ -16,8 +16,6 @@ include(PARTIALS_PATH . "verify_session.php") ?>
   <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
   <link href="/vendor/font-awesome/font-awesome.min.css" rel="stylesheet">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js"></script>
-  <script src="https://unpkg.com/jspdf-autotable@3.2.8/dist/jspdf.plugin.autotable.js"></script>
   <!-- CSS Files -->
   <link href="/app/assets/css/bootstrap.min.css" rel="stylesheet" />
   <link href="/app/assets/css/paper-dashboard.css" rel="stylesheet" />
@@ -134,46 +132,46 @@ include(PARTIALS_PATH . "verify_session.php") ?>
               <div class="modal fade" id="form-datos-reporte-procesos">
                 <div class="modal-dialog modal-lg modal-dialog-centered">
                   <div class="modal-content">
-              
                     <!-- cabecera del diálogo -->
                     <div class="modal-header">
                       <h4 class="modal-title">Generar PDF</h4>
                       <button type="button" class="close" data-dismiss="modal">X</button>
                     </div>
-              
                     <!-- cuerpo del diálogo -->
                     <div class="modal-body">
-                      
-                <div id="form-datos-reporte-procesos" tabindex="-1" role="dialog" aria-hidden="true">
-                  <form>
-                  <option id="option-id-producto-reporte" hidden="true" value=""></option>
-                    <div class="card py-2">
-                      <div class="row my-2 justify-content-center">
-                        <div class="col-md-11 col-11">
-                          <div class="form-group">
-                            <input id="input-consecutivo-reporte" class="form-control " type="text" name="consecutivo" placeholder="N° Consecutivo">
+                      <div id="form-datos-reporte-procesos" tabindex="-1" role="dialog" aria-hidden="true">
+                        <form>
+                          <option id="option-id-producto-reporte" hidden="true" value=""></option>
+                          <div class="card py-2">
+                            <div class="row my-2 justify-content-center">
+                              <div class="col-md-11 col-11">
+                                <div class="form-group">
+                                  <input id="input-consecutivo-reporte" class="form-control " type="text" name="consecutivo" placeholder="N° Consecutivo">
+                                </div>
+                              </div>
+                              <div class="col-md-11 col-11">
+                                <div class="form-group">
+                                  <input id="input-cliente-reporte" class="form-control" type="text" name="cliente" placeholder="Cliente">
+                                </div>
+                              </div>
+                              <div class="col-md-11 col-11">
+                                <div class="form-group">
+                                  <input id="input-ciudad-reporte" class="form-control" type="text" name="ciudad" placeholder="Ciudad"/>
+                                </div>
+                              </div>
+                              <div class="col-11">
+                                <button id="generar-pdf-reporte-procesos" class="btn btn-primary" type="submit">Generar PDF y guardar reporte</button>
+                              </div>
+                            </div>
                           </div>
-                        </div>
-                        <div class="col-md-11 col-11">
-                          <div class="form-group">
-                            <input id="input-cliente-reporte" class="form-control" type="text" name="cliente" placeholder="Cliente">
-                          </div>
-                        </div>
-                        <div class="col-md-11 col-11">
-                          <div class="form-group">
-                            <input id="input-ciudad-reporte" class="form-control" type="text" name="ciudad" placeholder="Ciudad"/>
-                          </div>
-                        </div>
-                        <div class="col-11">
-                          <button id="generar-pdf-reporte-procesos" class="btn btn-primary" type="submit">Generar PDF y guardar reporte</button>
-                        </div>
+                        </form>
                       </div>
                     </div>
-                  </form>
                   </div>
-                    </div>
-                    </div></div></div>
-            <div id="individual-reporte-procesos" class="col-12 pr-5 mt-4">
+                </div>
+              </div>
+            </div>
+            <div id="individual-reporte-procesos" class="col-12 pr-5 mt-4" hidden="true">
               <h2 class="text-2xl text-center font-normal py-3">Procesos</h2>
               <div id="reporte-procesos-table">
               </div>
@@ -186,10 +184,33 @@ include(PARTIALS_PATH . "verify_session.php") ?>
             </div>
           </div>
         </div>
+        <div id="final_pdf_cotizacion" class="w-full relative">
+          <div class="w-11/12 mx-auto mt-8">
+            <div class="w-full ml-3 absolute">
+              <img id="img-logo-company-sidebar" src="<?= $user->getCompany()->getLogo() ?>" class="w-16 h-auto">
+            </div>
+            <div class="w-11/12 mx-auto" style="padding-top: 80px;">
+              <img id="img-logo-company-sidebar" src="/app/reportes/images/Separadores_MO.png" class="w-full h-auto">
+              <div id="pdf-cotizacion-mano-obra" class="py-2 w-11/12 mx-auto">
+              </div>
+              <img id="img-logo-company-sidebar" src="/app/reportes/images/Separadores_MP.png" class="w-full h-auto">
+              <div id="pdf-cotizacion-materias-primas" class="py-2 w-11/12 mx-auto">
+              </div>
+              <img id="img-logo-company-sidebar" src="/app/reportes/images/Separadores_SE.png" class="w-full h-auto">
+              <div id="pdf-cotizacion-servicios-externos" class="py-2 w-11/12 mx-auto">
+              </div>
+              <img id="img-logo-company-sidebar" src="/app/reportes/images/Separadores_Cons.png" class="w-full h-auto">
+              <div id="pdf-cotizacion-consolidacion" class="py-2 w-11/12 mx-auto">
+              </div>
+            </div>
+          </div>
+          <img id="img-logo-company-sidebar" src="/app/reportes/images/PiePagina.png" class="w-full h-auto">
+        </div>
         <?php include(PARTIALS_PATH . "footer.html") ?>
       </div>
     </div>
   </div>
+  
   <!--   Core JS Files   -->
   <script src="/app/assets/js/core/jquery.min.js"></script>
   <script src="/app/assets/js/core/popper.min.js"></script>
@@ -198,7 +219,10 @@ include(PARTIALS_PATH . "verify_session.php") ?>
   <script src="/app/assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
   <script src="/vendor/dataTables/jquery.dataTables.min.js"></script>
   <script src="/vendor/dataTables/dataTables.bootstrap4.min.js"></script>
+
   <script src="/vendor/numberFormat/jquery.number.min.js"></script>
+  <script src="https://unpkg.com/html2canvas@1.0.0-rc.5/dist/html2canvas.js"></script>
+  
   <!-- Chart JS -->
   <script src="/app/assets/js/plugins/chartjs.min.js"></script>
   <!--  Notifications Plugin    -->

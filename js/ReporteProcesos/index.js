@@ -11,6 +11,8 @@ import { MateriasIndividualReporteProductoProcesoDataTable } from "./elements/in
 import { ServiciosExternosIndividualReporteProductoProcesoDataTable } from "./elements/individual_reporte/serviciosexternos_individual_reporte_datatable/ServiciosExternosIndividualReporteProductoProcesoDataTable.js";
 import { MateriasIndividualReporteData } from "./elements/individual_reporte/materias_individual_reporte_datatable/data/MateriasIndividualReporteData.js";
 
+window.html2canvas = html2canvas;
+
 const generateNuevoReporteForm = new GenerateNewReporteForm();
 const infoNuevoReporteForm = new InfoNuevoReporteProductoProcesoForm();
 const reportesDataTable = new ReporteProductoProcesoDataTable();
