@@ -47,7 +47,6 @@ $(document).on("click", ".link-borrar-reporte-pprocesos", function (e) {
 });
 $(document).on("click", ".link-descargar-reporte-pprocesos", function (e) {
   e.preventDefault();
-  $("#final_pdf_cotizacion").attr("hidden", false);
   reportesDataTable.download(this.id);
 });
 $(document).on("click", ".link-ver-reporte-pprocesos", function (e) {
@@ -104,11 +103,10 @@ const generarReporteButton = new GenerateReporteProductoProcesoButton(
   "new-reporte-procesos-button",
   (dataTable, dataTableDetalle, totalMaterias, costeoData) => {
     $("#new-reporte-procesos-button").removeClass("hover:cursor-wait");
-    $("body").removeClass("cursor-wait");
+    $("html, body").removeClass("cursor-wait");
     generateNuevoReporteForm.clearForm();
 
     individualReporteDataTable.show();
-    $("#final_pdf_cotizacion").attr("hidden", false);
     individualReporteDataTable.setData(dataTable);
     serviciosExternosIndividualReporteDataTable.setData(dataTableDetalle);
     materiasIndividualReporteDataTable.setData([
@@ -180,7 +178,6 @@ $("#input-ciudad-reporte").on("input", function () {
 });
 
 $("#close-button").on("click", () => {
-  $("#final_pdf_cotizacion").attr("hidden", "true");
   individualReporteDataTable.hide();
 });
 

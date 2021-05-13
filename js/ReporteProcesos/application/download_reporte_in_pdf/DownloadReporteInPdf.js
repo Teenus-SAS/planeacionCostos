@@ -52,8 +52,9 @@ function download(consecutivo, fecha, reportePdf) {
 
   let pWidth = reportePdf.internal.pageSize.width;
   let srcWidth = element.scrollWidth;
-  let margin = 18;
+  let margin = 0;
   let scale = (pWidth - margin * 2) / srcWidth;
+  $("#final_pdf_cotizacion").toggleClass("opacity-0");
   reportePdf.html(element, {
     x: margin,
     y: margin,
@@ -62,6 +63,7 @@ function download(consecutivo, fecha, reportePdf) {
     },
     callback: (doc) => {
       doc.save(`Cotizacion_${consecutivo}_${fecha}.pdf`);
+      $("#final_pdf_cotizacion").toggleClass("opacity-0");
     },
   });
 }
