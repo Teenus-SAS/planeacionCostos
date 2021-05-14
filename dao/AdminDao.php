@@ -6,23 +6,8 @@ require_once DB_PATH . "env.php";
 require_once MODEL_PATH . "Admin.php";
 
 
-/**
- * Esta clase es el DAO(Data Access Object) para Administradores
- * 
- * @author Teenus SAS>
- * @version 1.0
- * @uses DBOperator, Company
- * @package Dao
- * 
- */
 class AdminDao
 {
-  /**
-   * Objeto de comuniacion con la base de datos
-   *
-   * @access private
-   * @var DBOperator
-   */
   private $db;
 
 
@@ -31,12 +16,6 @@ class AdminDao
     $this->db = new DBOperator($_ENV["db_host"], $_ENV["db_user"], $_ENV["db_name"], $_ENV["db_pass"]);
   }
 
-  /**
-   * Busca en la base de datos un administrador por id
-   *
-   * @param integer $id El id del administrador que se desea buscar
-   * @return Admin
-   */
   public function findById($id)
   {
     $this->db->connect();

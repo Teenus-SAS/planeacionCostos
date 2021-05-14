@@ -8,23 +8,8 @@ export function DownloadReporteInPdf(
   fecha
 ) {
   let reportePdf = new jsPDF("p", "pt", "letter");
-  const title = "Reporte";
 
-  /*reportePdf.text(title, 300, 50, {
-    align: "center",
-  });*/
   reportePdf.setFontSize(14);
-  /*reportePdf.text(
-    [
-      `# Consecutivo: ${consecutivo}`,
-      `Cliente: ${cliente}`,
-      `Ciudad: ${ciudad}`,
-    ],
-    50,
-    120,
-    {}
-  );*/
-  reportePdf.setFontSize(12);
   $("#pdf-cotizacion-mano-obra").empty();
   $("#pdf-cotizacion-materias-primas").empty();
   $("#pdf-cotizacion-servicios-externos").empty();
@@ -40,6 +25,8 @@ export function DownloadReporteInPdf(
   $("#pdf-cotizacion-consolidacion").append(
     $("#costeo-reporte-procesos-table").html()
   );
+  $("#pdf-cotizacion-consolidacion-group").attr("hidden", false);
+  $("#pdf-cotizacion-piepagina-group").attr("hidden", false);
   download(consecutivo, fecha, reportePdf);
 }
 
@@ -55,15 +42,90 @@ function download(consecutivo, fecha, reportePdf) {
   let margin = 0;
   let scale = (pWidth - margin * 2) / srcWidth;
   $("#final_pdf_cotizacion").toggleClass("opacity-0");
-  reportePdf.html(element, {
-    x: margin,
-    y: margin,
-    html2canvas: {
-      scale: scale,
-    },
-    callback: (doc) => {
-      doc.save(`Cotizacion_${consecutivo}_${fecha}.pdf`);
-      $("#final_pdf_cotizacion").toggleClass("opacity-0");
-    },
+  html2canvas(
+    document.querySelector("#pdf-cotizacion-consolidacion-group")
+  ).then(function (consolidadoCanvas) {
+    html2canvas(document.querySelector("#pdf-cotizacion-piepagina-group")).then(
+      function (piePaginaCanvas) {
+        addPiePagina(reportePdf, piePaginaCanvas);
+        let consolidadoImageData = consolidadoCanvas.toDataURL(
+          "image/png",
+          1.0
+        );
+        $("#pdf-cotizacion-consolidacion-group").attr("hidden", "true");
+        $("#pdf-cotizacion-piepagina-group").attr("hidden", "true");
+        reportePdf.html(element, {
+          x: margin,
+          y: margin,
+          pagesplit: true,
+          html2canvas: {
+            scale: scale,
+          },
+          callback: (doc) => {
+            const pageWidth = doc.internal.pageSize.getWidth();
+            const pageHeight = doc.internal.pageSize.getHeight();
+
+            const consolidadoWidthRatio = pageWidth / consolidadoCanvas.width;
+            const consolidadoHeightRatio =
+              pageHeight / consolidadoCanvas.height;
+            const consolidadoRatio =
+              consolidadoWidthRatio > consolidadoHeightRatio
+                ? consolidadoHeightRatio
+                : consolidadoWidthRatio;
+
+            const consolidadoWidth =
+              consolidadoCanvas.width * consolidadoRatio * 0.85;
+            const consolidadoHeight =
+              consolidadoCanvas.height * consolidadoRatio * 0.85;
+
+            const marginX = (pageWidth - consolidadoWidth) / 2;
+            newPage(doc, piePaginaCanvas);
+            doc.addImage(
+              consolidadoImageData,
+              "PNG",
+              marginX,
+              50,
+              consolidadoWidth,
+              consolidadoHeight
+            );
+            doc.save(`Cotizacion_${consecutivo}_${fecha}.pdf`);
+            $("#final_pdf_cotizacion").toggleClass("opacity-0");
+            $("html, body").removeClass("cursor-wait");
+          },
+        });
+      }
+    );
   });
+}
+
+function newPage(doc, piePaginaCanvas = undefined) {
+  doc.addPage();
+  if (piePaginaCanvas) {
+    addPiePagina(doc, piePaginaCanvas);
+  }
+}
+
+function addPiePagina(doc, piePaginaCanvas) {
+  const piepaginaImageData = piePaginaCanvas.toDataURL("image/png", 1.0);
+
+  const pageWidth = doc.internal.pageSize.getWidth();
+  const pageHeight = doc.internal.pageSize.getHeight();
+
+  const piePaginaWidthRatio = pageWidth / piePaginaCanvas.width;
+  const piePaginaHeightRatio = pageHeight / piePaginaCanvas.height;
+  const piePaginaRatio =
+    piePaginaWidthRatio > piePaginaHeightRatio
+      ? piePaginaHeightRatio
+      : piePaginaWidthRatio;
+
+  const piePaginaWidth = piePaginaCanvas.width * piePaginaRatio;
+  const piePaginaHeight = piePaginaCanvas.height * piePaginaRatio;
+  doc.addImage(
+    piepaginaImageData,
+    "PNG",
+    0,
+    pageHeight - piePaginaHeight + 1,
+    piePaginaWidth,
+    piePaginaHeight
+  );
 }

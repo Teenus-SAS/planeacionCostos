@@ -47,6 +47,7 @@ $(document).on("click", ".link-borrar-reporte-pprocesos", function (e) {
 });
 $(document).on("click", ".link-descargar-reporte-pprocesos", function (e) {
   e.preventDefault();
+  $("html, body").addClass("cursor-wait");
   reportesDataTable.download(this.id);
 });
 $(document).on("click", ".link-ver-reporte-pprocesos", function (e) {
@@ -102,7 +103,6 @@ $("#crear-pdf-reporte-procesos").on("click", (e) => {
 const generarReporteButton = new GenerateReporteProductoProcesoButton(
   "new-reporte-procesos-button",
   (dataTable, dataTableDetalle, totalMaterias, costeoData) => {
-    $("#new-reporte-procesos-button").removeClass("hover:cursor-wait");
     $("html, body").removeClass("cursor-wait");
     generateNuevoReporteForm.clearForm();
 

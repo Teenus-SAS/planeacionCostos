@@ -10,6 +10,11 @@ if (isset($_POST["username"]) && isset($_POST["password"])) {
   $userDao = new UserDao();
   $user = $userDao->findByUserName($_POST["username"]);
   if ($user != null) {
+    $now = time();
+    $expirationDate = $user->getCompany()->getLicenseExpiration();
+    if (time() >= ($user->getCompany()->getLicenseExpiration())) {
+      $user->getCompany()->setActiveLicense(false);
+    }
     if ($user->getCompany()->getActiveLicense()) {
       if ($user->getActive()) {
         if ($user->getPassword() == hash("sha256", $_POST["password"])) {

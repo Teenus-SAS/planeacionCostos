@@ -817,10 +817,6 @@ function toDataURL(url, callback) {
   callback();
 }
 
-/**
- * funcion que devuelve un indice en forma alfabetica
- * @param {*} index El número del indice que se requiere
- */
 function indexAlphabet(index) {
   let alphabet = [
     "a",

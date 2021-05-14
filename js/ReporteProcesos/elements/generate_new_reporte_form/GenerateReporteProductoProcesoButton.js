@@ -12,7 +12,6 @@ export class GenerateReporteProductoProcesoButton extends DomElement {
     super.onClick((data) => {
       if (this.invalidDatacb) {
         if (this.validateData()) {
-          $("#new-reporte-procesos-button").addClass("hover:cursor-wait");
           $("html, body").addClass("cursor-wait");
           OnClickGenerateReporteProductoProcesoButton(data, reportecb);
         } else {

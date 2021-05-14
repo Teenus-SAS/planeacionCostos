@@ -121,7 +121,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
           </div>
         </div>
         <div id="reporte-procesos-content" class="col-12 card relative" hidden="true">
-          <div id="close-button" class="mt-2 absolute cursor-pointer z-10">
+          <div id="close-button" class="mt-2 absolute cursor-pointer z-10 text-2xl">
             <i class="nc-icon nc-simple-remove text-2xl"></i>
           </div>
           <div class="row align-items-around">
@@ -185,27 +185,34 @@ include(PARTIALS_PATH . "verify_session.php") ?>
           </div>
         </div>
         <div class="hidden-pdf-cotizacion opacity-0">
-          <div id="final_pdf_cotizacion" class="w-full relative opacity-0">
+          <div id="final_pdf_cotizacion" class="w-full relative opacity-0" style="font-family: Poppins-Regular, sans-serif;font-size: 16px;">
             <div class="w-11/12 mx-auto mt-8">
               <div class="w-full ml-3 absolute">
                 <img id="img-logo-company-sidebar" src="<?= $user->getCompany()->getLogo() ?>" class="w-16 h-auto">
               </div>
               <div class="w-11/12 mx-auto" style="padding-top: 80px;">
-                <img id="img-logo-company-sidebar" src="/app/reportes/images/Separadores_MO.png" class="w-full h-auto">
-                <div id="pdf-cotizacion-mano-obra" class="py-2 w-11/12 mx-auto">
+                <div id="pdf-first-page">
+                  <img id="img-logo-company-sidebar" src="/app/reportes/images/Separadores_MO.png" class="w-full h-auto">
+                  <div id="pdf-cotizacion-mano-obra" class="py-2 w-11/12 mx-auto">
+                  </div>
+                  <img id="img-logo-company-sidebar" src="/app/reportes/images/Separadores_MP.png" class="w-full h-auto">
+                  <div id="pdf-cotizacion-materias-primas" class="py-2 w-11/12 mx-auto">
+                  </div>
+  
+                  <img id="img-logo-company-sidebar" src="/app/reportes/images/Separadores_SE.png" class="w-full h-auto">
+                  <div id="pdf-cotizacion-servicios-externos" class="py-2 w-11/12 mx-auto">
+                  </div>
                 </div>
-                <img id="img-logo-company-sidebar" src="/app/reportes/images/Separadores_MP.png" class="w-full h-auto">
-                <div id="pdf-cotizacion-materias-primas" class="py-2 w-11/12 mx-auto">
-                </div>
-                <img id="img-logo-company-sidebar" src="/app/reportes/images/Separadores_SE.png" class="w-full h-auto">
-                <div id="pdf-cotizacion-servicios-externos" class="py-2 w-11/12 mx-auto">
-                </div>
-                <img id="img-logo-company-sidebar" src="/app/reportes/images/Separadores_Cons.png" class="w-full h-auto">
-                <div id="pdf-cotizacion-consolidacion" class="py-2 w-11/12 mx-auto">
+
+                <div id="pdf-cotizacion-consolidacion-group">
+                  <img id="img-logo-company-sidebar" src="/app/reportes/images/Separadores_Cons.png" class="w-full h-auto">
+                  <div id="pdf-cotizacion-consolidacion" class="py-2 w-11/12 mx-auto"></div>
                 </div>
               </div>
             </div>
-            <img id="img-logo-company-sidebar" src="/app/reportes/images/PiePagina.png" class="w-full h-auto">
+            <div id="pdf-cotizacion-piepagina-group">
+              <img id="img-logo-company-sidebar" src="/app/reportes/images/PiePagina.png" class="w-full h-auto">
+            </div>
           </div>
         </div>
         <?php include(PARTIALS_PATH . "footer.html") ?>
