@@ -87,7 +87,7 @@ include(PARTIALS_PATH . "verify_session.php");
                         <div class="card-body">
                           <div class="form-group row">
                             <label class="col-md-5 col-sm-12 col-form-label col-6" for="my-input">Horas de Trabajo por Dia</label>
-                            <input id="my-input-wh" class="col-md-6 form-control col-sm-10 col-5" type="text" name="workHours" value="0">
+                            <input id="my-input-wh" class="col-md-6 form-control col-sm-10 col-5" type="number" name="workHours" value="0">
                           </div>
                           <div class="form-group row">
                             <label class="col-md-5 col-sm-12 col-form-label col-6" for="my-input">Dias Laborales del Mes</label>
@@ -103,7 +103,7 @@ include(PARTIALS_PATH . "verify_session.php");
                           <div class="form-group row align-items-center">
                             <label class="col-md-4 col-sm-12 col-form-label col-6" for="my-input">Comisión de Ventas</label>
                             <div class="input-group col-md-7 col-sm-10 col-5 mb-0">
-                              <input id="my-input-sc" class="form-control" type="text" name="SalesCommission" value="0">
+                              <input id="my-input-sc" class="form-control" type="number" name="SalesCommission" value="0">
                               <div class="input-group-append">
                                 <span class="input-group-text">%</span>
                               </div>
@@ -891,22 +891,10 @@ include(PARTIALS_PATH . "verify_session.php");
                     <div class="card">
                       <div class="card-header">
                       </div>
-                      <div class="card-body">
-                        <!--          <button class="btn btn-danger" id="delete-materia-prima">Eliminar</button>
-                        <div class="table-responsive tableFixHead">
-                          <table class="table" id="tableProductoMateriaPrima">
-                            <thead class="text-primary">
-                              <th>Materia</th>
-                              <th>Cantidad</th>
-                              <th>Unidad</th>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                          </table>
-                        </div> -->
-                        <div class="table-responsive tableFixHead">
-                          <table class="table compact" id="tableProductos">
-                            <thead class="text-primary">
+                      <div class="card-body w-full">
+                        <div class="tableFixHead">
+                          <table class="table w-full" id="tableProductos">
+                            <thead class="text-primary w-full">
                               <th>Ref</th>
                               <th>Producto</th>
                               <th>Rentabilidad</th>
@@ -1232,6 +1220,7 @@ include(PARTIALS_PATH . "verify_session.php");
   <script src="/app/assets/js/core/bootstrap.min.js"></script>
   <script src="/app/assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
   <script src="/vendor/jquery-validation/jquery.validate.min.js"></script>
+  <script src="/js/utils/watch-unwatch-jquery.js"></script>
   <!-- Chart JS -->
   <script src="/app/assets/js/plugins/chartjs.min.js"></script>
   <!--  Notifications Plugin    -->

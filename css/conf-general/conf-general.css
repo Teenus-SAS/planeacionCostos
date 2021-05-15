@@ -20,6 +20,11 @@
   width: 96%;
 }
 
+.dataTables_scrollHeadInner,
+.table {
+  width: 100% !important;
+}
+
 i.fa.fa-cog.fa-spin.fa-3x.fa-fw.fade {
   position: fixed;
   right: 10px;
