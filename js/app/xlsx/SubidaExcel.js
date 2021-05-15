@@ -98,7 +98,7 @@ export class SubidaExcel {
     }
   }
 
-  #verifyColumns(allowsUndefined = true) {
+  #verifyColumns(allowsUndefined = false) {
     this.array.forEach((cell) => {
       const verification = this.verifyColumnscb(cell);
       if (verification) {

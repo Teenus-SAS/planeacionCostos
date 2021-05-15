@@ -35,6 +35,12 @@ include(PARTIALS_PATH . "verify_session.php") ?>
       top: 0;
     }
 
+    .dataTables_scrollHeadInner,
+    .table,
+    .table tfoot {
+      width: 100% !important;
+    }
+
     /* Just common table stuff. Really. */
     table {
       border-collapse: collapse;
@@ -323,7 +329,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                           </table>
                         </div>
                         <div class="table-responsive tableFixHead" style="display: none;">
-                          <table class="table compact" id="tableProductos">
+                          <table class="table compact w-full" id="tableProductos">
                             <thead class="text-primary">
                               <th>Ref</th>
                               <th>Producto</th>

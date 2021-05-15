@@ -28,6 +28,7 @@ function recargar_select() {
 }
 $("#input-bonificacion").number(true, 2);
 $("#input-salario").number(true, 2);
+$("#input-transporte").number(true, 2);
 $("#input-dotacion").number(true, 2);
 $("#input-horas-extra").number(true, 2);
 
@@ -361,9 +362,9 @@ var $tableNominas = $("#tableNominas").dataTable({
   ],
 
   footerCallback: function (row, data, start, end, display) {
-    var api = this.api();
+    const api = this.api();
 
-    var intVal = function (i) {
+    const intVal = function (i) {
       return typeof i === "string"
         ? i.replace(/[\$,]/g, "") * 1
         : typeof i === "number"
@@ -371,39 +372,69 @@ var $tableNominas = $("#tableNominas").dataTable({
         : 0;
     };
 
-    total = api
+    let processesSubtotals = [];
+
+    const salarios = api.column(3).data();
+    api
+      .column(1)
+      .data()
+      .map((processName, index) => {
+        const processExists = processesSubtotals.find(
+          (process) => process.name === processName
+        );
+        if (!processExists) {
+          processesSubtotals.push({
+            name: processName,
+            total: salarios[index],
+          });
+        } else {
+          processExists.name += salarios[index];
+        }
+      });
+
+    let total = api
       .column(3)
       .data()
       .reduce(function (a, b) {
         return intVal(a) + intVal(b);
       }, 0);
 
-    pageTotal = api
+    let pageTotal = api
       .column(3, { page: "current" })
       .data()
       .reduce(function (a, b) {
         return intVal(a) + intVal(b);
       }, 0);
 
-    $(api.column(3).footer()).html(
-      `Total Nómina $ ${$.number(pageTotal, 2, ".", ",")}`
-    );
-
-    total = api
+    let footer = "";
+    processesSubtotals.forEach((processSubtotal) => {
+      footer += `<p>Subtotal ${processSubtotal.name} $ ${$.number(
+        processSubtotal.total,
+        2,
+        ".",
+        ","
+      )}</p>`;
+    });
+    let minutoTotal = api
       .column(4)
       .data()
       .reduce(function (a, b) {
         return intVal(a) + intVal(b);
       }, 0);
-
-    pageTotal = api
+    let pageMinutoTotal = api
       .column(4, { page: "current" })
       .data()
       .reduce(function (a, b) {
         return intVal(a) + intVal(b);
       }, 0);
+    footer += `</br><p class="text-right">Total Nómina $ ${$.number(
+      total,
+      2,
+      ".",
+      ","
+    )}</p>`;
 
-    $(api.column(4).footer()).html(`$ ${$.number(pageTotal, 2, ".", ",")}`);
+    $(api.column(3).footer()).html(footer);
   },
 });
 

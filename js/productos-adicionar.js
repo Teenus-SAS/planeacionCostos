@@ -18,7 +18,6 @@ var $tableProductos = $("#tableProductos").dataTable({
   scrollY: "300px",
   scrollCollapse: true,
   paging: false,
-
   language: {
     url: "/vendor/dataTables/Spanish.json",
   },
@@ -62,14 +61,11 @@ function loadProducts() {
   completeSpinner();
 }
 
-//redimensiona la tabla para no desfigurar el encabezado con respecto al cuerpo de la tabla
-
-$tableProductos.width("100%");
-
-/* $(window).on('resize', function() {
-  $('#tableProductos').css('width', '100%');
-  table.draw(true);
-}); */
+$(document).ready(function () {
+  setTimeout(() => {
+    $tableProductos.width("100%");
+  }, 2000);
+});
 
 $.validator.addMethod(
   "rentabilidadInput",
