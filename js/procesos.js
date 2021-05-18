@@ -1,3 +1,6 @@
+import { Notifications, verifyFields } from "./utils/notifications.js";
+const notifications = new Notifications();
+
 document.querySelector('a[href$="#process"').addEventListener("click", () => {
   elById("input-proceso").value = "";
   elById("inlineRadioProc1").click();
@@ -13,18 +16,6 @@ function clearFormProcess() {
     );
     $("#input-proceso").remove();
   }
-}
-
-function addSelectecFormProcces(data) {
-  // se agregan todas las maquinas en un input select
-  let string = `<select id="input-proceso" class="form-control" name="proceso"><option selected disabled>Seleccione un proceso</option>`;
-  data.forEach((process) => {
-    string += `<option value="${process.id}">${process.name}</option>`;
-  });
-  string += "</select>";
-  $("#input-proceso").parent().append(string);
-  // se quita el input de tipo de texto
-  $("#input-proceso").remove();
 }
 
 // cambio entre adicionar y modificar
@@ -69,15 +60,18 @@ var $tableProcesos = $("#table-procesos").dataTable({
   ],
   reponsive: true,
 });
-$tableProcesos.width("100%");
-/* $tableProcesos.on('click', 'tr', function () {
-  $(this).toggleClass('selected');
-}) */
-
-// formulario para adicionar o modificar valores de una maquina
 
 $("#form-procesos").submit(function (e) {
   e.preventDefault();
+  const fieldsVerification = verifyFields({
+    name: "Proceso",
+    value: $("#input-proceso").val(),
+  });
+
+  if (fieldsVerification) {
+    notifications.error(fieldsVerification.message);
+    return false;
+  }
   let request = $(this).serialize();
 
   $.post("api/add_modify_processes.php", request).always(function (xhr) {
@@ -215,12 +209,6 @@ elById("table-procesos").addEventListener("click", (ev) => {
   }
 });
 
-/* recargar select si son adicionados procesos */
-/* function recargar_select() {
-  $('#select-proceso').empty();
-  $.get('api/get_processes.php', (processes, status) => {
-    processes.forEach((process) => {
-      $('#select-proceso').append(`<option value="${process.id}">${process.name}</option>`)
-    })
-  })
-} */
+function elById(id) {
+  return document.getElementById(id);
+}

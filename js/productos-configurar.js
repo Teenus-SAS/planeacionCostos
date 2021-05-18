@@ -1,3 +1,7 @@
+import { Notifications, verifyFields } from "./utils/notifications.js";
+
+const notifications = new Notifications();
+
 let materiales = [];
 $.get("/app/config-general/api/get_materials.php", (_materials) => {
   $("#input-materia").html(
@@ -42,7 +46,6 @@ $selectRef.append(
 $formGroupParent.append($selectRef);
 $("#inputProducto").parent().append($selectProduct);
 $.get("api/get_products.php?materials", (data, status, xhr) => {
-  productsJSON = data;
   if (status == "success") {
     data.forEach((product) => {
       $selectRef.append(
@@ -198,121 +201,127 @@ $(document).on("click", ".link-editar", function (ev) {
   $("#btnConfigProducts").html("Actualizar");
 });
 
-$("#form-raw-materials-products").validate({
-  submitHandler: function (form) {
-    const cantidad = parseFloat($("#input-cantidad").val());
+$("#form-raw-materials-products")
+  .submit((e) => {
+    e.preventDefault();
+  })
+  .validate({
+    submitHandler: function (form) {
+      const cantidadParsed = PriceParser.fromString($("#input-cantidad").val());
+      const producto = $("#inputProducto").val();
+      const materia = $("#input-materia").val();
 
-    if (!cantidad) {
-      $.notify(
+      const fieldsVerification = verifyFields(
+        { name: "Producto", value: producto },
+        { name: "Materia", value: materia },
         {
-          icon: "nc-icon nc-bell-55",
-          message: "Cantidad no puede ser 0",
-        },
-        {
-          type: "danger",
-          timer: 8000,
+          name: "Cantidad",
+          value: cantidadParsed.price ? cantidadParsed.price : "",
         }
       );
-      return;
-    }
 
-    let request = $(form).serialize();
-
-    $.post(
-      "api/add_modify_raw_material_products.php",
-      request,
-      (_data, _status, xhr) => {}
-    ).always(function (xhr) {
-      switch (xhr.status) {
-        case 200:
-          $.notify(
-            {
-              icon: "nc-icon nc-bell-55",
-              message:
-                "Materia Prima Asociada <b>Correctamente</b> al Producto",
-            },
-            {
-              type: "primary",
-              timer: 8000,
-            }
-          );
-          $tableProductoMateria.api().ajax.reload();
-          resetFormOptions();
-          break;
-        case 201:
-          $.notify(
-            {
-              icon: "nc-icon nc-bell-55",
-              message: "Producto <b>Creado</b> Correctamente",
-            },
-            {
-              type: "success",
-              timer: 8000,
-            }
-          );
-          $("#config-color").css("color", "orange");
-          $tableProductoMateria.api().ajax.reload();
-          resetFormOptions();
-          loadProductsGG();
-          loadProductsPP();
-          loadProductsInXLSX();
-          break;
-        case 400:
-          $.notify(
-            {
-              icon: "nc-icon nc-bell-55",
-              message: "<b>Completa</b> Todos los campos",
-            },
-            {
-              type: "warning",
-              timer: 8000,
-            }
-          );
-          break;
-        case 500:
-          $.notify(
-            {
-              icon: "nc-icon nc-bell-55",
-              message: "Esta <b>Referencia</b> ya existe",
-            },
-            {
-              type: "danger",
-              timer: 8000,
-            }
-          );
-          break;
-        case 401:
-          location.href = "/login";
-          break;
-        case 403:
-          $.notify(
-            {
-              icon: "nc-icon nc-bell-55",
-              message:
-                "No puede crear más productos <br> Se ha alcanzado el limite de productos licenciados",
-            },
-            {
-              type: "danger",
-              timer: 8000,
-            }
-          );
-          break;
+      if (fieldsVerification) {
+        notifications.error(fieldsVerification.message);
+        return false;
       }
-    });
-  },
-});
+
+      let request = $(form).serialize();
+
+      $.post(
+        "api/add_modify_raw_material_products.php",
+        request,
+        (_data, _status, xhr) => {}
+      ).always(function (xhr) {
+        switch (xhr.status) {
+          case 200:
+            $.notify(
+              {
+                icon: "nc-icon nc-bell-55",
+                message:
+                  "Materia Prima Asociada <b>Correctamente</b> al Producto",
+              },
+              {
+                type: "primary",
+                timer: 8000,
+              }
+            );
+            $tableProductoMateria.api().ajax.reload();
+            resetFormOptions();
+            break;
+          case 201:
+            $.notify(
+              {
+                icon: "nc-icon nc-bell-55",
+                message: "Producto <b>Creado</b> Correctamente",
+              },
+              {
+                type: "success",
+                timer: 8000,
+              }
+            );
+            $("#config-color").css("color", "orange");
+            $tableProductoMateria.api().ajax.reload();
+            resetFormOptions();
+            loadProductsGG();
+            loadProductsPP();
+            loadProductsInXLSX();
+            break;
+          case 400:
+            $.notify(
+              {
+                icon: "nc-icon nc-bell-55",
+                message: "<b>Completa</b> Todos los campos",
+              },
+              {
+                type: "warning",
+                timer: 8000,
+              }
+            );
+            break;
+          case 500:
+            $.notify(
+              {
+                icon: "nc-icon nc-bell-55",
+                message: "Esta <b>Referencia</b> ya existe",
+              },
+              {
+                type: "danger",
+                timer: 8000,
+              }
+            );
+            break;
+          case 401:
+            location.href = "/login";
+            break;
+          case 403:
+            $.notify(
+              {
+                icon: "nc-icon nc-bell-55",
+                message:
+                  "No puede crear más productos <br> Se ha alcanzado el limite de productos licenciados",
+              },
+              {
+                type: "danger",
+                timer: 8000,
+              }
+            );
+            break;
+        }
+      });
+    },
+  });
 
 /* Desvincular materia prima del producto */
 $(document).on("click", ".link-borrar", function (e) {
   e.preventDefault();
   const selectedElement = e.target;
 
-  element = $(this).parents("tr").find("td").eq(0).html();
+  const element = $(this).parents("tr").find("td").eq(0).html();
   eliminar_materiaprima_productos(selectedElement.dataset.prodId, element);
 });
 
 function eliminar_materiaprima_productos(element, materiaprima) {
-  producto = $("#inputProducto option:selected").html();
+  let producto = $("#inputProducto option:selected").html();
 
   if (producto == undefined) producto = "";
 

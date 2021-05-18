@@ -1,19 +1,13 @@
-/**
- * @author  Teenus SAS
- * @github Teenus SAS
- * logica de procesos por productos
- * permite agregar, modificar y eliminar procesos asociados un productos
- */
+import { Notifications, verifyFields } from "./utils/notifications.js";
 
-// variables de ambito global
+const notifications = new Notifications();
+
 var productsInProcess;
 
 loadProductsPP();
 function loadProductsPP() {
   $.get("api/get_products.php?process", (_products, status, xhr) => {
-    // se consulta los productos de esa empresa
     if (status == "success") {
-      // se agregan todos los productos en un input select
       $("#inputRefProcess").html(
         "<option disabled selected>Selecciona una Referencia</option>"
       );
@@ -63,15 +57,12 @@ function loadProductsPP() {
   });
 }
 
-// cargado de procesos
-
 $.get(
   "/app/config-general/api/get_processes.php",
   (_processes, status, xhr) => {
     $("#selectProcess").append(
       `<option selected disabled>Selecciona un proceso</option>`
     );
-    processesJSON = _processes;
     _processes.forEach((process) => {
       $("#selectProcess").append(
         `<option value="${process.id}">${process.name}</option>`
@@ -80,13 +71,10 @@ $.get(
   }
 );
 
-// cargado de maquinas
-
 $.get("/app/config-general/api/get_machines.php", (_machines, status, xhr) => {
   $("#selectMachines").append(
     `<option selected disabled>Selecciona un máquina</option><option value="NULL">Ninguna</option>`
   );
-  machinesJSON = _machines;
   _machines.forEach((machine) => {
     $("#selectMachines").append(
       `<option value="${machine.id}">${machine.name}</option>`
@@ -120,8 +108,6 @@ function calculateTimeSeg() {
   }
 }
 
-/* Suma total de tiempo de proceso */
-
 $("#input-tiempo-alistamiento").keyup(function (e) {
   e.preventDefault();
   totalTiempoProceso();
@@ -139,30 +125,36 @@ function totalTiempoProceso() {
   $("#input-tiempo-total").val(tiempoTotal);
 }
 
-// enviado de formulario
-
 $("#form-product-process").submit(function (e) {
   e.preventDefault();
 
-  let request = $(this).serialize();
-  //request += `&timeProcess=${60 / $("#input-unidad-hora").val()}`;
   totalTiempoProceso();
-  if (
-    !$("#input-tiempo-total").val() ||
-    $("#input-tiempo-total").val() == "0"
-  ) {
-    $.notify(
-      {
-        icon: "nc-icon nc-bell-55",
-        message: "El <b>Tiempo Total</b> no puede ser cero (0)",
-      },
-      {
-        type: "danger",
-        timer: 8000,
-      }
-    );
-    return;
+
+  const producto = $("#inputProductProcess").val();
+  const proceso = $("#selectProcess").val();
+  const tiempoTotal = $("#input-tiempo-total").val();
+
+  const fieldsVerification = verifyFields(
+    {
+      name: "Producto",
+      value: producto,
+    },
+    {
+      name: "Proceso",
+      value: proceso,
+    },
+    {
+      name: "Tiempo Total",
+      value: tiempoTotal,
+      message: "El <b>Tiempo Total</b> no puede ser cero (0)",
+    }
+  );
+
+  if (fieldsVerification) {
+    notifications.error(fieldsVerification.message);
+    return false;
   }
+  let request = $(this).serialize();
   $.post(
     "api/add_modify_product_process.php",
     request,
@@ -326,7 +318,7 @@ $("#selectProcess").change(function () {
 $(document).on("click", ".link-editar-procesos", function (e) {
   e.preventDefault();
 
-  ref = $("#inputRefProcess").val();
+  let ref = $("#inputRefProcess").val();
 
   if (ref == null || ref == "") {
     $.notify(
@@ -342,10 +334,10 @@ $(document).on("click", ".link-editar-procesos", function (e) {
     return false;
   }
 
-  proceso = $(this).parents("tr").find("td").eq(0).html();
-  maquina = $(this).parents("tr").find("td").eq(1).html();
-  tiempoAlistamiento = $(this).parents("tr").find("td").eq(2).html();
-  tiempoOperacion = $(this).parents("tr").find("td").eq(3).html();
+  let proceso = $(this).parents("tr").find("td").eq(0).html();
+  let maquina = $(this).parents("tr").find("td").eq(1).html();
+  let tiempoAlistamiento = $(this).parents("tr").find("td").eq(2).html();
+  let tiempoOperacion = $(this).parents("tr").find("td").eq(3).html();
 
   $(`#selectProcess option:contains(${proceso})`).prop("selected", true);
 
@@ -365,14 +357,14 @@ $(document).on("click", ".link-borrar-procesos", function (e) {
   e.preventDefault();
   const selectedElement = e.target;
 
-  element = $(this).parents("tr").find("td").eq(0).html();
+  const element = $(this).parents("tr").find("td").eq(0).html();
   eliminar_procesos_productos(selectedElement.dataset.prodId, element);
 });
 
 // borrado de procesos
 //$('#btn-delete-process').click(() => {
 function eliminar_procesos_productos(element, proceso) {
-  producto = $("#inputProductProcess option:selected").html();
+  let producto = $("#inputProductProcess option:selected").html();
 
   if (producto == undefined || producto == "Selecciona un Producto")
     producto = "";

@@ -850,7 +850,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
   <script src="/js/utils/PriceParser.js"></script>
   <script src="/js/utils/loadData.js" type="module"></script>
   <script src="/js/app/xlsx/SubidaExcel.js" type="module"></script>
-  <script src="/js/servicios-externos.js"></script>
+  <script src="/js/servicios-externos.js" type="module"></script>
   <script src="/js/toggleSidebar.js"></script>
   <script>
     if ($(window).width() < 768) {
@@ -868,8 +868,8 @@ include(PARTIALS_PATH . "verify_session.php") ?>
   <script src="/js/RedondeoDecimal.js"></script>
 
   <!--   <script src="/js/productos.js"></script> -->
-  <script src="/js/productos-configurar.js"></script>
-  <script src="/js/productos_procesos.js"></script>
+  <script src="/js/productos-configurar.js" type="module"></script>
+  <script src="/js/productos_procesos.js" type="module"></script>
   <script src="/js/distribucion-gastos.js" type="module"></script>
   <script src="/js/calculo_GG.js"></script>
   <script src="/js/app/xlsx/xlsx_productos_materiaprima.js" type="module"></script>

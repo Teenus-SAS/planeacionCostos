@@ -1,3 +1,5 @@
+import { Notifications, verifyFields } from "./utils/notifications.js";
+const notifications = new Notifications();
 verifySettedConfiguration("tabCargaFabril");
 
 $(".link-borrar-carga-fabril").css("cursor", "pointer");
@@ -131,14 +133,6 @@ function calcularCostoPorMinuto() {
   $("#costoCargaFabril").val(costoPriceParsed.strPrice);
 }
 
-function loadingSpinner() {
-  $("#spinnerAjax").removeClass("fade");
-}
-
-function completeSpinner() {
-  $("#spinnerAjax").addClass("fade");
-}
-
 /* Envio de formulario */
 
 function submitForm(e) {
@@ -154,30 +148,20 @@ function submitForm(e) {
     0
   );
   let costo = costoParsed.price;
+  const fieldsVerification = verifyFields(
+    { name: "Maquina", value: maquina },
+    { name: "Mantenimiento", value: mantenimiento },
+    {
+      name: "Costo",
+      value: costoParsed.price ? costoParsed.price : "",
+    }
+  );
 
-  if (maquina === null || mantenimiento === "") {
-    return $.notify(
-      {
-        icon: "nc-icon nc-bell-55",
-        message: "Ingrese <b>Todos</b> los campos",
-      },
-      {
-        type: "danger",
-        timer: 8000,
-      }
-    );
-  } else if (!costo) {
-    return $.notify(
-      {
-        icon: "nc-icon nc-bell-55",
-        message: "El costo no puede ser 0 cero",
-      },
-      {
-        type: "danger",
-        timer: 8000,
-      }
-    );
+  if (fieldsVerification) {
+    notifications.error(fieldsVerification.message);
+    return false;
   }
+
   $("#costoCargaFabril").val(costo);
 
   let request = $(this).serialize();

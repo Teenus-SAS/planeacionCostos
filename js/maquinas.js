@@ -1,5 +1,8 @@
+import { Notifications, verifyFields } from "./utils/notifications.js";
+const notifications = new Notifications();
+
 verifySettedConfiguration("tabMaquinas");
-flag = false;
+let flag = false;
 
 function clearformMachines() {
   $("#input-maquinas").val("");
@@ -182,36 +185,35 @@ document.getElementById("table-maquinas").addEventListener("click", (ev) => {
 function submitMaquinasForm(e, option, maquina) {
   e.preventDefault();
 
-  let precio_maquina = $("#input-price-machine").val();
+  let nombreMaquina = $("#input-maquinas").val();
+  let precioMaquina = $("#input-price-machine").val();
   let depreciacion = $("#input-depreciation-machine").val();
   let valor_residual = $("#input-valor-residual").val();
 
-  let total = precio_maquina * depreciacion;
+  let total = precioMaquina * depreciacion;
+
+  const fieldsVerification = verifyFields(
+    { name: "Nombre", value: nombreMaquina },
+    { name: "Precio", value: precioMaquina },
+    {
+      name: "Años de Depreciación",
+      value: $("#input-years-depreciation").val(),
+    }
+  );
+
+  if (fieldsVerification) {
+    notifications.error(fieldsVerification.message);
+    return false;
+  }
 
   if (total == 0) {
-    $.notify(
-      {
-        icon: "nc-icon nc-bell-55",
-        message: "Ingrese todos los <b>datos</b>",
-      },
-      {
-        type: "primary",
-        timer: 8000,
-      }
-    );
+    notifications.error("Debes ingresar un valor válido para la máquina");
     return false;
   }
 
   if (Number.isNaN(valor_residual)) {
-    $.notify(
-      {
-        icon: "nc-icon nc-bell-55",
-        message: "Ingrese el valor residual, este valor puede ser cero (0)",
-      },
-      {
-        type: "primary",
-        timer: 8000,
-      }
+    notifications.error(
+      "Ingrese el valor residual, este valor puede ser cero (0)"
     );
     return false;
   }
@@ -404,4 +406,8 @@ function checkIfMaquinaExists(name) {
   return Array.from(elById("table-maquinas").tBodies[0].rows).some(
     (row) => row.cells[0].textContent.trim() === name.trim()
   );
+}
+
+function elById(id) {
+  return document.getElementById(id);
 }

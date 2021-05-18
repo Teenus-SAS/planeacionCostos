@@ -382,6 +382,21 @@ $(document).on("click", ".link-borrar-distribucion-directa", function (event) {
 $("#formDistribucionDirecta").submit(function (e) {
   e.preventDefault();
   const porcentaje = parseFloat($("#inputPorcentajeProceso").val());
+  const proceso = $(`#inputProcesosDDirecta`).val();
+
+  if (!proceso) {
+    $.notify(
+      {
+        icon: "nc-icon nc-bell-55",
+        message: "Campo <b>Proceso</b> es requerido",
+      },
+      {
+        type: "danger",
+        timer: 8000,
+      }
+    );
+    return;
+  }
   if (!porcentaje) {
     $.notify(
       {
@@ -389,7 +404,7 @@ $("#formDistribucionDirecta").submit(function (e) {
         message: "Porcentaje no puede ser cero (0)",
       },
       {
-        type: "warning",
+        type: "danger",
         timer: 8000,
       }
     );
@@ -414,7 +429,8 @@ $("#formDistribucionDirecta").submit(function (e) {
         $.notify(
           {
             icon: "nc-icon nc-bell-55",
-            message: "El proceso ha sido <b>Actualizado</b> Correctamente",
+            message:
+              "El proceso ha sido <bProceso>Actualizado</bProceso> Correctamente",
           },
           {
             type: "primary",
@@ -526,3 +542,11 @@ $("#select-distibution .card").on("click", function () {
     },
   });
 });
+
+function loadingSpinner() {
+  $("#spinnerAjax").removeClass("fade");
+}
+
+function completeSpinner() {
+  $("#spinnerAjax").addClass("fade");
+}

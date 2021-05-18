@@ -1,8 +1,6 @@
-/* 
-@Author: Teenus SAS
-@github: Teenus-SAS
-logica de materia prima
-*/
+import { Notifications, verifyFields } from "./utils/notifications.js";
+
+const notifications = new Notifications();
 
 let flag = false;
 
@@ -22,7 +20,7 @@ function clearFormMaterials() {
       `<input id="input-materia-prima" class="form-control" type="text" name="material"> `
     );
     $("#input-materia-prima").remove();
-    elById("material-btn").value = "adicionar";
+    document.getElementById("material-btn").value = "adicionar";
   }
 }
 
@@ -39,7 +37,7 @@ $.get("api/get_materials.php", (data, status, xhr) => {
 $("input[name=optionMateriaPrima]").change(function () {
   $tableMateriaPrima.api().search("").draw();
   if ($(this).val() == "option2") {
-    elById("material-btn").value = "Modificar";
+    document.getElementById("material-btn").value = "Modificar";
     $.get("api/get_materials.php", (data, status, xhr) => {
       /*     completeSpinner() */
       // se consulta los materiales de esa empresa
@@ -50,9 +48,9 @@ $("input[name=optionMateriaPrima]").change(function () {
       }
     });
   } else {
-    elById("material-btn").value = "Adicionar";
+    document.getElementById("material-btn").value = "Adicionar";
     resetFormMaterials();
-    elById("input-materia-prima").readOnly = false;
+    document.getElementById("input-materia-prima").readOnly = false;
   }
 });
 
@@ -74,11 +72,8 @@ $("#input-unidad").autocomplete({
 
 // inicializacion de datatable Materia prima
 var $tableMateriaPrima = $("#table-materia-prima").dataTable({
-  //scrollY: "300px",
   scrollCollapse: true,
-  //paging: false,
   pageLength: 25,
-
   language: {
     url: "/vendor/dataTables/Spanish.json",
   },
@@ -86,9 +81,7 @@ var $tableMateriaPrima = $("#table-materia-prima").dataTable({
     url: "api/get_materials.php?dataTable=true",
     dataSrc: "data",
   },
-  columnDefs: [
-    /*  {targets: 0,className: 'text-left'}, */
-  ],
+  columnDefs: [],
   columns: [
     { data: "referencia" },
     { data: "description" },
@@ -109,12 +102,7 @@ var $tableMateriaPrima = $("#table-materia-prima").dataTable({
   ],
   reponsive: true,
 });
-$tableMateriaPrima.width("100%");
-/* $tableMateriaPrima.on('click', 'tr', function () {
-  $(this).toggleClass('selected');
-}) */
 
-// manejo de costo como precio
 $("#input-costo").number(true, 2);
 
 $("#form-materia-prima").submit(function (e) {
@@ -123,25 +111,43 @@ $("#form-materia-prima").submit(function (e) {
   if (materialsMateriaPrima != undefined) {
     let m = $("#input-materia-prima").val();
     let ref = $("#ref-materia-prima").val();
+    let costo = $("#input-costo").val();
     let materialSel = materialsMateriaPrima.filter(
       (material) =>
         material.description.trim().toLowerCase() == m.trim().toLowerCase() ||
         material.referencia.trim().toLowerCase() == ref.trim().toLowerCase()
     )[0];
 
+    const fieldsVerification = verifyFields(
+      { name: "Referencia", value: ref },
+      { name: "Materia Prima", value: m },
+      { name: "Costo", value: costo }
+    );
+    if (fieldsVerification) {
+      notifications.error(fieldsVerification.message);
+      return false;
+    }
     if (
       materialSel &&
-      elById("material-btn").value.trim().toLowerCase() === "modificar"
+      document.getElementById("material-btn").value.trim().toLowerCase() ===
+        "modificar"
     ) {
       submitFormMaterials(true);
       return;
     }
 
     if (
-      existsMateriaPrimaByName(elById("input-materia-prima").value) ||
-      existsMateriaPrimaByRef(elById("ref-materia-prima").value)
+      existsMateriaPrimaByName(
+        document.getElementById("input-materia-prima").value
+      ) ||
+      existsMateriaPrimaByRef(
+        document.getElementById("ref-materia-prima").value
+      )
     ) {
-      if (elById("material-btn").value.trim().toLowerCase() === "modificar") {
+      if (
+        document.getElementById("material-btn").value.trim().toLowerCase() ===
+        "modificar"
+      ) {
         submitFormMaterials(true);
       } else {
         $.confirm({
@@ -289,17 +295,19 @@ document
       const unidad = closestTr.cells[2].textContent.trim();
       const costo = closestTr.cells[3].textContent.replace("$", "").trim();
 
-      elById("idMateriaPrima").value = target.id;
-      elById("material-firstname").value = description;
-      elById("ref-materia-prima").value = referencia;
-      elById("input-materia-prima").value = description;
-      elById("input-unidad").value = unidad;
-      elById("input-costo").value = costo;
-      elById("material-btn").value = "modificar";
+      document.getElementById("idMateriaPrima").value = target.id;
+      document.getElementById("material-firstname").value = description;
+      document.getElementById("ref-materia-prima").value = referencia;
+      document.getElementById("input-materia-prima").value = description;
+      document.getElementById("input-unidad").value = unidad;
+      document.getElementById("input-costo").value = costo;
+      document.getElementById("material-btn").value = "modificar";
 
       materialSeletedByEdit.description = description;
       materialSeletedByEdit.id = target.dataset.materialId;
-      elById("idMateriaPrima").setAttribute("value", materialSeletedByEdit.id);
+      document
+        .getElementById("idMateriaPrima")
+        .setAttribute("value", materialSeletedByEdit.id);
     }
   });
 
@@ -344,12 +352,10 @@ function deleteMaterial(id, description) {
   });
 }
 
-function elById(id) {
-  return document.getElementById(id);
-}
-
 function existsMateriaPrimaByName(matPrimaName) {
-  const tableRows = Array.from(elById("table-materia-prima").tBodies[0].rows);
+  const tableRows = Array.from(
+    document.getElementById("table-materia-prima").tBodies[0].rows
+  );
   return tableRows.some((row) => {
     return (
       row.cells[1] &&
@@ -360,7 +366,9 @@ function existsMateriaPrimaByName(matPrimaName) {
 }
 
 function existsMateriaPrimaByRef(matPrimaRef) {
-  const tableRows = Array.from(elById("table-materia-prima").tBodies[0].rows);
+  const tableRows = Array.from(
+    document.getElementById("table-materia-prima").tBodies[0].rows
+  );
   return tableRows.some((row) => {
     return (
       row.cells[0].textContent.trim().toLowerCase() ===
@@ -372,11 +380,11 @@ function existsMateriaPrimaByRef(matPrimaRef) {
 /* Limpiar campos de materia prima */
 
 function resetFormMaterials() {
-  elById("idMateriaPrima").value = "";
-  elById("input-materia-prima").value = "";
-  elById("ref-materia-prima").value = "";
-  elById("input-materia-prima").readOnly = false;
-  elById("input-unidad").value = "";
-  elById("input-costo").value = "";
-  elById("material-btn").value = "Adicionar";
+  document.getElementById("idMateriaPrima").value = "";
+  document.getElementById("input-materia-prima").value = "";
+  document.getElementById("ref-materia-prima").value = "";
+  document.getElementById("input-materia-prima").readOnly = false;
+  document.getElementById("input-unidad").value = "";
+  document.getElementById("input-costo").value = "";
+  document.getElementById("material-btn").value = "Adicionar";
 }

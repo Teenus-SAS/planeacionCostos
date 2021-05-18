@@ -1,13 +1,8 @@
-/* 
-@Author: Teenus SAS
-@github: Teenus-SAS
-logica de servicios externos
-*/
+import { Notifications, verifyFields } from "./utils/notifications.js";
 
-/* Cambiar puntero */
+const notifications = new Notifications();
 $(".link-borrar-servicio-externo").css("cursor", "pointer");
 
-// cargar select productos
 $(document).ready(function () {
   $.get(
     "/app/config-general/api/get_products.php",
@@ -23,8 +18,6 @@ $(document).ready(function () {
     }
   );
 });
-
-// inicializacion de datatable para servicios externos
 
 var $tableServiciosExternos = $("#table-serviciosExternos").dataTable({
   scrollCollapse: true,
@@ -97,33 +90,30 @@ $("#form-serviciosExternos").submit(submitForm);
 // agreado de formato al input de precio
 $("#costoServicioExterno").number(true, 2);
 
-function loadingSpinner() {
-  $("#spinnerAjax").removeClass("fade");
-}
-
-function completeSpinner() {
-  $("#spinnerAjax").addClass("fade");
-}
-
-/* Envio de formulario */
-
 function submitForm(e) {
   e.preventDefault();
   const producto = $("#cfproductos").val();
   const nombre = $("#servicioexterno").val();
-  const costo = $("#costoServicioExterno").val();
+  const costoParsed = PriceParser.fromString($("#costoServicioExterno").val());
 
-  if (!producto || !nombre || !costo) {
-    return $.notify(
-      {
-        icon: "nc-icon nc-bell-55",
-        message: "Ingrese <b>Todos</b> los campos",
-      },
-      {
-        type: "danger",
-        timer: 8000,
-      }
-    );
+  const fieldsVerification = verifyFields(
+    {
+      name: "Producto",
+      value: producto,
+    },
+    {
+      name: "Servicio Externo",
+      value: nombre,
+    },
+    {
+      name: "Costo",
+      value: costoParsed.price ? costoParsed.price : "",
+    }
+  );
+
+  if (fieldsVerification) {
+    notifications.error(fieldsVerification.message);
+    return false;
   }
 
   let request = $(this).serialize();

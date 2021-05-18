@@ -1,4 +1,8 @@
+import { Notifications, verifyFields } from "./utils/notifications.js";
+
 verifySettedConfiguration("tabProductos");
+
+const notifications = new Notifications();
 
 document
   .querySelector('li.nav-item a[href$="#products"]')
@@ -76,95 +80,83 @@ $.validator.addMethod(
 
 // formulario para adicionar o modificar valores de una producto
 
-$("#form-products").validate({
-  submitHandler: function (form) {
-    let request = $(form).serialize();
-    let ref = $("#inputRef").val();
-    let producto = $("#inputProducto").val();
+$("#form-products")
+  .submit((e) => {
+    e.preventDefault();
+  })
+  .validate({
+    submitHandler: function (form) {
+      let request = $(form).serialize();
+      let ref = $("#inputRef").val();
+      let producto = $("#inputProducto").val();
 
-    if (
-      ref == undefined ||
-      ref == "" ||
-      producto == undefined ||
-      producto == ""
-    ) {
-      $.notify(
-        {
-          icon: "nc-icon nc-bell-55",
-          message: `Ingrese todos los datos`,
-        },
-        {
-          type: "danger",
-          timer: 8000,
-        }
+      const fieldsVerification = verifyFields(
+        { name: "Referencia", value: ref },
+        { name: "Producto", value: producto }
       );
-
-      return false;
-    }
-    if (
-      productReferenceAndNameExists(
-        document.getElementById("inputRef").value,
-        document.getElementById("inputProducto").value
-      )
-    ) {
-      bootbox.confirm({
-        title: "Crear Productos",
-        message: `El producto con referencia <b>"${
-          document.getElementById("inputRef").value
-        }"</b> y nombre <b>"${
-          document.getElementById("inputProducto").value
-        }"</b> ya existe, ¿Desea actualizarlo?`,
-        buttons: {
-          confirm: {
-            label: '<i class="fa fa-check"></i> Si',
-            className: "btn-danger",
-          },
-          cancel: {
-            label: '<i class="fa fa-times"></i> No',
-            className: "btn-info",
-          },
-        },
-        callback: function (result) {
-          if (result == true) {
-            $("#prodId").val(
-              findProductByName(document.getElementById("inputProducto").value)
-            );
-            request = $(form).serialize();
-            sendRequest(request);
-            return;
-          } else {
-            return;
-          }
-        },
-      });
-    } else {
+      if (fieldsVerification) {
+        notifications.error(fieldsVerification.message);
+        return false;
+      }
       if (
-        productReferenceOrNameExists(
+        productReferenceAndNameExists(
           document.getElementById("inputRef").value,
           document.getElementById("inputProducto").value
-        ) &&
-        !document.getElementById("prodId").value
+        )
       ) {
-        $.notify(
-          {
-            icon: "nc-icon nc-bell-55",
-            message: `El producto con referencia '${
-              document.getElementById("inputRef").value
-            }' o el nombre de producto '${
-              document.getElementById("inputProducto").value
-            }' ya existe.`,
+        bootbox.confirm({
+          title: "Crear Productos",
+          message: `El producto con referencia <b>"${
+            document.getElementById("inputRef").value
+          }"</b> y nombre <b>"${
+            document.getElementById("inputProducto").value
+          }"</b> ya existe, ¿Desea actualizarlo?`,
+          buttons: {
+            confirm: {
+              label: '<i class="fa fa-check"></i> Si',
+              className: "btn-danger",
+            },
+            cancel: {
+              label: '<i class="fa fa-times"></i> No',
+              className: "btn-info",
+            },
           },
-          {
-            type: "danger",
-            timer: 8000,
-          }
-        );
-        return;
+          callback: function (result) {
+            if (result == true) {
+              $("#prodId").val(
+                findProductByName(
+                  document.getElementById("inputProducto").value
+                )
+              );
+              request = $(form).serialize();
+              sendRequest(request);
+              return;
+            } else {
+              return;
+            }
+          },
+        });
+      } else {
+        if (
+          productReferenceOrNameExists(
+            document.getElementById("inputRef").value,
+            document.getElementById("inputProducto").value
+          ) &&
+          !document.getElementById("prodId").value
+        ) {
+          notifications.error(
+            `El producto con referencia <b>'${
+              document.getElementById("inputRef").value
+            }'</b> o el nombre de producto <b>'${
+              document.getElementById("inputProducto").value
+            }'</b> ya existe.`
+          );
+          return;
+        }
+        sendRequest(request);
       }
-      sendRequest(request);
-    }
-  },
-});
+    },
+  });
 
 function sendRequest(request) {
   $.post(
@@ -216,31 +208,14 @@ function sendRequest(request) {
         );
         break;
       case 500:
-        $.notify(
-          {
-            icon: "nc-icon nc-bell-55",
-            message: "Esta <b>Referencia</b> ya existe",
-          },
-          {
-            type: "danger",
-            timer: 8000,
-          }
-        );
+        notifications.error("Esta <b>Referencia</b> ya existe");
         break;
       case 401:
         location.href = "/login";
         break;
       case 403:
-        $.notify(
-          {
-            icon: "nc-icon nc-bell-55",
-            message:
-              "No puede crear más productos <br> Se ha alcanzado el limite de productos licenciados",
-          },
-          {
-            type: "danger",
-            timer: 8000,
-          }
+        notifications.error(
+          "No puede crear más productos <br> Se ha alcanzado el limite de productos licenciados"
         );
         break;
     }
@@ -313,15 +288,8 @@ function deleteProduct(prodId) {
               }
             );
           } else {
-            $.notify(
-              {
-                icon: "nc-icon nc-bell-55",
-                message: `El producto no se puede eliminar ya que puede estar asociado a línea de productos, materias primas, servicios externos o procesos.`,
-              },
-              {
-                type: "danger",
-                timer: 8000,
-              }
+            notifications.error(
+              `El producto no se puede eliminar ya que puede estar asociado a línea de productos, materias primas, servicios externos o procesos.`
             );
           }
         });

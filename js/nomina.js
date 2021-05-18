@@ -738,3 +738,7 @@ function resetFieldsRoster() {
   elById("inputFP").value = "0.0";
   elById("cargo-id").value = "";
 }
+
+function elById(id) {
+  return document.getElementById(id);
+}

@@ -1243,18 +1243,16 @@ include(PARTIALS_PATH . "verify_session.php");
   <script src="/js/RedondeoDecimal.js"></script>
   <script src="/js/configEmpresa/verifySettedConfiguration.js"></script>
 
-  <script src="/js/productos-adicionar.js"></script>
+  <script src="/js/productos-adicionar.js" type="module"></script>
 
   <script src="/js/GastosGenerales/index.js" type="module"></script>
   <script src="/js/gastos-generales.js" type="module"></script>
 
-  <script src="/js/productos_procesos.js"></script>
-
-  <script src="/js/materia-prima.js"></script>
+  <script src="/js/materia-prima.js" type="module"></script>
   <script src="/js/factor-prestacional.js"></script>
-  <script src="/js/maquinas.js"></script>
-  <script src="/js/carga-fabril.js"></script>
-  <script src="/js/procesos.js"></script>
+  <script src="/js/maquinas.js" type="module"></script>
+  <script src="/js/carga-fabril.js" type="module"></script>
+  <script src="/js/procesos.js" type="module"></script>
   <script src="/js/nomina.js"></script>
   <script src="/js/app/xlsx/xlsx_gastos_generales.js" type="module"></script>
   <script src="/js/app/xlsx/xlsx_productos.js" type="module"></script>
