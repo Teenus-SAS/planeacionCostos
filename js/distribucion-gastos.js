@@ -1,4 +1,5 @@
 import { loadDatafromEndpoint } from "./utils/loadData.js";
+
 loadMonthExpenses();
 function loadMonthExpenses() {
   loadDatafromEndpoint(
@@ -74,7 +75,7 @@ function loadProcessesDDirecta() {
           "<option disabled selected>Selecciona un proceso</option>"
         );
         processesDDirecta = processes;
-        processesDDirecta.forEach((process) => {
+        processesDDirecta.sort().forEach((process) => {
           $("#inputProcesosDDirecta").append(
             `<option value="${process.id}">${process.name}</option>`
           );
