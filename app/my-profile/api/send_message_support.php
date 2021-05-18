@@ -12,7 +12,7 @@ session_start();
 if (isset($_POST["subject"]) && isset($_POST["content"]) && isset($_SESSION["user"])) {
     $userDao = new UserDao();
     $user = unserialize($_SESSION["user"]);
-    $mail = new PHPMailer();
+    $mail = new PHPMailer(true);
     $mail->isSMTP();
     $mail->SMTPAuth = true;
     $mail->Port = $_ENV["smtpPort"];
@@ -29,14 +29,22 @@ if (isset($_POST["subject"]) && isset($_POST["content"]) && isset($_SESSION["use
     $mail->Body = $_POST["content"] . "<p>Usuario: " . $user->getUsername() . "</p>
     <p>Empresa: " . $user->getCompany()->getTradename() . "</p>";
     $mail->SMTPSecure = 'tls';
-    if (!$mail->send()) {
+    try {
+        $mailSended = $mail->send();
+
+        if ($mailSended) {
+            http_response_code(200);
+            $response->status = true;
+            $response->message = "Se ha enviado un correo de Recuperación";
+        } else {
+            http_response_code(500);
+            $response->message = "No se ha podido enviar el Mensaje Por Favor intentalo de nuevo";
+            $response->errorEmail = $mail->ErrorInfo;    
+        }
+    } catch (phpmailerException $ex) {
         http_response_code(500);
         $response->message = "No se ha podido enviar el Mensaje Por Favor intentalo de nuevo";
         $response->errorEmail = $mail->ErrorInfo;
-    } else {
-        http_response_code(200);
-        $response->status = true;
-        $response->message = "Se ha enviado un correo de Recuperación";
     }
 } else {
     http_response_code(400);

@@ -11,9 +11,11 @@ if (isset($_POST["username"]) && isset($_POST["password"])) {
   $user = $userDao->findByUserName($_POST["username"]);
   if ($user != null) {
     $now = time();
-    $expirationDate = $user->getCompany()->getLicenseExpiration();
-    if (time() >= ($user->getCompany()->getLicenseExpiration())) {
+    $expirationDate = strtotime($user->getCompany()->getLicenseExpiration());
+    if (time() >= $expirationDate) {
       $user->getCompany()->setActiveLicense(false);
+    } else {
+      $user->getCompany()->setActiveLicense(true);
     }
     if ($user->getCompany()->getActiveLicense()) {
       if ($user->getActive()) {
@@ -45,7 +47,7 @@ if (isset($_POST["username"]) && isset($_POST["password"])) {
     } else {
       $response->status = false;
       $response->typeError = "license";
-      $response->message = "La licencia ha caducado";
+      $response->message = "La licencia de la empresa ha caducado";
     }
   } else {
     $response->status = false;
