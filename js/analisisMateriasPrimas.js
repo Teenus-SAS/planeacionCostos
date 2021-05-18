@@ -13,10 +13,9 @@ $(document).ready(function () {
   $("#input-UnidadesFMes").attr("disabled", "disabled");
   $("#input-productoA").append(
     "<option selected disabled>Seleccione un producto</option>"
-  ); //llamado de los productos de la base de datos
+  );
   $.get("api/get_productosA.php?materials", (data, status, xhr) => {
     productsJSON = data;
-    //Si el llamado es exitoso carga los datos en el input de los productos
     if (status == "success") {
       data.forEach((product) => {
         $("#input-productoA").append(
@@ -24,7 +23,7 @@ $(document).ready(function () {
         );
       });
     }
-    //se activa al selecionar un producto
+
     $("#input-productoA").change(function () {
       $("#input-UnidadesFMes").removeAttr("disabled");
       arrPorcentaje = new Array();
@@ -112,6 +111,10 @@ $(document).ready(function () {
                 {
                   bSortable: false,
                   aTargets: ["no-sort"],
+                },
+                {
+                  asSorting: ["desc"],
+                  aTargets: [5],
                 },
               ],
               bFilter: false,
@@ -381,13 +384,13 @@ $(document).ready(function () {
   });
 });
 
-//variable que guardara la cantidad del producto para dividirlo por el valor por kilo
+//variable que guardara la cantidad del producto para dividirlo por el valor por kil
 var cant;
-//inicializacion de la tabla de materias primas por orden de produccion
 var $tableProductoMateriaA = $("#tableAnalisisMateriaPrima").dataTable({
   bFilter: false,
   bInfo: false,
   bPaginate: false,
+  order: [[5, "desc"]],
   language: {
     url: "/vendor/dataTables/Spanish.json",
     emptyTable: "Sin datos en la tabla",

@@ -252,7 +252,8 @@ $("#form-raw-materials-products")
             $.notify(
               {
                 icon: "nc-icon nc-bell-55",
-                message: "Producto <b>Creado</b> Correctamente",
+                message:
+                  "<b>Materia Prima</b> asociada correctamente al <b>producto</b>",
               },
               {
                 type: "success",
