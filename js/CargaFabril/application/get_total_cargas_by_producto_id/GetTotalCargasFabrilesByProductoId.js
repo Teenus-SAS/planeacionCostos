@@ -8,7 +8,12 @@ export function GetTotalCargasFabrilesByProductoId(productoId, procesos, cb) {
       let total = 0;
       procesos.forEach((proceso) => {
         let processTotal = 0;
-        let maquina = maquinas.find((mach) => mach.id == proceso.machine.id);
+        let maquina = maquinas.find((mach) => {
+          if (proceso.machine) {
+            return mach.id == proceso.machine.id;
+          }
+          return false;
+        });
         if (maquina) {
           console.log(cargas);
           let cargasMaquina = cargas.filter(
