@@ -4,7 +4,7 @@ verifySettedConfiguration("tabCargaFabril");
 
 $(".link-borrar-carga-fabril").css("cursor", "pointer");
 
-$("#cfmaquinas").focus(function () {
+const fillMachines = function () {
   $.get(
     "/app/config-general/api/get_machines.php",
     (_machines, status, xhr) => {
@@ -18,6 +18,10 @@ $("#cfmaquinas").focus(function () {
       });
     }
   );
+};
+fillMachines();
+$("#cfmaquinas").on({
+  focus: fillMachines,
 });
 
 /* Limpia campos si se cambia seleccion de maquina */
@@ -286,8 +290,8 @@ function sendData(request) {
 $(document).on("click", ".link-editar-carga-fabril", function (event) {
   event.preventDefault();
   $("#idCargaFabril").val(this.id);
-  maquina = $(this).parents("tr").find("td").eq(0).text();
-  mantenimiento = $(this).parents("tr").find("td").eq(1).text();
+  let maquina = $(this).parents("tr").find("td").eq(0).text();
+  let mantenimiento = $(this).parents("tr").find("td").eq(1).text();
   let costoParsed = PriceParser.fromString(
     $(this).parents("tr").find("td").eq(2).html(),
     true,
