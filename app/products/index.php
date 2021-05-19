@@ -871,7 +871,6 @@ include(PARTIALS_PATH . "verify_session.php") ?>
   <script src="/js/productos-configurar.js" type="module"></script>
   <script src="/js/productos_procesos.js" type="module"></script>
   <script src="/js/distribucion-gastos.js" type="module"></script>
-  <script src="/js/calculo_GG.js"></script>
   <script src="/js/app/xlsx/xlsx_productos_materiaprima.js" type="module"></script>
   <script src="/js/app/xlsx/xlsx_servicios_externos.js" type="module"></script>
   <script src="/js/app/xlsx/xlsx_productos_procesos.js" type="module"></script>

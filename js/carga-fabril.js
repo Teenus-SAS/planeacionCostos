@@ -24,16 +24,12 @@ $("#cfmaquinas").on({
   focus: fillMachines,
 });
 
-/* Limpia campos si se cambia seleccion de maquina */
-
 $("#cfmaquinas").change(function (e) {
   e.preventDefault();
   resetFormCargaFabril();
 });
 
-// inicializacion de datatable para la carga Fabril
-
-var $tableCargaFabril = $("#table-cargaFabril").dataTable({
+let $tableCargaFabril = $("#table-cargaFabril").dataTable({
   scrollCollapse: true,
   pageLength: 25,
 
