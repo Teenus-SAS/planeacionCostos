@@ -7,6 +7,7 @@ require_once DAO_PATH . "DistribucionDirectaDao.php";
 require_once DAO_PATH . "ProductDao.php";
 require_once DAO_PATH . "RosterDao.php";
 require_once DAO_PATH . "ProcessDao.php";
+require_once DAO_PATH . "OpcionesEmpresaDao.php";
 
 $response = new stdClass();
 // revisar si existe session
@@ -31,12 +32,7 @@ if (isset($_SESSION["user"])) {
   $response->ManoObra = [];
   $quantity = (int) $_GET["quantity"];
   if ($product->getProductProcesses() != null) {
-    foreach ($product->getProductProcesses() as $productProcess) {
-      $distribucion = $dDirectaDao->findOneByProcessId($user->getCompany()->getId(),$productProcess->getProcess()->getId());
-      if($distribucion)  {
-        $response->generalExpenses += $distribucion->getValorAsignado();
-      }
-      
+    foreach ($product->getProductProcesses() as $productProcess) {      
       $roster = $rosterDao->findByProcess($productProcess->getProcess());
       if ($roster != null) {
         $totalTimeProcess = (floatval($productProcess->getTimeAlistamiento()) + floatval($productProcess->getTimeOperacion()));

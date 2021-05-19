@@ -1,4 +1,6 @@
-var productsReq = JSON.parse(sessionStorage.getItem("products"));
+import { GetOpcionesEmpresa } from "./OpcionesEmpresa/application/get_opciones_actual_session/GetOpcionesEmpresa.js";
+
+let productsReq = JSON.parse(sessionStorage.getItem("products"));
 
 var dollar = 0;
 $("#dollar").load("api/page_dollar.php #cc-ratebox", (data, status, xhr) => {
@@ -10,7 +12,7 @@ $("#dollar").load("api/page_dollar.php #cc-ratebox", (data, status, xhr) => {
   $("#input-dollar").val(strDollar.replace(".", ",", "gi"));
   $("#input-dollar").number(true, 2, ",", ".");
 });
-var products = [];
+let products = [];
 $.get("/app/products/api/get_products.php", (data, status, xhr) => {
   $("#select-product").html("");
   products = data;
@@ -40,12 +42,10 @@ $.get("/app/products/api/get_products.php", (data, status, xhr) => {
   }
 });
 
-// formateo de entradas
 $(".number").number(true, 2, ",", ".");
 
 $("#select-product").change(function () {
   quitSimulation();
-  /*   console.log('select this', this); */
   if ($(this).val() == "total") {
     loadTotalCost();
   } else {
@@ -160,28 +160,53 @@ function loadCost(product, flag = false, cargaUnicoProducto = false) {
     `indicators.php?id=${product.id}&quantity=${product.quantity}`
   );
   $(".quantity-product").attr("readonly", false);
-  $.get(
-    "api/cost_product.php",
-    {
-      id: product.id,
-      quantity: product.quantity,
-    },
-    (data, status) => {
-      console.log("load one", data);
-      data.salesCommission = parseFloat(data.salesCommission);
-      if (!flag) {
-        data.quantity = product.quantity;
-      }
-      fillFields(data, flag, false);
-      if (cargaUnicoProducto) {
-        loadChartWhenOneProduct(data);
-      } else {
-        loadChartIndividual(data);
-      }
+  GetOpcionesEmpresa((opciones) => {
+    if (opciones && opciones.tipoDistribucion == 0) {
+      $.get(
+        "api/cost_product_by_distribucion_directa.php",
+        {
+          id: product.id,
+          quantity: product.quantity,
+        },
+        (data, status) => {
+          console.log("load one", data);
+          data.salesCommission = parseFloat(data.salesCommission);
+          if (!flag) {
+            data.quantity = product.quantity;
+          }
+          fillFields(data, flag, false);
+          if (cargaUnicoProducto) {
+            loadChartWhenOneProduct(data);
+          } else {
+            loadChartIndividual(data);
+          }
+        }
+      );
+    } else {
+      $.get(
+        "api/cost_product_by_volumen_ventas.php",
+        {
+          id: product.id,
+          quantity: product.quantity,
+        },
+        (data, status) => {
+          console.log("load one", data);
+          data.salesCommission = parseFloat(data.salesCommission);
+          if (!flag) {
+            data.quantity = product.quantity;
+          }
+          fillFields(data, flag, false);
+          if (cargaUnicoProducto) {
+            loadChartWhenOneProduct(data);
+          } else {
+            loadChartIndividual(data);
+          }
+        }
+      );
     }
-  );
+  });
 }
-var consolidated;
+let consolidated;
 
 consolidated = {
   quantity: 0,
@@ -203,61 +228,107 @@ function loadTotalCost() {
   $("#link-indicators").removeClass("btn btn-primary");
   $("#link-indicators").html("");
   $("#link-indicators").attr("href", `#`);
-  productsReq.forEach((product, indx) => {
-    $.get(
-      "api/cost_product.php",
-      {
-        id: product.id,
-        quantity: product.quantity,
-        consolidated: 1,
-      },
-      (data, status) => {
-        console.log(data);
-        // cantidades
-        consolidated.quantity += parseInt(product.quantity);
-        // total de costos
-        consolidated.totalCost += data.totalCost;
-        // precio de venta
-        consolidated.salePrice += data.salePrice;
-        //costos
-        consolidated.cost += data.cost;
-        // materia prima
-        consolidated.rawMaterialExpenses += data.rawMaterialExpenses;
-        //mano de obra
-        consolidated.laborCost += data.laborCost;
-        //costos indirectos
-        consolidated.indirectExpenses += data.indirectExpenses;
-        // gastos
-        consolidated.generalExpenses += data.generalExpenses;
-        // comision
-        /*    consolidated.salesCommission += data.salesCommission */
-        consolidated.salesCommission = parseFloat(data.salesCommission);
-        // rentabilidad
-        consolidated.profitability += data.profitability;
+  GetOpcionesEmpresa((opciones) => {
+    if (opciones && opciones.tipoDistribucion == 0) {
+      $.get(
+        "api/cost_product_by_distribucion_directa.php",
+        {
+          id: product.id,
+          quantity: product.quantity,
+        },
+        (data, status) => {
+          productsReq.forEach((product, indx) => {
+            console.log(data);
+            // cantidades
+            consolidated.quantity += parseInt(product.quantity);
+            // total de costos
+            consolidated.totalCost += data.totalCost;
+            // precio de venta
+            consolidated.salePrice += data.salePrice;
+            //costos
+            consolidated.cost += data.cost;
+            // materia prima
+            consolidated.rawMaterialExpenses += data.rawMaterialExpenses;
+            //mano de obra
+            consolidated.laborCost += data.laborCost;
+            //costos indirectos
+            consolidated.indirectExpenses += data.indirectExpenses;
+            // gastos
+            consolidated.generalExpenses += data.generalExpenses;
+            // comision
+            /*    consolidated.salesCommission += data.salesCommission */
+            consolidated.salesCommission = parseFloat(data.salesCommission);
+            // rentabilidad
+            consolidated.profitability += data.profitability;
 
-        //porcenjate rentabilidad del producto
-        consolidated.profitabilityMargin = parseFloat(data.profitabilityMargin);
+            //porcenjate rentabilidad del producto
+            consolidated.profitabilityMargin = parseFloat(
+              data.profitabilityMargin
+            );
 
-        fillFields(consolidated);
-        loadChart();
-      }
-    );
+            fillFields(consolidated);
+            loadChart();
+          });
+        }
+      );
+    } else {
+      $.get(
+        "api/cost_product_by_volumen_ventas.php",
+        {
+          id: product.id,
+          quantity: product.quantity,
+        },
+        (data, status) => {
+          productsReq.forEach((product, indx) => {
+            console.log(data);
+            // cantidades
+            consolidated.quantity += parseInt(product.quantity);
+            // total de costos
+            consolidated.totalCost += data.totalCost;
+            // precio de venta
+            consolidated.salePrice += data.salePrice;
+            //costos
+            consolidated.cost += data.cost;
+            // materia prima
+            consolidated.rawMaterialExpenses += data.rawMaterialExpenses;
+            //mano de obra
+            consolidated.laborCost += data.laborCost;
+            //costos indirectos
+            consolidated.indirectExpenses += data.indirectExpenses;
+            // gastos
+            consolidated.generalExpenses += data.generalExpenses;
+            // comision
+            /*    consolidated.salesCommission += data.salesCommission */
+            consolidated.salesCommission = parseFloat(data.salesCommission);
+            // rentabilidad
+            consolidated.profitability += data.profitability;
+
+            //porcenjate rentabilidad del producto
+            consolidated.profitabilityMargin = parseFloat(
+              data.profitabilityMargin
+            );
+
+            fillFields(consolidated);
+            loadChart();
+          });
+        }
+      );
+    }
   });
 }
 
-var trm, average, desvEst, limInf;
+let trm, average, desvEst, limInf;
 
 $.get("https://www.datos.gov.co/resource/32sa-8pi3.json", (_trm, status) => {
-  trm = _trm;
   let sum = 0;
-  values = [];
+  let values = [];
   _trm.forEach(($trm) => {
     sum += parseFloat($trm.valor);
     values.push($trm.valor);
   });
-  average = sum / _trm.length;
-  desvEst = math.std(values);
-  limInf = average - desvEst * 1;
+  let average = sum / _trm.length;
+  let desvEst = math.std(values);
+  let limInf = average - desvEst * 1;
   $("#input-dollar-export").val(limInf);
   $("#input-dollar-export").number(true, 2, ".", ",");
   calculateCoverExport(limInf);
@@ -277,7 +348,7 @@ let colors = [
 
 let color = colors[Math.floor(Math.random() * (colors.length - 0)) + 0];
 let countChart = 1;
-// inicializacion del grafico
+
 var charCost;
 function loadChart() {
   countChart++;
@@ -1120,3 +1191,5 @@ function cambioPorcentajeRentabilidad(inputPrecioVentaCOPValue, ev) {
   totalCostosUSD.value = newCostosUSDValue.toFixed(2) + " %";
   totalCostosCOP.value = formatCurrency(newCostosCOPValue);
 }
+
+export { consolidated, productsReq, products, limInf };

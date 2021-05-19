@@ -1,7 +1,7 @@
-import { GetEmpresa } from "../../../AjustesEmpresa/application/get_empresa/GetEmpresa.js";
 import { GetAllGastosGenerales } from "../../../GastosGenerales/application/get_gastos_generales_by_proceso_id/GetGastosGeneralesByProcesoId.js";
 import { GetProductosProcesosByProductoId } from "../../../ProductosProcesos/application/get_productos_procesos_by_producto_id/GetProductosProcesosByProductoId.js";
 import { CosteosIndividualReporteData } from "../../elements/individual_reporte/costeos_individual_reporte_datatable/data/CosteosIndividualReporteData.js";
+import { GetEmpresa } from "../../../OpcionesEmpresa/application/get_empresa/GetEmpresa.js";
 
 export function GetCosteosReporteByProductoId(
   productoId,
@@ -9,6 +9,7 @@ export function GetCosteosReporteByProductoId(
   totalServiciosExternos,
   totalMateriasPrimas,
   totalCargasFabriles,
+  serviciosExternos,
   cb
 ) {
   GetProductosProcesosByProductoId(productoId, (productosProcesos) => {
@@ -63,9 +64,14 @@ export function GetCosteosReporteByProductoId(
             recuperacionGastosCostos += parseFloat(dist.valorAsignado);
           }
         });
+        serviciosExternos
+          .filter((servicio) => servicio.idProducto == productoId)
+          .forEach((servicio) => {
+            recuperacionGastosCostos += parseFloat(servicio.costo);
+          });
         dataTable.push(
           new CosteosIndividualReporteData(
-            `Recuperación gastos y costos`,
+            `Recuperación Gastos y Costos`,
             0,
             recuperacionGastosCostos
           )

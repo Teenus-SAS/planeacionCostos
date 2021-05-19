@@ -269,10 +269,6 @@ include(PARTIALS_PATH . "verify_session.php") ?>
               <div style="text-align:center; margin-top:10%">
                 <button class="btn btn-primary" id="downloaad-pdf">Generar Reporte</button>
               </div>
-              <div style="text-align:center; margin-top:10%">
-                <button class="btn btn-primary" id="reporteProcesos">Reporte Procesos</button>
-              </div>
-
             </div>
           </div>
         </div>
@@ -319,9 +315,9 @@ include(PARTIALS_PATH . "verify_session.php") ?>
     
   </script>
   <script src="/js/RedondeoDecimal.js"></script>
-  <script src="/js/reporte.js"></script>
+  <script src="/js/reporte.js" type="module"></script>
   <script src="/js/app/indicators_report.js"></script>
-  <script src="/js/app/reportPdf.js"></script>
+  <script src="/js/app/reportPdf.js" type="module"></script>
   <script src="/js/toggleSidebar.js"></script>
 </body>
 

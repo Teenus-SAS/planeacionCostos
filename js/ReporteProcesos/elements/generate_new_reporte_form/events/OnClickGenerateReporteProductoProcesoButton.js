@@ -9,7 +9,7 @@ export function OnClickGenerateReporteProductoProcesoButton(buttonData, cb) {
     (data, total, totalMateriasPrimas, totalCargasFabriles) => {
       GetServiciosExternosReporteProductoProcesoByProductoId(
         buttonData.productoId,
-        (dataTableDetalle, totalServiciosExternos) => {
+        (dataTableDetalle, totalServiciosExternos, serviciosExternos) => {
           $("#option-id-producto-reporte").val(buttonData.productoId);
           GetCosteosReporteByProductoId(
             buttonData.productoId,
@@ -17,6 +17,7 @@ export function OnClickGenerateReporteProductoProcesoButton(buttonData, cb) {
             totalServiciosExternos,
             totalMateriasPrimas,
             totalCargasFabriles,
+            serviciosExternos,
             (dataCosteos) => {
               cb(data, dataTableDetalle, totalMateriasPrimas, dataCosteos);
             }

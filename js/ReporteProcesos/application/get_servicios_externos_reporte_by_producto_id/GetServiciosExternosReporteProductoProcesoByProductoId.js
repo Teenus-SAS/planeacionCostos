@@ -36,6 +36,6 @@ export function GetServiciosExternosReporteProductoProcesoByProductoId(
       )
     );
 
-    cb(dataTable, serviciosExternosCostoTotal);
+    cb(dataTable, serviciosExternosCostoTotal, servicios);
   });
 }
