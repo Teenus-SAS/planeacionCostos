@@ -58,8 +58,6 @@ function fillFields(data, flag = false, consolidado = true) {
     $(".quantity-product").val(data.quantity);
   }
 
-  console.log("fillfields ", data);
-
   /////// operaciones calculos finales a mostrar/////
 
   //// GASTOS GENERALES /////
@@ -69,14 +67,6 @@ function fillFields(data, flag = false, consolidado = true) {
   //////// COMISION VENTAS /////////////
   const pComisionVentas = data.salesCommission;
   const comisionVentas = (pComisionVentas * data.salePrice) / 100;
-
-  /*   const gComisionVentas = data.salesCommission;
-  const gGenerales = data.generalExpenses;
-  const gastos = gComisionVentas + gGenerales; */
-  ////// GASTOS PORCENTAJES //////////
-  /*   const gpComisionVentas = gComisionVentas * 100 / gastos; */
-  /*  const gpComisionVentas = gComisionVentas ;
-  const gpGenerales = gGenerales / gastos * 100; */
 
   ///// COSTOS /////////
   const cIndirectosFabricacion = data.indirectExpenses;

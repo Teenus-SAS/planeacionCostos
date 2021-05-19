@@ -17,6 +17,7 @@ export function GenerateReporteProductoProcesosByProductoId(
       GetProductosProcesosByProductoId(productoId, (procesos) => {
         GetTotalCargasFabrilesByProductoId(
           productoId,
+          procesos,
           (totalCargasFabriles) => {
             GetAllNominas((nominas) => {
               let reportes = [];
@@ -26,7 +27,7 @@ export function GenerateReporteProductoProcesosByProductoId(
                   cantidad,
                   (costosPorMinuto) => {
                     GetMateriasPrimasByProductoId(productoId, (materias) => {
-                      let tiempoTotalProcesos = 0;
+                      let tiempoTotalOperacionProcesos = 0;
                       procesos.forEach((proceso) => {
                         const nominasProceso = nominas.filter(
                           (nomina) => nomina.process.id == proceso.process.id
@@ -42,7 +43,9 @@ export function GenerateReporteProductoProcesosByProductoId(
                           parseFloat(proceso.timeAlistamiento) +
                           parseFloat(proceso.timeOperacion);
 
-                        tiempoTotalProcesos += totalTime;
+                        tiempoTotalOperacionProcesos += parseFloat(
+                          proceso.timeOperacion
+                        );
                         const processExists = reportes.find(
                           (reporte) =>
                             reporte.productoProceso == proceso.process.name
@@ -89,7 +92,7 @@ export function GenerateReporteProductoProcesosByProductoId(
                         reportes,
                         reporteTotal,
                         totalMateriasPrimas,
-                        totalCargasFabriles * tiempoTotalProcesos
+                        totalCargasFabriles
                       );
                     });
                   }

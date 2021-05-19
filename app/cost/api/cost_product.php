@@ -8,7 +8,6 @@ require_once DAO_PATH . "ProductDao.php";
 require_once DAO_PATH . "RosterDao.php";
 require_once DAO_PATH . "ProcessDao.php";
 
-
 $response = new stdClass();
 // revisar si existe session
 session_start();
@@ -40,7 +39,8 @@ if (isset($_SESSION["user"])) {
       
       $roster = $rosterDao->findByProcess($productProcess->getProcess());
       if ($roster != null) {
-        $response->laborCost += ($productProcess->getTimeAlistamiento() + $productProcess->getTimeOperacion() * $roster->getValueMinute());
+        $totalTimeProcess = (floatval($productProcess->getTimeAlistamiento()) + floatval($productProcess->getTimeOperacion()));
+        $response->laborCost += $totalTimeProcess * $roster->getValueMinute();
         array_push($response->ManoObra, array("tiempo" => $productProcess->getTimeAlistamiento() + $productProcess->getTimeOperacion(), "valor" => $roster->getValueMinute(), "costo" => $productProcess->getTimeAlistamiento() * $roster->getValueMinute()));
       }
 
@@ -82,10 +82,7 @@ if (isset($_SESSION["user"])) {
     $response->salePrice = $response->totalCost / (1 - ($product->getRentabilidad() / 100) - ($user->getCompany()->getSalesCommission() / 100));
     $response->profitability = ($product->getRentabilidad() / 100) * $response->salePrice;
   }
-
-
-
-
+  
   $response->productProfitability = $product->getRentabilidad();
   $response->profitabilityMargin = $user->getCompany()->getProfitabilityMargin();
 

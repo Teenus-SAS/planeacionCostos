@@ -204,7 +204,6 @@ function submitForm(e) {
 
 function sendData(request) {
   $.post("api/add_modify_carga_fabril.php", request).always(function (xhr) {
-    flag = false;
     switch (xhr.status) {
       case 200:
         $.notify(
@@ -235,7 +234,6 @@ function sendData(request) {
         resetFormCargaFabril();
         break;
       case 400:
-        flag = true;
         $.notify(
           {
             icon: "nc-icon nc-bell-55",
@@ -263,7 +261,6 @@ function sendData(request) {
         location.href = "/login";
         break;
       case 501:
-        flag = true;
         $.notify(
           {
             icon: "nc-icon nc-bell-55",
@@ -276,12 +273,12 @@ function sendData(request) {
         );
         break;
     }
-    if (flag == false) {
-      elById("cargaFabril-btn").value = "ADICIONAR";
-      elById("cargaFabril-btn").textContent = "ADICIONAR";
-      elById("cfmaquinas").value = "";
-      resetFormCargaFabril();
-    }
+    //if (flag == false) {
+    //  elById("cargaFabril-btn").value = "ADICIONAR";
+    //  elById("cargaFabril-btn").textContent = "ADICIONAR";
+    //  elById("cfmaquinas").value = "";
+    //resetFormCargaFabril();
+    //}
   });
 }
 
