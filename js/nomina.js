@@ -1,4 +1,6 @@
-verifySettedConfiguration("tabNomina");
+// import { verifySettedConfiguration } from "./OpcionesEmpresa/application/verify_setted_configuration/verifySettedConfiguration.js";
+
+// verifySettedConfiguration("tabNomina");
 $("#inputFP").prop("readonly", true);
 
 let addModifyPanelOpen = false;
@@ -385,10 +387,10 @@ var $tableNominas = $("#tableNominas").dataTable({
         if (!processExists) {
           processesSubtotals.push({
             name: processName,
-            total: salarios[index],
+            total: parseFloat(PriceParser.fromString(salarios[index]).price),
           });
         } else {
-          processExists.name += salarios[index];
+          processExists.total += parseFloat(salarios[index]);
         }
       });
 

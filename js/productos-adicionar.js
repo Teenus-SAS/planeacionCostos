@@ -1,4 +1,5 @@
 import { Notifications, verifyFields } from "./utils/notifications.js";
+import { verifySettedConfiguration } from "./OpcionesEmpresa/application/verify_setted_configuration/verifySettedConfiguration.js";
 
 verifySettedConfiguration("tabProductos");
 

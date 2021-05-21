@@ -1241,7 +1241,6 @@ include(PARTIALS_PATH . "verify_session.php");
   <script src="/js/utils/PriceParser.js"></script>
   <script src="/js/app/xlsx/SubidaExcel.js" type="module"></script>
   <script src="/js/RedondeoDecimal.js"></script>
-  <script src="/js/configEmpresa/verifySettedConfiguration.js"></script>
 
   <script src="/js/productos-adicionar.js" type="module"></script>
 
