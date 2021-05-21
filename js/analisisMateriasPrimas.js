@@ -17,11 +17,19 @@ $(document).ready(function () {
   $.get("api/get_productosA.php?materials", (data, status, xhr) => {
     productsJSON = data;
     if (status == "success") {
-      data.forEach((product) => {
-        $("#input-productoA").append(
-          `<option value="${product.id}">${product.name}</option>`
-        );
-      });
+      data
+        .sort((productA, productB) =>
+          productA.name < productB.name
+            ? -1
+            : productA.name > productB.name
+            ? 1
+            : 0
+        )
+        .forEach((product) => {
+          $("#input-productoA").append(
+            `<option value="${product.id}">${product.name}</option>`
+          );
+        });
     }
 
     $("#input-productoA").change(function () {

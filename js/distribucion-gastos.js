@@ -1,3 +1,4 @@
+import { fillSelect } from "./utils/fillSelect.js";
 import { loadDatafromEndpoint } from "./utils/loadData.js";
 
 loadMonthExpenses();
@@ -23,22 +24,23 @@ function loadProductsGG() {
   $.get("api/get_products.php?expenses", (_products, status, xhr) => {
     // se consulta los productos de esa empresa
     if (status == "success") {
-      // se agregan todos los productos en un input select
-      $("#inputRefGastos").html(
-        "<option disabled selected>Selecciona una Referencia</option>"
+      fillSelect(
+        "inputRefGastos",
+        _products.map((product) => {
+          return { value: product.id, description: product.ref };
+        }),
+        true,
+        "Seleccione una referencia"
       );
-      $("#inputProductosGastos").html(
-        "<option disabled selected>Selecciona un Producto</option>"
+      fillSelect(
+        "inputProductosGastos",
+        _products.map((product) => {
+          return { value: product.id, description: product.name };
+        }),
+        true,
+        "Seleccione un producto"
       );
       productsInExpenses = _products;
-      productsInExpenses.forEach((product) => {
-        $("#inputRefGastos").append(
-          `<option value="${product.id}">${product.ref}</option>`
-        );
-        $("#inputProductosGastos").append(
-          `<option value="${product.id}">${product.name}</option>`
-        );
-      });
 
       $("#inputRefGastos").change(function () {
         let productSelected = productsInExpenses.filter(
@@ -71,15 +73,15 @@ function loadProcessesDDirecta() {
     "/app/config-general/api/get_processes.php",
     (processes, status, xhr) => {
       if (status == "success") {
-        $("#inputProcesosDDirecta").html(
-          "<option disabled selected>Selecciona un proceso</option>"
-        );
         processesDDirecta = processes;
-        processesDDirecta.sort().forEach((process) => {
-          $("#inputProcesosDDirecta").append(
-            `<option value="${process.id}">${process.name}</option>`
-          );
-        });
+        fillSelect(
+          "inputProcesosDDirecta",
+          processes.map((process) => {
+            return { value: process.id, description: process.name };
+          }),
+          true,
+          "Seleccione un proceso"
+        );
 
         $tableDistribucionDirecta.api().ajax.reload();
       }

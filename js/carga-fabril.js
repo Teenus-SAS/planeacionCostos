@@ -12,11 +12,19 @@ const fillMachines = function () {
       $("#cfmaquinas").append(
         `<option selected disabled>Selecciona un máquina</option>`
       );
-      _machines.forEach((machine) => {
-        $("#cfmaquinas").append(
-          `<option value="${machine.id}">${machine.name}</option>`
-        );
-      });
+      _machines
+        .sort((machineA, machineB) =>
+          machineA.name < machineB.name
+            ? -1
+            : machineA.name > machineB.name
+            ? 1
+            : 0
+        )
+        .forEach((machine) => {
+          $("#cfmaquinas").append(
+            `<option value="${machine.id}">${machine.name}</option>`
+          );
+        });
     }
   );
 };

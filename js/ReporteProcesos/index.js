@@ -190,6 +190,7 @@ GetAllProductos((productos) => {
         description: producto.name,
       };
     }),
+    true,
     "Selecione un producto"
   );
 });

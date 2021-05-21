@@ -171,18 +171,17 @@ $("input[name=optionProductos]").change(function () {
 });
 // cargado de materias primas de la empresa
 $.get("/app/config-general/api/get_materials.php", (_materials) => {
-  $("#input-materia").html(
-    "<option selected disabled>Selecione un Material</option>"
-  );
   materialsJSON = _materials;
-  _materials.forEach((material) => {
-    $("#input-materia").append(
-      `<option value="${material.id}">${material.description}</option>`
-    );
-  });
+  fillSelect(
+    "input-materia",
+    _materials.map((material) => {
+      return { value: material.id, description: material.description };
+    }),
+    true,
+    "Seleccione una materia prima"
+  );
 });
 
-// inicializacion de datatable de productos
 var $tableProductos = $("#tableProductos").dataTable({
   scrollY: "200px",
   scrollCollapse: true,

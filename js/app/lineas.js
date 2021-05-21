@@ -113,17 +113,25 @@ $("#select-lineas").change(function () {
         `<a href="#" class="list-group-item active"><span class="pull-left title">Referencia</span><input title="toggle all" type="checkbox" class="all pull-right"><span class="pull-right title mar">Seleccion De Productos</span></a>`
       );
       let _products = products.slice();
-      data.forEach((product) => {
-        let discriminatedProduct = _products.filter(
-          (productSelect) => productSelect.id == product.id
-        )[0];
-        if (discriminatedProduct != undefined) {
-          _products.splice(_products.indexOf(discriminatedProduct), 1);
-        }
-        $("#list2").append(
-          `<a href="#" class="list-group-item"><span class="ref-product pull-left">${product.ref}</span>  <span class="product-name">${product.name}</span> <span class="id-product">${product.id}</span><input type="checkbox" class="pull-right"></a>`
-        );
-      });
+      data
+        .sort((productA, productB) =>
+          productA.name < productB.name
+            ? -1
+            : productA.name > productB.name
+            ? 1
+            : 0
+        )
+        .forEach((product) => {
+          let discriminatedProduct = _products.filter(
+            (productSelect) => productSelect.id == product.id
+          )[0];
+          if (discriminatedProduct != undefined) {
+            _products.splice(_products.indexOf(discriminatedProduct), 1);
+          }
+          $("#list2").append(
+            `<a href="#" class="list-group-item"><span class="ref-product pull-left">${product.ref}</span>  <span class="product-name">${product.name}</span> <span class="id-product">${product.id}</span><input type="checkbox" class="pull-right"></a>`
+          );
+        });
       loadProductsList(_products);
       /* toggle all checkboxes in group */
       $(".all").click(function (e) {

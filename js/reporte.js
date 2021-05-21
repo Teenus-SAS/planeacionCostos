@@ -16,22 +16,26 @@ let products = [];
 $.get("/app/products/api/get_products.php", (data, status, xhr) => {
   $("#select-product").html("");
   products = data;
-  productsReq.forEach((productReq) => {
-    let productSelected = data.filter(
-      (product) => product.id == productReq.id
-    )[0];
-    if (productSelected != undefined) {
-      $("#select-product").append(
-        `<option value="${productSelected.id}">${productSelected.ref}</option>`
-      );
-      products.push(productSelected);
-      $("#tableProducts tbody").append(`<tr>
+  productsReq
+    .sort((productA, productB) =>
+      productA.name < productB.name ? -1 : productA.name > productB.name ? 1 : 0
+    )
+    .forEach((productReq) => {
+      let productSelected = data.filter(
+        (product) => product.id == productReq.id
+      )[0];
+      if (productSelected != undefined) {
+        $("#select-product").append(
+          `<option value="${productSelected.id}">${productSelected.ref}</option>`
+        );
+        products.push(productSelected);
+        $("#tableProducts tbody").append(`<tr>
       <td>${productSelected.ref}</td>
       <td>${productSelected.name}</td>
       <td class="text-right" id="quantity-product-${productSelected.id}">${productReq.quantity}</td>
       </tr>`);
-    }
-  });
+      }
+    });
   if (productsReq.length > 1) {
     $("#select-product").append(
       `<option value="total" selected>Consolidado</option>`

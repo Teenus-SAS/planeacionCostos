@@ -1,28 +1,31 @@
+import { fillSelect } from "./utils/fillSelect.js";
 import { Notifications, verifyFields } from "./utils/notifications.js";
 
 const notifications = new Notifications();
 
-var productsInProcess;
+let productsInProcess;
 
 loadProductsPP();
 function loadProductsPP() {
   $.get("api/get_products.php?process", (_products, status, xhr) => {
     if (status == "success") {
-      $("#inputRefProcess").html(
-        "<option disabled selected>Selecciona una Referencia</option>"
+      fillSelect(
+        "inputRefProcess",
+        _products.map((product) => {
+          return { value: product.id, description: product.ref };
+        }),
+        true,
+        "Seleccione una referencia"
       );
-      $("#inputProductProcess").html(
-        "<option disabled selected>Selecciona un Producto</option>"
+      fillSelect(
+        "inputProductProcess",
+        _products.map((product) => {
+          return { value: product.id, description: product.name };
+        }),
+        true,
+        "Seleccione un producto"
       );
       productsInProcess = _products;
-      productsInProcess.forEach((product) => {
-        $("#inputRefProcess").append(
-          `<option value="${product.id}">${product.ref}</option>`
-        );
-        $("#inputProductProcess").append(
-          `<option value="${product.id}">${product.name}</option>`
-        );
-      });
 
       $("#inputRefProcess").change(function () {
         let productSelected = productsInProcess.filter(
@@ -60,26 +63,26 @@ function loadProductsPP() {
 $.get(
   "/app/config-general/api/get_processes.php",
   (_processes, status, xhr) => {
-    $("#selectProcess").append(
-      `<option selected disabled>Selecciona un proceso</option>`
+    fillSelect(
+      "selectProcess",
+      _processes.map((process) => {
+        return { value: process.id, description: process.name };
+      }),
+      true,
+      "Seleccione un proceso"
     );
-    _processes.forEach((process) => {
-      $("#selectProcess").append(
-        `<option value="${process.id}">${process.name}</option>`
-      );
-    });
   }
 );
 
 $.get("/app/config-general/api/get_machines.php", (_machines, status, xhr) => {
-  $("#selectMachines").append(
-    `<option selected disabled>Selecciona un máquina</option><option value="NULL">Ninguna</option>`
+  fillSelect(
+    "selectMachines",
+    _machines.map((mach) => {
+      return { value: mach.id, description: mach.name };
+    }),
+    true,
+    "Seleccione una máquina"
   );
-  _machines.forEach((machine) => {
-    $("#selectMachines").append(
-      `<option value="${machine.id}">${machine.name}</option>`
-    );
-  });
 });
 
 function cleanSelects() {

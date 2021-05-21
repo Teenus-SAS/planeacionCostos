@@ -1,18 +1,19 @@
+import { fillSelect } from "./utils/fillSelect.js";
 import { Notifications, verifyFields } from "./utils/notifications.js";
 
 const notifications = new Notifications();
 
 let materiales = [];
 $.get("/app/config-general/api/get_materials.php", (_materials) => {
-  $("#input-materia").html(
-    "<option selected disabled>Selecione un Material</option>"
-  );
   materiales = _materials;
-  _materials.forEach((material) => {
-    $("#input-materia").append(
-      `<option value="${material.id}">${material.description}</option>`
-    );
-  });
+  fillSelect(
+    "input-materia",
+    _materials.map((material) => {
+      return { value: material.id, description: material.description };
+    }),
+    true,
+    "Seleccione una materia prima"
+  );
 });
 // desaparece el input
 $("#inputRef").fadeOut();

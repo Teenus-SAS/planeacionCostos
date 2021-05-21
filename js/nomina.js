@@ -21,11 +21,19 @@ function recargar_select() {
     $("#select-proceso").append(
       `<option value="0" selected="true" disabled>Seleccione un proceso</option>`
     );
-    processes.forEach((process) => {
-      $("#select-proceso").append(
-        `<option value="${process.id}">${process.name}</option>`
-      );
-    });
+    processes
+      .sort((processA, processB) =>
+        processA.name < processB.name
+          ? -1
+          : processA.name > processB.name
+          ? 1
+          : 0
+      )
+      .forEach((process) => {
+        $("#select-proceso").append(
+          `<option value="${process.id}">${process.name}</option>`
+        );
+      });
   });
 }
 $("#input-bonificacion").number(true, 2);
@@ -387,7 +395,7 @@ var $tableNominas = $("#tableNominas").dataTable({
         if (!processExists) {
           processesSubtotals.push({
             name: processName,
-            total: parseFloat(PriceParser.fromString(salarios[index]).price),
+            total: parseFloat(salarios[index]),
           });
         } else {
           processExists.total += parseFloat(salarios[index]);

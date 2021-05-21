@@ -1,3 +1,4 @@
+import { fillSelect } from "./utils/fillSelect.js";
 import { Notifications, verifyFields } from "./utils/notifications.js";
 
 const notifications = new Notifications();
@@ -7,14 +8,14 @@ $(document).ready(function () {
   $.get(
     "/app/config-general/api/get_products.php",
     (_products, status, xhr) => {
-      $("#cfproductos").append(
-        `<option selected disabled>Selecciona un producto</option>`
+      fillSelect(
+        "cfproductos",
+        _products.map((product) => {
+          return { value: product.id, description: product.name };
+        }),
+        true,
+        "Selecciona un producto"
       );
-      _products.forEach((product) => {
-        $("#cfproductos").append(
-          `<option value="${product.id}">${product.name}</option>`
-        );
-      });
     }
   );
 });
