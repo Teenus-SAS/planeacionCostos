@@ -2,19 +2,6 @@
 
 set_time_limit(300);
 
-/**
- * @author Teenus SAS>
- * @github Teenus SAS
- * Este Script crea o modifica nominas desde un archivo excel
- * Se llama por metodo 
- * @method POST 
- * @param rostersJSON Un objeto json que contiene todos los datos de nominas subidas en el excel
- * 
- * @responsesCodes
- *  200: en caso de que se suba la información correctamente
- *  401: en caso de que no exista una session inciada
- */
-
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
 require_once DAO_PATH . "UserDao.php";
 require_once DAO_PATH . "RosterDao.php";
@@ -44,8 +31,8 @@ if (isset($_SESSION["user"])) {
 
   $responses = [];
   foreach ($rostersJSON as $rosterJSON) {
-    $salary = $rosterJSON->salario + $rosterJSON->horasextras;
-    $netSalary = $salary + ($salary * ($rosterJSON->prestaciones)) + $rosterJSON->otrosingresos + $rosterJSON->dotacion;
+    $salary = $rosterJSON->salario + $rosterJSON->horasextras + $rosterJSON->transporte;
+    $netSalary = $salary + ($salary * ($rosterJSON->prestaciones/100)) + $rosterJSON->otrosingresos + $rosterJSON->dotacion;
     $roster = new Roster();
     $roster->setIdCompany($user->getCompany()->getId());
     $roster->setPosition($rosterJSON->nombre);
@@ -56,7 +43,7 @@ if (isset($_SESSION["user"])) {
     $roster->setEndowment($rosterJSON->dotacion);
     $roster->setWorkHours($rosterJSON->horas);
     $roster->setBussinesDaysMonth($rosterJSON->dias);
-    $roster->setPerformaceFactor($rosterJSON->prestaciones * 100);
+    $roster->setPerformaceFactor($rosterJSON->prestaciones);
     $roster->setNetSalary($netSalary);
     $roster->setContract($rosterJSON->tipodecontrato);
     $roster->setExtraHours($rosterJSON->horasextras);

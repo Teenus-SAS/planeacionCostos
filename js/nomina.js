@@ -470,7 +470,6 @@ $("#form-nomina").validate({
     optionFactorPrestacional: "required",
     factorPrestacional: {
       required: true,
-      /*decimalInput: true*/
     },
   },
   messages: {
@@ -525,12 +524,6 @@ $("#form-nomina").validate({
           );
           $tableNominas.api().ajax.reload();
           $("#form-nomina")[0].reset();
-          /*       if ($('#input-cargo')[0].tagName == 'SELECT') {
-                    let $formGroupParent = $('#input-cargo').parent()
-                    $('#input-cargo').fadeOut()
-                    $formGroupParent.append(`<input id="input-cargo" class="form-control" type="text" name="cargo" required> `)
-                    $('#input-cargo').remove() */
-          /*    } */
           break;
         case 201:
           $.notify(
