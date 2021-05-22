@@ -138,11 +138,8 @@ function calcularCostoPorMinuto() {
       location.href = "/login";
     }
   });
-  // agreado de formato al input de precio
   $("#costoCargaFabril").val(costoPriceParsed.strPrice);
 }
-
-/* Envio de formulario */
 
 function submitForm(e) {
   e.preventDefault();
@@ -178,7 +175,7 @@ function submitForm(e) {
   let cargaExiste = cargas.find((carga) => {
     return carga.idMaquina == maquina && carga.mantenimiento == mantenimiento;
   });
-  if (cargaExiste) {
+  if (cargaExiste && !$("#idCargaFabril").val()) {
     bootbox.confirm({
       title: "Actualizar Carga Fabril",
       message: `La Carga <b>"${cargaExiste.mantenimiento}" de la máquina ${cargaExiste.nombreMaquina}</b> ya existe, ¿Desea actualizarla?`,
@@ -282,12 +279,6 @@ function sendData(request) {
         );
         break;
     }
-    //if (flag == false) {
-    //  elById("cargaFabril-btn").value = "ADICIONAR";
-    //  elById("cargaFabril-btn").textContent = "ADICIONAR";
-    //  elById("cfmaquinas").value = "";
-    //resetFormCargaFabril();
-    //}
   });
 }
 
