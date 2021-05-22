@@ -12,9 +12,6 @@ function clearformMachines() {
   $("#input-years-depreciation").val("");
   $("#input-depreciation-machine").val("");
 }
-function clearFile(input) {
-  $(input).val("");
-}
 
 $("input[name=optionMaquinas]").change(function () {
   $tableMaquinas.api().search("").draw();
@@ -46,10 +43,6 @@ var $tableMaquinas = $("#table-maquinas").dataTable({
       targets: 1,
       className: "text-right",
     },
-    /*   {
-        targets: -2,
-        className: 'text-right'
-      } */
   ],
   columns: [
     {
@@ -84,14 +77,9 @@ var $tableMaquinas = $("#table-maquinas").dataTable({
   reponsive: true,
 });
 $tableMaquinas.width("100%");
-/* $tableMaquinas.on('click', 'tr', function () {
-  $(this).toggleClass('selected');
-}) */
 
-// formulario para adicionar o modificar valores de una maquina
 $("#form-maquinas").submit(submitMaquinasForm);
 
-// calcular depreciacion con el cambio de precio
 $("#input-price-machine").keyup(calulateDepreciation);
 $("#input-years-depreciation").keyup(calulateDepreciation);
 $("#input-years-depreciation").change(calulateDepreciation);
@@ -250,7 +238,7 @@ function submitMaquinasForm(e, option, maquina) {
         if (result == true) {
           sendDataMachine(request);
         } else {
-          resetFormMaquinas();
+          clearformMachines();
           return;
         }
       },
@@ -336,7 +324,6 @@ function sendDataMachine(request) {
       elById("maquinas-btn").value = "ADICIONAR";
       elById("maquinas-btn").textContent = "ADICIONAR";
       elById("inlineRadio1M").click();
-      resetFormMaquinas();
     }
   });
 }
@@ -372,6 +359,7 @@ function deleteMachine(id, maquina) {
               }
             );
             $tableMaquinas.api().ajax.reload();
+            clearformMachines();
           } else {
             $.notify(
               {
@@ -391,10 +379,6 @@ function deleteMachine(id, maquina) {
       }
     },
   });
-}
-
-function formatCurrency(resultadoFloat) {
-  return $.number(resultadoFloat, 2, ",", ".");
 }
 
 function resetFormMaquinas() {
