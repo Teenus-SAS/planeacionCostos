@@ -9,6 +9,7 @@ const fillMachines = function () {
   $.get(
     "/app/config-general/api/get_machines.php",
     (_machines, status, xhr) => {
+      $("#cfmaquinas").html("");
       $("#cfmaquinas").append(
         `<option selected disabled>Selecciona un máquina</option>`
       );
