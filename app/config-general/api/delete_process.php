@@ -18,7 +18,7 @@ if (isset($_POST["id"])) {
   $processDao = new ProcessDao();
   $nominasDao = new RosterDao();
   $distribucionDirectaDao = new DistribucionDirectaDao();
-  $distribuciones = $distribucionDirectaDao->findOneByProcessId($companyId, isset($_POST["id"]));
+  $distribuciones = $distribucionDirectaDao->findOneByProcessId($companyId, $_POST["id"]);
   $nominas = $nominasDao->findByProcessId($_POST["id"]);
   $tiemposProcesos = $processDao->findProductProcessesByProcessId($_POST["id"]);
   if ($distribuciones) {
