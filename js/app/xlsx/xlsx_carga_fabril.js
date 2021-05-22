@@ -22,6 +22,12 @@ const exportImportCargaFabril = new ImportacionXLSX(
       (mach) =>
         mach.name.trim().toLowerCase() === cell.maquina.trim().toLowerCase()
     );
+    if (cell.costo < 0) {
+      return {
+        type: "Costo de la carga debe ser un número positivo",
+        columnName: "costo",
+      };
+    }
     if (machineExists) {
       cell.maquina = machineExists.id;
       return false;
