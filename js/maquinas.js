@@ -11,6 +11,7 @@ function clearformMachines() {
   $("#input-price-machine").val("");
   $("#input-years-depreciation").val("");
   $("#input-depreciation-machine").val("");
+  $("#input-valor-residual").val("");
 }
 
 $("input[name=optionMaquinas]").change(function () {
@@ -351,7 +352,7 @@ function deleteMachine(id, maquina) {
             $.notify(
               {
                 icon: "nc-icon nc-bell-55",
-                message: "Se ha borrado existosamente la máquina",
+                message: "Se ha borrado exitosamente la máquina",
               },
               {
                 type: "info",
