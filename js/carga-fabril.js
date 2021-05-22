@@ -337,6 +337,7 @@ $(document).on("click", ".link-borrar-carga-fabril", function (event) {
               }
             );
             tableCargaFabril.api().ajax.reload();
+            resetFormCargaFabril();
           } else {
             $.notify(
               {
