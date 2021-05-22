@@ -103,7 +103,8 @@ $("#form-products")
         productReferenceAndNameExists(
           document.getElementById("inputRef").value,
           document.getElementById("inputProducto").value
-        )
+        ) &&
+        !document.getElementById("prodId").value
       ) {
         bootbox.confirm({
           title: "Crear Productos",
@@ -179,7 +180,6 @@ function sendRequest(request) {
         );
         tableProductos.api().ajax.reload();
         resetFormProducts();
-        loadProductsInProcess();
         break;
       case 201:
         $.notify(
