@@ -99,30 +99,31 @@ export class SubidaExcel {
   }
 
   #verifyColumns(allowsUndefined = false) {
-    this.array.forEach((cell) => {
-      const verification = this.verifyColumnscb(cell);
-      if (verification) {
-        this.errors.push({
-          type: verification.type || "",
-          columnName: verification.columnName || "",
-          row: cell.__rowNum__ || cell.rowNum,
-          cell,
-        });
-      }
-      if (!allowsUndefined) {
-        Object.keys(this.columns).forEach((columnName) => {
-          columnName = columnName.trim().toLowerCase().replaceAll(" ", "");
-          if (cell[columnName] == undefined) {
-            this.errors.push({
-              type: `Celda vacía (${columnName})`,
-              columnName,
-              row: cell.__rowNum__ || cell.rowNum,
-              cell,
-            });
-          }
-        });
-      }
-    });
+    this.array.forEach &&
+      this.array.forEach((cell) => {
+        const verification = this.verifyColumnscb(cell);
+        if (verification) {
+          this.errors.push({
+            type: verification.type || "",
+            columnName: verification.columnName || "",
+            row: cell.__rowNum__ || cell.rowNum,
+            cell,
+          });
+        }
+        if (!allowsUndefined) {
+          Object.keys(this.columns).forEach((columnName) => {
+            columnName = columnName.trim().toLowerCase().replaceAll(" ", "");
+            if (cell[columnName] == undefined) {
+              this.errors.push({
+                type: `Celda vacía (${columnName})`,
+                columnName,
+                row: cell.__rowNum__ || cell.rowNum,
+                cell,
+              });
+            }
+          });
+        }
+      });
   }
 
   #filterColumnsWithErrors() {

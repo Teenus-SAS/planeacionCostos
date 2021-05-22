@@ -277,7 +277,6 @@ function deleteProduct(prodId) {
           completeSpinner();
           if (xhr.status == 200) {
             $tableProductos.api().ajax.reload();
-            loadProductsPP();
             $.notify(
               {
                 icon: "nc-icon nc-bell-55",
