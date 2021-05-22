@@ -1,5 +1,6 @@
 import { SubidaExcel } from "./SubidaExcel.js";
 import { ImportacionXLSX } from "./ImportacionXLSX.js";
+import { tableProductos } from "../../productos-adicionar.js";
 
 const exportImportProduct = new ImportacionXLSX(
   "api/get_products.php?materials",
@@ -69,7 +70,7 @@ function uploadProducts(subidaExcel) {
           "producto",
           "productos"
         );
-        $tableProductos.api().ajax.reload();
+        tableProductos.api().ajax.reload();
       }
     }
   ).always((xhr) => {
@@ -128,13 +129,6 @@ function uploadProductsMaterials(rawMaterials) {
             timer: 8000,
           }
         );
-
-        loadProductsInProcess();
-        loadProductsGG();
-        loadProductsPP();
-        loadProductsInXLSX();
-        /* }
-    }) */
       }
     }
   ).always((xhr) => {
@@ -157,66 +151,3 @@ function uploadProductsMaterials(rawMaterials) {
 $("#download-products").click(function () {
   exportImportProduct.bajadaExcel.download();
 });
-
-$("#  ").click(function (e) {
-  e.preventDefault();
-  generateFileProductsMaterials();
-});
-
-function generateFileProductsMaterials() {
-  $.get("api/get_products.php?materials", (data, status, xhr) => {
-    productsJSON = data;
-
-    // creacion del libro de excel
-    var wb = XLSX.utils.book_new();
-    // configuración de del libro
-    wb.Props = {
-      Title: "Productos de Cotizador",
-      Subject: "Tezlik",
-      Author: "Tezlik",
-      CreatedDate: new Date(),
-    };
-    // agregado de los nombres de las hojas del libro
-    //wb.SheetNames.push('Productos')
-    wb.SheetNames.push("Productos vs Materia Prima");
-    // creacion de variables para cargar la información de los productos
-    //let ws_data = []
-    let ws_data_2 = [];
-    // cargado de de productos con referencias
-    productsJSON.forEach((product) => {
-      /* let productRaw = {
-        Referencia: product.ref,
-        Producto: product.name,
-        Rentabilidad: product.Rentabilidad
-      } */
-      //ws_data.push(productRaw)
-      // recorrido para agregar todos los materiales de los productos
-      product.materials.forEach((rawMaterial) => {
-        ws_data_2.push({
-          Referencia: product.ref,
-          Producto: product.name,
-          Material: rawMaterial.material.description,
-          Cantidad: rawMaterial.quantity,
-        });
-      });
-    });
-    if (ws_data_2.length <= 0) {
-      saveAs("/formatos/formato-productos.xlsx", "formato-productos.xlsx");
-    } else {
-      // parseo de objetos a las hojas de excel
-      //var ws = XLSX.utils.json_to_sheet(ws_data)
-      var ws_2 = XLSX.utils.json_to_sheet(ws_data_2);
-      // asignacion de hojas de excel
-      //wb.Sheets["Productos"] = ws;
-      wb.Sheets["Materia Prima"] = ws_2;
-
-      var wbout = XLSX.write(wb, { bookType: "xlsx", type: "binary" });
-      var wopts = { bookType: "xlsx", bookSST: false, type: "array" };
-      var wbout = XLSX.write(wb, wopts);
-      saveAs(
-        new Blob([wbout], { type: "application/octet-stream" }),
-        "Productos.xlsx"
-      );
-    }
-  });
-}

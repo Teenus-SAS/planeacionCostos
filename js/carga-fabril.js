@@ -38,7 +38,7 @@ $("#cfmaquinas").change(function (e) {
   resetFormCargaFabril();
 });
 
-let $tableCargaFabril = $("#table-cargaFabril").dataTable({
+let tableCargaFabril = $("#table-cargaFabril").dataTable({
   scrollCollapse: true,
   pageLength: 25,
 
@@ -97,7 +97,7 @@ let $tableCargaFabril = $("#table-cargaFabril").dataTable({
   ],
   reponsive: true,
 });
-$tableCargaFabril.width("100%");
+tableCargaFabril.width("100%");
 
 $("#costoCargaFabril").keyup(calcularCostoPorMinuto);
 $("#costoCargaFabril").change(calcularCostoPorMinuto);
@@ -147,7 +147,7 @@ function calcularCostoPorMinuto() {
 function submitForm(e) {
   e.preventDefault();
 
-  let cargas = $tableCargaFabril.dataTable().api().ajax.json().data;
+  let cargas = tableCargaFabril.dataTable().api().ajax.json().data;
 
   let maquina = $("#cfmaquinas").val();
   let mantenimiento = $("#mantenimiento").val();
@@ -225,7 +225,7 @@ function sendData(request) {
             timer: 8000,
           }
         );
-        $tableCargaFabril.api().ajax.reload();
+        tableCargaFabril.api().ajax.reload();
         resetFormCargaFabril();
         break;
       case 201:
@@ -239,7 +239,7 @@ function sendData(request) {
             timer: 8000,
           }
         );
-        $tableCargaFabril.api().ajax.reload();
+        tableCargaFabril.api().ajax.reload();
         resetFormCargaFabril();
         break;
       case 400:
@@ -345,7 +345,7 @@ $(document).on("click", ".link-borrar-carga-fabril", function (event) {
                 timer: 8000,
               }
             );
-            $tableCargaFabril.api().ajax.reload();
+            tableCargaFabril.api().ajax.reload();
           } else {
             $.notify(
               {
@@ -374,3 +374,5 @@ function resetFormCargaFabril() {
   $("#minutoCargaFabril").val("0");
   $("#idCargaFabril").val("");
 }
+
+export { tableCargaFabril };

@@ -182,7 +182,7 @@ $.get("/app/config-general/api/get_materials.php", (_materials) => {
   );
 });
 
-var $tableProductos = $("#tableProductos").dataTable({
+let tableProductos = $("#tableProductos").dataTable({
   scrollY: "200px",
   scrollCollapse: true,
   paging: false,
@@ -213,7 +213,7 @@ var $tableProductos = $("#tableProductos").dataTable({
   //reponsive: true
 });
 
-$tableProductos.width("100%");
+tableProductos.width("100%");
 /* $tableProductos.on('click', 'tr', function () {
   $(this).toggleClass('selected');
 }) */
@@ -337,7 +337,7 @@ $("#form-products").validate({
               timer: 8000,
             }
           );
-          $tableProductos.api().ajax.reload();
+          tableProductos.api().ajax.reload();
           $tableProductoMateria.api().ajax.reload();
           $tableGastosMensuales.api().ajax.reload();
           loadProductsInProcess();
@@ -361,7 +361,7 @@ $("#form-products").validate({
               timer: 8000
             }) */
           $("#config-color").css("color", "orange");
-          $tableProductos.api().ajax.reload();
+          tableProductos.api().ajax.reload();
           $tableProductoMateria.api().ajax.reload();
           $tableGastosMensuales.api().ajax.reload();
           $("#form-products")[0].reset();
@@ -436,7 +436,7 @@ function deleteProduct(prodId) {
     id: prodId,
   }).always(function (xhr) {
     if (xhr.status == 200) {
-      $tableProductos.api().ajax.reload();
+      tableProductos.api().ajax.reload();
       loadProductsGG();
       loadProductsPP();
       loadProductsInProcess();

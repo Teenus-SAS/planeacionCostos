@@ -19,7 +19,7 @@ function completeSpinner() {
   $("#spinnerAjax").addClass("fade");
 }
 
-var $tableProductos = $("#tableProductos").dataTable({
+let tableProductos = $("#tableProductos").dataTable({
   scrollY: "300px",
   scrollCollapse: true,
   paging: false,
@@ -68,7 +68,7 @@ function loadProducts() {
 
 $(document).ready(function () {
   setTimeout(() => {
-    $tableProductos.width("100%");
+    tableProductos.width("100%");
   }, 2000);
 });
 
@@ -177,7 +177,7 @@ function sendRequest(request) {
             timer: 8000,
           }
         );
-        $tableProductos.api().ajax.reload();
+        tableProductos.api().ajax.reload();
         resetFormProducts();
         loadProductsInProcess();
         break;
@@ -193,7 +193,7 @@ function sendRequest(request) {
           }
         );
         $("#config-color").css("color", "orange");
-        $tableProductos.api().ajax.reload();
+        tableProductos.api().ajax.reload();
         resetFormProducts();
         break;
       case 400:
@@ -276,7 +276,7 @@ function deleteProduct(prodId) {
         }).always(function (xhr) {
           completeSpinner();
           if (xhr.status == 200) {
-            $tableProductos.api().ajax.reload();
+            tableProductos.api().ajax.reload();
             $.notify(
               {
                 icon: "nc-icon nc-bell-55",
@@ -341,3 +341,5 @@ function productReferenceOrNameExists(prodRef, prodName) {
 
   return product ? true : false;
 }
+
+export { tableProductos };

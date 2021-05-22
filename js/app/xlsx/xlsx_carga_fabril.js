@@ -1,4 +1,6 @@
+import { tableCargaFabril } from "../../carga-fabril.js";
 import { ImportacionXLSX } from "./ImportacionXLSX.js";
+
 let machines = [];
 $.get("/app/config-general/api/get_machines.php", (data, status, xhr) => {
   machines = data;
@@ -66,12 +68,11 @@ function uploadCargaFabril(subidaExcel) {
           "carga fabril",
           "cargas fabriles"
         );
-        $tableCargaFabril.api().ajax.reload();
+        tableCargaFabril.api().ajax.reload();
         $("#form-cargafabril")[0].reset();
       }
     }
   );
-  completeSpinner();
 }
 
 $("#download_cargaFabril").click(() => {

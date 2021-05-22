@@ -1,3 +1,4 @@
+import { tableMateriaPrima } from "../../materia-prima.js";
 import { ImportacionXLSX } from "./ImportacionXLSX.js";
 
 const exportImportMateriaPrima = new ImportacionXLSX(
@@ -16,7 +17,6 @@ const exportImportMateriaPrima = new ImportacionXLSX(
 
 function uploadMaterials(subidaExcel) {
   const materials = subidaExcel.array;
-  loadingSpinner();
   $.post(
     "api/upload_materials.php",
     { materials: JSON.stringify(materials) },
@@ -37,12 +37,11 @@ function uploadMaterials(subidaExcel) {
           "materia prima",
           "materias primas"
         );
-        $tableMateriaPrima.api().ajax.reload();
+        tableMateriaPrima.api().ajax.reload();
       }
     }
   );
   subidaExcel.clearFile();
-  completeSpinner();
 }
 
 $("#fileRawMaterial").change(function () {
@@ -58,7 +57,5 @@ $("#fileRawMaterial").change(function () {
 });
 
 $("#download_materia_prima").click(() => {
-  loadingSpinner();
   exportImportMateriaPrima.bajadaExcel.download();
-  completeSpinner();
 });

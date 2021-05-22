@@ -35,7 +35,7 @@ $.get("api/get_materials.php", (data, status, xhr) => {
 
 // logica de materia prima
 $("input[name=optionMateriaPrima]").change(function () {
-  $tableMateriaPrima.api().search("").draw();
+  tableMateriaPrima.api().search("").draw();
   if ($(this).val() == "option2") {
     document.getElementById("material-btn").value = "Modificar";
     $.get("api/get_materials.php", (data, status, xhr) => {
@@ -71,7 +71,7 @@ $("#input-unidad").autocomplete({
 });
 
 // inicializacion de datatable Materia prima
-var $tableMateriaPrima = $("#table-materia-prima").dataTable({
+var tableMateriaPrima = $("#table-materia-prima").dataTable({
   scrollCollapse: true,
   pageLength: 25,
   language: {
@@ -187,7 +187,7 @@ function submitFormMaterials(updated = false) {
             timer: 4000,
           }
         );
-        $tableMateriaPrima.api().ajax.reload();
+        tableMateriaPrima.api().ajax.reload();
         $(".cost").parent().addClass("text-right");
         flag = true;
         break;
@@ -218,7 +218,7 @@ function submitFormMaterials(updated = false) {
           flag = true;
         }
 
-        $tableMateriaPrima.api().ajax.reload();
+        tableMateriaPrima.api().ajax.reload();
         $("#form-materia-prima")[0].reset();
         break;
       case 400:
@@ -270,7 +270,7 @@ function submitFormMaterials(updated = false) {
 $('a[data-toggle="tab"]').on("shown.bs.tab", function (e) {
   e.target; // newly activated tab
   e.relatedTarget; // previous active tab
-  $tableMateriaPrima.api().ajax.reload();
+  tableMateriaPrima.api().ajax.reload();
 });
 
 function alphaOnly(event) {
@@ -331,7 +331,7 @@ function deleteMaterial(id, description) {
           id: id,
         }).always(function (xhr) {
           if (xhr.status == 200) {
-            $tableMateriaPrima.api().ajax.reload();
+            tableMateriaPrima.api().ajax.reload();
             $.notify({
               icon: "nc-icon nc-bell-55",
               message: `Materia prima <b>eliminada<b> Correctamente`,
@@ -388,3 +388,5 @@ function resetFormMaterials() {
   document.getElementById("input-costo").value = "";
   document.getElementById("material-btn").value = "Adicionar";
 }
+
+export { tableMateriaPrima };
