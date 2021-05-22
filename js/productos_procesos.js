@@ -75,12 +75,11 @@ $.get(
 );
 
 $.get("/app/config-general/api/get_machines.php", (_machines, status, xhr) => {
-  $("#selectMachines").append(`<option value="NULL">Ninguna</option>`);
   _machines = _machines.map((mach) => {
     return { value: mach.id, description: mach.name };
   });
-  _machines.unshift({ value: null, description: "Ninguna" });
   fillSelect("selectMachines", _machines, true, "Seleccione una máquina");
+  $("#selectMachines").prepend(`<option value="NULL">Ninguna</option>`);
 });
 
 function cleanSelects() {
