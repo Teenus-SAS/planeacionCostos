@@ -4,6 +4,15 @@ class PriceParser {
     this.strPrice = strPrice;
   }
 
+  static parseInput(inputElement, sign = false, digits = 2) {
+    inputElement.value = 0;
+    inputElement.oninput = (e) => {
+      e.preventDefault();
+      const parsedValue = PriceParser.fromString(e.target.value, sign, digits);
+      inputElement.value = parsedValue.strPrice;
+    };
+  }
+
   static toString(price, sign = false, digits = 2) {
     if (!price) {
       price = 0;

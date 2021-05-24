@@ -281,11 +281,11 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                         <div class="form-group row my-3">
                           <label class="col-md-3 col-3 col-form-label px-0 ">Cantidad</label>
                           <div class="col-md-3 col-3 text-left px-0">
-                            <input type="number" id="input-cantidad" class="form-control" name="cantidad">
+                            <input type="text" id="input-cantidad" class="form-control" name="cantidad" value="0" />
                           </div>
                           <label class="col-md-2 col-2 col-form-label px-0">Unidad</label>
                           <div class="col-md-3 col-3 text-left px-0">
-                            <input type="text" id="input-unidad" class="form-control" name="unidad" disabled>
+                            <input type="text" id="input-unidad" class="form-control" name="unidad" disabled />
                           </div>
                         </div>
                       </div>
