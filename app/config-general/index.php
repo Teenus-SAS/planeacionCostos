@@ -1244,7 +1244,7 @@ include(PARTIALS_PATH . "verify_session.php");
 
   <script src="/js/productos-adicionar.js" type="module"></script>
 
-  <script src="/js/GastosGenerales/index.js" type="module"></script>
+  <!--<script src="/js/GastosGenerales/index.js" type="module"></script>-->
   <script src="/js/gastos-generales.js" type="module"></script>
 
   <script src="/js/materia-prima.js" type="module"></script>
