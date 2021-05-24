@@ -10,6 +10,19 @@ class PriceParser {
       e.preventDefault();
       const parsedValue = PriceParser.fromString(e.target.value, sign, digits);
       inputElement.value = parsedValue.strPrice;
+      if (inputElement.createTextRange) {
+        var range = inputElement.createTextRange();
+        range.move("character", e.target.value.length - digits - 1);
+        range.select();
+      } else {
+        if (inputElement.selectionStart) {
+          inputElement.focus();
+          inputElement.setSelectionRange(
+            e.target.value.length - digits - 1,
+            e.target.value.length - digits - 1
+          );
+        } else inputElement.focus();
+      }
     };
   }
 

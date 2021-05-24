@@ -656,6 +656,8 @@ elById("tableNominas").addEventListener("click", (ev) => {
 
   if (selectedEl.classList.contains("link-borrar")) {
     deleteNomina(selectedEl.dataset.nominaId);
+
+    $("#panelCrearNomina").slideUp();
   } else if (selectedEl.classList.contains("link-editar")) {
     if (!addModifyPanelOpen) {
       toggleModal();
