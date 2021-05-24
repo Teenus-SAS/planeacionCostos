@@ -12,9 +12,13 @@ document
     resetFieldsRoster();
     elById("inlineRadio1M").click();
   });
+
+recargar_select();
+
 $("#select-proceso").focus(() => {
   recargar_select();
 });
+
 function recargar_select() {
   $("#select-proceso").empty();
   $.get("api/get_processes.php", (processes, status) => {
@@ -55,11 +59,21 @@ $("#panelImportarNomina").slideUp();
 
 $("#btnCrearNomina").click(function (e) {
   e.preventDefault();
+  toggleModal();
+});
+
+function closeModal() {
+  $("#panelImportarNomina").slideUp();
+  addModifyPanelOpen = !addModifyPanelOpen;
+  resetFieldsRoster();
+}
+
+function toggleModal() {
   $("#panelCrearNomina").toggle(1000);
   $("#panelImportarNomina").slideUp();
   addModifyPanelOpen = !addModifyPanelOpen;
   resetFieldsRoster();
-});
+}
 
 $("#btnImportarNomina").click(function (e) {
   e.preventDefault();
@@ -524,6 +538,7 @@ $("#form-nomina").validate({
           );
           $tableNominas.api().ajax.reload();
           $("#form-nomina")[0].reset();
+          toggleModal();
           break;
         case 201:
           $.notify(
@@ -538,6 +553,7 @@ $("#form-nomina").validate({
           );
           $tableNominas.api().ajax.reload();
           $("#form-nomina")[0].reset();
+          toggleModal();
           break;
         case 400:
           $.notify(
@@ -642,7 +658,7 @@ elById("tableNominas").addEventListener("click", (ev) => {
     deleteNomina(selectedEl.dataset.nominaId);
   } else if (selectedEl.classList.contains("link-editar")) {
     if (!addModifyPanelOpen) {
-      $("#btnCrearNomina").trigger("click");
+      toggleModal();
     }
     const rowInfo = $tableNominas.fnGetData(selectedEl.closest("tr"));
     ActualizarNomina(rowInfo);
@@ -678,15 +694,10 @@ elById("tableNominas").addEventListener("click", (ev) => {
     else if (rowInfo.contract.trim() === "servicios")
       elById("fpServicios").checked = true;
     else elById("fpManual").checked = true;
-
-    Array.from(elById("select-proceso")).forEach((option) => {
-      if (option.textContent.trim() === proceso.name) {
-        option.selected = true;
-        return true;
-      } else {
-        return false;
-      }
-    });
+    $(`#select-proceso option:contains(${proceso.name})`).prop(
+      "selected",
+      true
+    );
 
     elById("nomina-btn").value = "Actualizar";
   }
