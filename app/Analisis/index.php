@@ -92,21 +92,23 @@ include(PARTIALS_PATH . "verify_session.php") ?>
             <div class="tab-content text-center">
               <div class="tab-pane active" id="home">
                 <div class="row">
-                  <div class="col-md-8 col-sm-12 mb-5">
-                    <div class="card py-2">
-                     
-                      <div style="display: flex;">
-                        <label class="text-left col-form-label pl-4 pr-4">Producto</label>
-                        <select class="custom-select" id="input-productoA" name="materia" style="width: auto;">
-                        </select>
-                        <label class="col-form-label px-0 pl-4 pr-4 ml-2">Cantidad Orden de Pedido</label>
-                        <input type="number" id="input-cantidadOP" class="form-control" name="cantidad" min="1" step=".01" value="1" style="width: 100px;text-align:center">
+                  <div class="col-md-10 col-sm-12 mb-5">
+                    <div class="card py-2">         
+                      <div class="row">
+                        <div class="col-12">
+                          <label class="text-left col-form-label pl-4 pr-4 my-2">Producto</label>
+                          <select class="custom-select" id="input-productoA" name="materia" style="width: auto;">
+                          </select>
+                        </div>
+                        <div class="col-12">
+                          <label class="text-left col-form-label px-0 pl-4 pr-4 my-2">Cantidad Orden de Pedido</label>
+                          <input type="number" id="input-cantidadOP" class="form-control text-right" name="cantidad" min="1" step=".01" value="1" style="width: 100px; display: inline-block;">
+                        </div>
                       </div>
                       <div>
                         <button class="btn btn-primary" id="btnValidar">Cargar</button>
                       </div>
                     </div>
-
                   </div>
                 </div>
                 <div class="col-md-12 col-sm-12 col-12 col-xs-12 mb-5">
