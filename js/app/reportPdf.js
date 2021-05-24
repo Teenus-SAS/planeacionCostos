@@ -372,7 +372,7 @@ $("#downloaad-pdf").click(() => {
         $.ajax({
           async: false,
           type: "get",
-          url: "api/cost_product.php",
+          url: "api/cost_product_by_distribucion_directa.php",
           data: {
             id: productReq.id,
             quantity: productReq.quantity,
