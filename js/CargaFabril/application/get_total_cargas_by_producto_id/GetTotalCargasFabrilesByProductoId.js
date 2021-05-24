@@ -15,7 +15,6 @@ export function GetTotalCargasFabrilesByProductoId(productoId, procesos, cb) {
           return false;
         });
         if (maquina) {
-          console.log(cargas);
           let cargasMaquina = cargas.filter(
             (carga) => maquina.id == carga.idMaquina
           );

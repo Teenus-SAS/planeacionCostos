@@ -63,12 +63,8 @@ export function GetCosteosReporteByProductoId(
           if (process) {
             recuperacionGastosCostos += parseFloat(dist.valorAsignado);
           }
+          console.log(recuperacionGastosCostos);
         });
-        serviciosExternos
-          .filter((servicio) => servicio.idProducto == productoId)
-          .forEach((servicio) => {
-            recuperacionGastosCostos += parseFloat(servicio.costo);
-          });
         dataTable.push(
           new CosteosIndividualReporteData(
             `Recuperación Gastos y Costos`,
