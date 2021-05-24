@@ -32,7 +32,6 @@ const exportImportNomina = new ImportacionXLSX(
     if (processExists) {
       cell.proceso = processExists.id;
       cell.prestaciones = parseFloat(cell.prestaciones);
-      console.log(typeof cell.prestaciones);
       return false;
     } else {
       return {

@@ -63,7 +63,6 @@ export function GetCosteosReporteByProductoId(
           if (process) {
             recuperacionGastosCostos += parseFloat(dist.valorAsignado);
           }
-          console.log(recuperacionGastosCostos);
         });
         dataTable.push(
           new CosteosIndividualReporteData(

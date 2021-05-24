@@ -135,8 +135,6 @@ function fillFields(data, flag = false, consolidado = true) {
   /*  $('#comisionCOP').val(data.salesCommission) */
   $("#comisionCOP").val(comisionVentas);
   if ($("#comisionCOP").val() > 0) {
-    /*  $('#comisionUSD').val((data.salesCommission / limInf).toFixed(2) + " %") */
-    console.log("p c v", pComisionVentas.toFixed(2));
     $("#comisionUSD").val(pComisionVentas.toFixed(2) + " %");
   } else {
     $("#comisionUSD").val("0.00 %");
@@ -173,7 +171,6 @@ function loadCost(product, flag = false, cargaUnicoProducto = false) {
           quantity: product.quantity,
         },
         (data, status) => {
-          console.log("load one", data);
           data.salesCommission = parseFloat(data.salesCommission);
           if (!flag) {
             data.quantity = product.quantity;
@@ -194,7 +191,6 @@ function loadCost(product, flag = false, cargaUnicoProducto = false) {
           quantity: product.quantity,
         },
         (data, status) => {
-          console.log("load one", data);
           data.salesCommission = parseFloat(data.salesCommission);
           if (!flag) {
             data.quantity = product.quantity;
@@ -242,7 +238,6 @@ function loadTotalCost() {
         },
         (data, status) => {
           productsReq.forEach((product, indx) => {
-            console.log(data);
             // cantidades
             consolidated.quantity += parseInt(product.quantity);
             // total de costos
@@ -284,7 +279,6 @@ function loadTotalCost() {
         },
         (data, status) => {
           productsReq.forEach((product, indx) => {
-            console.log(data);
             // cantidades
             consolidated.quantity += parseInt(product.quantity);
             // total de costos
@@ -447,7 +441,7 @@ function loadChart() {
     charCost.update();
   }
 }
-/* console.log(Chart.defaults.global.layout) */
+
 function loadChartIndividual(dataProduct) {
   charCost.data.datasets[0].data = [];
   charCost.data.datasets[0].backgroundColor =
@@ -727,8 +721,6 @@ function calculateCOPS() {
     precioVentaCOP.value.replaceAll(".", "").replace(",", ".")
   );
 
-  console.log("nuevo precio venta", precioVentaCOPValue);
-
   rentabilidadCOP.value = formatCurrency(
     (precioVentaCOPValue * rentabilidadUSDValue) / 100
   );
@@ -779,14 +771,10 @@ function calculateNewValuesOnChange(
 
   const diffNewOldGastosUSD = newGastosUSDValue - oldGastosUSDValue;
 
-  console.log(diffNewOldGastosUSD);
-
   comisionUSD.value =
     (oldComisionUSDValue - diffNewOldGastosUSD / 2).toFixed(2) + " %";
   rentabilidadUSD.value =
     (oldRentabilidadUSDValue - diffNewOldGastosUSD / 2).toFixed(2) + " %";
-
-  console.log(precioVentaCOPValue, totalCostosUSDValue);
 
   gastosCOP.value = formatCurrency(
     (precioVentaCOPValue * newGastosUSDValue) / 100
@@ -860,7 +848,6 @@ function sumCostPercentage(inputUSDVal, inputCOPVal, ev) {
     if (ev.type === "keyup" && inputTarget.value === inputUSDVal) {
       COPInput.value = formatCurrency(parseFloat(inputCOPVal));
     } else {
-      console.log(COPTotalInputVal, parseFloat(USDInput.value));
       const finalValueFormat = formatCurrency(
         (COPTotalInputVal * parseFloat(USDInput.value)) / 100
       );

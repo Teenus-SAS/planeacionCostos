@@ -268,5 +268,3 @@ $.get(
     });
   }
 );
-
-console.log($("#chartProcess").highcharts());

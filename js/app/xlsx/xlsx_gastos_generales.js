@@ -136,7 +136,6 @@ const exportImportGastosGenerales = new ImportacionXLSX(
     structure["74"].value = sum74;
     structure.total = sum51 + sum52 + sum53 + sum73 + sum74;
 
-    console.log(structure);
     return structure;
   }
 );
