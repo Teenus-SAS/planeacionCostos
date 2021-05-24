@@ -21,6 +21,7 @@
 }
 
 .dataTables_scrollHeadInner,
+.dataTables_scrollFootInner,
 .table {
   width: 100% !important;
 }

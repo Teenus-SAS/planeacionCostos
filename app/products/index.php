@@ -37,7 +37,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
 
     .dataTables_scrollHeadInner,
     .table,
-    .table tfoot {
+    .dataTables_scrollFootInner {
       width: 100% !important;
     }
 
