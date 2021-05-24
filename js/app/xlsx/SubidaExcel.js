@@ -46,7 +46,7 @@ export class SubidaExcel {
       if (verifyColumns) {
         this.errors = verifyColumns(this.array);
       } else {
-        this.#verifyColumns();
+        this.#verifyColumns(allowsUndefined);
       }
       this.#filterColumnsWithErrors();
       cb();
@@ -208,7 +208,7 @@ export class SubidaExcel {
   }
 
   customMessageResumenSubida(message) {
-    return bootbox.dialog({
+    return bootbox.alert({
       title: "Resumen subida",
       message,
     });
