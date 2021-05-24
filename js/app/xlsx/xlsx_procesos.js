@@ -1,3 +1,4 @@
+import { tableProcesos } from "../../procesos.js";
 import { ImportacionXLSX } from "./ImportacionXLSX.js";
 
 const exportImportProcesos = new ImportacionXLSX(
@@ -33,7 +34,7 @@ function uploadProcesses(subidaExcel) {
           "procesos"
         );
 
-        $tableProcesos.api().ajax.reload();
+        tableProcesos.api().ajax.reload();
       }
     }
   );

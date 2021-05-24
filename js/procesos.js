@@ -20,7 +20,7 @@ function clearFormProcess() {
 
 // cambio entre adicionar y modificar
 $("input[name=optionProceso]").change(function () {
-  $tableProcesos.api().search("").draw();
+  tableProcesos.api().search("").draw();
   if ($(this).val() == "option2") {
   } else {
     elById("btn-procesos").value = "Adicionar";
@@ -29,8 +29,7 @@ $("input[name=optionProceso]").change(function () {
   }
 });
 
-// inicializacion de datatable
-var $tableProcesos = $("#table-procesos").dataTable({
+let tableProcesos = $("#table-procesos").dataTable({
   language: {
     url: "/vendor/dataTables/Spanish.json",
   },
@@ -88,7 +87,7 @@ $("#form-procesos").submit(function (e) {
           }
         );
         recargar_select();
-        $tableProcesos.api().ajax.reload();
+        tableProcesos.api().ajax.reload();
         /*  $('#input-proceso option:selected').text($('#input-name-process').val()) */
         break;
       case 201:
@@ -102,7 +101,7 @@ $("#form-procesos").submit(function (e) {
             timer: 8000,
           }
         );
-        $tableProcesos.api().ajax.reload();
+        tableProcesos.api().ajax.reload();
         recargar_select();
         /*     $('#form-procesos')[0].reset()
               $.get('api/get_processes.php', (data, status, xhr) => {
@@ -163,7 +162,7 @@ function deleteProceso(id, proceso) {
           id: id,
         }).always(function (xhr) {
           if (xhr.status == 200) {
-            $tableProcesos.api().ajax.reload();
+            tableProcesos.api().ajax.reload();
             $.notify(
               {
                 icon: "nc-icon nc-bell-55",
@@ -212,3 +211,5 @@ elById("table-procesos").addEventListener("click", (ev) => {
 function elById(id) {
   return document.getElementById(id);
 }
+
+export { tableProcesos };
