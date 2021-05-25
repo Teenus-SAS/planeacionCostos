@@ -77,7 +77,7 @@ export function GetCosteosReporteByProductoId(
         dataTable.push(
           new CosteosIndividualReporteData(
             `Recuperación Gastos y Costos`,
-            0,
+            manualRecuperacion,
             recuperacionGastosCostos + recuperacionGastosCostosManual
           )
         );
