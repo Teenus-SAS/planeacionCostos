@@ -104,6 +104,7 @@ const generarReporteButton = new GenerateReporteProductoProcesoButton(
   "new-reporte-procesos-button",
   (dataTable, dataTableDetalle, totalMaterias, costeoData) => {
     $("html, body").removeClass("cursor-wait");
+    generarReporteButton.setData("", "", "");
     generateNuevoReporteForm.clearForm();
 
     individualReporteDataTable.show();
@@ -153,7 +154,11 @@ const generarReporteButton = new GenerateReporteProductoProcesoButton(
   }
 );
 $("#select-producto-reporte").on("change", function () {
-  generarReporteButton.setData(this.value, generarReporteButton.cantidad);
+  generarReporteButton.setData(
+    this.value,
+    generarReporteButton.cantidad,
+    generarReporteButton.recuperacion
+  );
   descargarPdfReporteButton.setData({ productoId: this.value });
   $("#input-cantidad-producto-reporte").val(1);
   generarReporteButton.setData(
@@ -179,7 +184,6 @@ $("#input-recuperacion-gastos-reporte").on("input", function () {
     generarReporteButton.cantidad,
     this.value
   );
-  descargarPdfReporteButton.setData({ cantidad: this.value });
 });
 
 $("#input-consecutivo-reporte").on("input", function () {
