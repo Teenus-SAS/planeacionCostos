@@ -17,7 +17,7 @@ export function OnClickGenerateReporteProductoProcesoButton(buttonData, cb) {
             totalServiciosExternos,
             totalMateriasPrimas,
             totalCargasFabriles,
-            serviciosExternos,
+            buttonData.recuperacion,
             (dataCosteos) => {
               cb(data, dataTableDetalle, totalMateriasPrimas, dataCosteos);
             }

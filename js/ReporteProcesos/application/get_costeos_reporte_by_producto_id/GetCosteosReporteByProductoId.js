@@ -9,7 +9,7 @@ export function GetCosteosReporteByProductoId(
   totalServiciosExternos,
   totalMateriasPrimas,
   totalCargasFabriles,
-  serviciosExternos,
+  manualRecuperacion,
   cb
 ) {
   GetProductosProcesosByProductoId(productoId, (productosProcesos) => {
@@ -56,7 +56,13 @@ export function GetCosteosReporteByProductoId(
         );
 
         let recuperacionGastosCostos = 0;
-        console.log(distribuciones);
+        let recuperacionGastosCostosManual = 0;
+
+        recuperacionGastosCostosManual =
+          (totalServiciosExternos + costoProduccion) *
+          (parseFloat(manualRecuperacion) / 100);
+
+        console.log(recuperacionGastosCostosManual);
 
         distribuciones.forEach((dist) => {
           const process = productosProcesos.find(
@@ -72,7 +78,7 @@ export function GetCosteosReporteByProductoId(
           new CosteosIndividualReporteData(
             `Recuperación Gastos y Costos`,
             0,
-            recuperacionGastosCostos
+            recuperacionGastosCostos + recuperacionGastosCostosManual
           )
         );
         let costoTotalProducto =

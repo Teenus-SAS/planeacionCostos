@@ -29,11 +29,20 @@ export class GenerateReporteProductoProcesoButton extends DomElement {
     return this.data && this.data.cantidad ? this.data.cantidad : null;
   }
 
-  validateData() {
-    return this.productoId && this.cantidad && !isNaN(this.cantidad);
+  get recuperacion() {
+    return this.data && this.data.recuperacion ? this.data.recuperacion : null;
   }
 
-  setData(productoId, cantidad) {
-    this.data = { productoId, cantidad };
+  validateData() {
+    return (
+      this.productoId &&
+      this.cantidad &&
+      !isNaN(this.cantidad) &&
+      this.recuperacion
+    );
+  }
+
+  setData(productoId, cantidad, recuperacion) {
+    this.data = { productoId, cantidad, recuperacion };
   }
 }

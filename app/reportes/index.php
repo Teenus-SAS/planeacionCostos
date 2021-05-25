@@ -91,10 +91,21 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                       </select>
                     </div>
                   </div>
-                  <div class="col-12">
+                  <div class="col-5">
                     <div class="form-group">
                       <label class="w-full text-center col-form-label">Cantidad</label>
                       <input class="form-control text-center" id="input-cantidad-producto-reporte" name="cantidad" type="number"/>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="form-group">
+                      <label class="w-full text-center col-form-label">Recuperación de gastos</label>
+                      <div class="input-group">
+                        <input class="form-control text-center" id="input-recuperacion-gastos-reporte" name="recuperacion-gastos"> 
+                        <div class="text-normal h-full my-auto ml-1">
+                          %
+                        </div>
+                      </div>
                     </div>
                   </div>
                   <div class="col-12">

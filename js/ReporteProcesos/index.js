@@ -156,12 +156,29 @@ $("#select-producto-reporte").on("change", function () {
   generarReporteButton.setData(this.value, generarReporteButton.cantidad);
   descargarPdfReporteButton.setData({ productoId: this.value });
   $("#input-cantidad-producto-reporte").val(1);
-  generarReporteButton.setData(generarReporteButton.productoId, 1);
+  generarReporteButton.setData(
+    generarReporteButton.productoId,
+    1,
+    generarReporteButton.recuperacion
+  );
   descargarPdfReporteButton.setData({ cantidad: 1 });
 });
 
 $("#input-cantidad-producto-reporte").on("input", function () {
-  generarReporteButton.setData(generarReporteButton.productoId, this.value);
+  generarReporteButton.setData(
+    generarReporteButton.productoId,
+    this.value,
+    generarReporteButton.recuperacion
+  );
+  descargarPdfReporteButton.setData({ cantidad: this.value });
+});
+
+$("#input-recuperacion-gastos-reporte").on("input", function () {
+  generarReporteButton.setData(
+    generarReporteButton.productoId,
+    generarReporteButton.cantidad,
+    this.value
+  );
   descargarPdfReporteButton.setData({ cantidad: this.value });
 });
 
