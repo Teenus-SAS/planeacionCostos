@@ -306,14 +306,6 @@ let $tableDistribucionDirecta = $("#tableDistribucionDirecta").dataTable({
   },
 });
 
-$(window).resize(() => {
-  $tableDistribucionDirecta.width("100%");
-});
-
-$("#tableDistribucionDirecta").on("load", () => {
-  $tableDistribucionDirecta.width("100%");
-});
-
 /* Actualizar distribucion directa */
 $(document).on("click", ".link-editar-distribucion-directa", function (event) {
   event.preventDefault();

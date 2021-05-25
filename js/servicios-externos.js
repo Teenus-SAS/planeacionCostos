@@ -123,7 +123,6 @@ function submitForm(e) {
 
 function sendData(request) {
   $.post("api/add_modify_servicio_externo.php", request).always(function (xhr) {
-    flag = false;
     switch (xhr.status) {
       case 200:
         $.notify(
@@ -154,7 +153,6 @@ function sendData(request) {
         resetFormServiciosExternos();
         break;
       case 400:
-        flag = true;
         $.notify(
           {
             icon: "nc-icon nc-bell-55",
@@ -182,7 +180,6 @@ function sendData(request) {
         location.href = "/login";
         break;
       case 501:
-        flag = true;
         $.notify(
           {
             icon: "nc-icon nc-bell-55",
