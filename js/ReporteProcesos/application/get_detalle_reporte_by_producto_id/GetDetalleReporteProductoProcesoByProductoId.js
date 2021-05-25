@@ -1,5 +1,5 @@
-import { DataTableSubgroupSeparator } from "../../../../node_modules/elegant-crud-datatable/build/DataTableSubgroupSeparator";
-import { GetAllGastosGenerales } from "../../../GastosGenerales/application/get_gastos_generales_by_proceso_id/GetGastosGeneralesByProcesoId.js";
+import { DataTableSubgroupSeparator } from "../../../../node_modules/elegant-crud-datatable/build/DataTableSubgroupSeparator.js";
+import { GetAllDistribucionesDirectasRedistribuidas } from "../../../DistribucionDirecta/application/get_all_distribuciones_redistribuidas/GetAllDistribucionesDirectasRedistribuidas.js";
 import { GetProductosProcesosByProductoId } from "../../../ProductosProcesos/application/get_productos_procesos_by_producto_id/GetProductosProcesosByProductoId.js";
 import { GetServiciosExternosByProductoId } from "../../../ServiciosExternos/application/get_by_producto_id/GetServiciosExternosByProductoId.js";
 import { ServiciosExternosIndividualReporteData } from "../../elements/serviciosexternos_individual_reporte_datatable/data/ServiciosExternosIndividualReporteData.js";
@@ -12,7 +12,7 @@ export function GetDetalleReporteProductoProcesoByProductoId(
   let dataTable = [];
   GetServiciosExternosByProductoId(productoId, (servicios) => {
     GetProductosProcesosByProductoId(productoId, (productosProcesos) => {
-      GetAllGastosGenerales((distribuciones) => {
+      GetAllDistribucionesDirectasRedistribuidas((distribuciones) => {
         let serviciosExternosCostoTotal = 0;
         if (servicios) {
           servicios.forEach((servicio, index) => {
@@ -54,12 +54,15 @@ export function GetDetalleReporteProductoProcesoByProductoId(
         );
 
         let recuperacionGastosCostos = 0;
+        console.log(distribuciones);
         distribuciones.forEach((dist) => {
           const process = productosProcesos.find(
             (prodProcess) => dist.idProceso == prodProcess.process.id
           );
           if (process) {
-            recuperacionGastosCostos += parseFloat(dist.valorAsignado);
+            recuperacionGastosCostos +=
+              parseFloat(dist.valorMinuto) *
+              (process.timeAlistamiento + process.timeOperacion);
           }
         });
         dataTable.push(

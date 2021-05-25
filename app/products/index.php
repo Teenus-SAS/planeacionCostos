@@ -564,7 +564,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                       <input id="idDistribucionDirecta" class="form-control" type="text" name="idDistribucionDirecta" hidden />
                       <div class="card py-2">
                         <div class="row align-items-center">
-                          <div class="form-group col-8 my-2 ml-3">
+                          <div class="form-group col-6 my-2 ml-3">
                             <label class="col-form-label">Proceso</label>
                             <div class="input-group">
                               <select name="proceso" id="inputProcesosDDirecta" class="custom-select">
@@ -572,13 +572,17 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                             </div>
                           </div>
                           <div class="form-group col-3 my-2 mr-1">
-                            <label for="col-form-label text-right">Porcentaje</label>
+                            <label for="porcentaje" class="col-form-label text-right">Porcentaje</label>
                             <div class="input-group" style="height:calc(2.25rem + 2px)">
                               <input type="text" class="form-control" id="inputPorcentajeProceso" name="porcentaje">
                               <div class="input-group-append">
                                 <span class="input-group-text">%</span>
                               </div>
                             </div>
+                          </div>
+                          <div class="form-group col-2">
+                            <label for="porcentaje" class="">¿Interno?</label>
+                            <input type="checkbox" name="isProcesoInterno" id="isProcesoInterno" class="input-group">
                           </div>
                         </div>
                       </div>

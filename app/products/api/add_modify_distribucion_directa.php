@@ -42,12 +42,14 @@ if (isset($_SESSION["user"])) {
         }
         $gastosGenerales = floatval($_POST["gastosGenerales"]);
         $porcentaje = floatval($_POST["porcentaje"])/100;
+        $isProcesoInterno = isset($_POST['isProcesoInterno']);
         $valorProceso = $porcentaje*$gastosGenerales;
         
         $distribucion = new DistribucionDirecta();
         $distribucion->setId($_POST["idDistribucionDirecta"]);
         $distribucion->setIdEmpresa($user->getCompany()->getId());
         $distribucion->setIdProceso($_POST["proceso"]);
+        $distribucion->setIsProcesoInterno($isProcesoInterno);
         $distribucion->set($porcentaje, $user->getCompany(), $tiempoProceso);
         if(null==($distribucion->getId())) {
           $existsDistribucion = $distribucionDirectaDao->findOneByProcessId($user->getCompany()->getId(), $_POST["proceso"]);

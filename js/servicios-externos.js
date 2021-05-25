@@ -259,10 +259,6 @@ $(document).on("click", ".link-borrar-servicio-externo", function (event) {
   });
 });
 
-function formatCurrency(resultadoFloat) {
-  return $.number(resultadoFloat, 2, ",", ".");
-}
-
 function resetFormServiciosExternos() {
   $("#servicioexterno").val("");
   $("#costoServicioExterno").val("");

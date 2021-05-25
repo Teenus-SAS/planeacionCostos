@@ -48,6 +48,7 @@ class DistribucionDirectaDao
       $ditribucion->setValorProceso($distribucionDirectaDB["valor_proceso"]);
       $ditribucion->setValorMinuto($distribucionDirectaDB["valor_minuto"]);
       $ditribucion->setValorAsignado($distribucionDirectaDB["valor_asignado"]);
+      $ditribucion->setIsProcesoInterno((bool)$distribucionDirectaDB["proceso_interno"]);
       $this->db->close();
       return $ditribucion;
     } else {
@@ -100,13 +101,14 @@ class DistribucionDirectaDao
   {
     $this->db->connect();
     $query = "INSERT INTO `distribucion_directa` (`id_distribucion`, `id_proceso`, `id_empresa`, `porcentaje`,
-    `valor_proceso`, `valor_minuto`,`valor_asignado`) VALUES (NULL, '" . $ditribucion->getIdProceso() . "', '" . $ditribucion->getIdEmpresa() . "', '" . $ditribucion->getPorcentaje() . "',
-    '" . $ditribucion->getValorProceso() . "', '" . $ditribucion->getValorMinuto() . "','" . $ditribucion->getValorAsignado() . "') 
+    `valor_proceso`, `valor_minuto`,`valor_asignado`, `proceso_interno`) VALUES (NULL, '" . $ditribucion->getIdProceso() . "', '" . $ditribucion->getIdEmpresa() . "', '" . $ditribucion->getPorcentaje() . "',
+    '" . $ditribucion->getValorProceso() . "', '" . $ditribucion->getValorMinuto() . "','" . $ditribucion->getValorAsignado() . "','" . $ditribucion->getIsProcesoInterno() . "') 
     ON DUPLICATE KEY UPDATE `porcentaje` = '" . $ditribucion->getPorcentaje() . "',
     `valor_minuto` = '" . $ditribucion->getValorMinuto() . "' ,
     `valor_proceso` = '" . $ditribucion->getValorProceso() . "',
-    `valor_asignado` ='" . $ditribucion->getValorAsignado() . "'";
-    return  $this->db->consult($query);
+    `valor_asignado` ='" . $ditribucion->getValorAsignado() . "',
+    `proceso_interno` ='" . $ditribucion->getIsProcesoInterno() . "'";
+    return $this->db->consult($query);
   }
 
   public function update($ditribucion)
@@ -115,7 +117,8 @@ class DistribucionDirectaDao
     $query = "UPDATE `distribucion_directa` SET `porcentaje` = '" . $ditribucion->getPorcentaje() . "', 
     `valor_proceso` = '" . $ditribucion->getValorProceso() . "', 
     `valor_minuto` = '" . $ditribucion->getValorMinuto() . "' , 
-    `valor_asignado` = '" . $ditribucion->getValorAsignado() . "'
+    `valor_asignado` = '" . $ditribucion->getValorAsignado() . "',
+    `proceso_interno` = '" . $ditribucion->getIsProcesoInterno() . "'
     WHERE `distribucion_directa`.`id_distribucion` = " . $ditribucion->getId() . "
     AND `distribucion_directa`.`id_empresa` = " . $ditribucion->getIdEmpresa();
     return  $this->db->consult($query);

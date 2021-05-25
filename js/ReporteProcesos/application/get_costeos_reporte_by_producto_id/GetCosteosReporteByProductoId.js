@@ -1,7 +1,7 @@
-import { GetAllGastosGenerales } from "../../../GastosGenerales/application/get_gastos_generales_by_proceso_id/GetGastosGeneralesByProcesoId.js";
 import { GetProductosProcesosByProductoId } from "../../../ProductosProcesos/application/get_productos_procesos_by_producto_id/GetProductosProcesosByProductoId.js";
 import { CosteosIndividualReporteData } from "../../elements/individual_reporte/costeos_individual_reporte_datatable/data/CosteosIndividualReporteData.js";
 import { GetEmpresa } from "../../../OpcionesEmpresa/application/get_empresa/GetEmpresa.js";
+import { GetAllDistribucionesDirectasRedistribuidas } from "../../../DistribucionDirecta/application/get_all_distribuciones_redistribuidas/GetAllDistribucionesDirectasRedistribuidas.js";
 
 export function GetCosteosReporteByProductoId(
   productoId,
@@ -13,7 +13,7 @@ export function GetCosteosReporteByProductoId(
   cb
 ) {
   GetProductosProcesosByProductoId(productoId, (productosProcesos) => {
-    GetAllGastosGenerales((distribuciones) => {
+    GetAllDistribucionesDirectasRedistribuidas((distribuciones) => {
       GetEmpresa((empresa) => {
         let dataTable = [];
         dataTable.push(
@@ -56,12 +56,16 @@ export function GetCosteosReporteByProductoId(
         );
 
         let recuperacionGastosCostos = 0;
+        console.log(distribuciones);
+
         distribuciones.forEach((dist) => {
           const process = productosProcesos.find(
             (prodProcess) => dist.idProceso == prodProcess.process.id
           );
           if (process) {
-            recuperacionGastosCostos += parseFloat(dist.valorAsignado);
+            recuperacionGastosCostos +=
+              parseFloat(dist.valorMinuto) *
+              (process.timeAlistamiento + process.timeOperacion);
           }
         });
         dataTable.push(

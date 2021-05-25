@@ -10,6 +10,7 @@ class DistribucionDirecta implements JsonSerializable {
     private $valorProceso;
     private $valorMinuto;
     private $valorAsignado;
+    private $isProcesoInterno;
 
     public function setId($id) {
         $this->id = $id;
@@ -89,6 +90,14 @@ class DistribucionDirecta implements JsonSerializable {
 
     public function getPorcentaje() {
         return $this->porcentaje;
+    }
+
+    public function getIsProcesoInterno() {
+        return $this->isProcesoInterno;
+    }
+
+    public function setIsProcesoInterno($isProcesoInterno) {
+        $this->isProcesoInterno = $isProcesoInterno;
     }
 
     public function jsonSerialize() {
