@@ -472,6 +472,8 @@ function clearDDirectaForm() {
   $(`#inputProcesosDDirecta`).prop("selectedIndex", 0);
   $("#inputPorcentajeProceso").val("");
   $("#idDistribucionDirecta").val("");
+  $("#idDistribucionDirecta").val("");
+  $("#isProcesoInterno").prop("checked", false);
   $("#btnAddModifyDDirecta").html("Guardar");
 }
 
