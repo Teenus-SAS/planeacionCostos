@@ -135,6 +135,21 @@ include(PARTIALS_PATH . "verify_session.php") ?>
           <div id="close-button" class="mt-2 absolute cursor-pointer z-10 text-2xl">
             <i class="nc-icon nc-simple-remove text-2xl"></i>
           </div>
+          <div id="productos-selected-reporte-table" class="mt-5 mx-5">
+            <div class="table-responsive tableFixHead mt-5">
+              <table class="table" id="productos-reporte-jquery-datatable">
+                <thead class="text-primary">
+                  <th>Ref</th>
+                  <th>Producto</th>
+                  <th>Cantidad</th>
+                  <th>Recuperación</th>
+                  <th></th>
+                </thead>
+                <tbody>
+                </tbody>
+              </table>
+            </div>
+          </div>
           <div class="row align-items-around">
             <div id="generate-reporte-pdf" class="col-12 pt-5">
               <div class="col-auto">

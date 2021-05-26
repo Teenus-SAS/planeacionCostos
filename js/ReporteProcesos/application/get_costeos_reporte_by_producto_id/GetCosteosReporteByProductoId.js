@@ -58,9 +58,11 @@ export function GetCosteosReporteByProductoId(
         let recuperacionGastosCostos = 0;
         let recuperacionGastosCostosManual = 0;
 
-        recuperacionGastosCostosManual =
-          (totalServiciosExternos + costoProduccion) *
-          (parseFloat(manualRecuperacion) / 100);
+        if (manualRecuperacion) {
+          recuperacionGastosCostosManual =
+            (totalServiciosExternos + costoProduccion) *
+            (parseFloat(manualRecuperacion) / 100);
+        }
 
         recuperacionGastosCostos += recuperacionGastosCostosManual;
 
@@ -71,8 +73,10 @@ export function GetCosteosReporteByProductoId(
           if (process) {
             recuperacionGastosCostos +=
               parseFloat(dist.valorMinuto) *
-              (process.timeAlistamiento + process.timeOperacion);
+              (parseFloat(process.timeAlistamiento) +
+                parseFloat(process.timeOperacion));
           }
+          console.log({ process, dist });
         });
         dataTable.push(
           new CosteosIndividualReporteData(

@@ -1,8 +1,8 @@
+import { CreateReporteProductoProcesos } from "../../../application/create_reporte_producto_procesos/CreateReporteProductoProcesos.js";
 import { DownloadReporteInPdf } from "../../../application/download_reporte_in_pdf/DownloadReporteInPdf.js";
-import { NewReporteProductoProcesos } from "../../../application/new_reporte_producto_procesos/NewReporteProductoProcesos.js";
 
 export function OnClickDescargarReporteProductoProcesoButton(buttonData, cb) {
-  NewReporteProductoProcesos(
+  CreateReporteProductoProcesos(
     buttonData.consecutivo,
     buttonData.cliente,
     buttonData.ciudad,
