@@ -871,7 +871,6 @@ include(PARTIALS_PATH . "verify_session.php") ?>
   </script>
   <script src="/js/RedondeoDecimal.js"></script>
 
-  <!--   <script src="/js/productos.js"></script> -->
   <script src="/js/productos-configurar.js" type="module"></script>
   <script src="/js/productos_procesos.js" type="module"></script>
   <script src="/js/distribucion-gastos.js" type="module"></script>

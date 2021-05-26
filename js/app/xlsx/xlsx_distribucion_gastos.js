@@ -143,7 +143,6 @@ function uploadProductsExpenses(subidaExcel) {
 }
 
 function uploadDistribucionDirecta(subidaExcel) {
-  loadingSpinner();
   $.post(
     "api/upload_distribucion_directa.php",
     {
@@ -171,5 +170,4 @@ function uploadDistribucionDirecta(subidaExcel) {
       loadProductsGG();
     }
   );
-  completeSpinner();
 }
