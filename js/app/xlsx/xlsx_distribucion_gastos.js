@@ -1,10 +1,9 @@
+import { fetchData } from "../../utils/fetchData.js";
 import { ImportacionXLSX } from "./ImportacionXLSX.js";
 
 let procesos = [];
-const updateProcesos = () => {
-  $.get("/app/config-general/api/get_processes.php", (data, status) => {
-    procesos = data;
-  });
+const updateProcesos = async () => {
+  procesos = await fetchData("/app/config-general/api/get_processes.php");
 };
 let productos = [];
 const updateProductos = () => {
@@ -29,16 +28,16 @@ const exportImportDDirecta = new ImportacionXLSX(
     Porcentaje: "porcentaje",
   },
   $("#fileProductsExpenses"),
-  (cell) => {
-    updateProcesos();
-    const existsProcess = procesos.find(
-      (proc) =>
+  async (cell) => {
+    await updateProcesos();
+    const existsProcess = procesos.find((proc) => {
+      return (
         String(proc.name).trim().toLowerCase() ==
         String(cell.proceso).trim().toLowerCase()
-    );
+      );
+    });
     if (existsProcess) {
       cell.proceso = existsProcess.id;
-      return false;
     } else {
       return {
         type: "Proceso no existe",
@@ -98,7 +97,7 @@ $("#fileProductsExpenses").change(function () {
   subidaExcelDGastos.clearFile();
 });
 
-$("#fileDistribucionesDirectas").change(function () {
+$("#fileDistribucionesDirectas").change(async function () {
   const subidaExcelDDirecta = exportImportDDirecta.subidaExcel;
   subidaExcelDDirecta.inputFile = this;
   $("#spinnerAjax").removeClass("fade");
@@ -137,7 +136,6 @@ function uploadProductsExpenses(subidaExcel) {
         );
       }
       reloadTables();
-      loadProductsGG();
     }
   );
 }
@@ -167,7 +165,6 @@ function uploadDistribucionDirecta(subidaExcel) {
         );
       }
       reloadTables();
-      loadProductsGG();
     }
   );
 }

@@ -36,7 +36,7 @@ export class SubidaExcel {
       $(this.inputFile).siblings("label").text(file.name);
       this.reader.readAsArrayBuffer(file);
     }
-    this.reader.onloadend = () => {
+    this.reader.onloadend = async () => {
       this.workbook = XLSX.read(new Uint8Array(this.reader.result), {
         type: "array",
       });
@@ -100,8 +100,8 @@ export class SubidaExcel {
 
   #verifyColumns(allowsUndefined = false) {
     this.array.forEach &&
-      this.array.forEach((cell) => {
-        const verification = this.verifyColumnscb(cell);
+      this.array.forEach(async (cell) => {
+        const verification = await this.verifyColumnscb(cell);
         if (verification) {
           this.errors.push({
             type: verification.type || "",

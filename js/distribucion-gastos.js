@@ -1,5 +1,9 @@
+import { fetchData } from "./utils/fetchData.js";
 import { fillSelect } from "./utils/fillSelect.js";
 import { loadDatafromEndpoint } from "./utils/loadData.js";
+
+const getDistribucionesDirectas = async () =>
+  await fetchData("/app/products/api/get_distribuciones_directas.php");
 
 loadMonthExpenses();
 function loadMonthExpenses() {
@@ -63,6 +67,10 @@ function loadProductsGG() {
   });
   completeSpinner();
 }
+
+document.getElementById("inputProcesosDDirecta").onchange = (e) => {
+  clearDDirectaForm(false);
+};
 
 let processesDDirecta;
 loadProcessesDDirecta();
@@ -307,28 +315,42 @@ let $tableDistribucionDirecta = $("#tableDistribucionDirecta").dataTable({
 });
 
 /* Actualizar distribucion directa */
-$(document).on("click", ".link-editar-distribucion-directa", function (event) {
-  event.preventDefault();
+$(document).on(
+  "click",
+  ".link-editar-distribucion-directa",
+  async function (event) {
+    event.preventDefault();
 
-  $("#idDistribucionDirecta").val(this.id);
-  let proceso = $(this).parents("tr").find("td").eq(0).text();
-  let porcentaje = parseFloat(
-    $(this)
-      .parents("tr")
-      .find("td")
-      .eq(1)
-      .html()
-      .replace("%", "")
-      .replace(",", ".")
-  );
+    $("#idDistribucionDirecta").val(this.id);
+    const distribuciones = await getDistribucionesDirectas();
+    const dist = distribuciones.find(
+      (distribution) => distribution.id == this.id
+    );
 
-  $(`#inputProcesosDDirecta option:contains(${proceso})`).prop(
-    "selected",
-    true
-  );
-  $("#inputPorcentajeProceso").val(porcentaje);
-  $("#btnAddModifyDDirecta").html("Actualizar");
-});
+    $("#isProcesoInterno").prop(
+      "checked",
+      dist.isProcesoInterno ? true : false
+    );
+
+    let proceso = $(this).parents("tr").find("td").eq(0).text();
+    let porcentaje = parseFloat(
+      $(this)
+        .parents("tr")
+        .find("td")
+        .eq(1)
+        .html()
+        .replace("%", "")
+        .replace(",", ".")
+    );
+
+    $(`#inputProcesosDDirecta option:contains(${proceso})`).prop(
+      "selected",
+      true
+    );
+    $("#inputPorcentajeProceso").val(porcentaje);
+    $("#btnAddModifyDDirecta").html("Actualizar");
+  }
+);
 
 /* Eliminar distribucion directa */
 $(document).on("click", ".link-borrar-distribucion-directa", function (event) {
@@ -468,10 +490,11 @@ $("#formDistribucionDirecta").submit(function (e) {
   });
 });
 
-function clearDDirectaForm() {
-  $(`#inputProcesosDDirecta`).prop("selectedIndex", 0);
+function clearDDirectaForm(clearInput = true) {
+  if (clearInput) {
+    $(`#inputProcesosDDirecta`).prop("selectedIndex", 0);
+  }
   $("#inputPorcentajeProceso").val("");
-  $("#idDistribucionDirecta").val("");
   $("#idDistribucionDirecta").val("");
   $("#isProcesoInterno").prop("checked", false);
   $("#btnAddModifyDDirecta").html("Guardar");
