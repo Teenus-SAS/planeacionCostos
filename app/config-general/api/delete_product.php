@@ -32,7 +32,7 @@ if (isset($_POST["id"])) {
     http_response_code(514);
     exit;
   }
-  if ($productDao->delete($_POST["id"])) {
+  if ($productDao->delete($_POST["id"]) > 0) {
     http_response_code(200);
   }else{
     http_response_code(500);
