@@ -1,12 +1,7 @@
+import { fetchData } from "../../utils/fetchData.js";
 import { ImportacionXLSX } from "./ImportacionXLSX.js";
 
-let productos = [];
-$.get(
-  "/app/config-general/api/get_products.php",
-  (dataProducts, status, xhr) => {
-    productos = dataProducts;
-  }
-);
+let productos = await fetchData("/app/config-general/api/get_products.php");
 
 const exportImportServiciosExternos = new ImportacionXLSX(
   "api/get_servicios_externos.php",
@@ -30,16 +25,18 @@ const exportImportServiciosExternos = new ImportacionXLSX(
     cell.producto = productExists.id;
   },
   (data) => {
-    return data.map((servicio) => {
-      const productName = products.find(
-        (prod) => prod.id === servicio.idProducto
-      ).name;
-      return {
-        name: servicio.nombreServicio,
-        product: productName,
-        cost: servicio.costo,
-      };
-    });
+    return data
+      .filter((value) => value)
+      .map((servicio) => {
+        const productName = products.find(
+          (prod) => prod.id === servicio.idProducto
+        ).name;
+        return {
+          name: servicio.nombreServicio,
+          product: productName,
+          cost: servicio.costo,
+        };
+      });
   }
 );
 
@@ -47,13 +44,12 @@ $("#fileserviciosExternos").change(function () {
   const subidaExcelServiciosExternos =
     exportImportServiciosExternos.subidaExcel;
   subidaExcelServiciosExternos.inputFile = this;
-  $("#spinnerAjax").removeClass("fade");
   subidaExcelServiciosExternos.onloadReader(() => {
     subidaExcelServiciosExternos.verifySheetName(() => {
       uploadServiciosExternos(subidaExcelServiciosExternos);
     });
   });
-  $("#spinnerAjax").addClass("fade");
+  subidaExcelServiciosExternos.clearFile();
 });
 
 function uploadServiciosExternos(subidaExcel) {

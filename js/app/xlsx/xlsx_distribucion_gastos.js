@@ -97,7 +97,7 @@ $("#fileProductsExpenses").change(function () {
   subidaExcelDGastos.clearFile();
 });
 
-$("#fileDistribucionesDirectas").change(async function () {
+$("#fileDistribucionesDirectas").change(function () {
   const subidaExcelDDirecta = exportImportDDirecta.subidaExcel;
   subidaExcelDDirecta.inputFile = this;
   $("#spinnerAjax").removeClass("fade");

@@ -1,17 +1,9 @@
+import { fetchData } from "../../utils/fetchData.js";
 import { ImportacionXLSX } from "./ImportacionXLSX.js";
 
-let productos = [];
-let procesos = [];
-let maquinas = [];
-$.get("/app/config-general/api/get_processes.php", (data, status, xhr) => {
-  procesos = data;
-});
-$.get("/app/config-general/api/get_machines.php", (data, status, xhr) => {
-  maquinas = data;
-});
-$.get("/app/config-general/api/get_products.php", (data, status, xhr) => {
-  productos = data;
-});
+let productos = await fetchData("/app/config-general/api/get_products.php");
+let procesos = await fetchData("/app/config-general/api/get_processes.php");
+let maquinas = await fetchData("/app/config-general/api/get_machines.php");
 
 const exportImportProductosProcesos = new ImportacionXLSX(
   "/app/config-general/api/get_products.php?process",
@@ -77,8 +69,8 @@ const exportImportProductosProcesos = new ImportacionXLSX(
   (data) => {
     const mapped = [];
     data.forEach((product) => {
-      if (product.processes) {
-        product.processes.forEach((process) => {
+      if (product.productProcesses) {
+        product.productProcesses.forEach((process) => {
           mapped.push({
             ref: product.ref,
             name: product.name,

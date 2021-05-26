@@ -14,7 +14,7 @@ class ServiciosExternosDao {
     $this->db->connect();
     $query = "SELECT servicios_externos.id_servicio, servicios_externos.nombre_servicio, servicios_externos.costo, servicios_externos.id_producto, productos.nombre, servicios_externos.id_empresa 
               FROM `servicios_externos` INNER JOIN productos ON servicios_externos.id_producto = productos.id_producto 
-              WHERE `id_servicio` = $id";
+              WHERE `id_servicio` = '$id'";
     $serviciosExternosDB = $this->db->consult($query, "yes");
     if (count($serviciosExternosDB) > 0) {
       $serviciosExternosDB = $serviciosExternosDB[0];
