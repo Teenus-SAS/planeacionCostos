@@ -681,6 +681,11 @@ function simulationCost() {
   manoObraUSDValue = manoObraUSD.value;
 }
 
+document.getElementById("link-simulation").onclick = (e) => {
+  e.preventDefault();
+  simulationCost();
+}
+
 function formatOnChange(ev) {
   ev.target.value = parseFloat(ev.target.value).toFixed(2) + " %";
 }

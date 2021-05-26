@@ -139,7 +139,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                 </div>
                 <div class="col-12 text-uppercase text-center ">
                   <a class="btn-product" id="link-indicators" target="_blank"></a>
-                  <a class="btn-product" id="link-simulation" href="javascript:simulationCost()"></a>
+                  <a class="btn-product text-white" id="link-simulation"></a>
                 </div>
               </div>
               <br>
