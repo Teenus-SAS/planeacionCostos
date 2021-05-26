@@ -141,8 +141,8 @@ class ProductDao {
     $update = false;
     $this->db->connect();
     $query = "SELECT * FROM `productos`
-              WHERE `id_producto` = '" . $product->getId() . "'
-              OR `ref` = '" . $product->getRef() . "'";
+              WHERE (`id_producto` = '" . $product->getId() . "'
+              OR `ref` = '" . $product->getRef() . "') AND `empresas_id_empresa` =  '" . $product->getIdCompany() . "'";
     $productDB = $this->db->consult($query, "yes");
 
     if ($productDB) {
@@ -160,9 +160,9 @@ class ProductDao {
   public function delete($id) {
     $this->db->connect();
     
-    $query = "DELETE FROM `productos` WHERE `productos`.`id_producto` = $id";
+    $query = "DELETE FROM `productos` WHERE `productos`.`id_producto` = '$id'";
     $this->db->consult($query);
-    $query = "DELETE FROM `gastos_mensuales` WHERE `gastos_mensuales`.`productos_id_producto` = $id";
+    $query = "DELETE FROM `gastos_mensuales` WHERE `gastos_mensuales`.`productos_id_producto` = '$id'";
     $this->db->consult($query);
 
     return true;
