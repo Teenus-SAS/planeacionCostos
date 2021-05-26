@@ -1,4 +1,3 @@
-import { fillSelect } from "../utils/fillSelect.js";
 import { GetAllProductos } from "../Productos/application/get_all_productos/GetAllProductos.js";
 import { ReporteProductoProcesoDataTable } from "./elements/reportes_datatable/ReporteProductoProcesoDataTable.js";
 import { GenerateReporteProductoProcesoButton } from "./elements/generate_new_reporte_form/GenerateReporteProductoProcesoButton.js";
@@ -11,36 +10,14 @@ import { MateriasIndividualReporteProductoProcesoDataTable } from "./elements/in
 import { ServiciosExternosIndividualReporteProductoProcesoDataTable } from "./elements/individual_reporte/serviciosexternos_individual_reporte_datatable/ServiciosExternosIndividualReporteProductoProcesoDataTable.js";
 import { MateriasIndividualReporteData } from "./elements/individual_reporte/materias_individual_reporte_datatable/data/MateriasIndividualReporteData.js";
 
+import { fillSelect } from "../utils/fillSelect.js";
+import { ProductosSelectedReporteDataTable } from "./elements/productos_selected_datatable/ProductosSelectedReporteDataTable.js";
+
 window.html2canvas = html2canvas;
 
 const generateNuevoReporteForm = new GenerateNewReporteForm();
 const infoNuevoReporteForm = new InfoNuevoReporteProductoProcesoForm();
 const reportesDataTable = new ReporteProductoProcesoDataTable();
-const individualReporteDataTable =
-  new IndividualReporteProductoProcesoDataTable(
-    "reporte-procesos-table",
-    [],
-    {}
-  );
-const materiasIndividualReporteDataTable =
-  new MateriasIndividualReporteProductoProcesoDataTable(
-    "materias-reporte-procesos-table",
-    [],
-    {}
-  );
-const serviciosExternosIndividualReporteDataTable =
-  new ServiciosExternosIndividualReporteProductoProcesoDataTable(
-    "servicios-externos-reporte-procesos-table",
-    [],
-    {}
-  );
-const costeosIndividualReporteDataTable =
-  new CosteosIndividualReporteProductoProcesoDataTable(
-    "costeo-reporte-procesos-table",
-    [],
-    {}
-  );
-
 $(document).on("click", ".link-borrar-reporte-pprocesos", function (e) {
   e.preventDefault();
   reportesDataTable.delete(this.id);
@@ -70,6 +47,48 @@ $(document).on("click", ".link-ver-reporte-pprocesos", function (e) {
     individualReporteDataTable.show();
   });
 });
+
+const productosSelectedDataTable = new ProductosSelectedReporteDataTable([
+  {
+    ref: 1,
+    name: "Producto",
+    cantidad: 5,
+    recuperacion: 12,
+  },
+]);
+$(document).on(
+  "click",
+  ".link-borrar-producto-reporte-pprocesos",
+  function (e) {
+    e.preventDefault();
+    productosSelectedDataTable.delete(this.id);
+  }
+);
+
+const individualReporteDataTable =
+  new IndividualReporteProductoProcesoDataTable(
+    "reporte-procesos-table",
+    [],
+    {}
+  );
+const materiasIndividualReporteDataTable =
+  new MateriasIndividualReporteProductoProcesoDataTable(
+    "materias-reporte-procesos-table",
+    [],
+    {}
+  );
+const serviciosExternosIndividualReporteDataTable =
+  new ServiciosExternosIndividualReporteProductoProcesoDataTable(
+    "servicios-externos-reporte-procesos-table",
+    [],
+    {}
+  );
+const costeosIndividualReporteDataTable =
+  new CosteosIndividualReporteProductoProcesoDataTable(
+    "costeo-reporte-procesos-table",
+    [],
+    {}
+  );
 
 const descargarPdfReporteButton = new DescargarPdfReporteProductoProcesoButton(
   "generar-pdf-reporte-procesos",

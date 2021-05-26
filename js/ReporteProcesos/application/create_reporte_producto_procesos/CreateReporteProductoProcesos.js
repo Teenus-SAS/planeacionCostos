@@ -1,4 +1,4 @@
-export function NewReporteProductoProcesos(
+export function CreateReporteProductoProcesos(
   consecutivo,
   cliente,
   ciudad,

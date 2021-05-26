@@ -71,7 +71,8 @@ export function GetCosteosReporteByProductoId(
           if (process) {
             recuperacionGastosCostos +=
               parseFloat(dist.valorMinuto) *
-              (process.timeAlistamiento + process.timeOperacion);
+              (parseFloat(process.timeAlistamiento) +
+                parseFloat(process.timeOperacion));
           }
         });
         dataTable.push(
