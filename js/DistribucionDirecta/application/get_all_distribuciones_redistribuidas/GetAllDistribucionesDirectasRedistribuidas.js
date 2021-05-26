@@ -22,7 +22,6 @@ export function GetAllDistribucionesDirectasRedistribuidas(cb) {
         return totalVAsignado + parseFloat(dist.valorMinuto);
       }, 0) / otrasDistribuciones.length;
 
-    console.log(otrasDistribuciones);
     cb(
       otrasDistribuciones.map((dist) => {
         dist.porcentaje =

@@ -64,29 +64,38 @@ export function GetCosteosReporteByProductoId(
             (parseFloat(manualRecuperacion) / 100);
         }
 
-        recuperacionGastosCostos += recuperacionGastosCostosManual;
-
         distribuciones.forEach((dist) => {
-          const process = productosProcesos.find(
+          const processes = productosProcesos.filter(
             (prodProcess) => dist.idProceso == prodProcess.process.id
           );
-          if (process) {
-            recuperacionGastosCostos +=
-              parseFloat(dist.valorMinuto) *
-              (parseFloat(process.timeAlistamiento) +
-                parseFloat(process.timeOperacion));
+          if (processes && processes.length > 0) {
+            processes.forEach((process) => {
+              recuperacionGastosCostos +=
+                parseFloat(dist.valorMinuto) *
+                (parseFloat(process.timeAlistamiento) +
+                  parseFloat(process.timeOperacion));
+            });
           }
-          console.log({ process, dist });
         });
         dataTable.push(
           new CosteosIndividualReporteData(
-            `Recuperación Gastos y Costos`,
-            manualRecuperacion,
+            `Recuperación Costos`,
+            0,
             recuperacionGastosCostos
           )
         );
+        dataTable.push(
+          new CosteosIndividualReporteData(
+            `Recuperación Gastos`,
+            manualRecuperacion,
+            recuperacionGastosCostosManual
+          )
+        );
         let costoTotalProducto =
-          costoProduccion + totalServiciosExternos + recuperacionGastosCostos;
+          costoProduccion +
+          totalServiciosExternos +
+          recuperacionGastosCostos +
+          recuperacionGastosCostosManual;
         dataTable.push(
           new CosteosIndividualReporteData(
             `Costo Total Producto`,

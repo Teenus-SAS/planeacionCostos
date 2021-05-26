@@ -96,7 +96,6 @@
   $("#sendMessage").on("click", () => {
     let subject = $("#subject-message").val();
     let content = editor.html.get();
-    console.log({ subject, content });
     if (subject.trim() != "" && content.trim() != "") {
       $.post(
         "/app/my-profile/api/send_message_support.php",
