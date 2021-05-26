@@ -275,7 +275,6 @@ function deleteProduct(prodId) {
           id: prodId,
         }).always(function (xhr) {
           completeSpinner();
-          console.log(xhr);
           if (xhr.status == 200) {
             tableProductos.api().ajax.reload();
             $.notify(

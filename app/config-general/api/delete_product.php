@@ -17,19 +17,19 @@ if (isset($_POST["id"])) {
   $serviciosExternos = $serviciosExternosDao->findByProductId($_POST["id"]);
   $procesos = $processDao->findProductProcessesByProductId($_POST["id"]);
   if ($lines && count($lines) > 0) {
-    http_response_code(511);
+    http_response_code(400);
     exit;
   }
   if ($rawMaterials && count($rawMaterials) > 0) {
-    http_response_code(512);
+    http_response_code(400);
     exit;
   }
   if ($serviciosExternos && count($serviciosExternos) > 0) {
-    http_response_code(513);
+    http_response_code(400);
     exit;
   }
   if ($procesos && count($procesos) > 0) {
-    http_response_code(514);
+    http_response_code(400);
     exit;
   }
   if ($productDao->delete($_POST["id"]) > 0) {
