@@ -100,8 +100,8 @@ export class SubidaExcel {
 
   #verifyColumns(allowsUndefined = false) {
     this.array.forEach &&
-      this.array.forEach(async (cell) => {
-        const verification = await this.verifyColumnscb(cell);
+      this.array.forEach((cell) => {
+        const verification = this.verifyColumnscb(cell);
         if (verification) {
           this.errors.push({
             type: verification.type || "",

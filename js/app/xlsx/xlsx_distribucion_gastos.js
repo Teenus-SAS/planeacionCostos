@@ -1,10 +1,7 @@
 import { fetchData } from "../../utils/fetchData.js";
 import { ImportacionXLSX } from "./ImportacionXLSX.js";
 
-let procesos = [];
-const updateProcesos = async () => {
-  procesos = await fetchData("/app/config-general/api/get_processes.php");
-};
+let procesos = await fetchData("/app/config-general/api/get_processes.php");
 let productos = [];
 const updateProductos = () => {
   $.get("/app/config-general/api/get_products.php", (data, status) => {
@@ -28,8 +25,7 @@ const exportImportDDirecta = new ImportacionXLSX(
     Porcentaje: "porcentaje",
   },
   $("#fileProductsExpenses"),
-  async (cell) => {
-    await updateProcesos();
+  (cell) => {
     const existsProcess = procesos.find((proc) => {
       return (
         String(proc.name).trim().toLowerCase() ==

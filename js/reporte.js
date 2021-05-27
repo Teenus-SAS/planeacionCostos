@@ -636,7 +636,6 @@ function simulationCost() {
   comisionUSD.readOnly = false;
   rentabilidadUSD.readOnly = false;
   const costoCOP = document.getElementById("CostoCOP");
-  const precioVentaCOP = document.getElementById("precioVentaCOP");
 
   materiaPrimaUSD.oninput = startCostSimulation.bind(
     null,
@@ -684,7 +683,7 @@ function simulationCost() {
 document.getElementById("link-simulation").onclick = (e) => {
   e.preventDefault();
   simulationCost();
-}
+};
 
 function formatOnChange(ev) {
   ev.target.value = parseFloat(ev.target.value).toFixed(2) + " %";

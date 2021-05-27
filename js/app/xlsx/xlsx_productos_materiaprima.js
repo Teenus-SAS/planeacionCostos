@@ -1,12 +1,7 @@
+import { fetchData } from "../../utils/fetchData.js";
 import { ImportacionXLSX } from "./ImportacionXLSX.js";
-let materials = [];
-let products = [];
-$.get("/app/config-general/api/get_materials.php", (data, status, xhr) => {
-  materials = data;
-});
-$.get("/app/config-general/api/get_products.php", (data, status, xhr) => {
-  products = data;
-});
+let materials = await fetchData("/app/config-general/api/get_materials.php");
+let products = await fetchData("/app/config-general/api/get_products.php");
 
 const exportImportProdMateriaPrima = new ImportacionXLSX(
   "api/get_products.php?materials",
@@ -26,6 +21,7 @@ const exportImportProdMateriaPrima = new ImportacionXLSX(
         String(mat.description).toLowerCase() ===
         String(cell.material).toLowerCase()
     );
+    console.log({ cell: cell.material, mat: materials });
     if (!materialExists) {
       return {
         type: "Material no existe",
