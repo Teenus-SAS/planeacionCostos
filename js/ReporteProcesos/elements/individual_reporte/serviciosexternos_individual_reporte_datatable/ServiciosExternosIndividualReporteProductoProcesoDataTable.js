@@ -3,6 +3,7 @@ import { DataTableColumnDefinition } from "../../../../../node_modules/elegant-c
 import { DataTableColumnHeader } from "../../../../../node_modules/elegant-crud-datatable/build/DataTableColumn/DataTableColumnHeader.js";
 import { DataTableColumnBody } from "../../../../../node_modules/elegant-crud-datatable/build/DataTableColumn/DataTableColumnBody.js";
 import { ServiciosExternosIndividualReporteData } from "./data/ServiciosExternosIndividualReporteData.js";
+import { DataTableSubgroupSeparator } from "../../../../../node_modules/elegant-crud-datatable/build/DataTableSubgroupSeparator.js";
 
 const columnDefinitions = [
   new DataTableColumnDefinition(
@@ -52,15 +53,99 @@ export class ServiciosExternosIndividualReporteProductoProcesoDataTable extends 
     this.toDiv(this.divId);
   }
 
+  adicionarFromData(newData) {
+    let previousState = this._data;
+    let previousTotal = 0;
+
+    if (this._subgroups[0]) {
+      previousState = previousState.filter(
+        (state) => !(state instanceof DataTableSubgroupSeparator)
+      );
+      previousTotal = PriceParser.fromString(
+        this._subgroups[0]._title.replace("Total Servicios Externos:", ""),
+        true
+      ).price;
+    }
+    newData.forEach((value) => {
+      const exists = previousState.find(
+        (state) => state.concepto == value.concepto
+      );
+      if (exists) {
+        exists.monto = parseFloat(exists.monto);
+        exists.monto += parseFloat(value.monto);
+      } else {
+        previousState.push(value);
+      }
+      previousTotal += parseFloat(value.monto);
+    });
+
+    this._subgroups[0] = new DataTableSubgroupSeparator(
+      "TotalServicios",
+      `Total Servicios Externos: ${
+        PriceParser.toString(previousTotal, true).strPrice
+      }`,
+      [],
+      ["text-right", "pr-3"],
+      undefined,
+      "white"
+    );
+    previousState.push(this._subgroups[0]);
+
+    this.setData(previousState);
+  }
+
+  removerFromData(dataForRemove) {
+    let previousState = this._data;
+    let previousTotal = 0;
+
+    if (this._subgroups[0]) {
+      previousState = previousState.filter(
+        (state) => !(state instanceof DataTableSubgroupSeparator)
+      );
+      previousTotal = PriceParser.fromString(
+        this._subgroups[0]._title.replace("Total Servicios Externos:", ""),
+        true
+      ).price;
+    }
+    dataForRemove.forEach((value) => {
+      const exists = previousState.find(
+        (state) => state.concepto == value.concepto
+      );
+      if (exists) {
+        exists.monto = parseFloat(exists.monto);
+        const montoPrev = parseFloat(value.monto);
+        exists.monto -= montoPrev;
+        previousTotal -= montoPrev;
+      }
+    });
+
+    this._subgroups[0] = new DataTableSubgroupSeparator(
+      "TotalServicios",
+      `Total Servicios Externos: ${
+        PriceParser.toString(previousTotal, true).strPrice
+      }`,
+      [],
+      ["text-right", "pr-3"],
+      undefined,
+      "white"
+    );
+    previousState = previousState.filter((servicio) => servicio.monto);
+    previousState.push(this._subgroups[0]);
+
+    this.setData(previousState);
+  }
+
   toJSON() {
     return JSON.stringify(this._data);
   }
 
   fromJSON(json) {
-    this.setData(
-      JSON.parse(json).map((row) => {
-        return ServiciosExternosIndividualReporteData.fromJSON(row);
-      })
+    this.adicionarFromData(
+      JSON.parse(json)
+        .filter((row) => !row._title)
+        .map((row) => {
+          return ServiciosExternosIndividualReporteData.fromJSON(row);
+        })
     );
   }
 }

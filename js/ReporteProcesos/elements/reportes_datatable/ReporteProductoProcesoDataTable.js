@@ -12,8 +12,7 @@ export class ReporteProductoProcesoDataTable {
         url: "/vendor/dataTables/Spanish.json",
       },
       ajax: {
-        url:
-          "/app/reportes/api/get_reportes_costeos_procesos.php?dataTable=true",
+        url: "/app/reportes/api/get_reportes_costeos_procesos.php?dataTable=true",
         dataSrc: "data",
       },
       columns: [
@@ -33,12 +32,6 @@ export class ReporteProductoProcesoDataTable {
           data: "creationDate",
           render: function (data, type, row) {
             return `<span class="name-left">${data}</span>`;
-          },
-        },
-        {
-          data: "producto",
-          render: function (data) {
-            return `<span class="text-right">${data.name}</span>`;
           },
         },
         {
@@ -66,12 +59,12 @@ export class ReporteProductoProcesoDataTable {
     });
   }
 
-  download(consecutivo) {
-    OnClickDownloadReporteProductoProceso(consecutivo, () => {});
+  async download(consecutivo) {
+    return await OnClickDownloadReporteProductoProceso(consecutivo, () => {});
   }
 
-  view(consecutivo, cb) {
-    OnClickViewReporteProductoProceso(consecutivo, cb);
+  async view(consecutivo) {
+    return await OnClickViewReporteProductoProceso(consecutivo);
   }
 
   reload() {

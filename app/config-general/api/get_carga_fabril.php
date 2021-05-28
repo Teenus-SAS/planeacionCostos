@@ -15,7 +15,7 @@ if (isset($_SESSION["user"])) {
   $cargaFabrilDao = new CargaFabrilDao();
   $cargas = $cargaFabrilDao->findByCompanyId($user->getCompany()->getId());
   if (isset($_GET["dataTable"])) {
-    $response = new  stdClass();
+    $response = new stdClass();
     $response->data = $cargas;
     echo json_encode($response);
     exit;

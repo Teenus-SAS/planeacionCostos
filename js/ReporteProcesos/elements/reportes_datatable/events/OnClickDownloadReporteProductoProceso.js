@@ -5,42 +5,38 @@ import { IndividualReporteProductoProcesoDataTable } from "../../individual_repo
 import { MateriasIndividualReporteProductoProcesoDataTable } from "../../individual_reporte/materias_individual_reporte_datatable/MateriasIndividualReporteProductoProcesoDataTable.js";
 import { ServiciosExternosIndividualReporteProductoProcesoDataTable } from "../../individual_reporte/serviciosexternos_individual_reporte_datatable/ServiciosExternosIndividualReporteProductoProcesoDataTable.js";
 
-export function OnClickDownloadReporteProductoProceso(consecutivo, cb) {
-  GetReporteProductoProcesosByConsecutivo(consecutivo, (reporte) => {
-    const procesos = new IndividualReporteProductoProcesoDataTable(
-      "reporte-procesos-table",
+export async function OnClickDownloadReporteProductoProceso(consecutivo) {
+  const reporte = await GetReporteProductoProcesosByConsecutivo(consecutivo);
+  const procesos = new IndividualReporteProductoProcesoDataTable(
+    "reporte-procesos-table",
+    [],
+    {}
+  );
+  const materiasIndividualReporteDataTable =
+    new MateriasIndividualReporteProductoProcesoDataTable(
+      "materias-reporte-procesos-table",
       [],
       {}
     );
-    const materiasIndividualReporteDataTable =
-      new MateriasIndividualReporteProductoProcesoDataTable(
-        "materias-reporte-procesos-table",
-        [],
-        {}
-      );
-    const serviciosExternosIndividualReporteDataTable =
-      new ServiciosExternosIndividualReporteProductoProcesoDataTable(
-        "servicios-externos-reporte-procesos-table",
-        [],
-        {}
-      );
-    const costeosIndividualReporteDataTable =
-      new CosteosIndividualReporteProductoProcesoDataTable(
-        "costeo-reporte-procesos-table",
-        [],
-        {}
-      );
-    const pdfData = JSON.parse(reporte.pdfData);
+  const serviciosExternosIndividualReporteDataTable =
+    new ServiciosExternosIndividualReporteProductoProcesoDataTable(
+      "servicios-externos-reporte-procesos-table",
+      [],
+      {}
+    );
+  const costeosIndividualReporteDataTable =
+    new CosteosIndividualReporteProductoProcesoDataTable(
+      "costeo-reporte-procesos-table",
+      [],
+      {}
+    );
+  const pdfData = JSON.parse(reporte.pdfData);
 
-    procesos.fromJSON(JSON.stringify(pdfData.main));
-    serviciosExternosIndividualReporteDataTable.fromJSON(
-      JSON.stringify(pdfData.servicios)
-    );
-    materiasIndividualReporteDataTable.fromJSON(
-      JSON.stringify(pdfData.materias)
-    );
-    costeosIndividualReporteDataTable.fromJSON(JSON.stringify(pdfData.costeos));
-    DownloadReporteInPdfByConsecutivo(consecutivo);
-    cb();
-  });
+  procesos.fromJSON(JSON.stringify(pdfData.main));
+  serviciosExternosIndividualReporteDataTable.fromJSON(
+    JSON.stringify(pdfData.servicios)
+  );
+  materiasIndividualReporteDataTable.fromJSON(JSON.stringify(pdfData.materias));
+  costeosIndividualReporteDataTable.fromJSON(JSON.stringify(pdfData.costeos));
+  await DownloadReporteInPdfByConsecutivo(consecutivo);
 }

@@ -1,7 +1,9 @@
+import { GetProductoById } from "../../../Productos/application/get_producto_by_id/GetProductoById.js";
+import { ProductoSelected } from "./definitions/ProductoSelected.js";
 import { OnClickDeleteProductoSelectedReporte } from "./events/OnClickDeleteProductoSelectedReporte.js";
 
 export class ProductosSelectedReporteDataTable {
-  constructor(data) {
+  constructor(data = []) {
     this.data = data;
 
     this.dataTableProductosReporte = $(
@@ -16,13 +18,13 @@ export class ProductosSelectedReporteDataTable {
       data,
       columns: [
         {
-          data: "ref",
+          data: "referencia",
           render: (data, type, row) => {
             return `<span>${data}</span>`;
           },
         },
         {
-          data: "name",
+          data: "nombre",
           render: function (data, type, row) {
             return `<span>${data}</span>`;
           },
@@ -31,6 +33,12 @@ export class ProductosSelectedReporteDataTable {
           data: "cantidad",
           render: function (data, type, row) {
             return `<span>${data}</span>`;
+          },
+        },
+        {
+          data: "margen",
+          render: function (data) {
+            return `<span class="text-right">${data}%</span>`;
           },
         },
         {
@@ -43,7 +51,7 @@ export class ProductosSelectedReporteDataTable {
           data: null,
           render: function (data) {
             return `<a href='#' style="margin-left: 1rem;">
-            <i id="${data.ref}" class='nc-icon nc-simple-remove link-borrar-producto-reporte-pprocesos' data-toggle='tooltip' title='Eliminar' style='color:rgb(255, 0, 0)'>
+            <i id="${data.referencia}" class='nc-icon nc-simple-remove link-borrar-producto-reporte-pprocesos' data-toggle='tooltip' title='Eliminar' style='color:rgb(255, 0, 0)'>
             </i>
                     </a>`;
           },
@@ -55,19 +63,73 @@ export class ProductosSelectedReporteDataTable {
     this.reload();
   }
 
-  delete(ref) {
-    OnClickDeleteProductoSelectedReporte(ref, this.data, (newData) => {
-      this.data = newData;
-      this.reload();
-    });
+  async delete(ref, needConfirmation = true) {
+    const { newData, productRemoved } =
+      await OnClickDeleteProductoSelectedReporte(
+        ref,
+        this.data,
+        needConfirmation
+      );
+    this.data = newData;
+    this.reload();
+    return productRemoved;
+  }
+
+  async clear() {
+    const products = [];
+    for await (const product of this.data) {
+      const productRemoved = await this.delete(product.referencia, false);
+      products.push(productRemoved);
+    }
+
+    return products;
+  }
+
+  async addProduct(productoId, cantidad, margen, recuperacion, pdfData) {
+    const producto = await GetProductoById(productoId);
+    if (!producto) {
+      return;
+    }
+    const productoSelected = new ProductoSelected(
+      producto.ref,
+      producto.name,
+      parseFloat(cantidad),
+      margen,
+      parseFloat(recuperacion),
+      pdfData
+    );
+
+    const productoInData = this.checkIfProductExists(productoSelected);
+    if (!productoInData) {
+      this.data.push(productoSelected);
+    } else {
+      return false;
+    }
+
+    this.reload();
+    return productoSelected;
+  }
+
+  checkIfProductExists(producto) {
+    return this.data.find(
+      (product) => product.referencia == producto.referencia
+    );
   }
 
   reload(newData = null) {
     this.dataTableProductosReporte.api().clear().draw();
     if (newData) {
-      this.dataTableProductosReporte.api().rows.add(newData);
+      this.dataTableProductosReporte.api().rows.add(newData).draw();
     } else {
-      this.dataTableProductosReporte.api().rows.add(this.data);
+      this.dataTableProductosReporte.api().rows.add(this.data).draw();
+    }
+  }
+
+  disabledDeleteOption(disabled = true) {
+    if (disabled) {
+      this.dataTableProductosReporte.api().column(5).visible(false);
+    } else {
+      this.dataTableProductosReporte.api().column(5).visible(true);
     }
   }
 }

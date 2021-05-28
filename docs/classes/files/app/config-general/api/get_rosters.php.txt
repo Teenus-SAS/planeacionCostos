@@ -28,7 +28,7 @@ if (isset($_SESSION["user"])) {
   $rosterDao = new RosterDao();
   $rosters = $rosterDao->findByCompany($user->getCompany()->getId());
   if (isset($_GET["dataTable"])) {
-    $response = new  stdClass();
+    $response = new stdClass();
     $response->data = $rosters;
     echo json_encode($response);
     exit;

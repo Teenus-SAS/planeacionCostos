@@ -2,28 +2,35 @@ import { GetServiciosExternosReporteProductoProcesoByProductoId } from "../../..
 import { GenerateReporteProductoProcesosByProductoId } from "../../../application/generate_reporte_by_producto_id/GenerateReporteProductoProcesosByProductoId.js";
 import { GetCosteosReporteByProductoId } from "../../../application/get_costeos_reporte_by_producto_id/GetCosteosReporteByProductoId.js";
 
-export function OnClickGenerateReporteProductoProcesoButton(buttonData, cb) {
-  GenerateReporteProductoProcesosByProductoId(
+export async function OnClickGenerateReporteProductoProcesoButton(
+  buttonData,
+  productoSelected,
+  cb
+) {
+  const { reportes, reporteTotal, totalMateriasPrimas, totalCargasFabriles } =
+    await GenerateReporteProductoProcesosByProductoId(
+      buttonData.productoId,
+      buttonData.cantidad
+    );
+  const { dataTable: dataTableServiciosExternos, serviciosExternosCostoTotal } =
+    await GetServiciosExternosReporteProductoProcesoByProductoId(
+      buttonData.productoId
+    );
+
+  $("#option-id-producto-reporte").val(buttonData.productoId);
+  const dataCosteos = await GetCosteosReporteByProductoId(
     buttonData.productoId,
-    buttonData.cantidad,
-    (data, total, totalMateriasPrimas, totalCargasFabriles) => {
-      GetServiciosExternosReporteProductoProcesoByProductoId(
-        buttonData.productoId,
-        (dataTableDetalle, totalServiciosExternos, serviciosExternos) => {
-          $("#option-id-producto-reporte").val(buttonData.productoId);
-          GetCosteosReporteByProductoId(
-            buttonData.productoId,
-            total,
-            totalServiciosExternos,
-            totalMateriasPrimas,
-            totalCargasFabriles,
-            buttonData.recuperacion,
-            (dataCosteos) => {
-              cb(data, dataTableDetalle, totalMateriasPrimas, dataCosteos);
-            }
-          );
-        }
-      );
-    }
+    reporteTotal,
+    serviciosExternosCostoTotal,
+    totalMateriasPrimas,
+    totalCargasFabriles,
+    buttonData.recuperacion
+  );
+  await cb(
+    reportes,
+    dataTableServiciosExternos,
+    totalMateriasPrimas,
+    dataCosteos,
+    productoSelected
   );
 }

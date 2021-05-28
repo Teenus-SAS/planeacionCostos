@@ -1,12 +1,12 @@
 import { GetReporteProductoProcesosByConsecutivo } from "../../../application/get_reporte_by_consecutivo/GetReporteProductoProcesosByConsecutivo.js";
 
-export function OnClickViewReporteProductoProceso(consecutivo, cb) {
-  GetReporteProductoProcesosByConsecutivo(consecutivo, (reporte) => {
-    cb(
-      JSON.parse(reporte.pdfData),
-      reporte.consecutivo,
-      reporte.cliente,
-      reporte.ciudad
-    );
-  });
+export async function OnClickViewReporteProductoProceso(consecutivo) {
+  const reporte = await GetReporteProductoProcesosByConsecutivo(consecutivo);
+  return {
+    pdfData: JSON.parse(reporte.pdfData),
+    consecutivo: reporte.consecutivo,
+    cliente: reporte.cliente,
+    ciudad: reporte.ciudad,
+    productos: JSON.parse(reporte.productos),
+  };
 }

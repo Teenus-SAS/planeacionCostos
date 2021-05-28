@@ -1,16 +1,14 @@
-export function CalculateCostPerMinuteByProductoProcesoId(
+import { fetchData } from "../../../utils/fetchData";
+
+export async function CalculateCostPerMinuteByProductoProcesoId(
   productoId,
-  cantidad,
-  cb
+  cantidad
 ) {
-  $.get(
-    "/app/cost/api/product_process_cost_per_minute.php",
-    {
+  return await fetchData("/app/cost/api/product_process_cost_per_minute.php", {
+    method: "GET",
+    body: {
       quantity: cantidad,
       idProducto: productoId,
     },
-    (processesCost) => {
-      cb(processesCost);
-    }
-  );
+  });
 }

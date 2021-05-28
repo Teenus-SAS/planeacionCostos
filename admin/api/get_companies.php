@@ -10,7 +10,7 @@ if (isset($_SESSION["admin"])) {
   $companyDao = new CompanyDao();
   $companies = $companyDao->findAll();
   if (isset($_GET["dataTable"])) {
-    $response = new  stdClass();
+    $response = new stdClass();
     $response->data = $companies;
     echo json_encode($response);
     exit;

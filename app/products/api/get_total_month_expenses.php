@@ -10,7 +10,7 @@ header("Content-Type: application/json");
 if (isset($_SESSION["user"])) {
     $userDao = new UserDao();
     $user = unserialize($_SESSION["user"]);
-    $response = new  stdClass();
+    $response = new stdClass();
     $user = $userDao->findById($user->getId());
     $_SESSION["user"] = serialize($user);
     $response->totalMonthExpenses = $user->getCompany()->getTotalMonthExpenses();

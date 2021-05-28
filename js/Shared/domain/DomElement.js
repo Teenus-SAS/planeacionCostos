@@ -22,9 +22,9 @@ export class DomElement {
       e.preventDefault();
     });
     if (callback) {
-      $(this.element).on("click", (e) => {
+      $(this.element).on("click", async (e) => {
         e.preventDefault();
-        callback(this._data);
+        await callback(this._data);
         if (aftercb) {
           aftercb();
         }

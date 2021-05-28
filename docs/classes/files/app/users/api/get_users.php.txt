@@ -11,7 +11,7 @@ if (isset($_SESSION["user"])) {
   $user = unserialize($_SESSION["user"]);
   $users = $userDao->findByCompany($user->getCompany()->getId());
   if (isset($_GET["dataTable"])) {
-    $response = new  stdClass();
+    $response = new stdClass();
     $response->data = $users;
     echo json_encode($response);
     exit;

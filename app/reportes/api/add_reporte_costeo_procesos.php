@@ -19,8 +19,7 @@ if (isset($_SESSION["user"])) {
   $reporte->setConsecutivo($_POST['consecutivo']);
   $reporte->setCliente($_POST['cliente']);
   $reporte->setCiudad($_POST['ciudad']);
-  $reporte->setProducto($productDao->findById($_POST['productoId']));
-  $reporte->setCantidad($_POST['cantidad']);
+  $reporte->setProductos($_POST['productos']);
   $reporte->setPdfData($_POST['pdfdata']);
   $reporte->setIdCompany($user->getCompany()->getId());
   if (!$reportesProcesosDao->save($reporte)) {

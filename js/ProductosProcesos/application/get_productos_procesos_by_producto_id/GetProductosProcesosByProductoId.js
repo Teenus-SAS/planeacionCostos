@@ -1,11 +1,8 @@
-export function GetProductosProcesosByProductoId(productoId, cb) {
-  $.get(
-    "/app/products/api/get_product_processes.php",
-    { id: productoId },
-    (_productsProcesses, status) => {
-      if (_productsProcesses) {
-        cb(_productsProcesses);
-      }
-    }
-  );
+import { fetchData } from "../../../utils/fetchData.js";
+
+export async function GetProductosProcesosByProductoId(productoId) {
+  return await fetchData("/app/products/api/get_product_processes.php", {
+    method: "GET",
+    body: { id: productoId },
+  });
 }

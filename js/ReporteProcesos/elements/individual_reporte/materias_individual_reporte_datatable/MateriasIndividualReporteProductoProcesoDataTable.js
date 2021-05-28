@@ -48,6 +48,38 @@ export class MateriasIndividualReporteProductoProcesoDataTable extends DataTable
     this.toDiv(this.divId);
   }
 
+  adicionarFromData(newData) {
+    let previousState = this._data;
+
+    newData.forEach((value) => {
+      const exists = previousState.find(
+        (state) => state.concepto == value.concepto
+      );
+      if (exists) {
+        exists.monto += value.monto;
+      } else {
+        previousState.push(value);
+      }
+    });
+
+    this.setData(previousState);
+  }
+
+  removerFromData(dataForRemove) {
+    let previousState = this._data;
+
+    dataForRemove.forEach((value) => {
+      const exists = previousState.find(
+        (state) => state.concepto == value.concepto
+      );
+      if (exists) {
+        exists.monto -= value.monto;
+      }
+    });
+
+    this.setData(previousState);
+  }
+
   toJSON() {
     return JSON.stringify(this._data);
   }

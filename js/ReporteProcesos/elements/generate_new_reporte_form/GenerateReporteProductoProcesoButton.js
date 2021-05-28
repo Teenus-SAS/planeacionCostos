@@ -2,18 +2,32 @@ import { DomElement } from "../../../Shared/domain/DomElement.js";
 import { OnClickGenerateReporteProductoProcesoButton } from "./events/OnClickGenerateReporteProductoProcesoButton.js";
 
 export class GenerateReporteProductoProcesoButton extends DomElement {
-  constructor(elementId, reportecb, invalidDatacb = undefined) {
+  constructor(
+    elementId,
+    reportecb,
+    invalidDatacb = undefined,
+    beforeclickcb = undefined
+  ) {
     super(document.getElementById(elementId));
     this.invalidDatacb = invalidDatacb;
-    this.generarReporteOnClick(reportecb);
+    this.generarReporteOnClick(reportecb, beforeclickcb);
   }
 
-  generarReporteOnClick(reportecb, aftercb = undefined) {
-    super.onClick((data) => {
+  generarReporteOnClick(reportecb, beforecb = undefined, aftercb = undefined) {
+    super.onClick(async (data) => {
       if (this.invalidDatacb) {
         if (this.validateData()) {
-          $("html, body").addClass("cursor-wait");
-          OnClickGenerateReporteProductoProcesoButton(data, reportecb);
+          if (beforecb) {
+            const producto = await beforecb(data);
+            if (producto) {
+              $("html, body").addClass("cursor-wait");
+              OnClickGenerateReporteProductoProcesoButton(
+                data,
+                producto,
+                reportecb
+              );
+            }
+          }
         } else {
           this.invalidDatacb();
         }

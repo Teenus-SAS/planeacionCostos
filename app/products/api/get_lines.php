@@ -13,7 +13,7 @@ if (isset($_SESSION["user"])) {
   $productDao = new ProductDao();
   $lines = $productDao->findLinesByCompany($user->getCompany()->getId());
   if (isset($_GET["dataTable"])) {
-    $response = new  stdClass();
+    $response = new stdClass();
     $response->data = $lines;
     echo json_encode($response);
     exit;

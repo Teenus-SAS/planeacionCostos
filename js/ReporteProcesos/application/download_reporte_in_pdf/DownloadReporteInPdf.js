@@ -25,6 +25,7 @@ export function DownloadReporteInPdf(
   $("#pdf-cotizacion-consolidacion").append(
     $("#costeo-reporte-procesos-table").html()
   );
+  // $("#pdf-first-page").attr("hidden", false);
   $("#pdf-cotizacion-consolidacion-group").attr("hidden", false);
   $("#pdf-cotizacion-piepagina-group").attr("hidden", false);
   download(consecutivo, fecha, reportePdf);
@@ -35,11 +36,11 @@ function download(consecutivo, fecha, reportePdf) {
     const now = new Date();
     fecha = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`;
   }
-  const element = document.getElementById("final_pdf_cotizacion");
+  const element = document.getElementById("pdf-first-page");
 
   let pWidth = reportePdf.internal.pageSize.width;
   let srcWidth = element.scrollWidth;
-  let margin = 0;
+  let margin = 30;
   let scale = (pWidth - margin * 2) / srcWidth;
   $("#final_pdf_cotizacion").toggleClass("opacity-0");
   html2canvas(
@@ -52,12 +53,13 @@ function download(consecutivo, fecha, reportePdf) {
           "image/png",
           1.0
         );
+        // $("#pdf-first-page").attr("hidden", "true");
         $("#pdf-cotizacion-consolidacion-group").attr("hidden", "true");
         $("#pdf-cotizacion-piepagina-group").attr("hidden", "true");
+        console.log(element);
         reportePdf.html(element, {
           x: margin,
-          y: margin,
-          pagesplit: true,
+          y: 15,
           html2canvas: {
             scale: scale,
           },

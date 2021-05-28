@@ -6,7 +6,7 @@ export function OnClickDescargarReporteProductoProcesoButton(buttonData, cb) {
     buttonData.consecutivo,
     buttonData.cliente,
     buttonData.ciudad,
-    buttonData.productoId,
+    buttonData.productos,
     buttonData.cantidad,
     buttonData.pdfdata,
     () => {

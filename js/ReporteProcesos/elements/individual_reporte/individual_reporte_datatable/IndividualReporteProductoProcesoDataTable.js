@@ -4,6 +4,7 @@ import { DataTableColumnHeader } from "../../../../../node_modules/elegant-crud-
 import { DataTableColumnBody } from "../../../../../node_modules/elegant-crud-datatable/build/DataTableColumn/DataTableColumnBody.js";
 import { IndividualReporteProductoProcesoData } from "./definitions/IndividualReporteProductoProcesoData.js";
 import { capitalizeString } from "../../../../utils/capitalizeString.js";
+import { DataTableSubgroupSeparator } from "../../../../../node_modules/elegant-crud-datatable/build/DataTableSubgroupSeparator.js";
 
 const columnDefinitions = [
   new DataTableColumnDefinition(
@@ -95,11 +96,94 @@ export class IndividualReporteProductoProcesoDataTable extends DataTable {
     return JSON.stringify(this._data);
   }
 
+  adicionarFromData(newData) {
+    let previousState = this._data;
+    let previousTotal = 0;
+
+    if (this._subgroups[0]) {
+      previousState = previousState.filter(
+        (state) => !(state instanceof DataTableSubgroupSeparator)
+      );
+      previousTotal = PriceParser.fromString(
+        this._subgroups[0]._title.replace("Total Procesos:", ""),
+        true
+      ).price;
+    }
+    newData.forEach((value) => {
+      const totalPrev = parseFloat(value.total);
+      const exists = previousState.find(
+        (state) => state.productoProceso == value.productoProceso
+      );
+      if (exists) {
+        exists.cantidadMinuto += value.cantidadMinuto;
+        exists.costoMinuto += value.costoMinuto;
+        exists.total += totalPrev;
+      } else {
+        previousState.push(value);
+      }
+      previousTotal += totalPrev;
+    });
+
+    this._subgroups[0] = new DataTableSubgroupSeparator(
+      "TotalProcesos",
+      `Total Procesos: ${PriceParser.toString(previousTotal, true).strPrice}`,
+      [],
+      ["text-right", "pr-3"],
+      undefined,
+      "white"
+    );
+    previousState.push(this._subgroups[0]);
+
+    this.setData(previousState);
+  }
+
+  removerFromData(dataForRemove) {
+    let previousState = this._data;
+    let previousTotal = 0;
+
+    if (this._subgroups[0]) {
+      previousState = previousState.filter(
+        (state) => !(state instanceof DataTableSubgroupSeparator)
+      );
+      previousTotal = PriceParser.fromString(
+        this._subgroups[0]._title.replace("Total Procesos:", ""),
+        true
+      ).price;
+    }
+    dataForRemove.forEach((value) => {
+      const exists = previousState.find(
+        (state) => state.productoProceso == value.productoProceso
+      );
+      if (exists) {
+        exists.cantidadMinuto -= value.cantidadMinuto;
+        exists.costoMinuto -= value.costoMinuto;
+        const totalPrev = value.total;
+        exists.total -= totalPrev;
+        previousTotal -= totalPrev;
+      }
+    });
+
+    this._subgroups[0] = new DataTableSubgroupSeparator(
+      "TotalProcesos",
+      `Total Procesos: ${PriceParser.toString(previousTotal, true).strPrice}`,
+      [],
+      ["text-right", "pr-3"],
+      undefined,
+      "white"
+    );
+    previousState = previousState.filter((individual) => individual.total);
+    previousState.push(this._subgroups[0]);
+
+    this.setData(previousState);
+  }
+
   fromJSON(json) {
-    this.setData(
-      JSON.parse(json).map((row) => {
-        return IndividualReporteProductoProcesoData.fromJSON(row);
-      })
+    this.adicionarFromData(
+      JSON.parse(json)
+        .filter((row) => !row._title)
+        .map((row) => {
+          return IndividualReporteProductoProcesoData.fromJSON(row);
+        })
     );
   }
 }

@@ -24,7 +24,7 @@ if (isset($_SESSION["user"])) {
         }  
 }
 else {
-    $response = new  stdClass();
+    $response = new stdClass();
     $response->data = ["hola"];
     echo json_encode($response);
 }

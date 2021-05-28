@@ -78,7 +78,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
       <?php include(PARTIALS_PATH . "navbar.php") ?>
       <div class="content"  id="main-panel-content">
         <div id="crud-content" class="row">
-          <h1 class="text-xl text-center mb-1 w-full col-12">Reportes</h1>
+          <h1 class="text-xl text-center mb-3 w-full col-12">Reportes</h1>
           <div id="new-reporte-proceso" class="col-4 my-3">      
             <div class="card px-5 py-2">
               <h1 class="text-normal text-xl text-center mb-4 mt-2">Nuevo reporte</h1>
@@ -122,7 +122,6 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                   <th>Consecutivo</th>
                   <th>Cliente</th>
                   <th>Fecha</th>
-                  <th>Producto</th>
                   <th></th>
                 </thead>
                 <tbody>
@@ -142,6 +141,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                   <th>Ref</th>
                   <th>Producto</th>
                   <th>Cantidad</th>
+                  <th>Margen Utilidad</th>
                   <th>Recuperación</th>
                   <th></th>
                 </thead>
@@ -216,8 +216,8 @@ include(PARTIALS_PATH . "verify_session.php") ?>
               <div class="w-full ml-3 absolute">
                 <img id="img-logo-company-sidebar" src="<?= $user->getCompany()->getLogo() ?>" class="w-16 h-auto">
               </div>
-              <div class="w-11/12 mx-auto" style="padding-top: 80px;">
-                <div id="pdf-first-page">
+              <div id="pdf-first-page" class="w-11/12 mx-auto" style="padding-top: 80px; font-family: Poppins-Regular, sans-serif;font-size: 16px;">
+                <div>
                   <img id="img-logo-company-sidebar" src="/app/reportes/images/Separadores_MO.png" class="w-full h-auto">
                   <div id="pdf-cotizacion-mano-obra" class="py-2 w-11/12 mx-auto">
                   </div>
@@ -229,7 +229,6 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                   <div id="pdf-cotizacion-servicios-externos" class="py-2 w-11/12 mx-auto">
                   </div>
                 </div>
-
                 <div id="pdf-cotizacion-consolidacion-group">
                   <img id="img-logo-company-sidebar" src="/app/reportes/images/Separadores_Cons.png" class="w-full h-auto">
                   <div id="pdf-cotizacion-consolidacion" class="py-2 w-11/12 mx-auto"></div>

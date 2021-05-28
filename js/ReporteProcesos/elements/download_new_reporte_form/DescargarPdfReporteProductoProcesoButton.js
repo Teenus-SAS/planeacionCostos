@@ -41,8 +41,8 @@ export class DescargarPdfReporteProductoProcesoButton extends DomElement {
     return this.data && this.data.cantidad ? this.data.cantidad : null;
   }
 
-  get productoId() {
-    return this.data && this.data.productoId ? this.data.productoId : null;
+  get productos() {
+    return this.data && this.data.productos ? this.data.productos : null;
   }
 
   get pdfdata() {
@@ -56,7 +56,7 @@ export class DescargarPdfReporteProductoProcesoButton extends DomElement {
       this.ciudad &&
       this.cantidad &&
       this.pdfdata &&
-      this.productoId
+      this.productos
     );
   }
 
@@ -66,7 +66,7 @@ export class DescargarPdfReporteProductoProcesoButton extends DomElement {
       cliente: data.cliente || this.cliente,
       ciudad: data.ciudad || this.ciudad,
       cantidad: data.cantidad || this.cantidad,
-      productoId: data.productoId || this.productoId,
+      productos: data.productos || this.productos,
       pdfdata: data.pdfdata || this.pdfdata,
     };
   }

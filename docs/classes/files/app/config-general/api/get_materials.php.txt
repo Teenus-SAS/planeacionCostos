@@ -53,7 +53,7 @@ if (isset($_SESSION["user"])) {
   $materialDao = new MaterialDao();
   $materials = $materialDao->findByCompany($user->getCompany()->getId());
   if (isset($_GET["dataTable"])) {
-    $response = new  stdClass();
+    $response = new stdClass();
     $response->data = $materials;
     echo json_encode($response);
     exit;

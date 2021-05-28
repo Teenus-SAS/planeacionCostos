@@ -10,7 +10,7 @@ if (isset($_SESSION["admin"])) {
   $userDao = new UserDao();
   $users = $userDao->findByCompany($_GET["id"]);
   if (isset($_GET["dataTable"])) {
-    $response = new  stdClass();
+    $response = new stdClass();
     $response->data = $users;
     echo json_encode($response);
     exit;

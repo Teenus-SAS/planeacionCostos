@@ -16,7 +16,7 @@ if (isset($_SESSION["user"])) {
     if (isset($_GET["id"])) {
         $product = $productDao->findById($_GET["id"], false, true);
         if (isset($_GET["dataTable"])) {
-            $response = new  stdClass();
+            $response = new stdClass();
             $response->data = $product->getProductProcesses() == null ? [] : $product->getProductProcesses();
             echo json_encode($response);
             exit;
@@ -25,7 +25,7 @@ if (isset($_SESSION["user"])) {
             exit;
         }
     } else {
-        $response = new  stdClass();
+        $response = new stdClass();
         $response->data = [];
         echo json_encode($response);
     }

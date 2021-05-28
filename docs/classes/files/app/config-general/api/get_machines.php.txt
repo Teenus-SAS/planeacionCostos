@@ -41,7 +41,7 @@ if (isset($_SESSION["user"])) {
   $machineDao = new MachineDao();
   $machines = $machineDao->findByCompany($user->getCompany()->getId());
   if (isset($_GET["dataTable"])) {
-    $response = new  stdClass();
+    $response = new stdClass();
     $response->data = $machines;
     echo json_encode($response);
     exit;

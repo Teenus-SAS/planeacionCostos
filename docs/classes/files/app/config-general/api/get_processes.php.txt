@@ -43,7 +43,7 @@ if (isset($_SESSION["user"])) {
   $processDao = new ProcessDao();
   $processes = $processDao->findByCompany($user->getCompany()->getId());
   if (isset($_GET["dataTable"])) {
-    $response = new  stdClass();
+    $response = new stdClass();
     $response->data = $processes;
     echo json_encode($response);
     exit;

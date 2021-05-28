@@ -2,17 +2,18 @@ export function CreateReporteProductoProcesos(
   consecutivo,
   cliente,
   ciudad,
-  productoId,
+  productos,
   cantidad,
   pdfData,
   cb,
   errorscb = () => {}
 ) {
+  console.log({ productos });
   $.post("/app/reportes/api/add_reporte_costeo_procesos.php", {
     consecutivo,
     cliente,
     ciudad,
-    productoId,
+    productos: JSON.stringify(productos),
     cantidad,
     pdfdata: JSON.stringify(pdfData),
   }).always((xhr) => {

@@ -9,14 +9,14 @@ require_once DAO_PATH . "ProcessDao.php";
 // revisar si existe session
 session_start();
 header("Content-Type: application/json");
-$response = new  stdClass();
+$response = new stdClass();
 if (isset($_SESSION["user"])) {
     $user = unserialize($_SESSION["user"]);
     $productDao = new ProductDao();
     if (isset($_GET["id"])) {
         $product = $productDao->findById($_GET["id"], false, true);
         if (isset($_GET["dataTable"])) {
-            $response = new  stdClass();
+            $response = new stdClass();
             $response->data = $product->getProductProcesses() == null ? [] : $product->getProductProcesses();
             echo json_encode($response);
             exit;

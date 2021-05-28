@@ -12,58 +12,82 @@ import { MateriasIndividualReporteData } from "./elements/individual_reporte/mat
 
 import { fillSelect } from "../utils/fillSelect.js";
 import { ProductosSelectedReporteDataTable } from "./elements/productos_selected_datatable/ProductosSelectedReporteDataTable.js";
+import { GetProductoById } from "../Productos/application/get_producto_by_id/GetProductoById.js";
+import { Notifications } from "../utils/notifications.js";
+
+const notifications = new Notifications();
 
 window.html2canvas = html2canvas;
 
 const generateNuevoReporteForm = new GenerateNewReporteForm();
 const infoNuevoReporteForm = new InfoNuevoReporteProductoProcesoForm();
+
+const productosSelectedDataTable = new ProductosSelectedReporteDataTable();
+
+$(document).on(
+  "click",
+  ".link-borrar-producto-reporte-pprocesos",
+  async function (e) {
+    e.preventDefault();
+    const product = await productosSelectedDataTable.delete(this.id);
+
+    if (product) {
+      removeProductFromTables(product);
+    }
+  }
+);
+
 const reportesDataTable = new ReporteProductoProcesoDataTable();
 $(document).on("click", ".link-borrar-reporte-pprocesos", function (e) {
   e.preventDefault();
   reportesDataTable.delete(this.id);
 });
-$(document).on("click", ".link-descargar-reporte-pprocesos", function (e) {
-  e.preventDefault();
-  $("html, body").addClass("cursor-wait");
-  reportesDataTable.download(this.id);
-});
-$(document).on("click", ".link-ver-reporte-pprocesos", function (e) {
-  e.preventDefault();
-  reportesDataTable.view(this.id, (jsonData, consecutivo, cliente, ciudad) => {
-    infoNuevoReporteForm.fill(consecutivo, cliente, ciudad);
-    infoNuevoReporteForm.disabledForm();
-
-    individualReporteDataTable.fromJSON(JSON.stringify(jsonData.main));
-    materiasIndividualReporteDataTable.fromJSON(
-      JSON.stringify(jsonData.materias)
-    );
-    serviciosExternosIndividualReporteDataTable.fromJSON(
-      JSON.stringify(jsonData.servicios)
-    );
-    costeosIndividualReporteDataTable.fromJSON(
-      JSON.stringify(jsonData.costeos)
-    );
-
-    individualReporteDataTable.show();
-  });
-});
-
-const productosSelectedDataTable = new ProductosSelectedReporteDataTable([
-  {
-    ref: 1,
-    name: "Producto",
-    cantidad: 5,
-    recuperacion: 12,
-  },
-]);
 $(document).on(
   "click",
-  ".link-borrar-producto-reporte-pprocesos",
-  function (e) {
+  ".link-descargar-reporte-pprocesos",
+  async function (e) {
     e.preventDefault();
-    productosSelectedDataTable.delete(this.id);
+    $("html, body").addClass("cursor-wait");
+    await reportesDataTable.download(this.id);
   }
 );
+$(document).on("click", ".link-ver-reporte-pprocesos", async function (e) {
+  e.preventDefault();
+  const {
+    pdfData: jsonData,
+    consecutivo,
+    cliente,
+    ciudad,
+    productos,
+  } = await reportesDataTable.view(this.id);
+
+  infoNuevoReporteForm.fill(consecutivo, cliente, ciudad);
+  infoNuevoReporteForm.disabledForm();
+
+  await productosSelectedDataTable.clear();
+  for (const productoId in productos) {
+    await productosSelectedDataTable.addProduct(
+      productoId,
+      productos[productoId].cantidad,
+      (
+        await GetProductoById(productoId)
+      ).rentabilidad,
+      productos[productoId].recuperacion
+    );
+  }
+  productosSelectedDataTable.disabledDeleteOption();
+
+  individualReporteDataTable.fromJSON(JSON.stringify(jsonData.main));
+  materiasIndividualReporteDataTable.fromJSON(
+    JSON.stringify(jsonData.materias)
+  );
+  serviciosExternosIndividualReporteDataTable.fromJSON(
+    JSON.stringify(jsonData.servicios)
+  );
+  costeosIndividualReporteDataTable.fromJSON(JSON.stringify(jsonData.costeos));
+
+  individualReporteDataTable.show();
+});
 
 const individualReporteDataTable =
   new IndividualReporteProductoProcesoDataTable(
@@ -116,34 +140,60 @@ const descargarPdfReporteButton = new DescargarPdfReporteProductoProcesoButton(
 
 $("#crear-pdf-reporte-procesos").on("click", (e) => {
   e.preventDefault();
-  $("#form-datos-reporte-procesos").modal();
+  if (productosSelectedDataTable.data.length) {
+    $("#form-datos-reporte-procesos").modal();
+  } else {
+    notifications.error(
+      "El reporte debe tener mínimo un producto para generar el PDF."
+    );
+  }
 });
 
 const generarReporteButton = new GenerateReporteProductoProcesoButton(
   "new-reporte-procesos-button",
-  (dataTable, dataTableDetalle, totalMaterias, costeoData) => {
+  async (
+    dataTable,
+    dataTableDetalle,
+    totalMaterias,
+    costeoData,
+    productoSelected
+  ) => {
     $("html, body").removeClass("cursor-wait");
-    generarReporteButton.setData("", "", "");
-    generateNuevoReporteForm.clearForm();
 
-    individualReporteDataTable.show();
-    individualReporteDataTable.setData(dataTable);
-    serviciosExternosIndividualReporteDataTable.setData(dataTableDetalle);
-    materiasIndividualReporteDataTable.setData([
+    const materiasPrimasDataTable = [
       new MateriasIndividualReporteData(
         "Costos de materia prima requerida",
         totalMaterias
       ),
-    ]);
-    costeosIndividualReporteDataTable.setData(costeoData);
+    ];
+
+    productoSelected.pdfData = {
+      main: dataTable,
+      materias: materiasPrimasDataTable,
+      servicios: dataTableDetalle,
+      costeos: costeoData,
+    };
+
+    generarReporteButton.setData("", "", "");
+    generateNuevoReporteForm.clearForm();
+
+    individualReporteDataTable.show();
+    individualReporteDataTable.adicionarFromData(dataTable);
+    materiasIndividualReporteDataTable.adicionarFromData(
+      materiasPrimasDataTable
+    );
+    serviciosExternosIndividualReporteDataTable.adicionarFromData(
+      dataTableDetalle
+    );
+    costeosIndividualReporteDataTable.adicionarFromData(costeoData);
 
     infoNuevoReporteForm.activeForm();
 
     descargarPdfReporteButton.setData({
       pdfdata: {
         main: individualReporteDataTable._data,
-        servicios: serviciosExternosIndividualReporteDataTable._data,
         materias: materiasIndividualReporteDataTable._data,
+        servicios: serviciosExternosIndividualReporteDataTable._data,
         costeos: costeosIndividualReporteDataTable._data,
       },
     });
@@ -170,15 +220,44 @@ const generarReporteButton = new GenerateReporteProductoProcesoButton(
         timer: 2500,
       }
     );
+  },
+  async (data) => {
+    const productoAdded = await productosSelectedDataTable.addProduct(
+      generarReporteButton.data.productoId,
+      generarReporteButton.data.cantidad,
+      (
+        await GetProductoById(generarReporteButton.data.productoId)
+      ).rentabilidad,
+      generarReporteButton.data.recuperacion,
+      {}
+    );
+
+    if (!productoAdded) {
+      notifications.error(
+        "El producto ya se encuentra en el reporte.\nDebes eliminarlo primero si quieres modificar sus valores."
+      );
+    } else {
+      descargarPdfReporteButton.setData({
+        productos: {
+          ...descargarPdfReporteButton.productos,
+          [generarReporteButton.productoId]: {
+            cantidad: generarReporteButton.cantidad,
+            recuperacion: generarReporteButton.recuperacion,
+          },
+        },
+      });
+    }
+
+    return productoAdded;
   }
 );
+
 $("#select-producto-reporte").on("change", function () {
   generarReporteButton.setData(
     this.value,
     generarReporteButton.cantidad,
     generarReporteButton.recuperacion
   );
-  descargarPdfReporteButton.setData({ productoId: this.value });
   $("#input-cantidad-producto-reporte").val(1);
   generarReporteButton.setData(
     generarReporteButton.productoId,
@@ -217,23 +296,44 @@ $("#input-ciudad-reporte").on("input", function () {
   descargarPdfReporteButton.setData({ ciudad: this.value });
 });
 
-$("#close-button").on("click", () => {
+$("#close-button").on("click", async () => {
   individualReporteDataTable.hide();
+  productosSelectedDataTable.disabledDeleteOption(false);
+
+  generarReporteButton.setData("", "", "");
+  generateNuevoReporteForm.clearForm();
+
+  const productos = await productosSelectedDataTable.clear();
+  productos.forEach((product) => {
+    removeProductFromTables(product);
+  });
 });
 
-GetAllProductos((productos) => {
-  fillSelect(
-    "select-producto-reporte",
-    productos.map((producto) => {
-      return {
-        value: producto.id,
-        description: producto.name,
-      };
-    }),
-    true,
-    "Selecione un producto"
-  );
-});
+const removeProductFromTables = (product) => {
+  if (product.pdfData) {
+    individualReporteDataTable.removerFromData(product.pdfData.main);
+    materiasIndividualReporteDataTable.removerFromData(
+      product.pdfData.materias
+    );
+    serviciosExternosIndividualReporteDataTable.removerFromData(
+      product.pdfData.servicios
+    );
+    costeosIndividualReporteDataTable.removerFromData(product.pdfData.costeos);
+  }
+};
+
+const productos = await GetAllProductos();
+fillSelect(
+  "select-producto-reporte",
+  productos.map((producto) => {
+    return {
+      value: producto.id,
+      description: producto.name,
+    };
+  }),
+  true,
+  "Selecione un producto"
+);
 
 activeReportesItemsSidebar();
 function activeReportesItemsSidebar() {
