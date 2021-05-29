@@ -3,8 +3,6 @@ import { verifySettedConfiguration } from "./OpcionesEmpresa/application/verify_
 
 verifySettedConfiguration("tabProductos");
 
-const notifications = new Notifications();
-
 document
   .querySelector('li.nav-item a[href$="#products"]')
   .addEventListener("click", () => {
@@ -96,7 +94,7 @@ $("#form-products")
         { name: "Producto", value: producto }
       );
       if (fieldsVerification) {
-        notifications.error(fieldsVerification.message);
+        Notifications.error(fieldsVerification.message);
         return false;
       }
       if (
@@ -146,7 +144,7 @@ $("#form-products")
           ) &&
           !document.getElementById("prodId").value
         ) {
-          notifications.error(
+          Notifications.error(
             `El producto con referencia <b>'${
               document.getElementById("inputRef").value
             }'</b> o el nombre de producto <b>'${
@@ -209,13 +207,13 @@ function sendRequest(request) {
         );
         break;
       case 500:
-        notifications.error("Esta <b>Referencia</b> ya existe");
+        Notifications.error("Esta <b>Referencia</b> ya existe");
         break;
       case 401:
         location.href = "/login";
         break;
       case 403:
-        notifications.error(
+        Notifications.error(
           "No puede crear más productos <br> Se ha alcanzado el limite de productos licenciados"
         );
         break;
@@ -288,7 +286,7 @@ function deleteProduct(prodId) {
               }
             );
           } else {
-            notifications.error(
+            Notifications.error(
               `El producto no se puede eliminar ya que puede estar asociado a línea de productos, materias primas, servicios externos o procesos.`
             );
           }

@@ -1,8 +1,6 @@
 import { fillSelect } from "./utils/fillSelect.js";
 import { Notifications, verifyFields } from "./utils/notifications.js";
 
-const notifications = new Notifications();
-
 let materiales = [];
 $.get("/app/config-general/api/get_materials.php", (_materials) => {
   materiales = _materials;
@@ -224,7 +222,7 @@ $("#form-raw-materials-products")
       );
 
       if (fieldsVerification) {
-        notifications.error(fieldsVerification.message);
+        Notifications.error(fieldsVerification.message);
         return false;
       }
 

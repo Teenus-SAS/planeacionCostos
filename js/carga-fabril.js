@@ -1,6 +1,5 @@
 import { Notifications, verifyFields } from "./utils/notifications.js";
 import { verifySettedConfiguration } from "./OpcionesEmpresa/application/verify_setted_configuration/verifySettedConfiguration.js";
-const notifications = new Notifications();
 verifySettedConfiguration("tabCargaFabril");
 
 $(".link-borrar-carga-fabril").css("cursor", "pointer");
@@ -165,7 +164,7 @@ function submitForm(e) {
   );
 
   if (fieldsVerification) {
-    notifications.error(fieldsVerification.message);
+    Notifications.error(fieldsVerification.message);
     return false;
   }
 

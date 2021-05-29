@@ -1,5 +1,5 @@
-export class Notifications {
-  error(message) {
+export const Notifications = {
+  error: (message) => {
     $.notify(
       {
         icon: "nc-icon nc-bell-55",
@@ -10,8 +10,20 @@ export class Notifications {
         timer: 4000,
       }
     );
-  }
-}
+  },
+  info: (message) => {
+    $.notify(
+      {
+        icon: "nc-icon nc-bell-55",
+        message,
+      },
+      {
+        type: "info",
+        timer: 2500,
+      }
+    );
+  },
+};
 
 export const verifyFields = (...fields) => {
   const invalidField = fields.find(

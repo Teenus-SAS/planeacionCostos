@@ -1,5 +1,4 @@
 import { Notifications, verifyFields } from "./utils/notifications.js";
-const notifications = new Notifications();
 
 document.querySelector('a[href$="#process"').addEventListener("click", () => {
   elById("input-proceso").value = "";
@@ -68,7 +67,7 @@ $("#form-procesos").submit(function (e) {
   });
 
   if (fieldsVerification) {
-    notifications.error(fieldsVerification.message);
+    Notifications.error(fieldsVerification.message);
     return false;
   }
   let request = $(this).serialize();

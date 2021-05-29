@@ -15,8 +15,6 @@ import { ProductosSelectedReporteDataTable } from "./elements/productos_selected
 import { GetProductoById } from "../Productos/application/get_producto_by_id/GetProductoById.js";
 import { Notifications } from "../utils/notifications.js";
 
-const notifications = new Notifications();
-
 window.html2canvas = html2canvas;
 
 const generateNuevoReporteForm = new GenerateNewReporteForm();
@@ -38,10 +36,11 @@ $(document).on(
 );
 
 const reportesDataTable = new ReporteProductoProcesoDataTable();
-$(document).on("click", ".link-borrar-reporte-pprocesos", function (e) {
+$(document).on("click", ".link-borrar-reporte-pprocesos", async function (e) {
   e.preventDefault();
-  reportesDataTable.delete(this.id);
+  await reportesDataTable.delete(this.id);
 });
+
 $(document).on(
   "click",
   ".link-descargar-reporte-pprocesos",
@@ -143,7 +142,7 @@ $("#crear-pdf-reporte-procesos").on("click", (e) => {
   if (productosSelectedDataTable.data.length) {
     $("#form-datos-reporte-procesos").modal();
   } else {
-    notifications.error(
+    Notifications.error(
       "El reporte debe tener mínimo un producto para generar el PDF."
     );
   }
@@ -233,7 +232,7 @@ const generarReporteButton = new GenerateReporteProductoProcesoButton(
     );
 
     if (!productoAdded) {
-      notifications.error(
+      Notifications.error(
         "El producto ya se encuentra en el reporte.\nDebes eliminarlo primero si quieres modificar sus valores."
       );
     } else {
@@ -303,11 +302,16 @@ $("#close-button").on("click", async () => {
   generarReporteButton.setData("", "", "");
   generateNuevoReporteForm.clearForm();
 
-  const productos = await productosSelectedDataTable.clear();
-  productos.forEach((product) => {
-    removeProductFromTables(product);
-  });
+  productosSelectedDataTable.clear();
+  removeAllProductsFromTables();
 });
+
+const removeAllProductsFromTables = () => {
+  individualReporteDataTable.setData([]);
+  materiasIndividualReporteDataTable.setData([]);
+  serviciosExternosIndividualReporteDataTable.setData([]);
+  costeosIndividualReporteDataTable.setData([]);
+};
 
 const removeProductFromTables = (product) => {
   if (product.pdfData) {

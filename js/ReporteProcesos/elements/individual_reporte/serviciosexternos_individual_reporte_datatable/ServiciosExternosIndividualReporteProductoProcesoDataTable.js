@@ -49,6 +49,11 @@ export class ServiciosExternosIndividualReporteProductoProcesoDataTable extends 
   }
 
   setData(_data) {
+    if (!_data.length) {
+      this._subgroups = [];
+    } else if (_data.length === 1 && _data[0]._title) {
+      _data = [];
+    }
     this._data = _data;
     this.toDiv(this.divId);
   }

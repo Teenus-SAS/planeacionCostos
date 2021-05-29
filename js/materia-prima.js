@@ -1,7 +1,5 @@
 import { Notifications, verifyFields } from "./utils/notifications.js";
 
-const notifications = new Notifications();
-
 let flag = false;
 
 document
@@ -124,7 +122,7 @@ $("#form-materia-prima").submit(function (e) {
       { name: "Costo", value: costo }
     );
     if (fieldsVerification) {
-      notifications.error(fieldsVerification.message);
+      Notifications.error(fieldsVerification.message);
       return false;
     }
     if (

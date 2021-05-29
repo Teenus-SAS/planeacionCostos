@@ -1,8 +1,6 @@
 import { fillSelect } from "./utils/fillSelect.js";
 import { Notifications, verifyFields } from "./utils/notifications.js";
 
-const notifications = new Notifications();
-
 let productsInProcess;
 
 loadProductsPP();
@@ -151,7 +149,7 @@ $("#form-product-process").submit(function (e) {
   );
 
   if (fieldsVerification) {
-    notifications.error(fieldsVerification.message);
+    Notifications.error(fieldsVerification.message);
     return false;
   }
   let request = $(this).serialize();

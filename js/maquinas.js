@@ -1,8 +1,6 @@
 import { Notifications, verifyFields } from "./utils/notifications.js";
 import { verifySettedConfiguration } from "./OpcionesEmpresa/application/verify_setted_configuration/verifySettedConfiguration.js";
 
-const notifications = new Notifications();
-
 verifySettedConfiguration("tabMaquinas");
 let flag = false;
 
@@ -193,17 +191,17 @@ function submitMaquinasForm(e, option, maquina) {
   );
 
   if (fieldsVerification) {
-    notifications.error(fieldsVerification.message);
+    Notifications.error(fieldsVerification.message);
     return false;
   }
 
   if (total == 0) {
-    notifications.error("Debes ingresar un valor válido para la máquina");
+    Notifications.error("Debes ingresar un valor válido para la máquina");
     return false;
   }
 
   if (Number.isNaN(valor_residual)) {
-    notifications.error(
+    Notifications.error(
       "Ingrese el valor residual, este valor puede ser cero (0)"
     );
     return false;

@@ -76,11 +76,10 @@ export class ProductosSelectedReporteDataTable {
   }
 
   async clear() {
-    const products = [];
-    for await (const product of this.data) {
-      const productRemoved = await this.delete(product.referencia, false);
-      products.push(productRemoved);
-    }
+    const products = this.data;
+
+    this.data = [];
+    this.reload();
 
     return products;
   }

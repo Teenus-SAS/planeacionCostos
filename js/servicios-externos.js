@@ -1,7 +1,6 @@
 import { fillSelect } from "./utils/fillSelect.js";
 import { Notifications, verifyFields } from "./utils/notifications.js";
 
-const notifications = new Notifications();
 $(".link-borrar-servicio-externo").css("cursor", "pointer");
 
 $(document).ready(function () {
@@ -113,7 +112,7 @@ function submitForm(e) {
   );
 
   if (fieldsVerification) {
-    notifications.error(fieldsVerification.message);
+    Notifications.error(fieldsVerification.message);
     return false;
   }
 

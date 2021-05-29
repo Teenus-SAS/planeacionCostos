@@ -53,10 +53,9 @@ export class ReporteProductoProcesoDataTable {
     this.dataTableReportes.width("100%");
   }
 
-  delete(consecutivo) {
-    OnClickDeleteReporteProductoProceso(consecutivo, () => {
-      this.reload();
-    });
+  async delete(consecutivo) {
+    await OnClickDeleteReporteProductoProceso(consecutivo);
+    this.reload();
   }
 
   async download(consecutivo) {
