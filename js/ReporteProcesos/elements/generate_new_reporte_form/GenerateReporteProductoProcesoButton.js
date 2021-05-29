@@ -1,4 +1,5 @@
 import { DomElement } from "../../../Shared/domain/DomElement.js";
+import { Loader } from "../../../Shared/infrastructure/Loader.js";
 import { OnClickGenerateReporteProductoProcesoButton } from "./events/OnClickGenerateReporteProductoProcesoButton.js";
 
 export class GenerateReporteProductoProcesoButton extends DomElement {
@@ -20,7 +21,7 @@ export class GenerateReporteProductoProcesoButton extends DomElement {
           if (beforecb) {
             const producto = await beforecb(data);
             if (producto) {
-              $("html, body").addClass("cursor-wait");
+              Loader.show();
               OnClickGenerateReporteProductoProcesoButton(
                 data,
                 producto,

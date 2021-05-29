@@ -13,7 +13,8 @@ import { MateriasIndividualReporteData } from "./elements/individual_reporte/mat
 import { fillSelect } from "../utils/fillSelect.js";
 import { ProductosSelectedReporteDataTable } from "./elements/productos_selected_datatable/ProductosSelectedReporteDataTable.js";
 import { GetProductoById } from "../Productos/application/get_producto_by_id/GetProductoById.js";
-import { Notifications } from "../utils/notifications.js";
+import { Notifications } from "../Shared/infrastructure/Notifications.js";
+import { Loader } from "../Shared/infrastructure/Loader.js";
 
 window.html2canvas = html2canvas;
 
@@ -46,12 +47,13 @@ $(document).on(
   ".link-descargar-reporte-pprocesos",
   async function (e) {
     e.preventDefault();
-    $("html, body").addClass("cursor-wait");
+    Loader.show();
     await reportesDataTable.download(this.id);
   }
 );
 $(document).on("click", ".link-ver-reporte-pprocesos", async function (e) {
   e.preventDefault();
+  Loader.show();
   const {
     pdfData: jsonData,
     consecutivo,
@@ -86,6 +88,7 @@ $(document).on("click", ".link-ver-reporte-pprocesos", async function (e) {
   costeosIndividualReporteDataTable.fromJSON(JSON.stringify(jsonData.costeos));
 
   individualReporteDataTable.show();
+  Loader.hide();
 });
 
 const individualReporteDataTable =
@@ -157,8 +160,6 @@ const generarReporteButton = new GenerateReporteProductoProcesoButton(
     costeoData,
     productoSelected
   ) => {
-    $("html, body").removeClass("cursor-wait");
-
     const materiasPrimasDataTable = [
       new MateriasIndividualReporteData(
         "Costos de materia prima requerida",
@@ -207,6 +208,7 @@ const generarReporteButton = new GenerateReporteProductoProcesoButton(
     $("#pdf-cotizacion-consolidacion").append(
       $("#costeo-reporte-procesos-table").html()
     );
+    Loader.hide();
   },
   (errors) => {
     $.notify(

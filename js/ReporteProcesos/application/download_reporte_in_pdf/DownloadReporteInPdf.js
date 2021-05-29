@@ -1,4 +1,5 @@
 import { jsPDF } from "../../../../node_modules/jspdf/dist/jspdf.es.js";
+import { Loader } from "../../../Shared/infrastructure/Loader.js";
 
 export function DownloadReporteInPdf(
   productoId,
@@ -56,7 +57,6 @@ function download(consecutivo, fecha, reportePdf) {
         // $("#pdf-first-page").attr("hidden", "true");
         $("#pdf-cotizacion-consolidacion-group").attr("hidden", "true");
         $("#pdf-cotizacion-piepagina-group").attr("hidden", "true");
-        console.log(element);
         reportePdf.html(element, {
           x: margin,
           y: 15,
@@ -92,7 +92,7 @@ function download(consecutivo, fecha, reportePdf) {
             );
             doc.save(`Cotizacion_${consecutivo}_${fecha}.pdf`);
             $("#final_pdf_cotizacion").toggleClass("opacity-0");
-            $("html, body").removeClass("cursor-wait");
+            Loader.hide();
           },
         });
       }

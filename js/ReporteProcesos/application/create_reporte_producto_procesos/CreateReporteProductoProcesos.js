@@ -8,7 +8,6 @@ export function CreateReporteProductoProcesos(
   cb,
   errorscb = () => {}
 ) {
-  console.log({ productos });
   $.post("/app/reportes/api/add_reporte_costeo_procesos.php", {
     consecutivo,
     cliente,

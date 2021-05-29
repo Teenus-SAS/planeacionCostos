@@ -1,4 +1,4 @@
-import { Notifications } from "../../../../utils/notifications.js";
+import { Notifications } from "../../../../Shared/infrastructure/Notifications.js";
 import { DeleteReporteProductoProcesoByConsecutivo } from "../../../application/delete_reporte_producto_proceso_by_consecutivo/DeleteReporteProductoProcesoByConsecutivo.js";
 
 export async function OnClickDeleteReporteProductoProceso(consecutivo) {
@@ -16,11 +16,14 @@ export async function OnClickDeleteReporteProductoProceso(consecutivo) {
           className: "btn-info",
         },
       },
-      callback: async function (result) {
+      callback: function (result) {
         if (result == true) {
-          await DeleteReporteProductoProcesoByConsecutivo(consecutivo);
-          Notifications.info("Producto eliminado");
-          resolve(true);
+          DeleteReporteProductoProcesoByConsecutivo(consecutivo)
+            .then(() => {
+              Notifications.info("Producto eliminado");
+              resolve(true);
+            })
+            .catch((reason) => reject(reason));
         } else {
           resolve(false);
         }

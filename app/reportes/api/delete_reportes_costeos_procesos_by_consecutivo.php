@@ -11,12 +11,19 @@ session_start();
 header("Content-Type: application/json");
 
 if (isset($_SESSION["user"])) {
-  $user = unserialize($_SESSION["user"]);
-  $reporteCosteoProcesosDao = new ReporteCosteoProcesosDao();
-  $reportes = $reporteCosteoProcesosDao->deleteByConsecutivo($_POST["consecutivo"]);
-  http_response_code(200);
-  exit;
+  $input = json_decode(file_get_contents("php://input"), true);
+  if (isset($input["consecutivo"])) {
+    $consecutivo = $input["consecutivo"];
+    $user = unserialize($_SESSION["user"]);
+    $reporteCosteoProcesosDao = new ReporteCosteoProcesosDao();
+    $reporteCosteoProcesosDao->deleteByConsecutivo($consecutivo);
+    http_response_code(200);
+    echo json_encode(new stdClass);
+    exit;
+  } else {
+    http_response_code(400);
+    exit;
+  }
 } else {
-  http_response_code(401);
   exit;
 }

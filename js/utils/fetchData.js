@@ -12,9 +12,13 @@ export async function fetchData(url, options = null) {
         url = url.substr(0, url.length - 1);
       }
     } else {
+      options.headers = {
+        "Content-Type": "application/json",
+      };
       options.body = JSON.stringify(options.body);
     }
   }
+
   const data = await fetch(url, options);
   return await data.json();
 }
