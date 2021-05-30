@@ -45,6 +45,11 @@
     </button>
     <div class="collapse navbar-collapse justify-content-end" id="navigation">
       <ul class="navbar-nav">
+        <li class="nav-item" style="display: flex; flex-direction: column; justify-content: center;">
+          <div id="username-label" class="text-normal flex flex-col justify-center pr-2" style="font-size: 1.2rem;">
+            <p><?= $user->getFirstname() ?> <?= $user->getLastname() ?></p>
+          </div>
+        </li>
         <li class="nav-item btn-rotate dropdown">
           <a class="nav-link dropdown-toggle" href="http://example.com"
             id="navbarDropdownMenuLink" data-toggle="dropdown"

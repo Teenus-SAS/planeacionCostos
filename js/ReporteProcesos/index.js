@@ -15,9 +15,10 @@ import { ProductosSelectedReporteDataTable } from "./elements/productos_selected
 import { GetProductoById } from "../Productos/application/get_producto_by_id/GetProductoById.js";
 import { Notifications } from "../Shared/infrastructure/Notifications.js";
 import { Loader } from "../Shared/infrastructure/Loader.js";
+import { activeSidebarItem } from "../utils/activeSidebarItem.js";
+activeSidebarItem("sidebar-reportes-item");
 
 Loader.addLoader();
-
 window.html2canvas = html2canvas;
 
 const generateNuevoReporteForm = new GenerateNewReporteForm();
@@ -336,11 +337,3 @@ fillSelect(
   true,
   "Selecione un producto"
 );
-
-activeReportesItemsSidebar();
-function activeReportesItemsSidebar() {
-  $("#sidebar-reportes-item").addClass("active");
-  $("#sidebar-parametrizar-item").removeClass("active");
-  $("#sidebar-analisis-item").removeClass("active");
-  $("#sidebar-costear-item").removeClass("active");
-}
