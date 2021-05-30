@@ -129,21 +129,23 @@ include(PARTIALS_PATH . "verify_session.php") ?>
             </div>
           </div>
         </div>
-        <h1 class="w-full text-center text-xl mt-3">Productos en el reporte</h1>
-        <div id="productos-selected-reporte-table" class="mx-5">
-          <div class="table-responsive tableFixHead mt-2">
-            <table class="table" id="productos-reporte-jquery-datatable">
-              <thead class="text-primary">
-                <th class="text-center">Ref</th>
-                <th class="text-center">Producto</th>
-                <th class="text-center">Cantidad</th>
-                <th class="text-center">Margen Utilidad</th>
-                <th class="text-center">Recuperación</th>
-                <th class="text-center">Acciones</th>
-              </thead>
-              <tbody>
-              </tbody>
-            </table>
+        <div id="productos-selected-reporte" class="card">
+          <h1 class="w-full text-center text-xl mt-3">Productos en el reporte</h1>
+          <div id="productos-selected-reporte-table" class="mx-5">
+            <div class="table-responsive tableFixHead mt-2">
+              <table class="table" id="productos-reporte-jquery-datatable">
+                <thead class="text-primary">
+                  <th class="text-center">Ref</th>
+                  <th class="text-center">Producto</th>
+                  <th class="text-center">Cantidad</th>
+                  <th class="text-center">Margen Utilidad</th>
+                  <th class="text-center">Recuperación</th>
+                  <th class="text-center">Acciones</th>
+                </thead>
+                <tbody>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
         <div id="reporte-procesos-content" class="col-12 card relative mt-4" hidden="true">

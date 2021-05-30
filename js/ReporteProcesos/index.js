@@ -133,6 +133,7 @@ const descargarPdfReporteButton = new DescargarPdfReporteProductoProcesoButton(
     infoNuevoReporteForm.clearForm();
     individualReporteDataTable.hide();
     $("#form-datos-reporte-procesos").modal("hide");
+    Loader.hide();
   }
 );
 

@@ -1,4 +1,5 @@
 import { DomElement } from "../../../Shared/domain/DomElement.js";
+import { Loader } from "../../../Shared/infrastructure/Loader.js";
 import { OnClickDescargarReporteProductoProcesoButton } from "./events/OnClickDescargarReporteProductoProcesoButton.js";
 
 export class DescargarPdfReporteProductoProcesoButton extends DomElement {
@@ -17,6 +18,7 @@ export class DescargarPdfReporteProductoProcesoButton extends DomElement {
     super.onClick(async (data) => {
       if (this.invalidDatacb) {
         if (this.validateData()) {
+          Loader.show();
           await OnClickDescargarReporteProductoProcesoButton(data, successcb);
         } else {
           this.invalidDatacb();
