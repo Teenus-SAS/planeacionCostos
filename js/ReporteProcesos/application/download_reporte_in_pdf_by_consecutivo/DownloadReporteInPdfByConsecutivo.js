@@ -5,7 +5,7 @@ export async function DownloadReporteInPdfByConsecutivo(consecutivo) {
   const reporte = await GetReporteProductoProcesosByConsecutivo(consecutivo);
 
   if (reporte) {
-    DownloadReporteInPdf(
+    await DownloadReporteInPdf(
       reporte.productos,
       reporte.cliente,
       reporte.ciudad,

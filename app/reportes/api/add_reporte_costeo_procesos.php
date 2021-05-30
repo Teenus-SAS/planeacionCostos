@@ -12,21 +12,28 @@ session_start();
 header("Content-Type: application/json");
 
 if (isset($_SESSION["user"])) {
+  $input = json_decode(file_get_contents("php://input"), true);
+  $consecutivo = $input["consecutivo"];
+  $cliente = $input["cliente"];
+  $ciudad = $input["ciudad"];
+  $productos = $input["productos"];
+  $pdfdata = $input["pdfdata"];
   $user = unserialize($_SESSION["user"]);
   $reportesProcesosDao = new ReporteCosteoProcesosDao();
   $productDao = new ProductDao();
   $reporte = new ReporteCosteoProcesos();
-  $reporte->setConsecutivo($_POST['consecutivo']);
-  $reporte->setCliente($_POST['cliente']);
-  $reporte->setCiudad($_POST['ciudad']);
-  $reporte->setProductos($_POST['productos']);
-  $reporte->setPdfData($_POST['pdfdata']);
+  $reporte->setConsecutivo($consecutivo);
+  $reporte->setCliente($cliente);
+  $reporte->setCiudad($ciudad);
+  $reporte->setProductos($productos);
+  $reporte->setPdfData($pdfdata);
   $reporte->setIdCompany($user->getCompany()->getId());
   if (!$reportesProcesosDao->save($reporte)) {
     http_response_code(411);
     exit;
   } else {
     http_response_code(200);
+    echo json_encode(new stdClass);
     exit;
   }
 } else {

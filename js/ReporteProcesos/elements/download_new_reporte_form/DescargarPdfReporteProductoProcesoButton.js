@@ -14,10 +14,10 @@ export class DescargarPdfReporteProductoProcesoButton extends DomElement {
   }
 
   descargarPdfOnClick(aftercb = undefined, successcb = undefined) {
-    super.onClick((data) => {
+    super.onClick(async (data) => {
       if (this.invalidDatacb) {
         if (this.validateData()) {
-          OnClickDescargarReporteProductoProcesoButton(data, successcb);
+          await OnClickDescargarReporteProductoProcesoButton(data, successcb);
         } else {
           this.invalidDatacb();
         }

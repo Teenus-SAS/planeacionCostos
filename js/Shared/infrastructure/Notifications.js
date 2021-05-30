@@ -23,6 +23,18 @@ export const Notifications = {
       }
     );
   },
+  success: (message) => {
+    $.notify(
+      {
+        icon: "nc-icon nc-bell-55",
+        message,
+      },
+      {
+        type: "success",
+        timer: 2500,
+      }
+    );
+  },
 };
 
 export const verifyFields = (...fields) => {

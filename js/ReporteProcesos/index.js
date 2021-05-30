@@ -16,6 +16,8 @@ import { GetProductoById } from "../Productos/application/get_producto_by_id/Get
 import { Notifications } from "../Shared/infrastructure/Notifications.js";
 import { Loader } from "../Shared/infrastructure/Loader.js";
 
+Loader.addLoader();
+
 window.html2canvas = html2canvas;
 
 const generateNuevoReporteForm = new GenerateNewReporteForm();
@@ -49,6 +51,7 @@ $(document).on(
     e.preventDefault();
     Loader.show();
     await reportesDataTable.download(this.id);
+    Loader.hide();
   }
 );
 $(document).on("click", ".link-ver-reporte-pprocesos", async function (e) {
@@ -119,24 +122,16 @@ const costeosIndividualReporteDataTable =
 const descargarPdfReporteButton = new DescargarPdfReporteProductoProcesoButton(
   "generar-pdf-reporte-procesos",
   (errors) => {
-    $.notify(
-      {
-        icon: "nc-icon nc-bell-55",
-        message: `Completa todos los campos`,
-      },
-      {
-        type: "danger",
-        timer: 2500,
-      }
-    );
+    Notifications.error(`Completa todos los campos`);
   },
   () => {
     reportesDataTable.reload();
+    removeAllProductsFromTables();
+    productosSelectedDataTable.clear();
   },
   () => {
     infoNuevoReporteForm.clearForm();
     individualReporteDataTable.hide();
-    removeAllProductsFromTables();
     $("#form-datos-reporte-procesos").modal("hide");
   }
 );

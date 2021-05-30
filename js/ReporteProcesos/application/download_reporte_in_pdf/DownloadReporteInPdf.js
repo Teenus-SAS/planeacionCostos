@@ -1,60 +1,61 @@
 import { jsPDF } from "../../../../node_modules/jspdf/dist/jspdf.es.js";
-import { Loader } from "../../../Shared/infrastructure/Loader.js";
 
-export function DownloadReporteInPdf(
+export async function DownloadReporteInPdf(
   productoId,
   cliente,
   ciudad,
   consecutivo,
   fecha
 ) {
-  let reportePdf = new jsPDF("p", "pt", "letter");
+  return new Promise(async (resolve, reject) => {
+    let reportePdf = new jsPDF("p", "pt", "letter");
 
-  reportePdf.setFontSize(14);
-  $("#pdf-cotizacion-mano-obra").empty();
-  $("#pdf-cotizacion-materias-primas").empty();
-  $("#pdf-cotizacion-servicios-externos").empty();
-  $("#pdf-cotizacion-consolidacion").empty();
+    reportePdf.setFontSize(14);
+    $("#pdf-cotizacion-mano-obra").empty();
+    $("#pdf-cotizacion-materias-primas").empty();
+    $("#pdf-cotizacion-servicios-externos").empty();
+    $("#pdf-cotizacion-consolidacion").empty();
 
-  $("#pdf-cotizacion-mano-obra").append($("#reporte-procesos-table").html());
-  $("#pdf-cotizacion-materias-primas").append(
-    $("#materias-reporte-procesos-table").html()
-  );
-  $("#pdf-cotizacion-servicios-externos").append(
-    $("#servicios-externos-reporte-procesos-table").html()
-  );
-  $("#pdf-cotizacion-consolidacion").append(
-    $("#costeo-reporte-procesos-table").html()
-  );
-  // $("#pdf-first-page").attr("hidden", false);
-  $("#pdf-cotizacion-consolidacion-group").attr("hidden", false);
-  $("#pdf-cotizacion-piepagina-group").attr("hidden", false);
-  download(consecutivo, fecha, reportePdf);
+    $("#pdf-cotizacion-mano-obra").append($("#reporte-procesos-table").html());
+    $("#pdf-cotizacion-materias-primas").append(
+      $("#materias-reporte-procesos-table").html()
+    );
+    $("#pdf-cotizacion-servicios-externos").append(
+      $("#servicios-externos-reporte-procesos-table").html()
+    );
+    $("#pdf-cotizacion-consolidacion").append(
+      $("#costeo-reporte-procesos-table").html()
+    );
+    $("#pdf-cotizacion-consolidacion-group").attr("hidden", false);
+    $("#pdf-cotizacion-piepagina-group").attr("hidden", false);
+    resolve(await download(consecutivo, fecha, reportePdf));
+  });
 }
 
-function download(consecutivo, fecha, reportePdf) {
-  if (!fecha) {
-    const now = new Date();
-    fecha = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`;
-  }
-  const element = document.getElementById("pdf-first-page");
+async function download(consecutivo, fecha, reportePdf) {
+  return new Promise((resolve, reject) => {
+    if (!fecha) {
+      const now = new Date();
+      fecha = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`;
+    }
+    const element = document.getElementById("pdf-first-page");
 
-  let pWidth = reportePdf.internal.pageSize.width;
-  let srcWidth = element.scrollWidth;
-  let margin = 30;
-  let scale = (pWidth - margin * 2) / srcWidth;
-  $("#final_pdf_cotizacion").toggleClass("opacity-0");
-  html2canvas(
-    document.querySelector("#pdf-cotizacion-consolidacion-group")
-  ).then(function (consolidadoCanvas) {
-    html2canvas(document.querySelector("#pdf-cotizacion-piepagina-group")).then(
-      function (piePaginaCanvas) {
+    let pWidth = reportePdf.internal.pageSize.width;
+    let srcWidth = element.scrollWidth;
+    let margin = 30;
+    let scale = (pWidth - margin * 2) / srcWidth;
+    $("#final_pdf_cotizacion").toggleClass("opacity-0");
+    html2canvas(
+      document.querySelector("#pdf-cotizacion-consolidacion-group")
+    ).then(function (consolidadoCanvas) {
+      html2canvas(
+        document.querySelector("#pdf-cotizacion-piepagina-group")
+      ).then(function (piePaginaCanvas) {
         addPiePagina(reportePdf, piePaginaCanvas);
         let consolidadoImageData = consolidadoCanvas.toDataURL(
           "image/png",
           1.0
         );
-        // $("#pdf-first-page").attr("hidden", "true");
         $("#pdf-cotizacion-consolidacion-group").attr("hidden", "true");
         $("#pdf-cotizacion-piepagina-group").attr("hidden", "true");
         reportePdf.html(element, {
@@ -92,11 +93,11 @@ function download(consecutivo, fecha, reportePdf) {
             );
             doc.save(`Cotizacion_${consecutivo}_${fecha}.pdf`);
             $("#final_pdf_cotizacion").toggleClass("opacity-0");
-            Loader.hide();
+            resolve(true);
           },
         });
-      }
-    );
+      });
+    });
   });
 }
 

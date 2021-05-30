@@ -3,7 +3,7 @@ import { fillSelect } from "./utils/fillSelect.js";
 import { loadDatafromEndpoint } from "./utils/loadData.js";
 
 const getDistribucionesDirectas = async () =>
-  await fetchData("/app/products/api/get_distribuciones_directas.php");
+  (await fetchData("/app/products/api/get_distribuciones_directas.php")).data;
 
 loadMonthExpenses();
 function loadMonthExpenses() {

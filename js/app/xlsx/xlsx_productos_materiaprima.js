@@ -1,7 +1,9 @@
 import { fetchData } from "../../utils/fetchData.js";
 import { ImportacionXLSX } from "./ImportacionXLSX.js";
-let materials = await fetchData("/app/config-general/api/get_materials.php");
-let products = await fetchData("/app/config-general/api/get_products.php");
+let materials = (await fetchData("/app/config-general/api/get_materials.php"))
+  .data;
+let products = (await fetchData("/app/config-general/api/get_products.php"))
+  .data;
 
 const exportImportProdMateriaPrima = new ImportacionXLSX(
   "api/get_products.php?materials",

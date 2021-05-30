@@ -1,9 +1,12 @@
 import { fetchData } from "../../utils/fetchData.js";
 import { ImportacionXLSX } from "./ImportacionXLSX.js";
 
-let productos = await fetchData("/app/config-general/api/get_products.php");
-let procesos = await fetchData("/app/config-general/api/get_processes.php");
-let maquinas = await fetchData("/app/config-general/api/get_machines.php");
+let productos = (await fetchData("/app/config-general/api/get_products.php"))
+  .data;
+let procesos = (await fetchData("/app/config-general/api/get_processes.php"))
+  .data;
+let maquinas = (await fetchData("/app/config-general/api/get_machines.php"))
+  .data;
 
 const exportImportProductosProcesos = new ImportacionXLSX(
   "/app/config-general/api/get_products.php?process",

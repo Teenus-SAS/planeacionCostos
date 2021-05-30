@@ -20,5 +20,11 @@ export async function fetchData(url, options = null) {
   }
 
   const data = await fetch(url, options);
-  return await data.json();
+  const status = data.status;
+
+  try {
+    return { status, data: await data.json() };
+  } catch (ex) {
+    return { status, data: null };
+  }
 }

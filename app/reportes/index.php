@@ -76,7 +76,6 @@ include(PARTIALS_PATH . "verify_session.php") ?>
     <div class="main-panel">
       <?php include(PARTIALS_PATH . "navbar.php") ?>
       <div class="content"  id="main-panel-content">
-        <i class="fa fa-cog fa-spin fa-3x fa-fw fade sticky float-right z-10 min-h-full" id="spinnerAjax"></i>
         <div id="crud-content" class="row">
           <h1 class="text-2xl text-center mb-3 w-full col-12">Reportes</h1>
           <div id="new-reporte-proceso" class="col-4 my-3">      

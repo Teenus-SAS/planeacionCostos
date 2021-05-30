@@ -1,7 +1,8 @@
 import { fetchData } from "../../utils/fetchData.js";
 import { ImportacionXLSX } from "./ImportacionXLSX.js";
 
-let procesos = await fetchData("/app/config-general/api/get_processes.php");
+let procesos = (await fetchData("/app/config-general/api/get_processes.php"))
+  .data;
 let productos = [];
 const updateProductos = () => {
   $.get("/app/config-general/api/get_products.php", (data, status) => {

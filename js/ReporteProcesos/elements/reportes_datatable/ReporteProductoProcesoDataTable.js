@@ -59,7 +59,7 @@ export class ReporteProductoProcesoDataTable {
   }
 
   async download(consecutivo) {
-    return await OnClickDownloadReporteProductoProceso(consecutivo, () => {});
+    return await OnClickDownloadReporteProductoProceso(consecutivo);
   }
 
   async view(consecutivo) {
