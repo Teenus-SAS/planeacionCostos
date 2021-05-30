@@ -1,4 +1,7 @@
-import { Notifications, verifyFields } from "./utils/notifications.js";
+import {
+  Notifications,
+  verifyFields,
+} from "./Shared/infrastructure/Notifications.js";
 
 let flag = false;
 

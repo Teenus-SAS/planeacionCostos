@@ -5,22 +5,14 @@ export class ProductoSelected {
     this.cantidad = cantidad;
     this.margen = margen;
     this.recuperacion = recuperacion;
-    this.pdfData = pdfData;
+    this.pdfData = JSON.stringify(pdfData);
   }
 
-  addPdfData(pdfData) {
-    pdfData.main.forEach((individual) => {
-      const exists = this.pdfData.main.find(
-        (mainData) => mainData.productoProceso == individual.productoProceso
-      );
-      if (exists) {
-        exists.cantidadMinuto += individual.cantidadMinuto;
-        exists.costoMinuto += individual.costoMinuto;
-        exists.total += individual.total;
-      } else {
-        this.pdfData.push(individual);
-      }
-    });
-    console.log({ newData: this.pdfData });
+  setPdfData(pdfData) {
+    this.pdfData = JSON.stringify(pdfData);
+  }
+
+  getPdfData() {
+    return JSON.parse(this.pdfData);
   }
 }

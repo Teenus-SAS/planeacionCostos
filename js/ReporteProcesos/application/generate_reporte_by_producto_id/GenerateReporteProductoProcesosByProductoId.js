@@ -6,20 +6,24 @@ import { GetProductoById } from "../../../Productos/application/get_producto_by_
 import { GetProductosProcesosByProductoId } from "../../../ProductosProcesos/application/get_productos_procesos_by_producto_id/GetProductosProcesosByProductoId.js";
 import { IndividualReporteProductoProcesoData } from "../../elements/individual_reporte/individual_reporte_datatable/definitions/IndividualReporteProductoProcesoData.js";
 
-export async function GenerateReporteProductoProcesosByProductoId(productoId) {
+export async function GenerateReporteProductoProcesosByProductoId(
+  productoId,
+  cantidad
+) {
+  cantidad = parseFloat(cantidad);
   const producto = await GetProductoById(productoId);
   const procesos = await GetProductosProcesosByProductoId(productoId);
   if (producto) {
-    const totalCargasFabriles = await GetTotalCargasFabrilesByProductoId(
+    let totalCargasFabriles = await GetTotalCargasFabrilesByProductoId(
       productoId,
       procesos
     );
+    totalCargasFabriles *= cantidad;
     const nominas = await GetAllNominas();
     let reportes = [];
     if (procesos) {
       const materiasPrimas = await GetMateriasPrimasByProductoId(productoId);
 
-      let tiempoTotalOperacionProcesos = 0;
       procesos.forEach((proceso) => {
         const nominasProceso = nominas.filter(
           (nomina) => nomina.process.id == proceso.process.id
@@ -32,10 +36,10 @@ export async function GenerateReporteProductoProcesosByProductoId(productoId) {
           );
         }
         const totalTime =
-          parseFloat(proceso.timeAlistamiento) +
-          parseFloat(proceso.timeOperacion);
+          (parseFloat(proceso.timeAlistamiento) +
+            parseFloat(proceso.timeOperacion)) *
+          cantidad;
 
-        tiempoTotalOperacionProcesos += parseFloat(proceso.timeOperacion);
         const processExists = reportes.find(
           (reporte) => reporte.productoProceso == proceso.process.name
         );
@@ -64,6 +68,7 @@ export async function GenerateReporteProductoProcesosByProductoId(productoId) {
         totalMateriasPrimas +=
           materiaPrima.quantity * materiaPrima.material.cost;
       });
+      totalMateriasPrimas *= cantidad;
 
       return {
         reportes,

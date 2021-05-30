@@ -136,6 +136,7 @@ const descargarPdfReporteButton = new DescargarPdfReporteProductoProcesoButton(
   () => {
     infoNuevoReporteForm.clearForm();
     individualReporteDataTable.hide();
+    removeAllProductsFromTables();
     $("#form-datos-reporte-procesos").modal("hide");
   }
 );
@@ -153,7 +154,7 @@ $("#crear-pdf-reporte-procesos").on("click", (e) => {
 
 const generarReporteButton = new GenerateReporteProductoProcesoButton(
   "new-reporte-procesos-button",
-  async (
+  (
     dataTable,
     dataTableDetalle,
     totalMaterias,
@@ -167,15 +168,15 @@ const generarReporteButton = new GenerateReporteProductoProcesoButton(
       ),
     ];
 
-    productoSelected.pdfData = {
+    productoSelected.setPdfData({
       main: dataTable,
       materias: materiasPrimasDataTable,
       servicios: dataTableDetalle,
       costeos: costeoData,
-    };
+    });
 
-    generarReporteButton.setData("", "", "");
     generateNuevoReporteForm.clearForm();
+    generarReporteButton.setData("", "", "");
 
     individualReporteDataTable.show();
     individualReporteDataTable.adicionarFromData(dataTable);
@@ -317,14 +318,13 @@ const removeAllProductsFromTables = () => {
 
 const removeProductFromTables = (product) => {
   if (product.pdfData) {
-    individualReporteDataTable.removerFromData(product.pdfData.main);
-    materiasIndividualReporteDataTable.removerFromData(
-      product.pdfData.materias
-    );
+    const pdfData = product.getPdfData();
+    individualReporteDataTable.removerFromData(pdfData.main);
+    materiasIndividualReporteDataTable.removerFromData(pdfData.materias);
     serviciosExternosIndividualReporteDataTable.removerFromData(
-      product.pdfData.servicios
+      pdfData.servicios
     );
-    costeosIndividualReporteDataTable.removerFromData(product.pdfData.costeos);
+    costeosIndividualReporteDataTable.removerFromData(pdfData.costeos);
   }
 };
 

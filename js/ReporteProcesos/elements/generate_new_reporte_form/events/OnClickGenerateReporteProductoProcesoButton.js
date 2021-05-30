@@ -14,12 +14,14 @@ export async function OnClickGenerateReporteProductoProcesoButton(
     );
   const { dataTable: dataTableServiciosExternos, serviciosExternosCostoTotal } =
     await GetServiciosExternosReporteProductoProcesoByProductoId(
-      buttonData.productoId
+      buttonData.productoId,
+      buttonData.cantidad
     );
 
   $("#option-id-producto-reporte").val(buttonData.productoId);
   const dataCosteos = await GetCosteosReporteByProductoId(
     buttonData.productoId,
+    buttonData.cantidad,
     reporteTotal,
     serviciosExternosCostoTotal,
     totalMateriasPrimas,

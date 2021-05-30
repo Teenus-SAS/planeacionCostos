@@ -16,6 +16,12 @@ export class ProductosSelectedReporteDataTable {
         url: "/vendor/dataTables/Spanish.json",
       },
       data,
+      columnDefs: [
+        {
+          targets: [0, 1, 2, 3, 4, 5],
+          className: "text-center",
+        },
+      ],
       columns: [
         {
           data: "referencia",
@@ -87,7 +93,7 @@ export class ProductosSelectedReporteDataTable {
   async addProduct(productoId, cantidad, margen, recuperacion, pdfData) {
     const producto = await GetProductoById(productoId);
     if (!producto) {
-      return;
+      return false;
     }
     const productoSelected = new ProductoSelected(
       producto.ref,

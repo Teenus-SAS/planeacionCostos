@@ -63,6 +63,7 @@ export class CosteosIndividualReporteProductoProcesoDataTable extends DataTable 
   }
 
   adicionarFromData(newData) {
+    console.log({ add: newData });
     let previousState = this._data;
 
     newData.forEach((value) => {
@@ -81,6 +82,7 @@ export class CosteosIndividualReporteProductoProcesoDataTable extends DataTable 
   }
 
   removerFromData(dataForRemove) {
+    console.log({ remove: dataForRemove });
     let previousState = this._data;
 
     dataForRemove.forEach((value) => {
@@ -88,8 +90,7 @@ export class CosteosIndividualReporteProductoProcesoDataTable extends DataTable 
         (state) => state.concepto == value.concepto
       );
       if (exists) {
-        exists.monto = parseFloat(exists.monto);
-        exists.monto -= parseFloat(value.monto);
+        exists.monto = parseFloat(exists.monto) - parseFloat(value.monto);
       }
     });
 

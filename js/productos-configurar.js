@@ -1,5 +1,8 @@
 import { fillSelect } from "./utils/fillSelect.js";
-import { Notifications, verifyFields } from "./utils/notifications.js";
+import {
+  Notifications,
+  verifyFields,
+} from "./Shared/infrastructure/Notifications.js";
 
 let materiales = [];
 $.get("/app/config-general/api/get_materials.php", (_materials) => {

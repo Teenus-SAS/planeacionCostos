@@ -78,7 +78,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
       <div class="content"  id="main-panel-content">
         <i class="fa fa-cog fa-spin fa-3x fa-fw fade sticky float-right z-10 min-h-full" id="spinnerAjax"></i>
         <div id="crud-content" class="row">
-          <h1 class="text-xl text-center mb-3 w-full col-12">Reportes</h1>
+          <h1 class="text-2xl text-center mb-3 w-full col-12">Reportes</h1>
           <div id="new-reporte-proceso" class="col-4 my-3">      
             <div class="card px-5 py-2">
               <h1 class="text-normal text-xl text-center mb-4 mt-2">Nuevo reporte</h1>
@@ -130,25 +130,26 @@ include(PARTIALS_PATH . "verify_session.php") ?>
             </div>
           </div>
         </div>
-        <div id="reporte-procesos-content" class="col-12 card relative" hidden="true">
-          <div id="close-button" class="mt-2 absolute cursor-pointer z-10 text-2xl">
-            <i class="nc-icon nc-simple-remove text-2xl"></i>
+        <h1 class="w-full text-center text-xl mt-3">Productos en el reporte</h1>
+        <div id="productos-selected-reporte-table" class="mx-5">
+          <div class="table-responsive tableFixHead mt-2">
+            <table class="table" id="productos-reporte-jquery-datatable">
+              <thead class="text-primary">
+                <th class="text-center">Ref</th>
+                <th class="text-center">Producto</th>
+                <th class="text-center">Cantidad</th>
+                <th class="text-center">Margen Utilidad</th>
+                <th class="text-center">Recuperación</th>
+                <th class="text-center">Acciones</th>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
           </div>
-          <div id="productos-selected-reporte-table" class="mt-5 mx-5">
-            <div class="table-responsive tableFixHead mt-5">
-              <table class="table" id="productos-reporte-jquery-datatable">
-                <thead class="text-primary">
-                  <th>Ref</th>
-                  <th>Producto</th>
-                  <th>Cantidad</th>
-                  <th>Margen Utilidad</th>
-                  <th>Recuperación</th>
-                  <th></th>
-                </thead>
-                <tbody>
-                </tbody>
-              </table>
-            </div>
+        </div>
+        <div id="reporte-procesos-content" class="col-12 card relative mt-4" hidden="true">
+          <div id="close-button" class="mt-3 absolute cursor-pointer z-10 text-2xl">
+            <i class="nc-icon nc-simple-remove text-2xl"></i>
           </div>
           <div class="row align-items-around">
             <div id="generate-reporte-pdf" class="col-12 pt-5">

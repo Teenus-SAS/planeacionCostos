@@ -6,12 +6,14 @@ import { GetProductoById } from "../../../Productos/application/get_producto_by_
 
 export async function GetCosteosReporteByProductoId(
   productoId,
+  cantidad,
   totalProcesos,
   totalServiciosExternos,
   totalMateriasPrimas,
   totalCargasFabriles,
   manualRecuperacion
 ) {
+  cantidad = parseFloat(cantidad);
   const producto = await GetProductoById(productoId);
   const productosProcesos = await GetProductosProcesosByProductoId(productoId);
   const distribuciones = await GetAllDistribucionesDirectasRedistribuidas();
@@ -59,7 +61,8 @@ export async function GetCosteosReporteByProductoId(
         recuperacionGastosCostos +=
           parseFloat(dist.valorMinuto) *
           (parseFloat(process.timeAlistamiento) +
-            parseFloat(process.timeOperacion));
+            parseFloat(process.timeOperacion)) *
+          cantidad;
       });
     }
   });
