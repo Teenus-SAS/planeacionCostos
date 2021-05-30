@@ -6,7 +6,7 @@ import { MateriasIndividualReporteData } from "./data/MateriasIndividualReporteD
 
 const columnDefinitions = [
   new DataTableColumnDefinition(
-    new DataTableColumnHeader("Costos de Procesos", {
+    new DataTableColumnHeader("Costos Materia Prima", {
       content: [
         "text-normal",
         "border-transparent",

@@ -20,7 +20,7 @@ export class IndividualReporteProductoProcesoData extends DataForTable {
 
   toObject() {
     return {
-      "Costos de Procesos": this.productoProceso,
+      "Costos de Nómina por Proceso": this.productoProceso,
       Minutos: this.cantidadMinuto,
       "Costo/min": this.costoMinuto,
       Total: this.total,

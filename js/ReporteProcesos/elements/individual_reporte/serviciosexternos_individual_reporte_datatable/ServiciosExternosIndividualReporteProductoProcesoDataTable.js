@@ -7,7 +7,7 @@ import { DataTableSubgroupSeparator } from "../../../../../node_modules/elegant-
 
 const columnDefinitions = [
   new DataTableColumnDefinition(
-    new DataTableColumnHeader("Costos de Procesos", {
+    new DataTableColumnHeader("Costos Servicios Externos", {
       content: [
         "text-normal",
         "border-transparent",

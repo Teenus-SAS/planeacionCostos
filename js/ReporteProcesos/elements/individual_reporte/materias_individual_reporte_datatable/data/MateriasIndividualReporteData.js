@@ -13,7 +13,7 @@ export class MateriasIndividualReporteData extends DataForTable {
 
   toObject() {
     return {
-      "Costos de Procesos": this.concepto,
+      "Costos Materia Prima": this.concepto,
       Total: this.monto,
     };
   }

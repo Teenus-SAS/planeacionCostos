@@ -201,14 +201,10 @@ include(PARTIALS_PATH . "verify_session.php") ?>
               </div>
             </div>
             <div id="individual-reporte-procesos" class="col-12 pr-5 mt-4">
-              <h2 class="text-2xl text-center font-normal py-3">Procesos</h2>
               <div id="reporte-procesos-table">
               </div>
-              <h2 class="text-2xl text-center font-ligth">Materia Prima</h2>
               <div id="materias-reporte-procesos-table"></div>
-              <h2 class="text-2xl text-center font-ligth">Servicios Externos</h2>
               <div id="servicios-externos-reporte-procesos-table"></div>
-              <h2 class="text-2xl text-center font-ligth">Costeo</h2>
               <div id="costeo-reporte-procesos-table" class="w-90 mx-auto"></div>
             </div>
           </div>

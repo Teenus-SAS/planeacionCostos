@@ -16,7 +16,7 @@ export class ServiciosExternosIndividualReporteData extends DataForTable {
 
   toObject() {
     return {
-      "Costos de Procesos": this.concepto,
+      "Costos Servicios Externos": this.concepto,
       Total: this.monto,
     };
   }

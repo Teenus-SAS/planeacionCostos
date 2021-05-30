@@ -6,7 +6,7 @@ import { CosteosIndividualReporteData } from "./data/CosteosIndividualReporteDat
 
 const columnDefinitions = [
   new DataTableColumnDefinition(
-    new DataTableColumnHeader("Detalle", {
+    new DataTableColumnHeader("Costos", {
       content: [
         "text-normal",
         "border-transparent",

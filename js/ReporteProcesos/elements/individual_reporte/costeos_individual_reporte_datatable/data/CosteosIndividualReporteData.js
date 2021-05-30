@@ -20,7 +20,7 @@ export class CosteosIndividualReporteData extends DataForTable {
 
   toObject() {
     return {
-      Detalle: this.concepto,
+      Costos: this.concepto,
       Porcentaje: this.porcentaje,
       Total: this.monto,
     };
