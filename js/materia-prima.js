@@ -112,6 +112,7 @@ $("#form-materia-prima").submit(function (e) {
   if (materialsMateriaPrima != undefined) {
     let m = $("#input-materia-prima").val();
     let ref = $("#ref-materia-prima").val();
+    let unidad = $("#input-unidad").val();
     let costo = $("#input-costo").val();
     let materialSel = materialsMateriaPrima.filter(
       (material) =>
@@ -122,6 +123,7 @@ $("#form-materia-prima").submit(function (e) {
     const fieldsVerification = verifyFields(
       { name: "Referencia", value: ref },
       { name: "Materia Prima", value: m },
+      { name: "Unidad", value: unidad },
       { name: "Costo", value: costo }
     );
     if (fieldsVerification) {

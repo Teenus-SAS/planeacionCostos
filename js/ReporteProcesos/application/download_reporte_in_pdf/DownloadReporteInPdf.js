@@ -11,10 +11,14 @@ export async function DownloadReporteInPdf(
     let reportePdf = new jsPDF("p", "pt", "letter");
 
     reportePdf.setFontSize(14);
+    $("#pdf-productos-selected").empty();
     $("#pdf-cotizacion-mano-obra").empty();
     $("#pdf-cotizacion-materias-primas").empty();
     $("#pdf-cotizacion-servicios-externos").empty();
     $("#pdf-cotizacion-consolidacion").empty();
+    $("#pdf-productos-selected").append(
+      $("#productos-selected-reporte-table").html()
+    );
 
     $("#pdf-cotizacion-mano-obra").append($("#reporte-procesos-table").html());
     $("#pdf-cotizacion-materias-primas").append(
@@ -91,6 +95,7 @@ async function download(consecutivo, fecha, reportePdf) {
               consolidadoWidth,
               consolidadoHeight
             );
+
             doc.save(`Cotizacion_${consecutivo}_${fecha}.pdf`);
             $("#final_pdf_cotizacion").toggleClass("opacity-0");
             resolve(true);

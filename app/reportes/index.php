@@ -216,6 +216,8 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                 <img id="img-logo-company-sidebar" src="<?= $user->getCompany()->getLogo() ?>" class="w-16 h-auto">
               </div>
               <div id="pdf-first-page" class="w-11/12 mx-auto" style="padding-top: 80px; font-family: Poppins-Regular, sans-serif;font-size: 16px;">
+                <div id="pdf-productos-selected">
+                </div>
                 <div>
                   <img id="img-logo-company-sidebar" src="/app/reportes/images/Separadores_MO.png" class="w-full h-auto">
                   <div id="pdf-cotizacion-mano-obra" class="py-2 w-11/12 mx-auto">
@@ -223,7 +225,6 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                   <img id="img-logo-company-sidebar" src="/app/reportes/images/Separadores_MP.png" class="w-full h-auto">
                   <div id="pdf-cotizacion-materias-primas" class="py-2 w-11/12 mx-auto">
                   </div>
-  
                   <img id="img-logo-company-sidebar" src="/app/reportes/images/Separadores_SE.png" class="w-full h-auto">
                   <div id="pdf-cotizacion-servicios-externos" class="py-2 w-11/12 mx-auto">
                   </div>
