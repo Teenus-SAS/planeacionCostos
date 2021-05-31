@@ -6,7 +6,7 @@ export async function DownloadReporteInPdfByConsecutivo(consecutivo) {
 
   if (reporte) {
     await DownloadReporteInPdf(
-      reporte.productos,
+      JSON.parse(reporte.productos),
       reporte.cliente,
       reporte.ciudad,
       consecutivo,

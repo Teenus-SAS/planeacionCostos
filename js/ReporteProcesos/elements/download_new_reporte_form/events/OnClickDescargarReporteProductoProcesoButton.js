@@ -18,7 +18,7 @@ export async function OnClickDescargarReporteProductoProcesoButton(
   if (!reporteCreated.error) {
     Notifications.success(`Reporte creado correctamente`);
     await DownloadReporteInPdf(
-      buttonData.productoId,
+      buttonData.productos,
       buttonData.cliente,
       buttonData.ciudad,
       buttonData.consecutivo

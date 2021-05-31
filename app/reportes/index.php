@@ -215,10 +215,10 @@ include(PARTIALS_PATH . "verify_session.php") ?>
               <div class="w-full ml-3 absolute">
                 <img id="img-logo-company-sidebar" src="<?= $user->getCompany()->getLogo() ?>" class="w-16 h-auto">
               </div>
-              <div id="pdf-first-page" class="w-11/12 mx-auto" style="padding-top: 80px; font-family: Poppins-Regular, sans-serif;font-size: 16px;">
-                <div id="pdf-productos-selected">
-                </div>
+              <div id="pdf-first-page" class="w-11/12 mx-auto" style="padding-top: 60px; font-family: Poppins-Regular, sans-serif;font-size: 16px;">
                 <div>
+                  <div id="pdf-productos-selected" class="mb-5" style="padding-top: 60px;">
+                  </div>
                   <img id="img-logo-company-sidebar" src="/app/reportes/images/Separadores_MO.png" class="w-full h-auto">
                   <div id="pdf-cotizacion-mano-obra" class="py-2 w-11/12 mx-auto">
                   </div>
@@ -229,7 +229,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                   <div id="pdf-cotizacion-servicios-externos" class="py-2 w-11/12 mx-auto">
                   </div>
                 </div>
-                <div id="pdf-cotizacion-consolidacion-group">
+                <div id="pdf-cotizacion-consolidacion-group" style="padding-top: 60px;">
                   <img id="img-logo-company-sidebar" src="/app/reportes/images/Separadores_Cons.png" class="w-full h-auto">
                   <div id="pdf-cotizacion-consolidacion" class="py-2 w-11/12 mx-auto"></div>
                 </div>
