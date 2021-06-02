@@ -571,18 +571,20 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                             </select>
                           </div>
                         </div>
-                        <div class="form-group my-2 mx-3 flex-auto">
-                          <label for="porcentaje" class="col-form-label text-right">Porcentaje</label>
-                          <div class="input-group" style="height:calc(2.25rem + 2px)">
-                            <input type="text" class="form-control" id="inputPorcentajeProceso" name="porcentaje">
-                            <div class="input-group-append">
-                              <span class="input-group-text">%</span>
+                        <div class="flex-auto">
+                          <div class="form-group mx-3">
+                            <label for="porcentaje" class="col-form-label text-right">Porcentaje</label>
+                            <div class="input-group" style="height:calc(2.25rem + 2px)">
+                              <input type="text" class="form-control" id="inputPorcentajeProceso" name="porcentaje">
+                              <div class="input-group-append">
+                                <span class="input-group-text">%</span>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                        <div class="form-group">
-                          <label for="porcentaje" class="">¿Interno?</label>
-                          <input type="checkbox" name="isProcesoInterno" id="isProcesoInterno" class="input-group">
+                          <div class="form-group mt-4 mb-2">
+                            <label for="porcentaje" class="">¿Interno?</label>
+                            <input type="checkbox" name="isProcesoInterno" id="isProcesoInterno" class="input-group">
+                          </div>
                         </div>
                       </div>
 
