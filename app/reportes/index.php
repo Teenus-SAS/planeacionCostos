@@ -23,8 +23,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
   <link rel="stylesheet" href="/vendor/dataTables/dataTables.bootstrap4.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
   <link rel="stylesheet" href="/vendor/froala-editor/froala_editor.pkgd.min.css">
-  <style>
-    
+  <style>   
     html {
       scroll-behavior: smooth;
     }
@@ -76,14 +75,14 @@ include(PARTIALS_PATH . "verify_session.php") ?>
     <div class="main-panel">
       <?php include(PARTIALS_PATH . "navbar.php") ?>
       <div class="content"  id="main-panel-content">
-        <div id="crud-content" class="row">
-          <h1 class="text-2xl text-center mb-3 w-full col-12">Reportes</h1>
-          <div id="new-reporte-proceso" class="col-4 my-3">      
+        <div id="crud-content" class="flex flex-wrap w-full">
+          <h1 class="text-2xl text-center mb-3 w-full">Reportes</h1>
+          <div id="new-reporte-proceso" class="my-3 order-2 md:order-1 md:w-1/3">
             <div class="card px-5 py-2">
               <h1 class="text-normal text-xl text-center mb-4 mt-2">Nuevo reporte</h1>
               <form>
                 <div class="row align-items-end py-2  justify-content-center">
-                  <div class="col-12">
+                  <div class="">
                     <div class="form-group">
                       <label class="w-full text-center col-form-label">Producto</label>
                       <select class="custom-select" id="select-producto-reporte" name="producto">
@@ -114,7 +113,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
               </form>
             </div>
           </div>
-          <div id="reportes-table" class="col-8 card-body">
+          <div id="reportes-table" class="w-full order-1 px-4 md:order-2 md:w-2/3">
             <div class="table-responsive tableFixHead">
               <table class="table" id="reportes-jquery-datatable">
                 <thead class="text-primary">
@@ -129,9 +128,9 @@ include(PARTIALS_PATH . "verify_session.php") ?>
             </div>
           </div>
         </div>
-        <div id="productos-selected-reporte" class="card">
+        <div id="productos-selected-reporte" class="flex flex-wrap card">
           <h1 class="w-full text-center text-xl mt-3">Productos en el reporte</h1>
-          <div id="productos-selected-reporte-table" class="mx-5">
+          <div id="productos-selected-reporte-table" class="w-full md:px-5">
             <div class="table-responsive tableFixHead mt-2">
               <table class="table" id="productos-reporte-jquery-datatable">
                 <thead class="text-primary">
@@ -148,13 +147,13 @@ include(PARTIALS_PATH . "verify_session.php") ?>
             </div>
           </div>
         </div>
-        <div id="reporte-procesos-content" class="col-12 card relative mt-4" hidden="true">
-          <div id="close-button" class="mt-3 absolute cursor-pointer z-10 text-2xl">
+        <div id="reporte-procesos-content" class="flex flex-wrap card relative mt-4" hidden="true">
+          <div id="close-button" class="mt-3 ml-3 absolute cursor-pointer z-10 text-2xl">
             <i class="nc-icon nc-simple-remove text-2xl"></i>
           </div>
-          <div class="row align-items-around">
-            <div id="generate-reporte-pdf" class="col-12 pt-5">
-              <div class="col-auto">
+          <div class="align-items-around">
+            <div id="generate-reporte-pdf" class="pt-5">
+              <div class="ml-6">
                 <button id="crear-pdf-reporte-procesos" class="btn btn-primary" type="submit">Crear PDF</button>
               </div>
               <div class="modal fade" id="form-datos-reporte-procesos">
@@ -200,12 +199,11 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                 </div>
               </div>
             </div>
-            <div id="individual-reporte-procesos" class="col-12 pr-5 mt-4">
-              <div id="reporte-procesos-table">
-              </div>
-              <div id="materias-reporte-procesos-table"></div>
-              <div id="servicios-externos-reporte-procesos-table"></div>
-              <div id="costeo-reporte-procesos-table" class="w-90 mx-auto"></div>
+            <div id="individual-reporte-procesos" class="flex flex-wrap w-full mt-4">
+              <div id="reporte-procesos-table" class="w-11/12 mx-auto"></div>
+              <div id="materias-reporte-procesos-table" class="w-11/12 mx-auto"></div>
+              <div id="servicios-externos-reporte-procesos-table" class="w-11/12 mx-auto"></div>
+              <div id="costeo-reporte-procesos-table" class="w-11/12 mx-auto"></div>
             </div>
           </div>
         </div>
