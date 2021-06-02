@@ -183,10 +183,10 @@ include(PARTIALS_PATH . "verify_session.php");
                         <div class="col"></div>
                       </div>
                       <hr>
-                      <div class="row mb-5 mt-4">
-                        <div class="col-12">
-                          <h5 class="pull-left">Importar Materia Prima</h5>
-                          <a href="#" id="download_materia_prima" title="Descargar plantilla Excel para Importar/Exportar" class="pull-right btn btn-success btn-icon"><i class="fas fa-file-excel"></i></a>
+                      <div class="flex flex-wrap mb-5 mt-4">
+                        <div class="w-full">
+                          <h5 class="">Importar Materia Prima</h5>
+                          <a href="#" id="download_materia_prima" title="Descargar plantilla Excel para Importar/Exportar" class="btn btn-success btn-icon"><i class="fas fa-file-excel"></i></a>
                         </div>
                         <div class="custom-file">
                           <input type="file" id="fileRawMaterial" class="custom-file-input">
@@ -285,10 +285,10 @@ include(PARTIALS_PATH . "verify_session.php");
                         <div class="col"></div>
                       </div>
                       <hr>
-                      <div class="row mb-5 mt-4">
-                        <div class="col-12">
-                          <h5 class="pull-left">Importar Máquinas</h5>
-                          <a href="#" id="download_maquinas" title="Descargar plantilla Excel para Importar/Exportar" class="pull-right btn btn-success btn-icon"><i class="fas fa-file-excel"></i></a>
+                      <div class="flex flex-wrap mb-5 mt-4">
+                        <div class="w-full">
+                          <h5 class="">Importar Máquinas</h5>
+                          <a href="#" id="download_maquinas" title="Descargar plantilla Excel para Importar/Exportar" class="btn btn-success btn-icon"><i class="fas fa-file-excel"></i></a>
                         </div>
                         <div class="custom-file">
                           <input type="file" id="fileMachines" class="custom-file-input">
@@ -366,10 +366,10 @@ include(PARTIALS_PATH . "verify_session.php");
                         <div class="col"></div>
                       </div>
                       <hr>
-                      <div class="row mb-5 mt-4">
-                        <div class="col-12">
-                          <h5 class="pull-left">Importar Carga Fabril</h5>
-                          <a href="#" id="download_cargaFabril" title="Descargar plantilla Excel para Importar/Exportar" class="pull-right btn btn-success btn-icon"><i class="fas fa-file-excel"></i></a>
+                      <div class="flex flex-wrap mb-5 mt-4">
+                        <div class="w-full">
+                          <h5 class="">Importar Carga Fabril</h5>
+                          <a href="#" id="download_cargaFabril" title="Descargar plantilla Excel para Importar/Exportar" class="btn btn-success btn-icon"><i class="fas fa-file-excel"></i></a>
                         </div>
                         <div class="custom-file">
                           <input type="file" id="filecargaFabril" class="custom-file-input">
@@ -438,10 +438,10 @@ include(PARTIALS_PATH . "verify_session.php");
                         <div class="col"></div>
                       </div>
                       <hr>
-                      <div class="row mb-5 mt-4">
-                        <div class="col-12">
-                          <h5 class="pull-left">Importar Procesos</h5>
-                          <a id="btnDownloadProcesosExcel" title="Descargar plantilla Excel para Importar/Exportar" class="pull-right btn btn-success btn-icon"><i class="fas fa-file-excel"></i></a>
+                      <div class="mb-5 mt-4">
+                        <div class="w-full">
+                          <h5 class="">Importar Procesos</h5>
+                          <a id="btnDownloadProcesosExcel" title="Descargar plantilla Excel para Importar/Exportar" class="btn btn-success btn-icon"><i class="fas fa-file-excel"></i></a>
                         </div>
                         <div class="custom-file">
                           <input type="file" id="fileProcess" class="custom-file-input">
@@ -840,15 +840,15 @@ include(PARTIALS_PATH . "verify_session.php");
                     </div>
                   </div>
                   <hr>
-                  <div class="row mb-5">
-                    <div class="col-12">
-                      <h6 class="pull-left">Importar Gastos Generales</h6>
-                      <a href="#" title="Descargar Archivo Gastos Generales ejemplo" id="download-description-expenses" class="pull-right btn btn-success btn-icon"><i class="fas fa-file-excel"></i></a>
-                    </div>
-                    <div class="custom-file">
-                      <input type="file" id="fileExpensesDescription" class="custom-file-input">
-                      <label for="fileExpensesDescription" class="custom-file-label" data-browse="Elegir">Iniciar Importación</label>
-                    </div>
+                </div>
+                <div class="flex flex-wrap mb-5">
+                  <div class="w-full">
+                    <h6 class="">Importar Gastos Generales</h6>
+                    <a href="#" title="Descargar Archivo Gastos Generales ejemplo" id="download-description-expenses" class="btn btn-success btn-icon"><i class="fas fa-file-excel"></i></a>
+                  </div>
+                  <div class="custom-file">
+                    <input type="file" id="fileExpensesDescription" class="custom-file-input">
+                    <label for="fileExpensesDescription" class="custom-file-label" data-browse="Elegir">Iniciar Importación</label>
                   </div>
                 </div>
               </div>
@@ -881,12 +881,12 @@ include(PARTIALS_PATH . "verify_session.php");
                       </div>
                     </form>
                     <hr>
-                    <div class="row my-4">
-                      <div class="col-12">
-                        <h5 class="pull-left">Importar Productos</h5>
-                        <a href="#" title="Descargar plantilla Excel para Importar/Exportar" id="download-products" class="pull-right btn btn-success btn-icon"><i class="fas fa-file-excel"></i></a>
+                    <div class="flex flex-wrap my-4">
+                      <div class="w-full">
+                        <h5 class="">Importar Productos</h5>
+                        <a href="#" title="Descargar plantilla Excel para Importar/Exportar" id="download-products" class="btn btn-success btn-icon"><i class="fas fa-file-excel"></i></a>
                       </div>
-                      <div class="custom-file">
+                      <div class="custom-file w-full">
                         <input type="file" id="fileProducts" class="custom-file-input" data-browse="Elegir" lang="es">
                         <label for="fileProducts" class="custom-file-label">importar Archivo</label>
                       </div>
