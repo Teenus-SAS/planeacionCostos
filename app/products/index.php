@@ -249,44 +249,46 @@ include(PARTIALS_PATH . "verify_session.php") ?>
           <div class="card-body">
             <div class="tab-content text-center">
               <div class="tab-pane active" id="home">
-                <div class="row justify-content-center">
-                  <div class="col-md-5 col-sm-12 col-12 col-xs-12 mb-5">
+                <div class="flex flex-wrap justify-around">
+                  <div class="flex-auto flex w-full mb-5 md:w-1/3">
                     <form id="form-raw-materials-products" novalidate>
                       <div class="card py-2">
-                        <div class="form-group row my-2">
-                          <label class="col-sm-5 col-md-4 col-12 text-left col-form-label pl-4">Referencia</label>
-                          <div class="col-sm-6 col-md-7 px-0 col-10">
+                        <div class="form-group w-5/6 mx-auto my-2">
+                          <label class="text-left col-form-label pl-4">Referencia</label>
+                          <div class="px-0">
                             <input type="text" class="form-control" id="inputRef" name="ref">
                           </div>
                         </div>
-                        <div class="form-group row my-2">
-                          <label class="col-sm-5 col-md-4 col-12 text-left col-form-label pl-4">Producto</label>
-                          <div class="col-md-7 col-sm-6 px-0 col-10">
+                        <div class="form-group w-5/6 mx-auto my-2">
+                          <label class="text-left col-form-label pl-4">Producto</label>
+                          <div class="px-0">
                             <input type="text" class="form-control" id="inputProducto" name="producto">
                           </div>
                         </div>
-
-                        <div class="form-group row my-2">
-                          <label class="col-sm-5 col-md-4 col-12 text-left col-form-label pl-4">Rentabilidad</label>
-                          <div class="col-sm-6 col-md-7 px-0 col-10">
+                        <div class="form-group w-5/6 mx-auto my-2">
+                          <label class="text-left col-form-label pl-4">Rentabilidad</label>
+                          <div class="px-0">
                             <input type="text" class="form-control" id="inputRentabilidad" name="rentabilidad">
                           </div>
                         </div>
-
-                        <div class="form-group row my-2">
-                          <label class="col-sm-4 col-md-4 col-12 text-left col-form-label pl-4">Materia</label>
-                          <div class="col-md-7 px-0 col-10">
+                        <div class="form-group w-5/6 mx-auto my-2">
+                          <label class="text-left col-form-label pl-4">Materia</label>
+                          <div class="px-0">
                             <select class="custom-select input-materia" id="input-materia" name="materia"></select>
                           </div>
                         </div>
-                        <div class="form-group row my-3">
-                          <label class="col-md-3 col-3 col-form-label px-0 ">Cantidad</label>
-                          <div class="col-md-3 col-3 text-left px-0">
-                            <input type="text" id="input-cantidad" class="form-control" name="cantidad" value="0" />
+                        <div class="w-5/6 mx-auto my-3 flex justify-around">
+                          <div class="form-group mx-2">
+                            <label class="col-form-label px-0">Cantidad</label>
+                            <div class="text-left px-0">
+                              <input type="text" id="input-cantidad" class="form-control" name="cantidad" value="0" />
+                            </div>
                           </div>
-                          <label class="col-md-2 col-2 col-form-label px-0">Unidad</label>
-                          <div class="col-md-3 col-3 text-left px-0">
-                            <input type="text" id="input-unidad" class="form-control" name="unidad" disabled />
+                          <div class="form-group mx-2">
+                            <label class="col-form-label px-0">Unidad</label>
+                            <div class="text-left px-0">
+                              <input type="text" id="input-unidad" class="form-control" name="unidad" disabled />
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -301,18 +303,8 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                       </div>
                     </form>
                     <hr>
-                    <div class="row my-4">
-                      <div class="col-12">
-                        <h5 class="pull-left">Importar Productos</h5>
-                        <a href="#" title="Descargar hoja de Excel de ejemplo" id="download-products-materials" class="pull-right btn btn-success btn-icon"><i class="fas fa-file-excel"></i></a>
-                      </div>
-                      <div class="custom-file">
-                        <input type="file" id="fileProductsMaterials" class="custom-file-input" data-browse="Elegir" lang="es">
-                        <label for="fileProducts" class="custom-file-label">importar Archivo</label>
-                      </div>
-                    </div>
                   </div>
-                  <div class="col-md-7 col-sm-12 col-12">
+                  <div class="flex-auto w-full px-2 md:w-2/3">
                     <div class="card">
                       <div class="card-header">
                       </div>
@@ -342,6 +334,16 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                           </table>
                         </div>
                       </div>
+                    </div>
+                  </div>
+                  <div class="flex-none w-full my-4">
+                    <div class="col-12">
+                      <h5 class="pull-left">Importar Productos</h5>
+                      <a href="#" title="Descargar hoja de Excel de ejemplo" id="download-products-materials" class="pull-right btn btn-success btn-icon"><i class="fas fa-file-excel"></i></a>
+                    </div>
+                    <div class="custom-file">
+                      <input type="file" id="fileProductsMaterials" class="custom-file-input" data-browse="Elegir" lang="es">
+                      <label for="fileProducts" class="custom-file-label">importar Archivo</label>
                     </div>
                   </div>
                 </div>
