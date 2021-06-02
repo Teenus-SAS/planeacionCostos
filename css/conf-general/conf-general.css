@@ -144,11 +144,19 @@ i.fa.fa-cog.fa-spin.fa-3x.fa-fw {
   margin-right: 30px;
 }
 
+@media (max-width: 600px) {
+  .jornada {
+    grid-column-start: 5;
+    grid-column-end: 6;
+    margin-right: 0px;
+  }
+}
+
 #factor {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  grid-gap: 1em;
-  margin: 20px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 20px;
 }
 
 #fpNominas {

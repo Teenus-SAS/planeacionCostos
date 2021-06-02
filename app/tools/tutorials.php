@@ -1,7 +1,11 @@
 <?php
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
 include(PARTIALS_PATH . "verify_session.php");
-$data = json_decode(file_get_contents($_SERVER['DOCUMENT_ROOT'] . '/resources/youtube_tutorials.json'), true);
+if (file_exists($_SERVER['DOCUMENT_ROOT'] . '/resources/youtube_tutorials.json')) {
+  $data = json_decode(file_get_contents($_SERVER['DOCUMENT_ROOT'] . '/resources/youtube_tutorials.json'), true);
+} else {
+  $data = [];
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -67,6 +71,7 @@ $data = json_decode(file_get_contents($_SERVER['DOCUMENT_ROOT'] . '/resources/yo
                 <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
               </ol>
               <div class="carousel-inner">
+              <?php if (isset($data["banner"])) { ?>
                 <?php foreach ($data["banner"] as $key => $video) { ?>
                   <div class="carousel-item <?= $key == 0 ? "active" : "" ?>">
                     <div class="video-responsive">
@@ -74,6 +79,7 @@ $data = json_decode(file_get_contents($_SERVER['DOCUMENT_ROOT'] . '/resources/yo
                     </div>
                   </div>
                 <?php } ?>
+              <?php } ?>
               </div>
               <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -94,12 +100,15 @@ $data = json_decode(file_get_contents($_SERVER['DOCUMENT_ROOT'] . '/resources/yo
         <div class="card">
           <div class="card-body">
             <div class="owl-carousel owl-theme" id="config_video">
+              <?php if (isset($data["config-general"])) { ?>
               <?php foreach ($data["config-general"] as $key => $value) { ?>
                 <div>
                   <div class="video-responsive">
                     <iframe src="https://www.youtube.com/embed/<?= $value ?>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                   </div>
                 </div>
+                <?php
+                } ?>
               <?php
               } ?>
             </div>
@@ -112,14 +121,17 @@ $data = json_decode(file_get_contents($_SERVER['DOCUMENT_ROOT'] . '/resources/yo
         <div class="card">
           <div class="card-body">
             <div class="owl-carousel owl-theme" id="products_video">
+            <?php if (isset($data["products"])) { ?>
               <?php foreach ($data["products"] as $key => $value) { ?>
                 <div>
                   <div class="video-responsive">
                     <iframe src="https://www.youtube.com/embed/<?= $value ?>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                   </div>
                 </div>
-              <?php
+                <?php
               } ?>
+            <?php
+            } ?>
 
             </div>
           </div>
@@ -131,12 +143,15 @@ $data = json_decode(file_get_contents($_SERVER['DOCUMENT_ROOT'] . '/resources/yo
         <div class="card">
           <div class="card-body">
             <div class="owl-carousel owl-theme" id="cost_video">
+            <?php if (isset($data["cost"])) { ?>
               <?php foreach ($data["cost"] as $key => $value) { ?>
                 <div>
                   <div class="video-responsive">
                     <iframe src="https://www.youtube.com/embed/<?= $value ?>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                   </div>
                 </div>
+                <?php
+                } ?>
               <?php
               } ?>
             </div>

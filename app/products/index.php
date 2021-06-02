@@ -15,6 +15,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
   <link href="/vendor/font-awesome/font-awesome.min.css" rel="stylesheet">
   <!-- CSS Files -->
+  <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
   <link href="/app/assets/css/bootstrap.min.css" rel="stylesheet" />
   <link href="/app/assets/css/paper-dashboard.css" rel="stylesheet" />
   <!-- CSS Just for demo purpose, don't include it in your project -->
@@ -562,28 +563,26 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                   <div class="col-md-8">
                     <form id="formDistribucionDirecta">
                       <input id="idDistribucionDirecta" class="form-control" type="text" name="idDistribucionDirecta" hidden />
-                      <div class="card py-2">
-                        <div class="row align-items-center">
-                          <div class="form-group col-6 my-2 ml-3">
-                            <label class="col-form-label">Proceso</label>
-                            <div class="input-group">
-                              <select name="proceso" id="inputProcesosDDirecta" class="custom-select">
-                              </select>
+                      <div class="card py-2 flex justify-around flex-nowrap w-full mx-auto md:w-2/3">
+                        <div class="form-group my-2 mx-3 flex-auto">
+                          <label class="col-form-label">Proceso</label>
+                          <div class="input-group">
+                            <select name="proceso" id="inputProcesosDDirecta" class="custom-select">
+                            </select>
+                          </div>
+                        </div>
+                        <div class="form-group my-2 mx-3 flex-auto">
+                          <label for="porcentaje" class="col-form-label text-right">Porcentaje</label>
+                          <div class="input-group" style="height:calc(2.25rem + 2px)">
+                            <input type="text" class="form-control" id="inputPorcentajeProceso" name="porcentaje">
+                            <div class="input-group-append">
+                              <span class="input-group-text">%</span>
                             </div>
                           </div>
-                          <div class="form-group col-3 my-2 mr-1">
-                            <label for="porcentaje" class="col-form-label text-right">Porcentaje</label>
-                            <div class="input-group" style="height:calc(2.25rem + 2px)">
-                              <input type="text" class="form-control" id="inputPorcentajeProceso" name="porcentaje">
-                              <div class="input-group-append">
-                                <span class="input-group-text">%</span>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="form-group col-2">
-                            <label for="porcentaje" class="">¿Interno?</label>
-                            <input type="checkbox" name="isProcesoInterno" id="isProcesoInterno" class="input-group">
-                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label for="porcentaje" class="">¿Interno?</label>
+                          <input type="checkbox" name="isProcesoInterno" id="isProcesoInterno" class="input-group">
                         </div>
                       </div>
 
