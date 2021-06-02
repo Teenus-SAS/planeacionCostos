@@ -15,6 +15,7 @@ include(PARTIALS_PATH . "verify_session.php");
   </title>
   <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
   <!--     Fonts and icons     -->
+  <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
   <link href="/vendor/font-awesome/font-awesome.min.css" rel="stylesheet">
   <link href="/app/assets/css/bootstrap.min.css" rel="stylesheet" />
@@ -856,19 +857,18 @@ include(PARTIALS_PATH . "verify_session.php");
                 <div class="row justify-content-center">
                   <div class="col-md-5 col-sm-12 col-12 col-xs-12 mb-5">
                     <form id="form-products" novalidate>
-                      <div class="card py-2">
-                        <div class="form-group row my-2">
-                          <label class="col-sm-5 col-md-4 col-12 text-left col-form-label pl-4">Referencia</label>
-                          <div class="col-sm-6 col-md-7 px-0 col-10"><input type="text" class="form-control" id="inputRef" name="ref"></div>
+                      <div class="card py-2 flex justify-center items-center">
+                        <div class="form-group w-5/6 mx-auto">
+                          <label class="text-left col-form-label pl-4">Referencia</label>
+                          <input type="text" class="form-control" id="inputRef" name="ref" />
                         </div>
-                        <div class="form-group row my-2">
-                          <label class="col-sm-5 col-md-4 col-12 text-left col-form-label pl-4">Producto</label>
-                          <div class="col-md-7 col-sm-6 px-0 col-10"><input type="text" class="form-control" id="inputProducto" name="producto"></div>
+                        <div class="form-group w-5/6 mx-auto">
+                          <label class="text-left col-form-label pl-4">Producto</label>
+                          <input type="text" class="form-control" id="inputProducto" name="producto" />
                         </div>
-
-                        <div class="form-group row my-2">
-                          <label class="col-sm-5 col-md-4 col-12 text-left col-form-label pl-4">Rentabilidad</label>
-                          <div class="col-sm-6 col-md-7 px-0 col-10"><input type="text" class="form-control" id="inputRentabilidad" name="rentabilidad"></div>
+                        <div class="form-group w-5/6 mx-auto">
+                          <label class="text-left col-form-label pl-4">Rentabilidad</label>
+                          <input type="text" class="form-control" id="inputRentabilidad" name="rentabilidad" />
                         </div>
                       </div>
                       <div class="row mb-4">
