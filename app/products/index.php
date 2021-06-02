@@ -349,10 +349,8 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                 </div>
               </div>
               <div class="tab-pane" id="updates">
-                <div class="row justify-content-center">
-                  <!-- align-items-center -->
-                  <div class="col-md-4 col-sm-12">
-                    <!--<h3>Productos por Proceso</h3>-->
+                <div class="flex flex-wrap">
+                  <div class="w-full md:w-1/2">
                     <form id="form-product-process">
                       <div class="card py-2">
                         <div class="form-group row my-2">
@@ -416,7 +414,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                       </div>
                     </form>
                     <hr>
-                    <div class="row mb-5 mt-4">
+                    <div class="mb-5 mt-4">
                       <div class="col-12">
                         <h5 class="pull-left">Importar Productos</h5>
                         <a href="#" title="Descargar Base de Datos de Productos y Procesos" id="download-products-processes" class="pull-right btn btn-success btn-icon"><i class="fas fa-file-excel"></i></a>
@@ -427,16 +425,13 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                       </div>
                     </div>
                   </div>
-                  <div class="col-md-8 col-sm-12">
+                  <div class="flex-auto w-full md:w-1/2">
                     <div class="card">
-                      <div class="card-header">
-                      </div>
                       <div class="card-body">
                         <p class="text-left ml-2" style="font-size:1.1rem">
                           <span style="color:#51cbce"><b>Producto: </b>
                           </span><span class="" id="titleProductProcess"></span>
                         </p>
-                        <!-- <button class="btn btn-danger" id="btn-delete-process">Eliminar</button> -->
                         <div class="table-responsive tableFixHead">
                           <table class="table" id="table-product-process">
                             <thead class="text-primary">
@@ -455,9 +450,6 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                   </div>
                 </div>
               </div>
-
-              
-
               <!-- Inicio Servicios Externos -->
               <div class="tab-pane" id="servicios-externos">
                 <div class="row justify-content-center">
