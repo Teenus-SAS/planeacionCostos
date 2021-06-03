@@ -7,11 +7,14 @@ header("Content-Type: application/json");
 
 $response = new stdClass();
 
-if (isset($_POST["id"]) && isset($_POST["email"]) && isset($_POST["rol"])) {
+if (isset($_POST["id"]) && isset($_POST["email"]) && isset($_POST["rol"]) && isset($_POST["firstname"]) && isset($_POST["lastname"]) && isset($_POST["username"])) {
   $userDao = new UserDao();
   $user = $userDao->findById($_POST["id"]);
   $user->setEmail($_POST["email"]);
   $user->setRolId($_POST["rol"]);
+  $user->setFirstname($_POST["firstname"]);
+  $user->setLastname($_POST["lastname"]);
+  $user->setUsername($_POST["username"]);
   if ($userDao->update($user) > 0) {
     $response->status = true;
   } else {

@@ -509,26 +509,11 @@ include(PARTIALS_PATH . "verify_session.php");
                   <div class="col-md-11 mb-3" id="panelCrearNomina">
                     <!--<h4>Nómina</h4>-->
                     <form id="form-nomina">
-                      <!-- <div hidden class="form-check form-check-radio form-check-inline">
-                        <label class="form-check-label">
-                          <input class="form-check-input" type="radio" name="optionNomina" id="inlineRadioNom1" value="option1"> Adicionar
-                          <span class="form-check-sign"></span>
-                        </label>
-                      </div>
-                      <div hidden class="form-check form-check-radio form-check-inline">
-                        <label class="form-check-label">
-                          <input class="form-check-input" type="radio" name="optionNomina" id="inlineRadioNom2" value="option2"> Modificar
-                          <span class="form-check-sign"></span>
-                        </label>
-                      </div> -->
                       <div class="card my-1">
                         <div class="mt-3 tituloId">
                           <p style="margin-top: 0px;margin-bottom:0px;padding:5px">Descripción</p>
                         </div>
                         <div class="mt-3" id="identificacionNomina">
-                          <!-- <label for="input-cargo">Nombre</label>
-                          <label for="select-proceso">Proceso</label> -->
-
                           <input id="cargo-id" type="hidden" name="cargo-id">
 
                           <div class="form-group" class="">
@@ -558,11 +543,6 @@ include(PARTIALS_PATH . "verify_session.php");
                           <p class="captionTitulo">Jornada</pss=>
                         </div>
                         <div class="form-group row align-items-center mt-3" id="contenedor-devengado">
-                          <!-- <label for="input-quantity-employees" class="col-md-3 col-4 col-sm-3 col-form-label ">N° Empleados</label>
-                          <div class="col-md-2 col-sm-2 col-7 pr-0 my-2">
-                            <input type="number" class="form-control" id="input-quantity-employees" name="Numeroempleados">
-                          </div> -->
-
                           <div class="form-group">
                             <label for="input-salario">Salario</label>
                             <div class="input-group">
@@ -655,32 +635,7 @@ include(PARTIALS_PATH . "verify_session.php");
                             <input class="form-check-input" type="radio" name="fpRadioB" id="fpManual">
                           </div>
                           <input type="text" class="form-control" id="optionFactorPrestacional" name="optionFactorPrestacional" hidden>
-                          <!-- <div class="form-check">
-                            <label class="form-check-label">
-                              <input class="form-check-input checkboxCalculadoManualFP" type="checkbox" value="" id="checkboxCalculadoManualFP">
-                              Calcular Factor Prestacional Manualmente
-                              <span class="form-check-sign">
-                                <span class="check"></span>
-                              </span>
-                            </label>
-                          </div> -->
                         </div>
-
-                        <!-- <label class="col-form-label col-md-5" for="optionFactorPrestacional">Tipo de Contrato:</label>
-
-                        <div class="form-check form-check-radio form-check-inline">
-                          <label class="form-check-label">
-                            <input class="form-check-input" type="radio" name="optionFactorPrestacional" id="inlineRadioTipoContrato1" value="nomina"> Nomina
-                            <span class="form-check-sign"></span>
-                          </label>
-                        </div>
-                        <div class="form-check form-check-radio form-check-inline">
-                          <label class="form-check-label">
-                            <input class="form-check-input" type="radio" name="optionFactorPrestacional" id="inlineRadioTipoContrato2" value="servicios"> Servicios
-                            <span class="form-check-sign"></span>
-                          </label>
-                        </div> -->
-
                         <div class="form-group row align-items-center justify-content-center">
                           <label for="factor-prestacional" class="col-form-label col-md-5 col-5">Factor Prestacional</label>
                           <div class="input-group col-md-4 col-4">
@@ -715,8 +670,6 @@ include(PARTIALS_PATH . "verify_session.php");
                             <thead class="text-primary">
                               <th>Nombres</th>
                               <th>Proceso</th>
-                              <!-- <th>Cantidad</th> -->
-                              <!--    <th>Contrato</th> -->
                               <th>Salario</th>
                               <th>Salario Neto</th>
                               <th>Minuto</th>

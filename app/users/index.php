@@ -15,12 +15,11 @@ include(PARTIALS_PATH . "verify_session.php") ?>
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
   <!-- CSS Files -->
+  <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
   <link href="/app/assets/css/bootstrap.min.css" rel="stylesheet" />
   <link href="/app/assets/css/paper-dashboard.css" rel="stylesheet" />
   <link rel="stylesheet" href="/vendor/dataTables/jquery.dataTables.min.css">
   <link rel="stylesheet" href="/vendor/dataTables/dataTables.bootstrap4.min.css">
-  <!-- CSS Just for demo purpose, don't include it in your project -->
-  <!-- <link href="/app/assets/demo/demo.css" rel="stylesheet" /> -->
   <link rel="stylesheet" href="/vendor/jquery-confirm/jquery-confirm.min.css">
   <link rel="stylesheet" href="/vendor/froala-editor/froala_editor.pkgd.min.css">
   <link rel="stylesheet" href="/vendor/spinner/waitMe.min.css">
@@ -57,12 +56,14 @@ include(PARTIALS_PATH . "verify_session.php") ?>
       <div class="content">
         <div class="row justify-content-center">
           <div class="col-12 text-center">
+          <button class="button btn btn-primary ml-4" id="btn-modal-nuevo-usuario"><i class="fa fa-plus"></i></button>
             <div class="card" id="waitMe_ex">
               <div class="card-header">
                 <h3 class="card-title">Nuevo Usuario</h3>
               </div>
               <div class="card-body">
                 <form id="create-user">
+                <option id="actualizar-usuario" value="false" hidden="true"></option>
                 <div class="row">
                     <div class="col-6 col-sm-6 order-2 order-md-1">
                       <div class="form-group">
@@ -164,7 +165,7 @@ include(PARTIALS_PATH . "verify_session.php") ?>
   <script src="/vendor/dataTables/dataTables.bootstrap4.min.js"></script>
   <script src="/vendor/numberFormat/jquery.number.min.js"></script>
   <script src="/vendor/spinner/waitMe.min.js"></script>
-  <script src="/js/app/users.js"></script>
+  <script src="/js/app/users.js" type="module"></script>
 </body>
 
 </html>
