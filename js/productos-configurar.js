@@ -187,7 +187,7 @@ $.validator.addMethod(
   "Máximo dos decimales"
 );
 
-PriceParser.parseInput(document.getElementById("input-cantidad"));
+//PriceParser.parseInput(document.getElementById("input-cantidad"));
 
 $(document).on("click", ".link-editar", function (ev) {
   let materia_prima = $(this).parents("tr").find("td").eq(0).html();

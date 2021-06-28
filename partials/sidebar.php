@@ -34,12 +34,14 @@
           </ul>
         </div>
       <?php } ?>
-      <li id="sidebar-costear-item">
-        <a href="/app/cost/">
-          <i class="fa fa-check"></i>
-          <p>Análisis</p>
-        </a>
-      </li>
+      <?php //if ($user->getRolId() != 44) { ?>
+        <li id="sidebar-costear-item">
+          <a href="/app/cost/">
+            <i class="fa fa-check"></i>
+            <p>Análisis</p>
+          </a>
+        </li>
+      <?php //} ?>
       <li id="sidebar-reportes-item">
         <a href="/app/reportes/">
           <i class="fa fa-flag"></i>
