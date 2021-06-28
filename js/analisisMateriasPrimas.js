@@ -206,14 +206,14 @@ $(document).ready(function () {
             });
             $tableProductoMateriaAM.width("100%");
           }
-          $(".input-precio-negociar").each(function () {
+          /* $(".input-precio-negociar").each(function () {
             const formatter = () => {
               const valParsed = PriceParser.fromString($(this).val(), false, 2);
               $(this).val(valParsed.strPrice);
             };
             $(this).keyup(formatter);
             $(this).change(formatter);
-          });
+          }); */
         }
       );
     });
