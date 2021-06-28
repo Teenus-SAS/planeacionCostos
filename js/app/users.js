@@ -1,4 +1,6 @@
-var $tableUsers = $("#table-users").dataTable({
+import { Notifications } from "../Shared/infrastructure/Notifications.js";
+
+let $tableUsers = $("#table-users").dataTable({
   language: {
     url: "/vendor/dataTables/Spanish.json",
   },
@@ -30,8 +32,8 @@ var $tableUsers = $("#table-users").dataTable({
     {
       data: "id",
       render: (data, type, row) => {
-        return `<a href="javascript:updateDetailsUser(${data})" title="Actualizar información"><i class="nc-icon nc-refresh-69"></i></a>
-        <a href="javascript:deleteUser(${data})" title="Eliminar Usuario"><i class="nc-icon nc-simple-delete text-danger"></i></a>`;
+        return `<a href="#" id="${data}" class="update-user" title="Actualizar información"><i class="nc-icon nc-refresh-69"></i></a>
+        <a href="#" id="${data}" class="delete-user" title="Eliminar Usuario"><i class="nc-icon nc-simple-delete text-danger"></i></a>`;
       },
     },
   ],
@@ -39,59 +41,82 @@ var $tableUsers = $("#table-users").dataTable({
 });
 $tableUsers.width("100%");
 
+$("#waitMe_ex").slideUp();
+$("#btn-modal-nuevo-usuario").on("click", (e) => {
+  $("#waitMe_ex").toggle(700);
+});
+
+$(document).on("click", ".update-user", function (e) {
+  e.preventDefault();
+  updateDetailsUser(this.id);
+  $("#waitMe_ex").slideDown();
+});
+$(document).on("click", ".delete-user", function (e) {
+  e.preventDefault();
+  deleteUser(this.id);
+});
+
 $("#create-user").submit(function (e) {
   e.preventDefault();
   showWaitMe();
-  let request = $(this).serialize();
-  $.post("api/create_user.php", request, (data, status) => {
-    $("#waitMe_ex").waitMe("hide");
-    if (status == "success") {
-      if (data.status) {
-        $.notify(
-          {
-            icon: "nc-icon nc-bell-55",
-            message: `Usuario <b>Creado</b> Correctamente`,
-          },
-          {
-            type: "success",
-            timer: 8000,
-          }
-        );
+  const isUpdate = $("#actualizar-usuario").val() == "false" ? false : true;
+
+  if (isUpdate) {
+    const id = $("#actualizar-usuario").val();
+    const firstname = $("#firstname-user").val();
+    const lastname = $("#lastname-user").val();
+    const username = $("#name-user").val();
+    const email = $("#email-user").val();
+    const rol = $(`#rol-user`).val();
+    $.post(
+      "/admin/api/update_user.php",
+      {
+        id,
+        firstname,
+        lastname,
+        username,
+        email,
+        rol,
+      },
+      (data, status) => {
         clearUsersForm();
-        $tableUsers.api().ajax.reload();
-        $.post(
-          "api/notify_admins.php",
-          $(this).serialize(),
-          (data, satus) => {}
-        );
-      } else {
-        $.notify(
-          {
-            icon: "nc-icon nc-bell-55",
-            message: `<b>Error</b> Correo o nombre de usuario ya esta en uso`,
-          },
-          {
-            type: "danger",
-            timer: 8000,
-          }
-        );
-        $tableUsers.api().ajax.reload();
         $("#waitMe_ex").waitMe("hide");
-      }
-    } else {
-      $.notify(
-        {
-          icon: "nc-icon nc-bell-55",
-          message: `<b>Advertencia</b> Completa todos los campos`,
-        },
-        {
-          type: "warning",
-          timer: 8000,
+        if (status == "success") {
+          if (data.status) {
+            Notifications.info(`Información <b>Actualizada</b>`);
+          } else {
+            Notifications.error(`El correo ya esta en uso `);
+          }
         }
-      );
-      $tab;
-    }
-  });
+        $tableUsers.api().ajax.reload();
+      }
+    );
+  } else {
+    let request = $(this).serialize();
+    $.post("api/create_user.php", request, (data, status) => {
+      $("#waitMe_ex").waitMe("hide");
+      if (status == "success") {
+        if (data.status) {
+          Notifications.success(`Usuario <b>Creado</b> Correctamente`);
+          clearUsersForm();
+          $tableUsers.api().ajax.reload();
+          $.post(
+            "api/notify_admins.php",
+            $(this).serialize(),
+            (data, satus) => {}
+          );
+        } else {
+          Notifications.error(
+            `<b>Error</b> Correo o nombre de usuario ya esta en uso`
+          );
+          $tableUsers.api().ajax.reload();
+          $("#waitMe_ex").waitMe("hide");
+        }
+      } else {
+        Notifications.warning(`<b>Advertencia</b> Completa todos los campos`);
+      }
+    });
+  }
 });
 
 function updateDetailsUser(idUser) {
@@ -100,94 +125,17 @@ function updateDetailsUser(idUser) {
     .rows()
     .data()
     .filter((data) => data.id == idUser)[0];
-  $.confirm({
-    title: "Actualizar Licenciamiento",
-    content:
-      "" +
-      '<form action="" class="formName">' +
-      '<div class="form-group">' +
-      "<label>Correo</label>" +
-      '<input type="email" placeholder="Email" class="email-user form-control" required value="' +
-      user.email +
-      '" />' +
-      "</div>" +
-      '<div class="form-group">' +
-      "<label>rol</label>" +
-      '<select class="form-control rol">' +
-      '<option value="2" ' +
-      (user.rolId == 2 ? "selected" : "") +
-      ">Administrador</option>" +
-      '<option value="1" ' +
-      (user.rolId == 1 ? "selected" : "") +
-      ">Standard</option>" +
-      "</select>" +
-      "</div>" +
-      "</form>",
-    buttons: {
-      formSubmit: {
-        text: "Actualizar",
-        btnClass: "btn-blue",
-        action: function () {
-          var email = this.$content.find(".email-user").val();
-          let rolId = this.$content.find(".rol").val();
-          if (!email) {
-            $.alert("Ingresa el correo electronico");
-            return false;
-          }
-          $.post(
-            "/admin/api/update_user.php",
-            {
-              id: idUser,
-              email,
-              rol: rolId,
-            },
-            (data, status) => {
-              if (status == "success") {
-                if (data.status) {
-                  $.notify(
-                    {
-                      icon: "nc-icon nc-bell-55",
-                      message: `Información <b>Actualizada</b>`,
-                    },
-                    {
-                      type: "primary",
-                      timer: 8000,
-                    }
-                  );
-                } else {
-                  $.notify(
-                    {
-                      icon: "nc-icon nc-bell-55",
-                      message: `El correo ya esta en uso `,
-                    },
-                    {
-                      type: "danger",
-                      timer: 8000,
-                    }
-                  );
-                }
-              }
-              $tableUsers.api().ajax.reload();
-            }
-          );
-        },
-      },
-      cancelar: function () {
-        //close
-      },
-    },
-    onContentReady: function () {
-      // bind to events
-      var jc = this;
-      jc.$content.find(".email-user").focus();
-      this.$content.find("form").on("submit", function (e) {
-        // if the user submits the form by pressing enter in the field.
-        e.preventDefault();
-        jc.$$formSubmit.trigger("click"); // reference the button and click it
-      });
-    },
-  });
+
+  $("#firstname-user").val(user.firstname);
+  $("#lastname-user").val(user.lastname);
+  $("#name-user").val(user.username);
+  $("#name-user").attr("disabled", "true");
+  $("#email-user").val(user.email);
+  $(`#rol-user`).val(String(user.rolId));
+  $("#actualizar-usuario").val(idUser);
+  $("#create-user button").html("Actualizar");
 }
+
 function deleteUser(idUser) {
   $.post(
     "/admin/api/delete_user.php",
@@ -197,27 +145,9 @@ function deleteUser(idUser) {
     (data, status) => {
       if (status == "success") {
         if (data.status) {
-          $.notify(
-            {
-              icon: "nc-icon nc-bell-55",
-              message: `Usuario <b>Borrado</b>`,
-            },
-            {
-              type: "primary",
-              timer: 8000,
-            }
-          );
+          Notifications.info(`Usuario <b>Borrado</b>`);
         } else {
-          $.notify(
-            {
-              icon: "nc-icon nc-bell-55",
-              message: `El usuario no se ha podido borrar`,
-            },
-            {
-              type: "danger",
-              timer: 8000,
-            }
-          );
+          Notifications.error(`El usuario no se ha podido borrar`);
         }
       }
       $tableUsers.api().ajax.reload();
@@ -227,10 +157,13 @@ function deleteUser(idUser) {
 
 function clearUsersForm() {
   $("#name-user").val("");
+  $("#name-user").attr("disabled", false);
   $("#firstname-user").val("");
   $("#lastname-user").val("");
   $("#email-user").val("");
   $("#rol-user").val("");
+  $("#actualizar-usuario").val("false");
+  $("#create-user button").html(`<i class="nc-icon nc-simple-add"></i> Crear`);
 }
 
 function showWaitMe() {

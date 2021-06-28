@@ -15,6 +15,7 @@ include(PARTIALS_PATH . "verify_session.php");
   </title>
   <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
   <!--     Fonts and icons     -->
+  <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
   <link href="/vendor/font-awesome/font-awesome.min.css" rel="stylesheet">
   <link href="/app/assets/css/bootstrap.min.css" rel="stylesheet" />
@@ -182,10 +183,10 @@ include(PARTIALS_PATH . "verify_session.php");
                         <div class="col"></div>
                       </div>
                       <hr>
-                      <div class="row mb-5 mt-4">
-                        <div class="col-12">
-                          <h5 class="pull-left">Importar Materia Prima</h5>
-                          <a href="#" id="download_materia_prima" title="Descargar plantilla Excel para Importar/Exportar" class="pull-right btn btn-success btn-icon"><i class="fas fa-file-excel"></i></a>
+                      <div class="flex flex-wrap mb-5 mt-4">
+                        <div class="w-full">
+                          <h5 class="">Importar Materia Prima</h5>
+                          <a href="#" id="download_materia_prima" title="Descargar plantilla Excel para Importar/Exportar" class="btn btn-success btn-icon"><i class="fas fa-file-excel"></i></a>
                         </div>
                         <div class="custom-file">
                           <input type="file" id="fileRawMaterial" class="custom-file-input">
@@ -284,10 +285,10 @@ include(PARTIALS_PATH . "verify_session.php");
                         <div class="col"></div>
                       </div>
                       <hr>
-                      <div class="row mb-5 mt-4">
-                        <div class="col-12">
-                          <h5 class="pull-left">Importar Máquinas</h5>
-                          <a href="#" id="download_maquinas" title="Descargar plantilla Excel para Importar/Exportar" class="pull-right btn btn-success btn-icon"><i class="fas fa-file-excel"></i></a>
+                      <div class="flex flex-wrap mb-5 mt-4">
+                        <div class="w-full">
+                          <h5 class="">Importar Máquinas</h5>
+                          <a href="#" id="download_maquinas" title="Descargar plantilla Excel para Importar/Exportar" class="btn btn-success btn-icon"><i class="fas fa-file-excel"></i></a>
                         </div>
                         <div class="custom-file">
                           <input type="file" id="fileMachines" class="custom-file-input">
@@ -338,7 +339,7 @@ include(PARTIALS_PATH . "verify_session.php");
                           </div>
                           <div class="col-md-10 col-10">
                             <div class="form-group">
-                              <label for="my-input">Mantenimiento</label>
+                              <label for="my-input">Carga Fabril</label>
                               <input id="mantenimiento" class="form-control" type="text" name="mantenimiento" />
                             </div>
                           </div>
@@ -365,10 +366,10 @@ include(PARTIALS_PATH . "verify_session.php");
                         <div class="col"></div>
                       </div>
                       <hr>
-                      <div class="row mb-5 mt-4">
-                        <div class="col-12">
-                          <h5 class="pull-left">Importar Carga Fabril</h5>
-                          <a href="#" id="download_cargaFabril" title="Descargar plantilla Excel para Importar/Exportar" class="pull-right btn btn-success btn-icon"><i class="fas fa-file-excel"></i></a>
+                      <div class="flex flex-wrap mb-5 mt-4">
+                        <div class="w-full">
+                          <h5 class="">Importar Carga Fabril</h5>
+                          <a href="#" id="download_cargaFabril" title="Descargar plantilla Excel para Importar/Exportar" class="btn btn-success btn-icon"><i class="fas fa-file-excel"></i></a>
                         </div>
                         <div class="custom-file">
                           <input type="file" id="filecargaFabril" class="custom-file-input">
@@ -437,10 +438,10 @@ include(PARTIALS_PATH . "verify_session.php");
                         <div class="col"></div>
                       </div>
                       <hr>
-                      <div class="row mb-5 mt-4">
-                        <div class="col-12">
-                          <h5 class="pull-left">Importar Procesos</h5>
-                          <a id="btnDownloadProcesosExcel" title="Descargar plantilla Excel para Importar/Exportar" class="pull-right btn btn-success btn-icon"><i class="fas fa-file-excel"></i></a>
+                      <div class="mb-5 mt-4">
+                        <div class="w-full">
+                          <h5 class="">Importar Procesos</h5>
+                          <a id="btnDownloadProcesosExcel" title="Descargar plantilla Excel para Importar/Exportar" class="btn btn-success btn-icon"><i class="fas fa-file-excel"></i></a>
                         </div>
                         <div class="custom-file">
                           <input type="file" id="fileProcess" class="custom-file-input">
@@ -508,26 +509,11 @@ include(PARTIALS_PATH . "verify_session.php");
                   <div class="col-md-11 mb-3" id="panelCrearNomina">
                     <!--<h4>Nómina</h4>-->
                     <form id="form-nomina">
-                      <!-- <div hidden class="form-check form-check-radio form-check-inline">
-                        <label class="form-check-label">
-                          <input class="form-check-input" type="radio" name="optionNomina" id="inlineRadioNom1" value="option1"> Adicionar
-                          <span class="form-check-sign"></span>
-                        </label>
-                      </div>
-                      <div hidden class="form-check form-check-radio form-check-inline">
-                        <label class="form-check-label">
-                          <input class="form-check-input" type="radio" name="optionNomina" id="inlineRadioNom2" value="option2"> Modificar
-                          <span class="form-check-sign"></span>
-                        </label>
-                      </div> -->
                       <div class="card my-1">
                         <div class="mt-3 tituloId">
                           <p style="margin-top: 0px;margin-bottom:0px;padding:5px">Descripción</p>
                         </div>
                         <div class="mt-3" id="identificacionNomina">
-                          <!-- <label for="input-cargo">Nombre</label>
-                          <label for="select-proceso">Proceso</label> -->
-
                           <input id="cargo-id" type="hidden" name="cargo-id">
 
                           <div class="form-group" class="">
@@ -557,11 +543,6 @@ include(PARTIALS_PATH . "verify_session.php");
                           <p class="captionTitulo">Jornada</pss=>
                         </div>
                         <div class="form-group row align-items-center mt-3" id="contenedor-devengado">
-                          <!-- <label for="input-quantity-employees" class="col-md-3 col-4 col-sm-3 col-form-label ">N° Empleados</label>
-                          <div class="col-md-2 col-sm-2 col-7 pr-0 my-2">
-                            <input type="number" class="form-control" id="input-quantity-employees" name="Numeroempleados">
-                          </div> -->
-
                           <div class="form-group">
                             <label for="input-salario">Salario</label>
                             <div class="input-group">
@@ -654,32 +635,7 @@ include(PARTIALS_PATH . "verify_session.php");
                             <input class="form-check-input" type="radio" name="fpRadioB" id="fpManual">
                           </div>
                           <input type="text" class="form-control" id="optionFactorPrestacional" name="optionFactorPrestacional" hidden>
-                          <!-- <div class="form-check">
-                            <label class="form-check-label">
-                              <input class="form-check-input checkboxCalculadoManualFP" type="checkbox" value="" id="checkboxCalculadoManualFP">
-                              Calcular Factor Prestacional Manualmente
-                              <span class="form-check-sign">
-                                <span class="check"></span>
-                              </span>
-                            </label>
-                          </div> -->
                         </div>
-
-                        <!-- <label class="col-form-label col-md-5" for="optionFactorPrestacional">Tipo de Contrato:</label>
-
-                        <div class="form-check form-check-radio form-check-inline">
-                          <label class="form-check-label">
-                            <input class="form-check-input" type="radio" name="optionFactorPrestacional" id="inlineRadioTipoContrato1" value="nomina"> Nomina
-                            <span class="form-check-sign"></span>
-                          </label>
-                        </div>
-                        <div class="form-check form-check-radio form-check-inline">
-                          <label class="form-check-label">
-                            <input class="form-check-input" type="radio" name="optionFactorPrestacional" id="inlineRadioTipoContrato2" value="servicios"> Servicios
-                            <span class="form-check-sign"></span>
-                          </label>
-                        </div> -->
-
                         <div class="form-group row align-items-center justify-content-center">
                           <label for="factor-prestacional" class="col-form-label col-md-5 col-5">Factor Prestacional</label>
                           <div class="input-group col-md-4 col-4">
@@ -714,8 +670,6 @@ include(PARTIALS_PATH . "verify_session.php");
                             <thead class="text-primary">
                               <th>Nombres</th>
                               <th>Proceso</th>
-                              <!-- <th>Cantidad</th> -->
-                              <!--    <th>Contrato</th> -->
                               <th>Salario</th>
                               <th>Salario Neto</th>
                               <th>Minuto</th>
@@ -839,15 +793,15 @@ include(PARTIALS_PATH . "verify_session.php");
                     </div>
                   </div>
                   <hr>
-                  <div class="row mb-5">
-                    <div class="col-12">
-                      <h6 class="pull-left">Importar Gastos Generales</h6>
-                      <a href="#" title="Descargar Archivo Gastos Generales ejemplo" id="download-description-expenses" class="pull-right btn btn-success btn-icon"><i class="fas fa-file-excel"></i></a>
-                    </div>
-                    <div class="custom-file">
-                      <input type="file" id="fileExpensesDescription" class="custom-file-input">
-                      <label for="fileExpensesDescription" class="custom-file-label" data-browse="Elegir">Iniciar Importación</label>
-                    </div>
+                </div>
+                <div class="flex flex-wrap mb-5">
+                  <div class="w-full">
+                    <h6 class="">Importar Gastos Generales</h6>
+                    <a href="#" title="Descargar Archivo Gastos Generales ejemplo" id="download-description-expenses" class="btn btn-success btn-icon"><i class="fas fa-file-excel"></i></a>
+                  </div>
+                  <div class="custom-file">
+                    <input type="file" id="fileExpensesDescription" class="custom-file-input">
+                    <label for="fileExpensesDescription" class="custom-file-label" data-browse="Elegir">Iniciar Importación</label>
                   </div>
                 </div>
               </div>
@@ -856,19 +810,18 @@ include(PARTIALS_PATH . "verify_session.php");
                 <div class="row justify-content-center">
                   <div class="col-md-5 col-sm-12 col-12 col-xs-12 mb-5">
                     <form id="form-products" novalidate>
-                      <div class="card py-2">
-                        <div class="form-group row my-2">
-                          <label class="col-sm-5 col-md-4 col-12 text-left col-form-label pl-4">Referencia</label>
-                          <div class="col-sm-6 col-md-7 px-0 col-10"><input type="text" class="form-control" id="inputRef" name="ref"></div>
+                      <div class="card py-2 flex justify-center items-center">
+                        <div class="form-group w-5/6 mx-auto">
+                          <label class="text-left col-form-label pl-4">Referencia</label>
+                          <input type="text" class="form-control" id="inputRef" name="ref" />
                         </div>
-                        <div class="form-group row my-2">
-                          <label class="col-sm-5 col-md-4 col-12 text-left col-form-label pl-4">Producto</label>
-                          <div class="col-md-7 col-sm-6 px-0 col-10"><input type="text" class="form-control" id="inputProducto" name="producto"></div>
+                        <div class="form-group w-5/6 mx-auto">
+                          <label class="text-left col-form-label pl-4">Producto</label>
+                          <input type="text" class="form-control" id="inputProducto" name="producto" />
                         </div>
-
-                        <div class="form-group row my-2">
-                          <label class="col-sm-5 col-md-4 col-12 text-left col-form-label pl-4">Rentabilidad</label>
-                          <div class="col-sm-6 col-md-7 px-0 col-10"><input type="text" class="form-control" id="inputRentabilidad" name="rentabilidad"></div>
+                        <div class="form-group w-5/6 mx-auto">
+                          <label class="text-left col-form-label pl-4">Rentabilidad</label>
+                          <input type="text" class="form-control" id="inputRentabilidad" name="rentabilidad" />
                         </div>
                       </div>
                       <div class="row mb-4">
@@ -881,12 +834,12 @@ include(PARTIALS_PATH . "verify_session.php");
                       </div>
                     </form>
                     <hr>
-                    <div class="row my-4">
-                      <div class="col-12">
-                        <h5 class="pull-left">Importar Productos</h5>
-                        <a href="#" title="Descargar plantilla Excel para Importar/Exportar" id="download-products" class="pull-right btn btn-success btn-icon"><i class="fas fa-file-excel"></i></a>
+                    <div class="flex flex-wrap my-4">
+                      <div class="w-full">
+                        <h5 class="">Importar Productos</h5>
+                        <a href="#" title="Descargar plantilla Excel para Importar/Exportar" id="download-products" class="btn btn-success btn-icon"><i class="fas fa-file-excel"></i></a>
                       </div>
-                      <div class="custom-file">
+                      <div class="custom-file w-full">
                         <input type="file" id="fileProducts" class="custom-file-input" data-browse="Elegir" lang="es">
                         <label for="fileProducts" class="custom-file-label">importar Archivo</label>
                       </div>

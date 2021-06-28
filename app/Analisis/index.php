@@ -130,7 +130,6 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                           </tr>
                           <tbody>
                           </tbody>
-
                         </table>
                       </div>
                       <div class="form-group row my-2" style="display: flex; justify-content:space-evenly">
@@ -142,69 +141,18 @@ include(PARTIALS_PATH . "verify_session.php") ?>
                         </div>
                       </div>
                   </div>
-
                 </div>
                 <hr>
-
-                <!--<div class="col-md-5 col-sm-12 col-12 col-xs-12 mb-5">
-                <h3 >Unidades fabricadas al mes</h3>
-                  <div class="card py-2">
-                    <div class="form-group row my-2">
-                      <label class="col-sm-4 col-md-4 col-12 text-left col-form-label pl-4">Peso Lote</label>
-                      <div class="col-md-5 col-3 text-left px-0 "><input type="number" id="input-pesoLote" class="form-control" name="cantidad" step=".01" value="0"></div>  
-                    </div>
-                    <div class="form-group row my-2">
-                      <label class="col-sm-4 col-md-4 col-12 text-left col-form-label pl-4">Unidades lote</label>
-                      <div class="col-md-5 col-3 text-left px-0 "><input type="number" id="input-valorLote" class="form-control" name="cantidad" step=".01" value ="0"></div>  
-                    </div>
-                    <div class="row mb-4">
-                        <div class="col"></div>
-                          <div class="col">
-                            <button class="btn btn-primary" id="btnValidarMes">Validar</button>
-                          </div>
-                        <div class="col"></div>
-                      </div>
-                  </div>
-                </div>
-                <table class="table" id="tableAnalisisMateriaPrimaMes">
-                            <thead class="text-primary">
-                              <th>Descripcion</th>
-                              <th>Cantidad</th>
-                              <th>Costo Total</th>
-                              <th>Valor Unidad Mes</th>
-                              <th>%participacion</th>
-
-                              </br>
-                            </thead>
-                            <tr>
-                            </tr>
-                            <tbody>
-                            </tbody>
-                            <tfoot> 
-                                <tr> 
-                                  <th>Total:</th> 
-                                  <th></th>
-                                  <th></th>
-                                  <th></th>
-                                </tr> 
-                            </tfoot> 
-
-                          </table>
-                          <hr>-->
                 <div class="row">
                   <div class="col-md-8 col-sm-12 mb-5">
-                    <!-- Aqui -->
                     <h3>Escenario de ahorro</h3>
                     <div class="card py-2">
                       <div class="form-group row my-2">
                         <label class="col-sm-4 col-md-4 col-12 text-left col-form-label pl-4">Unidades fabricadas al mes</label>
                         <div class="col-md-5 col-3 text-left px-0 "><input type="number" id="input-UnidadesFMes" class="form-control" name="cantidad" value="1"></div>
                       </div>
-
                     </div>
-
                   </div>
-                  <!--<div class="col-md-5 col-sm-12 col-12 col-xs-12 mb-5" id="cargaAhorro"></div>-->
                 </div>
                 <div class="col-md-12 col-sm-12 mb-5">
                   <!-- Aqui -->
@@ -350,8 +298,6 @@ include(PARTIALS_PATH . "verify_session.php") ?>
           </div>
         </div>
       </div>
-
-
       <i class="fa fa-cog fa-spin fa-3x fa-fw fade" id="spinnerAjax"></i>
       <!-- footer -->
       <?php include(PARTIALS_PATH . "footer.html") ?>

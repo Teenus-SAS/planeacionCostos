@@ -163,67 +163,32 @@ $("#form-product-process").submit(function (e) {
   ).always(function (xhr) {
     switch (xhr.status) {
       case 200:
-        $.notify(
-          {
-            icon: "nc-icon nc-bell-55",
-            message: "El Proceso ha sido <b>Actualizado</b> Correctamente",
-          },
-          {
-            type: "primary",
-            timer: 8000,
-          }
+        Notifications.info(
+          "El Proceso ha sido <b>Actualizado</b> Correctamente"
         );
         $tableProductProcess.api().ajax.reload();
         clearTiemposProcesosForm();
         break;
       case 201:
-        $.notify(
-          {
-            icon: "nc-icon nc-bell-55",
-            message: "El proceso ha sido <b>Creado</b> Correctamente",
-          },
-          {
-            type: "success",
-            timer: 8000,
-          }
-        );
+        Notifications.success("El proceso ha sido <b>Creado</b> Correctamente");
         $tableProductProcess.api().ajax.reload();
         clearTiemposProcesosForm();
         break;
       case 400:
-        $.notify(
-          {
-            icon: "nc-icon nc-bell-55",
-            message: "<b>Completa</b> Todos los campos",
-          },
-          {
-            type: "warning",
-            timer: 8000,
-          }
-        );
+        Notifications.warning("<b>Completa</b> Todos los campos");
         break;
       case 500:
-        $.notify(
-          {
-            icon: "nc-icon nc-bell-55",
-            message: "Esta <b>Referencia</b> ya existe",
-          },
-          {
-            type: "danger",
-            timer: 8000,
-          }
-        );
+        Notifications.error("Esta <b>Referencia</b> ya existe");
         break;
       case 401:
         location.href = "/login";
         break;
     }
-    /* } */
   });
 });
 
 // inicializacion de datatable de procesos por productos
-var $tableProductProcess = $("#table-product-process").dataTable({
+let $tableProductProcess = $("#table-product-process").dataTable({
   scrollY: "500px",
   scrollCollapse: true,
   paging: false,
@@ -276,13 +241,10 @@ $tableProductProcess.width("100%");
 // cargado de procesos cuando ya se encuentran creados
 
 $("#selectProcess").change(function () {
-  // listener para saber cuando cambia un proceso
-
-  // traer el producto seleccionado
   let productSelected = productsInProcess.filter(
     (product) => product.id == $("#inputRefProcess").val()
   )[0];
-  // verificacion de que haya un producto selecionado
+
   if (productSelected != undefined) {
     if (productSelected.processes != null) {
       let processSelected = productSelected.processes.filter(
@@ -301,14 +263,9 @@ $("#selectProcess").change(function () {
         $("#input-unidad-hora").val(
           (60 / parseFloat(processSelected.timeProcess)).toFixed(2)
         );
-        /*        $('#tiempo-seg').val(Math.round10(parseFloat(processSelected.timeProcess), -2))
-               $('#input-unidad-hora').val(Math.round(60 / parseFloat(processSelected.timeProcess))) */
       } else {
-        // limpiado de campos
         $("#selectMachines option[selected]").attr("selected", false);
         $("#selectMachines option[disabled]").attr("selected", "selected");
-        /* $("#tiempo-seg").val("");
-        $("#input-unidad-hora").val(""); */
       }
     }
   }
@@ -322,16 +279,7 @@ $(document).on("click", ".link-editar-procesos", function (e) {
   let ref = $("#inputRefProcess").val();
 
   if (ref == null || ref == "") {
-    $.notify(
-      {
-        icon: "nc-icon nc-bell-55",
-        message: `Selecciona una </b>referencia</b>`,
-      },
-      {
-        type: "danger",
-        timer: 8000,
-      }
-    );
+    Notifications.error(`Selecciona una </b>referencia</b>`);
     return false;
   }
 
@@ -385,45 +333,16 @@ function eliminar_procesos_productos(element, proceso) {
     },
     callback: function (result) {
       if (result == true) {
-        /* let rows = $tableProductProcess.api().rows('.selected').data()
-          let count = 0
-          let countAux = 0
-          if (rows.length > 0) { 
-            for (let index = 0; index < rows.length; index++) {*/
         $.post("api/delete_product_process.php", {
-          //id: rows[index].id
           id: element,
         }).always(function (xhr) {
-          //countAux++
           if (xhr.status == 200) {
-            //count++
-            //}
-            //if (countAux == rows.length) {
             $tableProductProcess.api().ajax.reload();
-            $.notify(
-              {
-                icon: "nc-icon nc-bell-55",
-                //message: `Se ${count > 1 ? 'han' : 'ha'} borrado ${count} ${count > 1 ? 'procesos' : 'proceso'}`
-                message: `Proceso <b>${proceso}</b> desvinculado del producto <b>${producto}</b>`,
-              },
-              {
-                type: "info",
-                timer: 8000,
-              }
+            Notifications.info(
+              `Proceso <b>${proceso}</b> desvinculado del producto <b>${producto}</b>`
             );
           }
         });
-        /*   }
-          } else {
-           $.notify({
-             icon: "nc-icon nc-bell-55",
-             message: `Selecciona al menos <b>1</b> proceso`
-           }, {
-             type: 'warning',
-             timer: 8000
-           })
-         } */
-        //})
       }
     },
   });
